@@ -9,6 +9,19 @@ from django.shortcuts import reverse
 User = get_user_model()
 
 
+
+class Category(models.Model):
+    name = models.CharField(max_length=100)
+
+    class Meta:
+        verbose_name_plural = "Categories"
+
+    def __str__(self):
+        return self.name
+
+
+
+
   
 class Address(models.Model):
     ADDRESS_CHOICES = (
