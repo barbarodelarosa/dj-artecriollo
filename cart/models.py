@@ -69,12 +69,13 @@ class Product(models.Model):
     active = models.BooleanField(default=False)
     avialable_colours = models.ManyToManyField(ColorVariation)
     avialable_sizes = models.ManyToManyField(SizeVariation)
-    
+
     
     def __str__(self):
         return self.title
 
     def get_price(self):
+
         return "{:.2f}".format(self.price / 100)
 
 
@@ -88,12 +89,23 @@ class OrderItem(models.Model):
     quantity = models.PositiveIntegerField(default=1)
     colour = models.ForeignKey(ColorVariation, on_delete=models.CASCADE)
     size = models.ForeignKey(SizeVariation, on_delete=models.CASCADE)
+    tax = models.IntegerField(default=0)
+    discount = models.IntegerField(default=0)
+    
 
     def __str__(self):
         return f"{self.quantity} % {self.product.title}"
     
     def get_raw_total_item_price(self):
-        return self.quantity * self.product.price
+        tax = self.tax * 100
+
+        return self.quantity * self.product.price + tax
+
+    def get_item_discount_price(self):
+        price = self.get_raw_total_item_price()
+        price = price + self.discount * 100
+        return "{:.2f}".format(price / 100)
+
 
     def get_total_item_price(self):
         price = self.get_raw_total_item_price()
@@ -105,6 +117,8 @@ class Order(models.Model):
     start_date = models.DateTimeField(auto_now_add=True)
     ordered_date = models.DateTimeField(blank=True, null=True)
     ordered = models.BooleanField(default=False)
+    shipping = models.IntegerField(default=0)
+    discount = models.IntegerField(default=0)
 
     billing_address = models.ForeignKey(
         Address, related_name='billing_address', blank=True, null=True, on_delete=models.SET_NULL
@@ -137,8 +151,18 @@ class Order(models.Model):
         #total = subtotal - discount + tax + delivery
         return subtotal
 
+    def get_total_tax(self):
+        total_tax = 0
+        for order_item in self.items.all():
+            total_tax += order_item.tax
+        return total_tax
+
     def get_total(self):
         total = self.get_raw_total()
+        total_tax = self.get_total_tax() * 100
+        shipping = self.shipping * 100
+        discount = self.discount * 100
+        total = total + shipping - discount + total_tax
         return "{:.2f}".format(total / 100)
 
 
