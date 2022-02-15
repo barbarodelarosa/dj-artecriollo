@@ -214,15 +214,27 @@ class ConfirmEnzonaPaymentView(generic.TemplateView):
         context = super(ConfirmEnzonaPaymentView, self).get_context_data(**kwargs)
         order = get_or_set_order_session(self.request)
 
-        total = order.get_total()
-        print('---------------Total------------')
-        print(total)
+        # total = order.get_total()
+        # print('---------------Total------------')
+        # print(total)
 
-        total_tax = order.get_total_tax()
-        print('---------------Total_TAX------------')
-        print(total_tax)
+        # total_tax = order.get_total_tax()
+        # print('---------------Total_TAX------------')
+        # print(total_tax)
+        items = []
+        for item in order.items.all():
+            temp_item = {
+                "name": item.product,
+                "description": item.product.description,
+                "quantity": item.quantity,
+                "price": item.product.price,
+                "tax": item.tax
+            }
+            items.append(temp_item)
+        print('--------ITEMS----------')
+        print(items)
 
-        resp_enzona = enzona.post_payments(description="Probando")
+        resp_enzona = enzona.post_payments(description="Probando", items=items)
         resp_content = resp_enzona.json()
         links_resp = resp_content['links']
         url_confirm = links_resp[0]

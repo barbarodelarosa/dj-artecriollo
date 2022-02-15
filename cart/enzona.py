@@ -107,22 +107,7 @@ def post_payments(description="", currency="CUP", shipping=0.00, tax=0.00,discou
             "tip": "0.00"
             }
         },
-        "items": [
-            {
-            "name": "Producto 1",
-            "description": "Descripcio 1",
-            "quantity": 1,
-            "price": "3.00",
-            "tax": "2.50"
-            },
-             {
-            "name": "Producto 2",
-            "description": "Descripcion 2",
-            "quantity": 3,
-            "price": "1.00",
-            "tax": "2.50"
-            }
-        ],
+        "items": items,
         "merchant_op_id": 123456789123,
         "invoice_number": 1212,
         "return_url": "http://127.0.0.1:8000/",

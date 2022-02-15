@@ -98,7 +98,7 @@ class OrderItem(models.Model):
     
     def get_raw_total_item_price(self):
         tax = self.tax * 100
-
+       
         return self.quantity * self.product.price + tax
 
     def get_item_discount_price(self):
@@ -157,12 +157,19 @@ class Order(models.Model):
             total_tax += order_item.tax
         return total_tax
 
+    def get_total_discount(self):
+        total = 0
+        for order_item in self.items.all():
+            total += order_item.discount
+        return total
+
     def get_total(self):
         total = self.get_raw_total()
         total_tax = self.get_total_tax() * 100
+        total_discount = self.get_total_discount() * 100
         shipping = self.shipping * 100
         discount = self.discount * 100
-        total = total + shipping - discount + total_tax
+        total = total + shipping - discount + total_tax - total_discount
         return "{:.2f}".format(total / 100)
 
 
