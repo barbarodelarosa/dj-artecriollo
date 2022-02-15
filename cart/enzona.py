@@ -131,9 +131,9 @@ def post_payments(description="", currency="CUP", shipping=0.00, tax=0.00,discou
         "buyer_identity_code": ""
         }
 
-    print(json_data)
+    # print(json_data)
     json_data["description"]=description
-    print(json_data)
+    # print(json_data)
 
     print(json_data['description'])
     response = requests.post(url=url, headers=headers, json=json_data, verify=False)

@@ -11,6 +11,8 @@ from django.conf import settings
 from django.http import JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 
+from cart import enzona
+
 
 class ProductListView(generic.ListView):
     template_name='cart/product_list.html'
@@ -206,7 +208,24 @@ class OrderDetailView(LoginRequiredMixin, generic.DetailView):
 
 
 class ConfirmEnzonaPaymentView(generic.TemplateView):
+
     template_name = 'cart/confirm_enzona_payment.html'
+    def get_context_data(self, **kwargs):
+        context = super(ConfirmEnzonaPaymentView, self).get_context_data(**kwargs)
+        resp_enzona = enzona.post_payments(description="Probando")
+        resp_content = resp_enzona.json()
+        links_resp = resp_content['links']
+        url_confirm = links_resp[0]
+        print(url_confirm)
+     
+        context['resp_enzona'] = resp_enzona
+        context['url_confirm'] = url_confirm
+
+
+        context['order'] = get_or_set_order_session(self.request)
+        # context['CALLBACK_URL']= self.request.build_absolute_uri(reverse("cart:thank-you"))
+        return context
+
 
 # CartView
 # ProductListView
