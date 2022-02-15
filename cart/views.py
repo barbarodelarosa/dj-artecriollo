@@ -224,7 +224,8 @@ class ConfirmEnzonaPaymentView(generic.TemplateView):
             temp_item['description']=item.product.description
             temp_item['quantity']=item.quantity
             temp_item['tax']=f'{item.get_tax()}'
-            temp_item['price']=f'{item.get_total_item_price()}'
+            temp_item['price']=f'{item.product.get_price()}'
+            # temp_item['price']=f'{item.get_total_item_price()}'
             items.append(temp_item)
 
         amount = {
@@ -236,9 +237,9 @@ class ConfirmEnzonaPaymentView(generic.TemplateView):
             "tip": "0.00"
             }
         }
-        print(order.get_total())
-        amount['total']=f'{order.get_total()}'
-
+        
+        amount['total']=f'{order.get_total()}' #OK
+      
         resp_enzona = enzona.post_payments(
             description="Probando agregar al diccionario",
             currency="CUP",

@@ -102,12 +102,12 @@ class OrderItem(models.Model):
     
     def get_raw_total_item_price(self):
         
-        return self.quantity * self.product.price
+        return self.quantity *  self.product.price
 
-    def get_item_discount_price(self):
+    """  def get_item_discount_price(self):
         price = self.get_raw_total_item_price()
-        price = price + self.discount
-        return "{:.2f}".format(price / 100)
+        # price = price + self.discount
+        return "{:.2f}".format(price / 100) """
 
 
     def get_total_item_price(self):
@@ -154,7 +154,7 @@ class Order(models.Model):
         #total = subtotal - discount + tax + delivery
         return subtotal
 
-    def get_raw_total_tax(self):
+    """ def get_raw_total_tax(self):
         total_tax = 0
         for order_item in self.items.all():
             total_tax += order_item.tax
@@ -162,10 +162,10 @@ class Order(models.Model):
 
     def get_total_tax(self):
         total_tax = self.get_raw_total_tax()
-        return "{:.2f}".format(total_tax / 100)
+        return "{:.2f}".format(total_tax / 100) """
 
 
-    def get_raw_total_discount(self):
+    """  def get_raw_total_discount(self):
         total = 0
         for order_item in self.items.all():
             total += order_item.discount
@@ -173,24 +173,21 @@ class Order(models.Model):
 
     def get_total_discount(self):
         total_discount = self.get_raw_total_discount()
-        return "{:.2f}".format(total_discount / 100)
+        return "{:.2f}".format(total_discount / 100) """
 
     def get_total(self):
         total = self.get_raw_total()
-        total_tax = self.get_raw_total_tax()
-        total_discount = self.get_raw_total_discount()
-        shipping = self.shipping
-        print("DESDE AQUI ********")
-        print(total)
-        # total = total + total_tax - total_discount
-        print(shipping)
-        print(total_tax)
-        print(total_discount)
+        # total_tax = self.get_raw_total_tax()
+        # total_discount = self.get_raw_total_discount()
+        # shipping = self.shipping
+        
         print("HASTA AQUI ********")
         
-        print(total / 100)
+        print("{0:.2f}".format(total / 100))
         # return "2.00"
-        return "{:.2f}".format(total / 100)
+        print(total)
+        
+        return "{0:.2f}".format(total / 100)
 
 
 class Payment(models.Model):
