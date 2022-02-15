@@ -75,8 +75,8 @@ class Product(models.Model):
         return self.title
 
     def get_price(self):
-
-        return "{:.2f}".format(self.price / 100)
+        price = self.price
+        return "{:.2f}".format(price / 100)
 
 
     def get_absolute_url(self):
@@ -95,15 +95,18 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.quantity} % {self.product.title}"
+
+    def get_tax(self):
+        tax = self.tax
+        return "{:.2f}".format(tax / 100)
     
     def get_raw_total_item_price(self):
-        tax = self.tax * 100
-       
-        return self.quantity * self.product.price + tax
+        
+        return self.quantity * self.product.price
 
     def get_item_discount_price(self):
         price = self.get_raw_total_item_price()
-        price = price + self.discount * 100
+        price = price + self.discount
         return "{:.2f}".format(price / 100)
 
 
@@ -151,25 +154,42 @@ class Order(models.Model):
         #total = subtotal - discount + tax + delivery
         return subtotal
 
-    def get_total_tax(self):
+    def get_raw_total_tax(self):
         total_tax = 0
         for order_item in self.items.all():
             total_tax += order_item.tax
         return total_tax
 
-    def get_total_discount(self):
+    def get_total_tax(self):
+        total_tax = self.get_raw_total_tax()
+        return "{:.2f}".format(total_tax / 100)
+
+
+    def get_raw_total_discount(self):
         total = 0
         for order_item in self.items.all():
             total += order_item.discount
         return total
 
+    def get_total_discount(self):
+        total_discount = self.get_raw_total_discount()
+        return "{:.2f}".format(total_discount / 100)
+
     def get_total(self):
         total = self.get_raw_total()
-        total_tax = self.get_total_tax() * 100
-        total_discount = self.get_total_discount() * 100
-        shipping = self.shipping * 100
-        discount = self.discount * 100
-        total = total + shipping - discount + total_tax - total_discount
+        total_tax = self.get_raw_total_tax()
+        total_discount = self.get_raw_total_discount()
+        shipping = self.shipping
+        print("DESDE AQUI ********")
+        print(total)
+        # total = total + total_tax - total_discount
+        print(shipping)
+        print(total_tax)
+        print(total_discount)
+        print("HASTA AQUI ********")
+        
+        print(total / 100)
+        # return "2.00"
         return "{:.2f}".format(total / 100)
 
 

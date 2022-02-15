@@ -213,35 +213,50 @@ class ConfirmEnzonaPaymentView(generic.TemplateView):
     def get_context_data(self, **kwargs):
         context = super(ConfirmEnzonaPaymentView, self).get_context_data(**kwargs)
         order = get_or_set_order_session(self.request)
-
-        # total = order.get_total()
-        # print('---------------Total------------')
-        # print(total)
-
-        # total_tax = order.get_total_tax()
-        # print('---------------Total_TAX------------')
-        # print(total_tax)
         items = []
-        for item in order.items.all():
-            temp_item = {
-                "name": item.product,
-                "description": item.product.description,
-                "quantity": item.quantity,
-                "price": item.product.price,
-                "tax": item.tax
-            }
-            items.append(temp_item)
-        print('--------ITEMS----------')
-        print(items)
+        
 
-        resp_enzona = enzona.post_payments(description="Probando", items=items)
-        resp_content = resp_enzona.json()
-        links_resp = resp_content['links']
-        url_confirm = links_resp[0]
-        print(url_confirm)
+        for item in order.items.all():
+   
+            temp_item ={}
+
+            temp_item['name']=item.product.title
+            temp_item['description']=item.product.description
+            temp_item['quantity']=item.quantity
+            temp_item['tax']=f'{item.get_tax()}'
+            temp_item['price']=f'{item.get_total_item_price()}'
+            items.append(temp_item)
+
+        amount = {
+            "total": "2.00",
+            "details": {
+            "shipping": "0.00",
+            "tax": "0.00",
+            "discount": "0.00",
+            "tip": "0.00"
+            }
+        }
+        print(order.get_total())
+        amount['total']=f'{order.get_total()}'
+
+        resp_enzona = enzona.post_payments(
+            description="Probando agregar al diccionario",
+            currency="CUP",
+            amount=amount,
+            items=items,
+            cancel_url="http://127.0.0.1:8000/cart/shop/"
+            )
+        print(resp_enzona)
+        if resp_enzona.status_code == 200:
+            resp_content = resp_enzona.json()
+            links_resp = resp_content['links']
+            url_confirm = links_resp[0]
+            context['url_confirm'] = url_confirm
+        else:
+            print(resp_enzona.status_code)
+            
      
         context['resp_enzona'] = resp_enzona
-        context['url_confirm'] = url_confirm
 
 
         context['order'] = get_or_set_order_session(self.request)

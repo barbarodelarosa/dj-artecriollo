@@ -87,8 +87,8 @@ def payments_store(funding_source_uuid="", description="", currency="", payment_
     
 
 ############################################################################
-def post_payments(description="", currency="CUP", shipping=0.00, tax=0.00,discount=0.00,tip=0.00,merchant_op_id=123456789123,
-    invoice_number=1212, return_url="https://mymerchant.cu/return", cancel_url="https://mymerchant.cu/return", terminal_id=12121, items=[{}], ):
+def post_payments(description="",  currency="CUP", amount={}, merchant_op_id=123456789123,
+    invoice_number=1212, return_url="https://mymerchant.cu/return", cancel_url="https://mymerchant.cu/return", terminal_id=12121, items=[{}], buyer_identity_code="" ):
     """Function for create pay"""
     headers = get_header_bearer_token()
 
@@ -96,18 +96,24 @@ def post_payments(description="", currency="CUP", shipping=0.00, tax=0.00,discou
     print(url)
     
     json_data = {
-        "description": "description",
-        "currency": "CUP",
+        "description": "",
+        "currency": "",
         "amount": {
-            "total": "15.50",
+            "total": "1.00",
             "details": {
-            "shipping": "5.50",
-            "tax": "5.00",
-            "discount": "1.00",
+            "shipping": "0.00",
+            "tax": "0.00",
+            "discount": "0.00",
             "tip": "0.00"
             }
         },
-        "items": items,
+        "items":   [{
+                'name': 'Prueba',
+                'description': 'Prueba de producto',
+                'quantity': 10,
+                'price': '0.10',
+                'tax': '0.00'
+            }],
         "merchant_op_id": 123456789123,
         "invoice_number": 1212,
         "return_url": "http://127.0.0.1:8000/",
@@ -116,11 +122,24 @@ def post_payments(description="", currency="CUP", shipping=0.00, tax=0.00,discou
         "buyer_identity_code": ""
         }
 
-    # print(json_data)
-    json_data["description"]=description
+    print(json_data.get('description'))
+    json_data['description']=description
+    json_data['currency']=currency
+    json_data['amount']=amount
+    json_data['items']=items
+    json_data['merchant_op_id']=merchant_op_id
+    json_data['invoice_number']=invoice_number
+    json_data['return_url']=return_url
+    json_data['cancel_url']=cancel_url
+    json_data['terminal_id']=terminal_id
+    json_data['buyer_identity_code']=buyer_identity_code
+    print(json_data.get('description'))
+    print(json_data.get('currency'))
+    print(json_data.get('cancel_url'))
+
     # print(json_data)
 
-    print(json_data['description'])
+    # print(json_data['description'])
     response = requests.post(url=url, headers=headers, json=json_data, verify=False)
 
     return response
