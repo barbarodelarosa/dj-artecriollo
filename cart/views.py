@@ -239,7 +239,10 @@ class ConfirmEnzonaPaymentView(generic.TemplateView):
         }
         
         amount['total']=f'{order.get_total()}' #OK
-      
+        amount['details']['shipping']=f'{order.get_total_shipping()}'
+        amount['details']['tax']=f'{order.get_total_tax()}'
+        amount['details']['discount']=f'{order.get_total_discount()}'
+ 
         resp_enzona = enzona.post_payments(
             description="Probando agregar al diccionario",
             currency="CUP",
@@ -247,7 +250,7 @@ class ConfirmEnzonaPaymentView(generic.TemplateView):
             items=items,
             cancel_url="http://127.0.0.1:8000/cart/shop/"
             )
-        print(resp_enzona)
+        print(resp_enzona.json())
         if resp_enzona.status_code == 200:
             resp_content = resp_enzona.json()
             links_resp = resp_content['links']

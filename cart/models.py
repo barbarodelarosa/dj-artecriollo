@@ -69,7 +69,7 @@ class Product(models.Model):
     active = models.BooleanField(default=False)
     avialable_colours = models.ManyToManyField(ColorVariation)
     avialable_sizes = models.ManyToManyField(SizeVariation)
-
+    
     
     def __str__(self):
         return self.title
@@ -147,14 +147,9 @@ class Order(models.Model):
         subtotal = self.get_raw_subtotal()
         return "{:.2f}".format(subtotal / 100)
 
-    def get_raw_total(self):
-        subtotal = self.get_raw_subtotal()
+ 
 
-        #Agregar suma de IVA, Delivery, Restar descuentos
-        #total = subtotal - discount + tax + delivery
-        return subtotal
-
-    """ def get_raw_total_tax(self):
+    def get_raw_total_tax(self):
         total_tax = 0
         for order_item in self.items.all():
             total_tax += order_item.tax
@@ -162,31 +157,42 @@ class Order(models.Model):
 
     def get_total_tax(self):
         total_tax = self.get_raw_total_tax()
-        return "{:.2f}".format(total_tax / 100) """
+        return "{0:.2f}".format(total_tax / 100)
 
+    def get_total_shipping(self):
+        return "{0:.2f}".format(self.shipping / 100)
 
-    """  def get_raw_total_discount(self):
+    def get_raw_total_discount(self):
         total = 0
         for order_item in self.items.all():
             total += order_item.discount
+   
+        total + self.discount
+      
         return total
 
     def get_total_discount(self):
-        total_discount = self.get_raw_total_discount()
-        return "{:.2f}".format(total_discount / 100) """
+        total_discount = self.get_raw_total_discount() + self.discount
+        return "{0:.2f}".format(total_discount / 100)
+
+
+    def get_raw_total(self):
+        subtotal = self.get_raw_subtotal()
+
+        #Agregar suma de IVA, Delivery, Restar descuentos
+        #total = subtotal - discount + tax + delivery
+        #total = subtotal - discount + tax + delivery
+        tax = self.get_raw_total_tax()
+        discount = self.get_raw_total_discount()
+        discount = discount + self.discount
+        print('discount')
+        print(discount)
+        subtotal = subtotal + tax + self.shipping - discount
+        return subtotal
 
     def get_total(self):
         total = self.get_raw_total()
-        # total_tax = self.get_raw_total_tax()
-        # total_discount = self.get_raw_total_discount()
-        # shipping = self.shipping
-        
-        print("HASTA AQUI ********")
-        
-        print("{0:.2f}".format(total / 100))
-        # return "2.00"
-        print(total)
-        
+  
         return "{0:.2f}".format(total / 100)
 
 

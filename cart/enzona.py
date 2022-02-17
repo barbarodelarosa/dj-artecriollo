@@ -28,14 +28,15 @@ def test_connect():
 
 def get_header_bearer_token():
     connect = test_connect()
-    connect_json = connect.json()
-    access_token = connect_json['access_token']
-    headers = {
-        'accept'       : 'application/json',
-        'Content-Type' : 'application/json',
-        'Authorization': 'Bearer %s' %(access_token),
-    }
-    return headers
+    if connect.status_code == 200:
+        connect_json = connect.json()
+        access_token = connect_json['access_token']
+        headers = {
+            'accept'       : 'application/json',
+            'Content-Type' : 'application/json',
+            'Authorization': 'Bearer %s' %(access_token),
+        }
+        return headers
 
 def payment_orders(description="", currency="CUP", amount=0, merchant_op_id=0000000000):
     """Function for create pay order"""
