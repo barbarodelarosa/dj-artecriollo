@@ -13,6 +13,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from cart import enzona
 
+from cart import models
+
 
 class ProductListView(generic.ListView):
     template_name='cart/product_list.html'
@@ -61,6 +63,7 @@ class ProductDetailView(generic.FormView):
         if item_filter.exists():
             item = item_filter.first()
             item.quantity += int(form.cleaned_data['quantity'])
+            product.stock -= int(form.cleaned_data['quantity'])
             item.save()
 
         else:
@@ -75,6 +78,7 @@ class ProductDetailView(generic.FormView):
     def get_context_data(self, **kwargs):
         context = super(ProductDetailView, self).get_context_data(**kwargs)
         context['product'] = self.get_object()
+        
         return context
 
 
@@ -90,19 +94,33 @@ class CartView(generic.TemplateView):
 class IncreaseQuantityView(generic.View):
     def get(self, request, *args, **kwargs):
         order_item = get_object_or_404(OrderItem, id=kwargs['pk'])
-        order_item.quantity += 1
-        order_item.save()
+        product = get_object_or_404(Product, orderitem=order_item)
+
+        if product.stock >= 1:
+            order_item.quantity += 1
+            product.stock -= 1
+            product.save()
+            order_item.save()
+        else:
+            # order_item.save()
+            messages.info(self.request, "No quedan mas productos en stock")            
         return redirect("cart:summary")
 
 
 class DecreaseQuantityView(generic.View):
     def get(self, request, *args, **kwargs):
         order_item = get_object_or_404(OrderItem, id=kwargs['pk'])
+        product = get_object_or_404(Product, orderitem=order_item)
 
         if order_item.quantity <= 1:
+            product.stock -= 1
+            product.save()
             order_item.delete()
+
         else:
             order_item.quantity -= 1
+            product.stock += 1
+            product.save()
             order_item.save()
         return redirect("cart:summary")
 
@@ -230,7 +248,8 @@ class ConfirmEnzonaPaymentView(generic.TemplateView):
             currency="CUP",
             amount=amount,
             items=items,
-            cancel_url="http://127.0.0.1:8000/cart/shop/"
+            cancel_url="http://127.0.0.1:8000/cart/shop/",
+            return_url="http://127.0.0.1:8000/cart/confirm-order/"
             )
         print(resp_enzona.json())
         if resp_enzona.status_code == 200:
@@ -238,6 +257,7 @@ class ConfirmEnzonaPaymentView(generic.TemplateView):
             links_resp = resp_content['links']
             url_confirm = links_resp[0]
             context['url_confirm'] = url_confirm
+            print(resp_content)
         else:
             print(resp_enzona.status_code)
             
@@ -271,8 +291,12 @@ class ConfirmOrderView(generic.View):
         )
         order.ordered = True
         order.ordered_date = datetime.date.today()
+        
+        
+
         order.save()
         messages.info(request, message="Se ha realizado Correctamente el pago")
+
         # return JsonResponse({"data": "Success"})
         return HttpResponseRedirect(redirect_to='/cart/thankyou/')
 

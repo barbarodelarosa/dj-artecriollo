@@ -7,7 +7,9 @@ from .models import (
     OrderItem, 
     ColorVariation,
     SizeVariation,
-    Payment
+    Payment,
+    Brand,
+    ProductImagesContent,
 )
 from django.contrib import admin
 
@@ -21,6 +23,8 @@ class AddressAdmin(admin.ModelAdmin):
     ]
 
 # Register your models here.
+admin.site.register(Brand)
+admin.site.register(ProductImagesContent)
 admin.site.register(Category)
 admin.site.register(Tag)
 admin.site.register(Product)

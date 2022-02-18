@@ -17,7 +17,6 @@ User = get_user_model()
 class AddToCartForm(forms.ModelForm):
     colour = forms.ModelChoiceField(queryset=ColorVariation.objects.none())
     size = forms.ModelChoiceField(queryset=SizeVariation.objects.none())
-
     class Meta:
         model = OrderItem
         fields = ['quantity', 'colour', 'size']

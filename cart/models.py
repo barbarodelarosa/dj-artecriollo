@@ -5,6 +5,21 @@ from django.contrib.auth import get_user_model
 from django.db.models.signals import pre_save
 from django.utils.text import slugify
 from django.shortcuts import reverse
+from django.contrib.auth.models import User
+
+
+
+def user_directory_path(instance, filename):
+    # This file will be uploaded to MEDIA_ROOT/the user{id}/thefile
+    return 'user_{0}/category_{1}/product_{2}/{3}'.format(instance.user.username, instance.product.category.name, instance.product.title, filename)
+
+class ProductImagesContent(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='content_owner')
+    file = models.FileField(upload_to= user_directory_path)
+    product = models.ForeignKey('Product', on_delete=models.CASCADE, related_name='product_image_content')
+    posted = models.DateTimeField(auto_now_add=True)
+
+
 
 User = get_user_model()
 
@@ -67,11 +82,32 @@ class SizeVariation(models.Model):
     def __str__(self):
         return self.name
 
+class Shop(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+class MaterialVariation(models.Model):
+    name = models.CharField(max_length=50)
+
+    def __str__(self):
+        return self.name
+
+class Brand(models.Model):
+    name = models.CharField(max_length=50)
+
+
+    def __str__(self):
+        return self.name
+
 
 class Product(models.Model):
     category = models.ManyToManyField(Category)
+    brand = models.ForeignKey(Brand, on_delete=models.CASCADE, blank=True, null=True)
     tag = models.ManyToManyField(Tag)
     title = models.CharField(max_length=150)
+    product_images = models.ManyToManyField(ProductImagesContent, blank=True, related_name='images_product')
     slug = models.SlugField(unique=True)
     image = models.ImageField(upload_to='product_image')
     price = models.IntegerField(default=0)
@@ -81,6 +117,8 @@ class Product(models.Model):
     active = models.BooleanField(default=False)
     avialable_colours = models.ManyToManyField(ColorVariation)
     avialable_sizes = models.ManyToManyField(SizeVariation)
+    stock = models.PositiveIntegerField(default=0)
+    related_products = models.ManyToManyField('self', blank=True)
     
     
     def __str__(self):
@@ -101,9 +139,15 @@ class OrderItem(models.Model):
     quantity = models.PositiveIntegerField(default=1)
     colour = models.ForeignKey(ColorVariation, on_delete=models.CASCADE)
     size = models.ForeignKey(SizeVariation, on_delete=models.CASCADE)
+    material = models.ForeignKey(MaterialVariation, on_delete=models.CASCADE, blank=True, null=True)
     tax = models.IntegerField(default=0)
     discount = models.IntegerField(default=0)
-    
+    shop = models.ForeignKey(Shop, on_delete=models.CASCADE, blank=True, null=True)
+    stock = models.PositiveIntegerField(default=0)
+
+
+
+             
 
     def __str__(self):
         return f"{self.quantity} % {self.product.title}"

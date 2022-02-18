@@ -22,12 +22,15 @@ def test_connect():
     try:
         response = requests.post('https://apisandbox.enzona.net/token', headers=headers, data=data, verify=False)
         resp = response
+        print("********* RESPONSE HEADERS*********")
+        print(resp)
         return resp
     except:
         return "Error al conectarse con ENZONA"
 
 def get_header_bearer_token():
     connect = test_connect()
+   
     if connect.status_code == 200:
         connect_json = connect.json()
         access_token = connect_json['access_token']
@@ -92,6 +95,7 @@ def post_payments(description="",  currency="CUP", amount={}, merchant_op_id=123
     invoice_number=1212, return_url="https://mymerchant.cu/return", cancel_url="https://mymerchant.cu/return", terminal_id=12121, items=[{}], buyer_identity_code="" ):
     """Function for create pay"""
     headers = get_header_bearer_token()
+    
 
     url = f'{settings.URL_API_ENZONA}/payments'
     print(url)
