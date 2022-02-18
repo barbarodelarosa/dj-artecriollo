@@ -13,6 +13,9 @@ urlpatterns = [
     path('checkout/', views.CheckoutView.as_view(), name='checkout'),
     path('payment/', views.PaymentView.as_view(), name='payment'),
     path('payment-enzona/', views.ConfirmEnzonaPaymentView.as_view(), name='payment-enzona'),
+    path('confirm-order/', views.ConfirmOrderView.as_view(), name='confirm-order'),
+    path('thankyou/', views.ThankYouView.as_view(), name='thankyou'),
+    path('orders/<pk>', views.OrderDetailView.as_view(), name='order-detail'),
 
 
 

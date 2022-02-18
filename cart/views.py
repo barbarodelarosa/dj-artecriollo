@@ -10,7 +10,7 @@ from django.contrib import messages
 from django.conf import settings
 from django.http import JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
-
+from django.http import HttpResponseRedirect
 from cart import enzona
 
 
@@ -179,32 +179,14 @@ class PaymentView(generic.TemplateView):
     #     return context
 
 
-class ConfirmOrderView(generic.View):
-    def post(self, request, *args, **kwargs):
-        order = get_or_set_order_session(request)
-        body = json.loads(request.body)
-        payment = Payment.objects.create(
-            order=order,
-            successful=True,
-            raw_response = json.dumps(body),
-            amount = float(body["purchase_units"][0]["amount"]["value"]),
-            payment_method='PayPal'
-        )
-        order.ordered = True
-        order.ordered_date = datetime.date.today()
-        order.save()
-        return JsonResponse({"data": "Success"})
 
-
-class ThankYouView(generic.TemplateView):
-    template_engine = 'cart/thanks.html'
 
 
 class OrderDetailView(LoginRequiredMixin, generic.DetailView):
     template_name = 'order.html'
     queryset = Order.objects.all()
     context_object_name = 'order'
-
+ 
 
 
 class ConfirmEnzonaPaymentView(generic.TemplateView):
@@ -270,6 +252,34 @@ class ConfirmEnzonaPaymentView(generic.TemplateView):
 
         # context['CALLBACK_URL']= self.request.build_absolute_uri(reverse("cart:thank-you"))
         return context
+
+
+
+
+class ConfirmOrderView(generic.View):
+    def get(self, request, *args, **kwargs):
+        order = get_or_set_order_session(request)
+        # body = json.loads(request.body)
+        payment = Payment.objects.create(
+            order=order,
+            successfull=True,
+            raw_response = "Respuesta de prueba",
+            # raw_response = json.dumps(body),
+            # amount = float(body["purchase_units"][0]["amount"]["value"]),
+            amount = float(33.56),
+            payment_method='ENZONA'
+        )
+        order.ordered = True
+        order.ordered_date = datetime.date.today()
+        order.save()
+        messages.info(request, message="Se ha realizado Correctamente el pago")
+        # return JsonResponse({"data": "Success"})
+        return HttpResponseRedirect(redirect_to='/cart/thankyou/')
+
+
+class ThankYouView(generic.TemplateView):
+    template_name = 'cart/thanks.html'
+    
 
 
 # CartView

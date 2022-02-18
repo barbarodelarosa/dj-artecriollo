@@ -19,6 +19,16 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
+class Tag(models.Model):
+    name = models.CharField(max_length=100)
+
+    class Meta:
+        verbose_name_plural = "Categories"
+
+    def __str__(self):
+        return self.name
+
+
 
 
 
@@ -59,6 +69,8 @@ class SizeVariation(models.Model):
 
 
 class Product(models.Model):
+    category = models.ManyToManyField(Category)
+    tag = models.ManyToManyField(Tag)
     title = models.CharField(max_length=150)
     slug = models.SlugField(unique=True)
     image = models.ImageField(upload_to='product_image')
@@ -203,7 +215,7 @@ class Payment(models.Model):
          ('ENZONA', 'ENZONA'),
      ))
      timestamp = models.DateTimeField(auto_now_add=True)
-     succesfull = models.BooleanField(default=False)
+     successfull = models.BooleanField(default=False)
      amount = models.FloatField()
      raw_response = models.TextField()
 
