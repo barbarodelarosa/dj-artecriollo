@@ -12,5 +12,18 @@
     </div>
 
 </div>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <ul>
+                {% for cat in category_list %}
+                <li>
+                    {{cat.name}}
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

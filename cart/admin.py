@@ -10,6 +10,7 @@ from .models import (
     Payment,
     Brand,
     ProductImagesContent,
+    WhishList,
 )
 from django.contrib import admin
 
@@ -28,6 +29,7 @@ admin.site.register(ProductImagesContent)
 admin.site.register(Category)
 admin.site.register(Tag)
 admin.site.register(Product)
+admin.site.register(WhishList)
 admin.site.register(Order)
 admin.site.register(OrderItem)
 admin.site.register(ColorVariation)

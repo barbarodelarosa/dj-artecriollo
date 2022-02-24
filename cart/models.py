@@ -26,19 +26,25 @@ User = get_user_model()
 
 
 class Category(models.Model):
-    name = models.CharField(max_length=100)
+    image = models.ImageField(upload_to="image/category", blank=True, null=True) 
+    name  = models.CharField(max_length=100)
+    slug  = models.SlugField(unique=True)
+
 
     class Meta:
         verbose_name_plural = "Categories"
 
     def __str__(self):
         return self.name
+    def get_absolute_url(self):
+        return reverse("cart:category-detail", kwargs={'category': self.slug})
+
 
 class Tag(models.Model):
     name = models.CharField(max_length=100)
 
     class Meta:
-        verbose_name_plural = "Categories"
+        verbose_name_plural = "Tags"
 
     def __str__(self):
         return self.name
@@ -132,6 +138,12 @@ class Product(models.Model):
     def get_absolute_url(self):
         return reverse("cart:product-detail", kwargs={'slug': self.slug})
 
+class WhishList(models.Model):
+    user     = models.ForeignKey(User, on_delete=models.CASCADE)
+    products = models.ManyToManyField(Product)
+
+    def __str__(self):
+        return self.user.username
 
 class OrderItem(models.Model):
     order = models.ForeignKey("Order", related_name='items', on_delete=models.CASCADE)
@@ -172,12 +184,28 @@ class OrderItem(models.Model):
 
 
 class Order(models.Model):
+    STATUS_CHOICES = (
+        ('CONFIRMADO','CONFIRMADO'),
+        ('EN PREPARACIÓN','EN PREPARACIÓN'),
+        ('PREPARADO','PREPARADO'),
+        ('ENTREGADO','ENTREGADO'),
+        ('ANULADO','ANULADO'),
+    )
+    PAY_STATUS_CHOICES = (
+        ('NO PAGADO','NO PAGADO'),
+        ('AUTORIZADO','AUTORIZADO'),
+        ('PAGADO','PAGADO'),
+        ('ANULADO','ANULADO'),
+    )
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     start_date = models.DateTimeField(auto_now_add=True)
     ordered_date = models.DateTimeField(blank=True, null=True)
     ordered = models.BooleanField(default=False)
     shipping = models.IntegerField(default=0)
     discount = models.IntegerField(default=0)
+    status = models.CharField(max_length=15, choices=STATUS_CHOICES, blank=True, null=True)
+    pay_status = models.CharField(max_length=15, choices=PAY_STATUS_CHOICES, blank=True, null=True)
+
 
     billing_address = models.ForeignKey(
         Address, related_name='billing_address', blank=True, null=True, on_delete=models.SET_NULL

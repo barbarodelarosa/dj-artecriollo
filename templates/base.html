@@ -1,6 +1,5 @@
 {% load static %}
 {% load cart_template_tags %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -44,7 +43,7 @@
 <body>
 
 <div class="site-wrap">
-    <header class="site-navbar" role="banner">
+    {% comment %} <header class="site-navbar" role="banner">
         <div class="site-navbar-top">
             <div class="container">
                 <div class="row align-items-center">
@@ -98,7 +97,8 @@
             {% endfor %}
         {% endif %}
 
-    </header>
+    </header> {% endcomment %}
+    {% include 'parts/nav-bar.html' %}
 
     {% block content %}
     {% endblock content %}

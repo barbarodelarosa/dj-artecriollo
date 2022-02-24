@@ -16,6 +16,17 @@ from cart import enzona
 from cart import models
 
 
+class CategoryDeatilView(generic.DetailView):
+    model = Category
+    template_name='cart/product_list.html'
+
+
+class CategoryListView(generic.ListView):
+    model = Category
+    template_name = 'category_list.html'
+
+
+
 class ProductListView(generic.ListView):
     template_name='cart/product_list.html'
     
