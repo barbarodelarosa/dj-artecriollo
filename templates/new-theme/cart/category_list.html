@@ -1,0 +1,15 @@
+{% extends 'new-theme/base.html' %}
+{% block content %}
+
+<h1>Category</h1>
+
+<ul>
+  {% for obj in object_list %}
+    <li>
+      <a href="{% url 'cart:product-list' obj.slug %}">
+        {{ obj.name }}
+      </a>
+    </li>
+  {% endfor %}
+</ul>
+{% endblock %}

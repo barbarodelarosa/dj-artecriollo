@@ -36,8 +36,9 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name
+
     def get_absolute_url(self):
-        return reverse("cart:category-detail", kwargs={'category': self.slug})
+        return reverse("cart:category-detail", kwargs={'slug': self.slug})
 
 
 class Tag(models.Model):

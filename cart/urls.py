@@ -5,10 +5,10 @@ from . import views
 app_name='cart'
 urlpatterns = [
     path('', views.CartView.as_view(), name='summary'),
-    path('shop/', views.CategoryListView.as_view(), name='category-list'),
+    path('categories/', views.CategoryListView.as_view(), name='category-list'),
     # path('shop/<category>/', views.CategoryDeatilView.as_view(), name='category-detatil'),
-    # path('shop/<category>', views.ProductListView.as_view(), name='product-list'),
-    path('category/<slug>', views.CategoryDeatilView.as_view(), name='product-list'),
+    path('shop/<category>', views.ProductListView.as_view(), name='product-list'),
+    path('<slug>', views.CategoryDeatilView.as_view(), name='category-detail'),
     path('product/<slug>/', views.ProductDetailView.as_view(), name='product-detail'),
     path('increase-quantity/<pk>/', views.IncreaseQuantityView.as_view(), name='increase-quantity'),
     path('decrease-quantity/<pk>/', views.DecreaseQuantityView.as_view(), name='decrease-quantity'),

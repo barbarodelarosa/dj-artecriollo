@@ -23,7 +23,7 @@ class CategoryDeatilView(generic.DetailView):
 
 class CategoryListView(generic.ListView):
     model = Category
-    template_name = 'category_list.html'
+    template_name = 'new-theme/cart/category_list.html'
 
 
 
