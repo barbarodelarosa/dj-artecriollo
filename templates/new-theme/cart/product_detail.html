@@ -356,32 +356,40 @@
 
 					<!-- product -->
                     {% for related_product in product.related_products.all %}
-                    
-					<div class="col-md-3 col-xs-6">
-						<div class="product">
-							<div class="product-img">
-								<img src="./img/product01.png" alt="">
-								<div class="product-label">
-									<span class="sale">-30%</span>
-								</div>
-							</div>
-							<div class="product-body">
-								<p class="product-category">Category</p>
-								<h3 class="product-name"><a href="#">product name goes here</a></h3>
-								<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-								<div class="product-rating">
-								</div>
-								<div class="product-btns">
-									<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-									<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-									<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-								</div>
-							</div>
-							<div class="add-to-cart">
-								<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-							</div>
-						</div>
-					</div>
+                        {% if related_product.id != product.id %}
+                        
+                            <div class="col-md-3 col-xs-6">
+                                <div class="product">
+                                    <div class="product-img">
+                                        <img src="{{related_product.image.url}}" alt="">
+                                        <div class="product-label">
+                                            <span class="sale">-30%</span>
+                                        </div>
+                                    </div>
+                                    <div class="product-body">
+                                        <p class="product-category">{% for cat_related_product in related_product.category.all  %}
+                                        <span class="badge" style="background-color: rgb(250, 228, 213);"><a href="{{cat_related_product.get_absolute_url}}">{{cat_related_product.name}}</a></span>  
+                                        {% endfor %}</p>
+                                        <h3 class="product-name"><a href="#">{{related_product.title}}</a></h3>
+                                        <h4 class="product-price">{{related_product.price|price_format_cup}} <del class="product-old-price">{{related_product.old_price|price_format_cup}}</del></h4>
+                                        <div class="product-rating">
+                                        </div>
+                                        <div class="product-btns">
+                                            <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+                                            <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+                                            <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+                                        </div>
+                                    </div>
+                                    <div class="add-to-cart">
+                                        <form action="{{related_product.get_absolute_url}}">
+                                            <button class="add-to-cart-btn"><i class="fa fa-eye"></i> Ver producto</button>
+                                        </form>
+                                        <button class="add-to-cart-btn" style="margin-top: 10px;" ><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+
                     {% endfor %}
 					<!-- /product -->
 
