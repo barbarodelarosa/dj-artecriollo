@@ -18,7 +18,7 @@ from cart import models
 
 class CategoryDeatilView(generic.DetailView):
     model = Category
-    template_name='cart/product_list.html'
+    template_name='cart/product_detail.html'
 
 
 class CategoryListView(generic.ListView):
@@ -27,27 +27,37 @@ class CategoryListView(generic.ListView):
 
 
 
+
 class ProductListView(generic.ListView):
-    template_name='cart/product_list.html'
+    template_name='new-theme/cart/product_list.html'
+    # paginate_by = 1
     
     def get_queryset(self):
-        qs = Product.objects.all()
-        category = self.request.GET.get('category', None)
-        if category:
-            qs = qs.filter(Q(primary_category__name=category) |
-                           Q(secondary_categories__name=category))
-        return qs
+        # qs = Product.objects.all()
+        category = self.request.GET.get('slug', None)
+        slug = self.kwargs['slug']
+        print(category)
+        try:
+            tag = Category.objects.get(slug=slug)
+            return tag.product_set.all()
+        except Category.DoesNotExist:
+            return Product.objects.none()
+        # if category:
+        #     qs = qs.filter(Q(primary_category__slug=category) |
+        #                    Q(secondary_categories__slug=category))
+            
+        # return qs
 
     def get_context_data(self, **kwargs):
         context = super(ProductListView, self).get_context_data(**kwargs)
         context.update({
-            "categories": Category.objects.all()
+            "categories": Category.objects.all(),
         })
         return context
 
 
 class ProductDetailView(generic.FormView):
-    template_name = 'cart/product_detail.html'
+    template_name = 'new-theme/cart/product_detail.html'
     form_class = AddToCartForm
     
     def get_object(self):

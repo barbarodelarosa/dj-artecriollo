@@ -38,7 +38,7 @@ class Category(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse("cart:category-detail", kwargs={'slug': self.slug})
+        return reverse("cart:product-list", kwargs={'slug': self.slug})
 
 
 class Tag(models.Model):
@@ -118,7 +118,9 @@ class Product(models.Model):
     slug = models.SlugField(unique=True)
     image = models.ImageField(upload_to='product_image')
     price = models.IntegerField(default=0)
+    old_price = models.IntegerField(default=0)
     description = models.TextField()
+    details = models.TextField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=False)
