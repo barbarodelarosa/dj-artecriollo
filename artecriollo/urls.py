@@ -25,7 +25,7 @@ urlpatterns = [
     path('accounts/', include('allauth.urls')),
     path('', views.HomeView.as_view(), name='home'),
     path('contact/', views.ContactView.as_view(), name='contact'),
-    path('cart/', include('cart.urls', namespace='cart')),
+    path('shop/', include('shop.urls', namespace='shop')),
     path('profile/', views.ProfileView.as_view(), name='profile'),
     path('search/', views.SearchResultsView.as_view(), name='search_results'),
 

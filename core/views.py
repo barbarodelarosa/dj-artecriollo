@@ -1,7 +1,7 @@
 from typing import OrderedDict
 
 from django.http import request
-from cart.enzona import payment_orders
+from shop.enzona import payment_orders
 from django import shortcuts
 from django.forms import forms
 from django.shortcuts import render, reverse
@@ -12,8 +12,8 @@ from django.contrib import messages
 from django.conf import settings
 from django.views import generic
 from .forms import ContactForm
-from cart import enzona
-from cart.models import Category, Order, Product
+from shop import enzona
+from shop.models import Category, Order, Product
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.core.paginator import Paginator

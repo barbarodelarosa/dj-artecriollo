@@ -60,7 +60,7 @@ INSTALLED_APPS = [
 
     #My APPS
     'core',
-    'cart',
+    'shop',
 
     #OTHERS
     'crispy_forms',
