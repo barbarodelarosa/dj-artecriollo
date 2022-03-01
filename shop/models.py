@@ -30,6 +30,7 @@ class Category(models.Model):
     image = models.ImageField(upload_to="image/category", blank=True, null=True) 
     name  = models.CharField(max_length=100)
     slug  = models.SlugField(unique=True)
+    active= models.BooleanField(default=True)
 
 
     class Meta:

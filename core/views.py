@@ -1,4 +1,5 @@
 from typing import OrderedDict
+from unicodedata import category
 
 from django.http import request
 from shop.enzona import payment_orders
@@ -88,20 +89,25 @@ class ContactView(generic.FormView):
 
 class SearchResultsView(generic.ListView):
     model = Product
-    template_name = 'search_results.html'
+    template_name = 'new-theme/search_results.html'
     
 
     def get_queryset(self):
-        query = self.request.GET.get('q')
-        if not query:
-            query = ""
+        query = self.request.GET.get('q', '')
+        query_category = self.request.GET.get('q_category', '')
+        # if not query:
+        #     query = ""
                
         object_list = Product.objects.filter(
-        Q(title__contains=query)|Q(description__contains=query)).order_by(
+        Q(category=query_category)).filter(Q(title__contains=query)|Q(description__contains=query)).order_by(
             "updated",
             "created",
             "title",
         )
+        # object_list.filter(Q(title__contains=query)|Q(description__contains=query))
+        print("query_category")
+        print(object_list)
+
         paginator = Paginator(object_list, 2)
         # object_list = object.page(page).object_list
         page_number = self.request.GET.get('page')

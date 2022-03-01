@@ -1,3 +1,4 @@
+from shop.models import Category
 from django import template
 from core.models import SiteInfo
 
@@ -17,3 +18,4 @@ def site_info():
         'description':description
     }
     return data
+
