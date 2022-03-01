@@ -2,6 +2,7 @@
 {% load cart_template_tags %}
 {% load site_info_tags %}
 {% load whishlist_tags %}
+{% load price_format_tags %}
 
 
 	<header>
@@ -83,6 +84,7 @@
 								<!-- /Wishlist -->
 
 								<!-- Cart -->
+													
 								<div class="dropdown">
 									<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
 										<i class="fa fa-shopping-cart"></i>
@@ -91,31 +93,25 @@
 									</a>
 									<div class="cart-dropdown">
 										<div class="cart-list">
-											<div class="product-widget">
-												<div class="product-img">
-													<img src="./img/product01.png" alt="">
+											{% for cart_item in request|cart_item_order %}
+												<div class="product-widget">
+													<div class="product-img">
+														<img src="{{cart_item.product.image.url}}" alt="">
+													</div>
+													<div class="product-body">
+														<h3 class="product-name"><a href="#">{{cart_item.product.title}}</a></h3>
+														<h4 class="product-price"><span class="qty">{{cart_item.quantity}}x</span>{{cart_item.product.price|price_format_cup}}</h4>
+													</div>
+													<form action="{% url 'shop:remove-from-cart' cart_item.product.id %}">
+														<button class="delete"><i class="fa fa-close"></i></button>
+													</form>
 												</div>
-												<div class="product-body">
-													<h3 class="product-name"><a href="#">product name goes here</a></h3>
-													<h4 class="product-price"><span class="qty">1x</span>$980.00</h4>
-												</div>
-												<button class="delete"><i class="fa fa-close"></i></button>
-											</div>
+											{%endfor%}
 
-											<div class="product-widget">
-												<div class="product-img">
-													<img src="./img/product02.png" alt="">
-												</div>
-												<div class="product-body">
-													<h3 class="product-name"><a href="#">product name goes here</a></h3>
-													<h4 class="product-price"><span class="qty">3x</span>$980.00</h4>
-												</div>
-												<button class="delete"><i class="fa fa-close"></i></button>
-											</div>
 										</div>
 										<div class="cart-summary">
-											<small>3 Item(s) selected</small>
-											<h5>SUBTOTAL: $2940.00</h5>
+											<small>Producto(s): {{request|cart_item_count}}</small>
+											<h5>SUBTOTAL: {{request|cart_item_order_subtotal_price}}</h5>
 										</div>
 										<div class="cart-btns">
 											<a href="{% url 'shop:summary' %}">View Cart</a>

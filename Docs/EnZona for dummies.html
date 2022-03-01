@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<!-- saved from url=(0037)http://enzonatuto.intellifoundry.com/ -->
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>EnZona for dummies</title>
+    <link rel="stylesheet" href="./EnZona for dummies_files/bootstrap.min.css">
+    <link rel="stylesheet" href="./EnZona for dummies_files/css">
+    <link rel="stylesheet" href="./EnZona for dummies_files/css(1)">
+    <link rel="stylesheet" href="./EnZona for dummies_files/font-awesome.min.css">
+    <link rel="stylesheet" href="./EnZona for dummies_files/untitled.css">
+</head>
+
+<body id="page-top">
+    <header class="masthead bg-primary text-white text-center"></header>
+    <section id="portfolio" class="portfolio">
+        <div class="container">
+            <h3 class="text-uppercase text-center text-secondary">GuíA RÁPIDA Y FÁCIL para los que quieran usar la API de enzona</h3>
+            <hr class="star-dark mb-5">
+        </div>
+        <div class="container text-center">
+            <h3 class="text-uppercase text-center text-secondary">CREA tu cuenta para acceder a enzona y tener acceso a las apis</h3>
+            <h5>Existen 2 enlaces, uno para la tienda real y otro para hacer pruebas (sandbox)</h5>
+            <a href="https://bulevar.enzona.net/" target="_blank">
+                <h4 class="text-center"><strong>BULEVAR</strong>&nbsp;ENZONA<br></h4>
+            </a>
+            <a href="https://bulevarsandbox.enzona.net/" target="_blank">
+                <h4 class="text-center"><strong>BULEVAR</strong>&nbsp;SANDBOX ENZONA<br></h4>
+            </a>
+            <div class="row">
+                <div class="col-auto col-md-6"><img class="mx-auto" src="./EnZona for dummies_files/bulevar_01.jpg" width="100%"></div>
+                <div class="col-auto col-md-6"><img src="./EnZona for dummies_files/bulevar_02.jpg" width="100%"></div>
+            </div>
+            <hr class="star-dark mb-5">
+        </div>
+        <div class="container">
+            <h3 class="text-uppercase text-center text-secondary">URL DE las Apis de enzona</h3>
+            <h5 class="text-center">Se deben autenticar en cualquiera de las dos interfaces para los próximos pasos</h5>
+            <a href="https://api.enzona.net/store/" target="_blank">
+                <h4 class="text-center"><strong>API</strong>&nbsp;ENZONA</h4>
+            </a>
+            <a href="https://apisandbox.enzona.net/store/" target="_blank">
+                <h4 class="text-center"><strong>API</strong>&nbsp;SANDBOX ENZONA<br></h4><img src="./EnZona for dummies_files/api_store.jpg" width="100%"></a>
+            <hr class="star-dark mb-5">
+        </div>
+        <div class="container">
+            <h3 class="text-uppercase text-center text-secondary">Chequear que esté suscrito el comercio que creamos a la API de pagos y de qr</h3>
+            <h5 class="text-center">Por defecto las tiendas nuevas se subscriben, se debe chequear si en la sección de Payment API &gt; tab Consola API &gt; lista de comercios a probar, aparece nuestro comercio&nbsp;</h5><img src="./EnZona for dummies_files/store_01.jpg" width="100%"><img src="./EnZona for dummies_files/store_02.jpg" width="100%"></div>
+        <div class="container">
+            <hr class="star-dark mb-5">
+            <h3 class="text-uppercase text-center text-secondary">(opcional) subscribir manualmente en caso de que no esté suscrito el comercio</h3>
+            <h5 class="text-center">En la sección Comercios seleccionar el nuestro y dar click en el botón Subscribe.</h5>
+            <div class="row">
+                <div class="col-auto col-md-6"><img class="mx-auto" src="./EnZona for dummies_files/subs_01.jpg" width="100%"></div>
+                <div class="col-auto col-md-6"><img src="./EnZona for dummies_files/subs_02.jpg" width="100%"></div>
+            </div>
+        </div>
+        <div class="container">
+            <hr class="star-dark mb-5">
+            <h3 class="text-uppercase text-center text-secondary">Generar token de acceso</h3>
+            <h5 class="text-center">En el listado de todos los comercios disponibles se selecciona el nuestro del listado &gt; del tab Sandbox/Production Keys se obtienen las llaves de Consumer Key y Consumer Secret. &nbsp;Con ellas se solicita la generación del token desde
+                el sitio o desde la consola. &nbsp;Para el caso de la consola (paso 6) se requiere codificar el par de llaves a BASE64, podemos para esto utilizar el sitio&nbsp;<a href="https://www.base64encode.org/" target="_blank">BASE64ENCODE</a><strong>&nbsp;codificando la cadena "consumer_key:consumer_secret" (incluyendo el caracter ":" en el medio de ambas llaves). &nbsp;La cadena ya codificada es la que se utilizaría en el paso 6.</strong></h5>
+            <div class="row">
+                <div class="col-auto col-md-6"><img class="mx-auto" src="./EnZona for dummies_files/keys01.jpg" width="100%"></div>
+                <div class="col-auto col-md-6"><img src="./EnZona for dummies_files/keys02.jpg" width="100%"></div>
+        </div>
+        <div class="row">
+            <div class="col-auto col-md-6"><img class="mx-auto" src="./EnZona for dummies_files/keys03.jpg" width="100%"></div>
+            <div class="col-auto col-md-6"><img src="./EnZona for dummies_files/keys04.jpg" width="100%"></div>
+        </div>
+        <div class="row">
+            <div class="col-auto col-md-6"><img class="mx-auto" src="./EnZona for dummies_files/keys05.jpg" width="100%"></div>
+            <div class="col-auto col-md-6"><img src="./EnZona for dummies_files/keys06.jpg" width="100%"></div>
+        </div>
+        </div>
+    </section>
+    <hr class="star-dark mb-5">
+    <div class="container">
+        <h3 class="text-uppercase text-center text-secondary">PROBAR las apis</h3>
+        <h5 class="text-center">Entrar en la API que queremos probar, en el tab Consola API seleccionamos el comercio que queremos probar y escribimos el token generado en el paso anterior. &nbsp;Seleccionamos la API que queremos probar, buscándola en el listado y damos click
+            en Try it out. &nbsp;Garantizamos que los parámetros básicos de esa llamada estén cumplidos (algunas fallan sin esto) y damos click en "Execute". &nbsp;Tras este paso se devolverá el resultado de la llamada.</h5>
+        <div class="row">
+            <div class="col-auto col-md-6"><img class="mx-auto" src="./EnZona for dummies_files/api01.jpg" width="100%"></div>
+            <div class="col-auto col-md-6"><img src="./EnZona for dummies_files/api02.jpg" width="100%"></div>
+        </div>
+        <div class="row">
+            <div class="col-auto col-md-6"><img class="mx-auto" src="./EnZona for dummies_files/api03.jpg" width="100%"></div>
+            <div class="col-auto col-md-6"><img src="./EnZona for dummies_files/api04.jpg" width="100%"></div>
+        </div>
+        <div class="row">
+            <div class="col-auto col-md-6"><img class="mx-auto" src="./EnZona for dummies_files/api05.jpg" width="100%"></div>
+        </div>
+    </div>
+    <hr class="star-dark mb-5">
+    <footer class="footer text-center">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col text-center mb-5 mb-lg-0">
+                    <h4 class="text-uppercase">CONTACTOS DE SOPORTE ENZONA</h4>
+                    <h5 class="text-uppercase">TELF: 7837-3610</h5>
+                    <h5 class="text-uppercase">TUTORIAL OBTENCIóN token:&nbsp;<a href="https://apisandbox.enzona.net/store/site/themes/wso2/templates/api/documentation/download.jag?tenant=carbon.super&amp;resourceUrl=/registry/resource/_system/governance/apimgt/applicationdata/provider/admin/PaymentAPI/v1.0.0/documentation/files/C%C3%B3mo%20Obtener%20el%20token%20de%20acceso%20en%20las%20%20APIs.docx">LINK</a></h5>
+                    <h5 class="text-uppercase">TUTORIAL PAY API:&nbsp;<a href="https://apisandbox.enzona.net/store/site/themes/wso2/templates/api/documentation/download.jag?tenant=carbon.super&amp;resourceUrl=/registry/resource/_system/governance/apimgt/applicationdata/provider/admin/PaymentAPI/v1.0.0/documentation/files/Documentaci%C3%B3n%20de%20la%20API%20de%20Payment.docx">LINK</a></h5>
+                        <h5 class="text-uppercase">EJEMPLO APK CON QR:&nbsp;<a href="https://apisandbox.enzona.net/store/site/themes/wso2/templates/api/documentation/download.jag?tenant=carbon.super&amp;resourceUrl=/registry/resource/_system/governance/apimgt/applicationdata/provider/admin/PaymentAPI/v1.0.0/documentation/files/ENZONA_Sandbox.apk">Link</a></h5>
+                            <h5 class="text-uppercase"></h5>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <div class="copyright py-4 text-center text-white">
+        <div class="container"><small>2019</small></div>
+    </div>
+    <div class="d-lg-none scroll-to-top position-fixed rounded" style="display: none;"><a class="d-block js-scroll-trigger text-center text-white rounded" href="http://enzonatuto.intellifoundry.com/#page-top"><i class="fa fa-chevron-up"></i></a></div>
+    <div class="modal text-center" role="dialog" tabindex="-1" id="portfolio-modal-1">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                <div class="modal-body">
+                    <div class="container text-center">
+                        <div class="row">
+                            <div class="col-lg-8 mx-auto">
+                                <h2 class="text-uppercase text-secondary mb-0">Project Name</h2>
+                                <hr class="star-dark mb-5"><img class="img-fluid mb-5" src="./EnZona for dummies_files/cabin.png">
+                                <p class="mb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia neque assumenda ipsam nihil, molestias magnam, recusandae quos quis inventore quisquam velit asperiores, vitae? Reprehenderit soluta, eos quod consequuntur
+                                    itaque. Nam.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer pb-5"><a class="btn btn-primary btn-lg mx-auto rounded-pill portfolio-modal-dismiss" role="button" href="http://enzonatuto.intellifoundry.com/#"><i class="fa fa-close"></i>&nbsp;Close Project</a></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal text-center" role="dialog" tabindex="-1" id="portfolio-modal-2">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                <div class="modal-body">
+                    <div class="container text-center">
+                        <div class="row">
+                            <div class="col-lg-8 mx-auto">
+                                <h2 class="text-uppercase text-secondary mb-0">Project Name</h2>
+                                <hr class="star-dark mb-5"><img class="img-fluid mb-5" src="./EnZona for dummies_files/cake.png">
+                                <p class="mb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia neque assumenda ipsam nihil, molestias magnam, recusandae quos quis inventore quisquam velit asperiores, vitae? Reprehenderit soluta, eos quod consequuntur
+                                    itaque. Nam.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer pb-5"><a class="btn btn-primary btn-lg mx-auto rounded-pill portfolio-modal-dismiss" role="button" href="http://enzonatuto.intellifoundry.com/#"><i class="fa fa-close"></i>&nbsp;Close Project</a></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal text-center" role="dialog" tabindex="-1" id="portfolio-modal-3">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                <div class="modal-body">
+                    <div class="container text-center">
+                        <div class="row">
+                            <div class="col-lg-8 mx-auto">
+                                <h2 class="text-uppercase text-secondary mb-0">Project Name</h2>
+                                <hr class="star-dark mb-5"><img class="img-fluid mb-5" src="./EnZona for dummies_files/circus.png">
+                                <p class="mb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia neque assumenda ipsam nihil, molestias magnam, recusandae quos quis inventore quisquam velit asperiores, vitae? Reprehenderit soluta, eos quod consequuntur
+                                    itaque. Nam.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer pb-5"><a class="btn btn-primary btn-lg mx-auto rounded-pill portfolio-modal-dismiss" role="button" href="http://enzonatuto.intellifoundry.com/#"><i class="fa fa-close"></i>&nbsp;Close Project</a></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal text-center" role="dialog" tabindex="-1" id="portfolio-modal-4">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                <div class="modal-body">
+                    <div class="container text-center">
+                        <div class="row">
+                            <div class="col-lg-8 mx-auto">
+                                <h2 class="text-uppercase text-secondary mb-0">Project Name</h2>
+                                <hr class="star-dark mb-5"><img class="img-fluid mb-5" src="./EnZona for dummies_files/game.png">
+                                <p class="mb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia neque assumenda ipsam nihil, molestias magnam, recusandae quos quis inventore quisquam velit asperiores, vitae? Reprehenderit soluta, eos quod consequuntur
+                                    itaque. Nam.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer pb-5"><a class="btn btn-primary btn-lg mx-auto rounded-pill portfolio-modal-dismiss" role="button" href="http://enzonatuto.intellifoundry.com/#"><i class="fa fa-close"></i>&nbsp;Close Project</a></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal text-center" role="dialog" tabindex="-1" id="portfolio-modal-5">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                <div class="modal-body">
+                    <div class="container text-center">
+                        <div class="row">
+                            <div class="col-lg-8 mx-auto">
+                                <h2 class="text-uppercase text-secondary mb-0">Project Name</h2>
+                                <hr class="star-dark mb-5"><img class="img-fluid mb-5" src="./EnZona for dummies_files/safe.png">
+                                <p class="mb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia neque assumenda ipsam nihil, molestias magnam, recusandae quos quis inventore quisquam velit asperiores, vitae? Reprehenderit soluta, eos quod consequuntur
+                                    itaque. Nam.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer pb-5"><a class="btn btn-primary btn-lg mx-auto rounded-pill portfolio-modal-dismiss" role="button" href="http://enzonatuto.intellifoundry.com/#"><i class="fa fa-close"></i>&nbsp;Close Project</a></div>
+            </div>
+        </div>
+    </div>
+    <div class="modal text-center" role="dialog" tabindex="-1" id="portfolio-modal-6">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header"><button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button></div>
+                <div class="modal-body">
+                    <div class="container text-center">
+                        <div class="row">
+                            <div class="col-lg-8 mx-auto">
+                                <h2 class="text-uppercase text-secondary mb-0">Project Name</h2>
+                                <hr class="star-dark mb-5"><img class="img-fluid mb-5" src="./EnZona for dummies_files/submarine.png">
+                                <p class="mb-5">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Mollitia neque assumenda ipsam nihil, molestias magnam, recusandae quos quis inventore quisquam velit asperiores, vitae? Reprehenderit soluta, eos quod consequuntur
+                                    itaque. Nam.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer pb-5"><a class="btn btn-primary btn-lg mx-auto rounded-pill portfolio-modal-dismiss" role="button" href="http://enzonatuto.intellifoundry.com/#"><i class="fa fa-close"></i>&nbsp;Close Project</a></div>
+            </div>
+        </div>
+    </div>
+    <script src="./EnZona for dummies_files/jquery.min.js"></script>
+    <script src="./EnZona for dummies_files/bootstrap.min.js"></script>
+    <script src="./EnZona for dummies_files/jquery.easing.min.js"></script>
+    <script src="./EnZona for dummies_files/freelancer.js"></script>
+
+
+
+</body></html>

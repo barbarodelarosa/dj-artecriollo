@@ -18,10 +18,10 @@
 
 <div class="site-section">
     <div class="container">
-        <div class="row mb-5">
 
             <div class="col-md-12">
                 <div class="site-blocks-table">
+
                     <table>
                         <thead>
                             <tr>
@@ -36,8 +36,8 @@
                         <tbody>
                             {% for item in order.items.all %}
                             <tr>
-                                <td class="product-thumbnail" style="width: 15em;" >
-                                    <img src="{{ item.product.image.url }}" class="img-fluid">
+                                <td class="product-thumbnail" >
+                                    <img src="{{ item.product.image.url }}" style="height: 25rem" class="img-fluid">
                                 </td>
                                 <td class="product-name">
                                     <h2 class="h5 text-black">{{ item.product.title }}</h2>
@@ -84,7 +84,28 @@
 
                     </table>
                 </div>
-            </div>
+
+
+
+
+
+
+
+
+
+
+            
+
+
+
+
+
+
+
+
+
+
+Resources
             
 
         </div>
