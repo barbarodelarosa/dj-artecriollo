@@ -20,33 +20,21 @@
     </div>
   </div>
   <div class="row">
-    <span class="step-links">
-      {% if object_list.has_previous %}
-          <a href="?{{parametros.urlencode}}&page=1">&laquo; first</a>
-          <a href="?{{parametros.urlencode}}&page={{ object_list.previous_page_number }}">previous</a>
-      {% endif %}
-
-      <span class="current">
-          Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.
-      </span>
-
-      {% if object_list.has_next %}
-          <a href="?{{parametros.urlencode}}&page={{ object_list.next_page_number }}">next</a>
-          <a href="?{{parametros.urlencode}}&page={{ object_list.paginator.num_pages }}">last &raquo;</a>
-      {% endif %}
-  </span>
-
-  </div>
+    <nav aria-label="...">
+      <ul class="pager">
+        {% if object_list.has_previous %}
+          <li><a href="?{{parametros.urlencode}}&page=1">&laquo; primera página</a></li> 
+          <li><a href="?{{parametros.urlencode}}&page={{ object_list.previous_page_number }}">anterior</a></li> 
+        {% endif %}
+        Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.
+        {% if object_list.has_next %}
+            <li><a href="?{{parametros.urlencode}}&page={{ object_list.next_page_number }}">siquiente</a></li>
+            <li><a href="?{{parametros.urlencode}}&page={{ object_list.paginator.num_pages }}">última página &raquo;</a></li>
+        {% endif %}
+      </ul>
+    </nav>
+     </div>
 </div>
-  <!-- <script>
-    console.log(q)
-  </script>
-        <script>
-          
-          var params = new URLSearchParams(location.search);
-          var q = params.get('q');
-           <a href="?page=1">&laquo; first</a>
-        </script> -->
 </div>
 </div>
 {% endblock %}

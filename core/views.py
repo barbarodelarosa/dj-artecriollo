@@ -117,7 +117,7 @@ class SearchResultsView(generic.ListView):
         # object_list.filter(Q(title__contains=query)|Q(description__contains=query))
        
 
-        paginator = Paginator(object_list, 2)
+        paginator = Paginator(object_list, 1)
         # object_list = object.page(page).object_list
         page_number = self.request.GET.get('page')
         page_obj = paginator.get_page(page_number)
@@ -125,11 +125,16 @@ class SearchResultsView(generic.ListView):
         
     
     def get_context_data(self, **kwargs):
+
         context = super(SearchResultsView, self).get_context_data(**kwargs)
         parametros = self.request.GET.copy() # Es una copia del GET
 
         context['parametros'] = parametros
-        print(parametros)
+    
+        if (parametros.get('page') != None):
+            del parametros['page']
+        else:
+            del parametros
         return context
 
 
