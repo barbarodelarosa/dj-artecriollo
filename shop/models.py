@@ -29,22 +29,24 @@ User = get_user_model()
 class Category(models.Model):
     image = models.ImageField(upload_to="image/category", blank=True, null=True) 
     name  = models.CharField(max_length=100)
-    slug  = models.SlugField(unique=True)
+    slug  = models.SlugField(unique=True, blank=True, null=True)
     active= models.BooleanField(default=True)
 
 
     class Meta:
         verbose_name_plural = "Categories"
 
-    def save(self, *args, **kwargs):
-        self.slug = slugify(self.name)
-        super(Category, self).save(*args, **kwargs)
+    # def save(self, *args, **kwargs):
+    #     self.slug = slugify(self.name)
+    #     super(Category, self).save(*args, **kwargs)
 
     def __str__(self):
         return self.name
 
     def get_absolute_url(self):
         return reverse("shop:product-list", kwargs={'slug': self.slug})
+
+
 
 
 class Tag(models.Model):
@@ -319,5 +321,11 @@ class Payment(models.Model):
 def pre_save_product_receiver(sender, instance, *args, **kwargs):
     if not instance.slug:
         instance.slug = slugify(instance.title)
-
 pre_save.connect(pre_save_product_receiver, sender=Product)
+
+
+
+def pre_safe_category_receiver(sender, instance, *args, **kwargs):
+    if not instance.slug:
+        instance.slug = slugify(instance.name)
+pre_save.connect(pre_safe_category_receiver, sender=Category)

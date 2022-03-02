@@ -1,23 +1,43 @@
 {% extends 'new-theme/base.html' %}
 {% block content %}
 
-<h1>Search Results</h1>
-{{request}}
-<ul>
-  {% for obj in object_list %}
-    <li>
-      <strong>Titulo:</strong> {{ obj.title }} 
-      <br>
-      <strong>Descripcion:</strong> {{ obj.description }}
-    </li>
-  {% endfor %}
-</ul>
+<div class="container">
+  <div class="row">
+    <div class="col-md-12">
+    
+      <h1>Search Results</h1>
+      <ul>
+        {% for obj in object_list %}
+          <li>
+            <strong>Titulo:</strong> {{ obj.title }} 
+            <br>
+            <strong>Descripcion:</strong> {{ obj.description }}
+          </li>
+          {% endfor %}
+        </ul>
+            
+        
+    </div>
+  </div>
+  <div class="row">
+    <span class="step-links">
+      {% if object_list.has_previous %}
+          <a href="?{{parametros.urlencode}}&page=1">&laquo; first</a>
+          <a href="?{{parametros.urlencode}}&page={{ object_list.previous_page_number }}">previous</a>
+      {% endif %}
 
-PAGINACION
+      <span class="current">
+          Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.
+      </span>
 
-<div class="pagination">
+      {% if object_list.has_next %}
+          <a href="?{{parametros.urlencode}}&page={{ object_list.next_page_number }}">next</a>
+          <a href="?{{parametros.urlencode}}&page={{ object_list.paginator.num_pages }}">last &raquo;</a>
+      {% endif %}
+  </span>
 
-<div>
+  </div>
+</div>
   <!-- <script>
     console.log(q)
   </script>
@@ -28,20 +48,5 @@ PAGINACION
            <a href="?page=1">&laquo; first</a>
         </script> -->
 </div>
-    <span class="step-links">
-        {% if object_list.object_list.has_previous %}
-            <a href="?page=1">&laquo; first</a>
-            <a href="?page={{ object_list.previous_page_number }}">previous</a>
-        {% endif %}
-
-        <span class="current">
-            Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.
-        </span>
-
-        {% if object_list.has_next %}
-            <a href="?page={{ object_list.next_page_number }}">next</a>
-            <a href="?page={{ object_list.paginator.num_pages }}">last &raquo;</a>
-        {% endif %}
-    </span>
 </div>
 {% endblock %}

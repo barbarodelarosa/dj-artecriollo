@@ -57,7 +57,7 @@
 							<div class="header-search">
 
 								<form action="{% url 'search_results' %}" method="GET">
-									{% csrf_token %}
+									{% comment %} {% csrf_token %} {% endcomment %}
 									<select name="q_category" id="select_search" class="input-select">
 										{% comment %} <option value="1">Category 01</option> {% endcomment %}
 										{% comment %} <option value="1">Category 02</option> {% endcomment %}
