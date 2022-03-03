@@ -1,3 +1,4 @@
+from authy.models import Profile
 from .models import Order
 
 def get_or_set_order_session(request):
@@ -19,3 +20,9 @@ def get_or_set_order_session(request):
         order.save()
     return order
 
+
+
+def get_whishlist_session(request):
+    profile = Profile.objects.get(user=request.user)
+    whishlist = profile.whishlist.all()   
+    return whishlist

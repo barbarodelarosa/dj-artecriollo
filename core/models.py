@@ -10,4 +10,6 @@ class SiteInfo(models.Model):
     phone = models.CharField(max_length=11, default='+5351183924')
     mobile = models.CharField(max_length=11, default='+5351183924')
     description = models.TextField(max_length=250, blank=True, null=True)
+
+
     

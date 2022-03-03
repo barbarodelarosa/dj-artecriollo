@@ -26,6 +26,7 @@ urlpatterns = [
     path('', views.HomeView.as_view(), name='home'),
     path('contact/', views.ContactView.as_view(), name='contact'),
     path('shop/', include('shop.urls', namespace='shop')),
+    path('user/', include('authy.urls', namespace='user')),
     path('profile/', views.ProfileView.as_view(), name='profile'),
     path('search/', views.SearchResultsView.as_view(), name='search_results'),
 

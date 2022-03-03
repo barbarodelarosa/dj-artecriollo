@@ -80,9 +80,15 @@
 							<div class="header-ctn">
 								<!-- Wishlist -->
 								<div>
-									<a href="#">
-										<i class="fa fa-heart-o"></i>
-										<span>Your Wishlist</span>
+									<a href="{% url 'shop:whishlist' %}">
+										
+										{% if request.user.profile.whishlist %}
+											<i class="fa fa-heart"></i>
+											<span>Ver lista</span>
+											{% else %}
+											<i class="fa fa-heart-o"></i>
+											<span>Agregar a lista</span>
+										{% endif %}										
 										<div class="qty">{{request|whishlist_count}}</div>
 									</a>
 								</div>

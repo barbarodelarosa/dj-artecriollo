@@ -239,7 +239,7 @@
 							<div class="col-md-4 col-xs-6">
 								<div class="product">
 									<div class="product-img">
-										<img src="{{product.image.url}}" alt="">
+										<img src="{{product.image.url}}" height="200" width="200" alt="">
 										<div class="product-label">
 											<span class="sale">-30%</span>
 											<span class="new">NEW</span>
@@ -260,9 +260,16 @@
 											<i class="fa fa-star"></i>
 										</div> {% endcomment %}
 										<div class="product-btns">
-											<button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-											<button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-											<button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+											{% if product in user.profile.whishlist.all%}
+												<a href="{% url 'user:addorremovetowhishlist' product.id %}" class="add-to-wishlist" style="color: #D10024;"><i class="fa fa-heart"></i><span class="tooltipp"> Eliminar de lista</span></a>
+											{%else%}
+												<a href="{% url 'user:addorremovetowhishlist' product.id %}" class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">Agregar a lista</span></a>
+											{%endif%}
+											{% comment %} <form action="{% url 'user:addorremovetowhishlist' product.id %}"> {% endcomment %}
+											{% comment %} </form> {% endcomment %}
+											<!-- <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button> -->
+											<br>
+											<a href="#" class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp"> Ver lista</span></a>
 										</div>
 									</div>
 									<div class="add-to-cart">

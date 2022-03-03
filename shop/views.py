@@ -2,7 +2,7 @@ import datetime
 import json
 from django.views import generic
 from django.db.models import Q
-from .utils import get_or_set_order_session
+from .utils import get_or_set_order_session, get_whishlist_session
 from .models import Product, OrderItem, Address, Payment, Order, Category
 from .forms import AddToCartForm, AddressForm
 from django.shortcuts import get_object_or_404, reverse, redirect
@@ -338,3 +338,42 @@ class ThankYouView(generic.TemplateView):
 # CheckoutView
 # PaymentView
 # ConfirmEnzonaPaymentView
+
+
+
+class WhishlistView(generic.TemplateView):
+    template_name = 'new-theme/shop/whishlist_list.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(WhishlistView, self).get_context_data(**kwargs)
+        context["prueba"] = "Prueba"
+        context["whishlist"] = get_whishlist_session(self.request)
+        print("GET DATA WHISH")
+        return context
+
+    
+
+
+# class DecreaseQuantityView(generic.View):
+#     def get(self, request, *args, **kwargs):
+#         order_item = get_object_or_404(OrderItem, id=kwargs['pk'])
+#         product = get_object_or_404(Product, orderitem=order_item)
+
+#         if order_item.quantity <= 1:
+#             product.stock -= 1
+#             product.save()
+#             order_item.delete()
+
+#         else:
+#             order_item.quantity -= 1
+#             product.stock += 1
+#             product.save()
+#             order_item.save()
+#         return redirect("shop:summary")
+
+
+# class RemoveFromCartView(generic.View):
+#     def get(self, request, *args, **kwargs):
+#         order_item = get_object_or_404(OrderItem, id=kwargs['pk'])
+#         order_item.delete()
+#         return redirect("shop:summary")

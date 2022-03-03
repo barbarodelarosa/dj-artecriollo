@@ -161,12 +161,20 @@ class Product(models.Model):
         
         return reverse("shop:product-detail", kwargs={'category': category.slug,'slug': self.slug})
 
+
+
 class WhishList(models.Model):
-    user     = models.ForeignKey(User, on_delete=models.CASCADE)
-    products = models.ManyToManyField(Product, blank=True)
+    title = models.CharField(max_length=150, blank=True, null=True)
+    user     = models.ForeignKey(User, on_delete=models.CASCADE, related_name='whishlist_user')
+    products = models.ManyToManyField(Product, blank=True, related_name='products_whishlist')
 
     def __str__(self):
         return self.user.username
+
+    def get_absolute_url(self):
+        category = self.category.first()
+        
+        return reverse("shop:whishlist", kwargs={'user': self.user})
 
 class OrderItem(models.Model):
     order = models.ForeignKey("Order", related_name='items', on_delete=models.CASCADE)

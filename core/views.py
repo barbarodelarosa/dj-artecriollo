@@ -41,13 +41,13 @@ class HomeView(generic.TemplateView):
         if self.request.user.is_authenticated:
             context.update({
                 'orders': Order.objects.filter(user=self.request.user, ordered=True),
-                'category_list': Category.objects.all(),
+                'category_list': Category.objects.filter(active=True)[:3],
                 'nav_active':'active',
             })
         else:
             context.update({
                 'orders': [],
-                'category_list': Category.objects.all(),
+                'category_list': Category.objects.all(active=True)[:3],
                 'nav_active':'active',
             })
         return context
