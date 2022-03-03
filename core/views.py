@@ -22,7 +22,7 @@ from django.core.paginator import Paginator
 
 
 class ProfileView(LoginRequiredMixin, generic.TemplateView):
-    template_name = 'profile.html'
+    template_name = 'new-theme/profile.html'
 
     def get_context_data(self, **kwargs):
         context = super(ProfileView, self).get_context_data(**kwargs)
@@ -47,7 +47,7 @@ class HomeView(generic.TemplateView):
         else:
             context.update({
                 'orders': [],
-                'category_list': Category.objects.all(active=True)[:3],
+                'category_list': Category.objects.filter(active=True)[:3],
                 'nav_active':'active',
             })
         return context

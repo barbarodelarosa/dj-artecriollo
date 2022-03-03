@@ -40,6 +40,7 @@ class Profile(models.Model):
 	profile_info = models.TextField(max_length=150, null=True, blank=True)
 	created = models.DateField(auto_now_add=True)
 	whishlist = models.ManyToManyField(Product, related_name="whishlist_user", blank=True)
+	phone = models.CharField(max_length=11, blank=True, null=True)
 	# favorites = models.ManyToManyField(Post)
 
 	picture = models.ImageField(upload_to=user_directory_path_profile, blank=True, null=True, verbose_name='Picture')

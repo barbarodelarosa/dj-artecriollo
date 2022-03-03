@@ -78,7 +78,7 @@ class Address(models.Model):
     address_line_1 = models.CharField(max_length=150)
     address_line_2 = models.CharField(max_length=150)
     city = models.CharField(max_length=150)
-    zip_code = models.CharField(max_length=10)
+    zip_code = models.CharField(max_length=10, blank=True, null=True)
     address_type = models.CharField(max_length=1, choices=ADDRESS_CHOICES)
     default = models.BooleanField(default=False)
 
