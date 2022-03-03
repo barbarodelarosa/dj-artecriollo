@@ -1,21 +1,79 @@
 {% extends 'new-theme/base.html' %}
 {% block content %}
+{% load price_format_tags %}
 
 <div class="container">
   <div class="row">
     <div class="col-md-12">
     
-      <h1>Search Results</h1>
-      <ul>
+      <h3>{{object_list|length}} de {{count_result_query}} resultado{{count_result_query|pluralize}} encontrado{{count_result_query|pluralize}} para: <strong>Agregar</strong></h3>
+      <!-- <ul>
         {% for obj in object_list %}
-          <li>
-            <strong>Titulo:</strong> {{ obj.title }} 
-            <br>
-            <strong>Descripcion:</strong> {{ obj.description }}
-          </li>
-          {% endfor %}
-        </ul>
+        <li>
+          <strong>Titulo:</strong> {{ obj.title }} 
+          <br>
+          <strong>Descripcion:</strong> {{ obj.description }}
+        </li>
+        {% endfor %}
+      </ul> -->
+      <!-- {% for obj in object_list %}
+      <div class="panel panel-default">
+        <div class="panel-heading">Panel Heading</div>
+        <div class="panel-body">
+          <div class="row">
+            <div class="col-md-3">
+              <img src="{{obj.image.url}}" alt="" width="250">
+            </div>
+            <div class="col-md-9">
+              {{obj.description}}
+            </div>
+
+          </div>
+        </div>
+        <div class="panel-footer">Panel Footer</div>
+      </div>
+      {% endfor %} -->
+      {% for product in object_list %}
+      <div class="col-md-4 col-xs-6">
+        <div class="product">
+          <div class="product-img">
+            <img src="{{product.image.url}}" alt="">
+            <div class="product-label">
+              <span class="sale">-30%</span>
+              <span class="new">NEW</span>
+            </div>
+          </div>
+          <div class="product-body">
+                                {% for pro_cat in product.category.all  %}
+                <p class="product-category"> {{pro_cat.name}} </p>                                        
+                                {% endfor %}
+            <h3 class="product-name"><a href="{{product.get_absolute_url}}">{{product.title}}</a></h3>
             
+            <h4 class="product-price">{{product.price|price_format_cup}} <del class="product-old-price">{{product.old_price|price_format_cup}}</del></h4>
+            {% comment %} <div class="product-rating">
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+              <i class="fa fa-star"></i>
+            </div> {% endcomment %}
+            <div class="product-btns">
+              <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
+              <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
+              <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
+            </div>
+          </div>
+          <div class="add-to-cart">
+                            <form action="{{product.get_absolute_url}}">
+            <button class="add-to-cart-btn"><i class="fa fa-eye"></i> Ver producto</button>
+                            </form>
+                                
+            <button data-product="{{product.id}}" data-action="add" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+                                
+          </div>
+        </div>
+      </div>
+      {% endfor %}
         
     </div>
   </div>

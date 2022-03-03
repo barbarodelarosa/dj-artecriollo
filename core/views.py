@@ -98,9 +98,50 @@ class SearchResultsView(generic.ListView):
         query_category = self.request.GET.get('q_category', '')
         # if not query:
         #     query = ""
-        print('query_category')
-        print(query_category)
-        print('query_categorysss')
+       
+        # if query_category == '0':
+        #     object_list = Product.objects.filter(Q(title__contains=query)|Q(description__contains=query)).order_by(
+        #         "updated",
+        #         "created",
+        #         "title",
+        #     )
+        # else:       
+        #     object_list = Product.objects.filter(
+        #     Q(category=query_category)).filter(Q(title__contains=query)|Q(description__contains=query)).order_by(
+        #         "updated",
+        #         "created",
+        #         "title",
+        #     )
+
+        object_list = self.results_query_object_list(query, query_category)
+        # object_list.filter(Q(title__contains=query)|Q(description__contains=query))
+        # self.count_result_object_list(object_list)
+        paginator = Paginator(object_list, 2)
+        # object_list = object.page(page).object_list
+        page_number = self.request.GET.get('page')
+        page_obj = paginator.get_page(page_number)
+        return page_obj
+        
+    
+    def get_context_data(self, **kwargs):
+        query = self.request.GET.get('q', '')
+        query_category = self.request.GET.get('q_category', '')
+
+        context = super(SearchResultsView, self).get_context_data(**kwargs)
+        parametros = self.request.GET.copy() # Es una copia del GET
+
+        context['parametros'] = parametros
+        context['count_result_query'] = self.results_query_object_list(query, query_category).count()
+      
+
+    
+        if (parametros.get('page') != None):
+            del parametros['page']
+        else:
+            del parametros
+        return context
+    
+    def results_query_object_list(self, query, query_category):
         if query_category == '0':
             object_list = Product.objects.filter(Q(title__contains=query)|Q(description__contains=query)).order_by(
                 "updated",
@@ -114,28 +155,9 @@ class SearchResultsView(generic.ListView):
                 "created",
                 "title",
             )
-        # object_list.filter(Q(title__contains=query)|Q(description__contains=query))
-       
-
-        paginator = Paginator(object_list, 1)
-        # object_list = object.page(page).object_list
-        page_number = self.request.GET.get('page')
-        page_obj = paginator.get_page(page_number)
-        return page_obj
         
-    
-    def get_context_data(self, **kwargs):
-
-        context = super(SearchResultsView, self).get_context_data(**kwargs)
-        parametros = self.request.GET.copy() # Es una copia del GET
-
-        context['parametros'] = parametros
-    
-        if (parametros.get('page') != None):
-            del parametros['page']
-        else:
-            del parametros
-        return context
+        
+        return object_list
 
 
     
