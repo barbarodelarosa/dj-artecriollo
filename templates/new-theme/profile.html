@@ -4,6 +4,7 @@
     <div class="site-sectino">
         <div class="container">
             <div class="row justify-content-center">
+              
                 <div class="col-m-12">
                     <h2 class="text-black">
                         Perfil
@@ -94,6 +95,7 @@
                     </div>
                     <hr>
                     <div class="row">
+                        <a href="{% url 'user:edit-profile' %}" class="btn btn-success">Editar cuenta</a>
                         <a class="btn btn-danger" href="{% url 'account_logout' %}"> <small class="float-right" >Cerrar sesión</small></a>
                     </div>
                 </div>

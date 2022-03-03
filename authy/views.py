@@ -171,27 +171,35 @@ def PasswordChange(request):
 def PasswordChangeDone(request):
 	return render(request, 'change_password_done.html')
 
+from django.contrib import messages
 
 @login_required
 def EditProfile(request):
 	user = request.user.id
 	profile = Profile.objects.get(user__id=user)
 	user_basic_info = User.objects.get(id=user)
+
 	# BASE_WIDTH = 400
 
 	if request.method == 'POST':
 		form = EditProfileForm(request.POST, request.FILES, instance=profile)
 		if form.is_valid():
-			profile.picture = form.cleaned_data.get('picture')
-			profile.banner = form.cleaned_data.get('banner')
-			user_basic_info.first_name = form.cleaned_data.get('first_name')
-			user_basic_info.last_name = form.cleaned_data.get('last_name')
+			print("HASTA AQUI OK")
+			# profile.picture = form.cleaned_data.get('picture')
+			# profile.banner = form.cleaned_data.get('banner')
+			profile.first_name = form.cleaned_data.get('first_name')
+			profile.last_name = form.cleaned_data.get('last_name')
 			profile.location = form.cleaned_data.get('location')
 			profile.url = form.cleaned_data.get('url')
 			profile.profile_info = form.cleaned_data.get('profile_info')
+			profile.phone = form.cleaned_data.get('phone')
 			profile.save()
-			user_basic_info.save()
-			return redirect('edit-profile')
+			# user_basic_info.save()
+			
+			messages.success(
+				request, "Se ha actualizado correctamente su perfil"
+			)
+			return redirect('user:edit-profile')
 	else:
 		form = EditProfileForm(instance=profile)
 
@@ -199,7 +207,7 @@ def EditProfile(request):
 		'form':form,
 	}
 
-	return render(request, 'registration/edit_profile.html', context)
+	return render(request, 'account/edit_profile.html', context)
 
 
 # @login_required
