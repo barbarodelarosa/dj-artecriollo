@@ -2,6 +2,8 @@ import datetime
 import json
 from django.views import generic
 from django.db.models import Q
+
+import shop
 from .utils import get_or_set_order_session, get_whishlist_session
 from .models import Product, OrderItem, Address, Payment, Order, Category
 from .forms import AddToCartForm, AddressForm
@@ -12,6 +14,7 @@ from django.http import JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from shop import enzona
+from django.urls import reverse
 
 from shop import models
 
@@ -34,14 +37,47 @@ class ProductListView(generic.ListView):
     
     def get_queryset(self):
         # qs = Product.objects.all()
+        next = self.request.META.get('HTTP_REFERER', None) or '/'  #Obtiene la url actual
         category = self.request.GET.get('slug', None)
+        price_min = self.request.GET.get('price-min', None)
+        price_max = self.request.GET.get('price-max', None)
+        sort_by = self.request.GET.get('sort-by', None)
+        show = self.request.GET.get('show', None)
         slug = self.kwargs['slug']
-        print(category)
-        try:
-            tag = Category.objects.get(slug=slug)
-            return tag.product_set.all()
-        except Category.DoesNotExist:
-            return Product.objects.none()
+
+
+       
+        if category or slug: 
+            try:
+                tag = Category.objects.get(slug=slug)
+                if not price_min:
+                    price_min = 0
+                else:
+                    price_min = float(price_min) 
+
+                if not price_max:
+                    price_max = 1000000    
+                else:
+                    price_max = float(price_max)
+                price_min = price_min*100
+                price_max = price_max*100
+                print("LATEST")
+                if not sort_by:
+                    sort_by = '-created'
+                
+                # print(tag.product_set.filter(Q(price__lte = price_max) & Q(price__gte = price_min)).order_by(sort_by)) #
+                qs = tag.product_set.filter(Q(price__lte = price_max) & Q(price__gte = price_min)).order_by(sort_by)
+                
+                # Q(secondary_categories__slug=category))
+              
+                return qs
+            except Category.DoesNotExist:
+                return Product.objects.none()
+        elif next:
+            pass
+            # return HttpResponseRedirect(reverse(next, kwargs={ 'bar':  }) )
+            # return redirect(reverse('app:view', kwargs={ 'bar': FooBar }))
+
         # if category:
         #     qs = qs.filter(Q(primary_category__slug=category) |
         #                    Q(secondary_categories__slug=category))

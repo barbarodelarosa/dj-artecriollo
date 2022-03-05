@@ -2,6 +2,7 @@
 {% load price_format_tags %}
 
 {% block content %}
+
 {% comment %} <div class="bg-light py-3">
     <div class="container">
         <div class="row">
@@ -55,20 +56,23 @@
 			<div class="container">
 				<!-- row -->
 				<div class="row">
+					
 					<!-- ASIDE -->
 					<div id="aside" class="col-md-3">
 						<!-- aside Widget -->
 						<div class="aside">
 							<h3 class="aside-title">Categories</h3>
 							<div class="checkbox-filter">
-                                {% for cat in categories  %}
+								{% for cat in categories  %}
                                     <div class="input-checkbox">
-                                        <input type="checkbox" id="{{cat.slug}}">
-                                        <label for="{{cat.slug}}">
+										<a href="{% url 'shop:product-list' cat.slug %}">
+											{{cat.name}}
+										</a>
+                                        <!-- <input type="checkbox" id="{{cat.slug}}"> -->
+                                        <!-- <label for="{{cat.slug}}"> -->
                                             <span></span>
-                                            {{cat.name}}
                                             <small> - ({{cat.product_set.count}})</small>
-                                        </label>
+                                        <!-- </label> -->
                                     </div>                                
                                 {% endfor %}
 
@@ -77,162 +81,187 @@
 						<!-- /aside Widget -->
 
 						<!-- aside Widget -->
-						<div class="aside">
-							<h3 class="aside-title">Price</h3>
-							<div class="price-filter">
-								<div id="price-slider"></div>
-								<div class="input-number price-min">
-									<input id="price-min" type="number">
-									<span class="qty-up">+</span>
-									<span class="qty-down">-</span>
+						<form action="" method="get">
+
+							<div class="aside">
+								<h3 class="aside-title">Price</h3>
+								<div class="form-group">
+									<label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+									<div class="input-group">
+									  <div class="input-group-addon">$</div>
+									  <input type="text" name="price-min" class="form-control" id="exampleInputAmount" placeholder="Precio mínimo">
+									  <div class="input-group-addon">.00</div>
+									</div>
+									<label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
+									<div class="input-group">
+									  <div class="input-group-addon">$</div>
+									  <input type="text"  name="price-max" class="form-control" id="exampleInputAmount" placeholder="Precio máximo">
+									  <div class="input-group-addon">.00</div>
+									</div>
 								</div>
-								<span>-</span>
-								<div class="input-number price-max">
-									<input id="price-max" type="number">
-									<span class="qty-up">+</span>
-									<span class="qty-down">-</span>
-								</div>
+
+								  
+								<!-- <div class="price-filter">
+									<div id="price-slider"></div>
+									<div class="input-number price-min">
+										<input name="price-min" value="10" id="price-min" type="number">
+										<span class="qty-up">+</span>
+										<span class="qty-down">-</span>
+									</div>
+									<span>-</span>
+									<div class="input-number price-max">
+										<input name="price-max" id="price-max" type="number">
+										<span class="qty-up">+</span>
+										<span class="qty-down">-</span>
+									</div>
+								</div> -->
 							</div>
-						</div>
-						<!-- /aside Widget -->
+						 	<!-- /aside Widget -->
 						
-                        <!-- aside Widget BUTTON-->
+                        	<!-- aside Widget BUTTON-->
                             <div class="aside">
 							<h3 class="aside-title">Filtrar</h3>
-                                <form action="">
-                                    <button class="btn primary-btn "><i class="fa fa-filter"></i><span class="tooltipp"> Aplicar filtros</span></button>
-                                </form>
-                               
-
+                                    <button type="submit" class="btn primary-btn "><i class="fa fa-filter"></i><span class="tooltipp"> Aplicar filtros</span></button>
                             </div>
-						<!-- /aside Widget BUTTON -->
+							<!-- /aside Widget BUTTON -->
 
-						<!-- aside Widget -->
-						{% comment %} <div class="aside">
-							<h3 class="aside-title">Brand</h3>
-							<div class="checkbox-filter">
-								<div class="input-checkbox">
-									<input type="checkbox" id="brand-1">
-									<label for="brand-1">
-										<span></span>
-										SAMSUNG
-										<small>(578)</small>
-									</label>
+							<!-- aside Widget -->
+							{% comment %} <div class="aside">
+								<h3 class="aside-title">Brand</h3>
+								<div class="checkbox-filter">
+									<div class="input-checkbox">
+										<input type="checkbox" id="brand-1">
+										<label for="brand-1">
+											<span></span>
+											SAMSUNG
+											<small>(578)</small>
+										</label>
+									</div>
+									<div class="input-checkbox">
+										<input type="checkbox" id="brand-2">
+										<label for="brand-2">
+											<span></span>
+											LG
+											<small>(125)</small>
+										</label>
+									</div>
+									<div class="input-checkbox">
+										<input type="checkbox" id="brand-3">
+										<label for="brand-3">
+											<span></span>
+											SONY
+											<small>(755)</small>
+										</label>
+									</div>
+									<div class="input-checkbox">
+										<input type="checkbox" id="brand-4">
+										<label for="brand-4">
+											<span></span>
+											SAMSUNG
+											<small>(578)</small>
+										</label>
+									</div>
+									<div class="input-checkbox">
+										<input type="checkbox" id="brand-5">
+										<label for="brand-5">
+											<span></span>
+											LG
+											<small>(125)</small>
+										</label>
+									</div>
+									<div class="input-checkbox">
+										<input type="checkbox" id="brand-6">
+										<label for="brand-6">
+											<span></span>
+											SONY
+											<small>(755)</small>
+										</label>
+									</div>
 								</div>
-								<div class="input-checkbox">
-									<input type="checkbox" id="brand-2">
-									<label for="brand-2">
-										<span></span>
-										LG
-										<small>(125)</small>
-									</label>
+							</div> {% endcomment %}
+							<!-- /aside Widget -->
+
+							<!-- aside Widget -->
+							{% comment %} <div class="aside">
+								<h3 class="aside-title">Top selling</h3>
+								<div class="product-widget">
+									<div class="product-img">
+										<img src="./img/product01.png" alt="">
+									</div>
+									<div class="product-body">
+										<p class="product-category">Category</p>
+										<h3 class="product-name"><a href="#">product name goes here</a></h3>
+										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+									</div>
 								</div>
-								<div class="input-checkbox">
-									<input type="checkbox" id="brand-3">
-									<label for="brand-3">
-										<span></span>
-										SONY
-										<small>(755)</small>
-									</label>
+
+								<div class="product-widget">
+									<div class="product-img">
+										<img src="./img/product02.png" alt="">
+									</div>
+									<div class="product-body">
+										<p class="product-category">Category</p>
+										<h3 class="product-name"><a href="#">product name goes here</a></h3>
+										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+									</div>
 								</div>
-								<div class="input-checkbox">
-									<input type="checkbox" id="brand-4">
-									<label for="brand-4">
-										<span></span>
-										SAMSUNG
-										<small>(578)</small>
-									</label>
+
+								<div class="product-widget">
+									<div class="product-img">
+										<img src="./img/product03.png" alt="">
+									</div>
+									<div class="product-body">
+										<p class="product-category">Category</p>
+										<h3 class="product-name"><a href="#">product name goes here</a></h3>
+										<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
+									</div>
 								</div>
-								<div class="input-checkbox">
-									<input type="checkbox" id="brand-5">
-									<label for="brand-5">
-										<span></span>
-										LG
-										<small>(125)</small>
-									</label>
-								</div>
-								<div class="input-checkbox">
-									<input type="checkbox" id="brand-6">
-									<label for="brand-6">
-										<span></span>
-										SONY
-										<small>(755)</small>
-									</label>
-								</div>
+							</div> {% endcomment %}
+							<!-- /aside Widget -->
 							</div>
-						</div> {% endcomment %}
-						<!-- /aside Widget -->
+							<!-- /ASIDE -->
 
-						<!-- aside Widget -->
-						{% comment %} <div class="aside">
-							<h3 class="aside-title">Top selling</h3>
-							<div class="product-widget">
-								<div class="product-img">
-									<img src="./img/product01.png" alt="">
+							<!-- STORE -->
+							<div id="store" class="col-md-9">
+							<!-- store top filter -->
+							<div class="store-filter clearfix">
+								<div class="store-sort">
+									<label>
+										<select name="sort-by" class="form-control" onchange="this.form.submit()">
+											<option value="price">Ordenar:</option>
+											<option value="price">Precio: de más bajo a más alto</option>
+											<option value="-price">Precio: de más alto a más bajo</option>
+										</select>
+									
+									</label>
+
+									
+
+									<!-- <label>
+										Show:
+										<select name="show" class="input-select">
+											<option value="0">20</option>
+											<option value="1">50</option>
+										</select>
+									</label> -->
 								</div>
-								<div class="product-body">
-									<p class="product-category">Category</p>
-									<h3 class="product-name"><a href="#">product name goes here</a></h3>
-									<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-								</div>
+								<ul class="store-grid">
+									<li class="active"><i class="fa fa-th"></i></li>
+									<li><a href="#"><i class="fa fa-th-list"></i></a></li>
+								</ul>
 							</div>
-
-							<div class="product-widget">
-								<div class="product-img">
-									<img src="./img/product02.png" alt="">
-								</div>
-								<div class="product-body">
-									<p class="product-category">Category</p>
-									<h3 class="product-name"><a href="#">product name goes here</a></h3>
-									<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-								</div>
+							
 							</div>
+						</form>
+							<!-- /store top filter -->
 
-							<div class="product-widget">
-								<div class="product-img">
-									<img src="./img/product03.png" alt="">
-								</div>
-								<div class="product-body">
-									<p class="product-category">Category</p>
-									<h3 class="product-name"><a href="#">product name goes here</a></h3>
-									<h4 class="product-price">$980.00 <del class="product-old-price">$990.00</del></h4>
-								</div>
-							</div>
-						</div> {% endcomment %}
-						<!-- /aside Widget -->
-					</div>
-					<!-- /ASIDE -->
 
-					<!-- STORE -->
-					<div id="store" class="col-md-9">
-						<!-- store top filter -->
-						<div class="store-filter clearfix">
-							<div class="store-sort">
-								<label>
-									Sort By:
-									<select class="input-select">
-										<option value="0">Popular</option>
-										<option value="1">Position</option>
-									</select>
-								</label>
 
-								<label>
-									Show:
-									<select class="input-select">
-										<option value="0">20</option>
-										<option value="1">50</option>
-									</select>
-								</label>
-							</div>
-							<ul class="store-grid">
-								<li class="active"><i class="fa fa-th"></i></li>
-								<li><a href="#"><i class="fa fa-th-list"></i></a></li>
-							</ul>
-						</div>
-						<!-- /store top filter -->
 
-						<!-- store products -->
-						<div class="row">
+
+
+							<!-- store products -->
+							<div class="row">
 							<!-- product -->
                             {% for product in object_list  %}
                             
@@ -355,8 +384,8 @@
 							<!-- product -->
 							
 							<!-- /product -->
-						</div>
-						<!-- /store products -->
+							</div>
+							<!-- /store products -->
 
 						<!-- store bottom filter -->
 						<div class="store-filter clearfix">

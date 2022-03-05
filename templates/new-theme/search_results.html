@@ -7,32 +7,9 @@
     <div class="col-md-12">
     
       <h3>{{object_list|length}} de {{count_result_query}} resultado{{count_result_query|pluralize}} encontrado{{count_result_query|pluralize}} para: <strong>Agregar</strong></h3>
-      <!-- <ul>
-        {% for obj in object_list %}
-        <li>
-          <strong>Titulo:</strong> {{ obj.title }} 
-          <br>
-          <strong>Descripcion:</strong> {{ obj.description }}
-        </li>
-        {% endfor %}
-      </ul> -->
-      <!-- {% for obj in object_list %}
-      <div class="panel panel-default">
-        <div class="panel-heading">Panel Heading</div>
-        <div class="panel-body">
-          <div class="row">
-            <div class="col-md-3">
-              <img src="{{obj.image.url}}" alt="" width="250">
-            </div>
-            <div class="col-md-9">
-              {{obj.description}}
-            </div>
+     
 
-          </div>
-        </div>
-        <div class="panel-footer">Panel Footer</div>
-      </div>
-      {% endfor %} -->
+     
       {% for product in object_list %}
       <div class="col-md-4 col-xs-6">
         <div class="product">
