@@ -1,0 +1,7 @@
+
+							<p>UNSubscribe for <strong>NEWSLETTER</strong></p>
+							<form action="{% url 'newsletters:unsubscribe' %}" method="POST">
+								{% csrf_token %}
+								<input class="input" name="email" type="email" placeholder="Enter Your Email">
+								<button type="submit" class="newsletter-btn"><i class="fa fa-envelope"></i> Subscribe</button>
+							</form>

@@ -62,10 +62,14 @@ INSTALLED_APPS = [
     'core',
     'shop',
     'authy',
+    'newsletters',
 
     #OTHERS
     'crispy_forms',
 ]
+
+EMAIL_HOST_USER='mail@mail.com'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
