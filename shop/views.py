@@ -15,6 +15,8 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from shop import enzona
 from django.urls import reverse
+from django.core.paginator import Paginator
+
 
 from shop import models
 
@@ -69,29 +71,30 @@ class ProductListView(generic.ListView):
                 qs = tag.product_set.filter(Q(price__lte = price_max) & Q(price__gte = price_min)).order_by(sort_by)
                 
                 # Q(secondary_categories__slug=category))
-              
-                return qs
+                paginator = Paginator(qs, 2)
+                # object_list = object.page(page).object_list
+                page_number = self.request.GET.get('page')
+                page_obj = paginator.get_page(page_number)
+                return page_obj
             except Category.DoesNotExist:
                 return Product.objects.none()
         elif next:
             pass
-            # return HttpResponseRedirect(reverse(next, kwargs={ 'bar':  }) )
-            # return redirect(reverse('app:view', kwargs={ 'bar': FooBar }))
-
-        # if category:
-        #     qs = qs.filter(Q(primary_category__slug=category) |
-        #                    Q(secondary_categories__slug=category))
-            
-        # return qs
 
     def get_context_data(self, **kwargs):
         context = super(ProductListView, self).get_context_data(**kwargs)
+        parametros = self.request.GET.copy() #Obtiene todos los parametros de la url para despues enviarlos a la plantilla
         context.update({
             "categories": Category.objects.all(),
-            "category_slug": self.request.GET.get('slug', None)
+            "category_slug": self.request.GET.get('slug', None),
+            "parametros": parametros
         })
-        return context
 
+        if (parametros.get('page') != None):
+            del parametros['page']
+        else:
+            del parametros
+        return context
 
 class ProductDetailView(generic.FormView):
     template_name = 'new-theme/shop/product_detail.html'
