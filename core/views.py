@@ -42,12 +42,16 @@ class HomeView(generic.TemplateView):
             context.update({
                 'orders': Order.objects.filter(user=self.request.user, ordered=True),
                 'category_list': Category.objects.filter(active=True)[:3],
+                'new_products': Product.objects.filter(active=True).order_by('created','updated')[:6],
+                'top_selling': Product.objects.filter(active=True, selling=True).order_by('created', 'selling_date', 'updated')[:6],
                 'nav_active':'active',
             })
         else:
             context.update({
                 'orders': [],
                 'category_list': Category.objects.filter(active=True)[:3],
+                'new_products': Product.objects.filter(active=True).order_by('created','updated')[:6],
+                'top_selling': Product.objects.filter(active=True, selling=True).order_by('created', 'selling_date', 'updated')[:6],
                 'nav_active':'active',
             })
         return context

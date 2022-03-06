@@ -353,8 +353,10 @@ class ConfirmOrderView(generic.View):
         )
         order.ordered = True
         order.ordered_date = datetime.date.today()
-        
-        
+
+        for item in order.items.all(): #Funcion para agregar al producto la fecha en que fue vendido   
+            item.product.selling_date = datetime.datetime.now()
+            item.product.save()
 
         order.save()
         messages.info(request, message="Se ha realizado Correctamente el pago")

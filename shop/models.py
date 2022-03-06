@@ -140,11 +140,18 @@ class Product(models.Model):
     avialable_colours = models.ManyToManyField(ColorVariation)
     avialable_sizes = models.ManyToManyField(SizeVariation)
     stock = models.PositiveIntegerField(default=0)
+    selling = models.BooleanField(default=False)
+    selling_date = models.DateTimeField(auto_now=True)
     related_products = models.ManyToManyField('self', blank=True)
     
     
+    class Meta:
+        ordering = ['-created']
+    
     def __str__(self):
         return self.title
+
+    
     
     # def save(self, *args, **kwargs):
     #     self.slug = slugify(self.name)
