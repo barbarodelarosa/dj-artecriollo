@@ -1,6 +1,7 @@
 {% extends 'new-theme/base.html' %}
 {% load crispy_forms_tags %}
 
+
 {% block content %}
 
     {% comment %} <div class="bg-light py-3">
@@ -33,232 +34,9 @@
 
 
 
-
-<div class="section">
-			<!-- container -->
-			<div class="container">
-				<!-- row -->
-                 {% if not request.user.is_authenticated %}
-				<div class="row"> 
-           
-                    <div class="col-md-12">
-                        <div class="border p-4 rounded" role="alert">
-                            Your are nearly finished with your order.
-                            To finalize your order, please <a href="">Login</a> or <a href="">SignUp</a>
-                        </div>
-
-                        <div class="progress">
-                            <div class="progress-bar" role="progressbar" style="width: 90%;" aria-label="90" aria-valuemin="0" aria-valuemax="100">
-                                90% Complete
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-            {% else %}
-				<div class="row"> 
-
-					<div class="col-md-7">
-						<!-- Billing Details -->
-						<div class="billing-details">
-							<div class="section-title">
-								<h3 class="title">Billing address</h3>
-							</div>
-							<div class="form-group">
-								<input class="input" type="text" name="first-name" placeholder="First Name">
-							</div>
-							<div class="form-group">
-								<input class="input" type="text" name="last-name" placeholder="Last Name">
-							</div>
-							<div class="form-group">
-								<input class="input" type="email" name="email" placeholder="Email">
-							</div>
-							<div class="form-group">
-								<input class="input" type="text" name="address" placeholder="Address">
-							</div>
-							<div class="form-group">
-								<input class="input" type="text" name="city" placeholder="City">
-							</div>
-							<div class="form-group">
-								<input class="input" type="text" name="country" placeholder="Country">
-							</div>
-							<div class="form-group">
-								<input class="input" type="text" name="zip-code" placeholder="ZIP Code">
-							</div>
-							<div class="form-group">
-								<input class="input" type="tel" name="tel" placeholder="Telephone">
-							</div>
-							<div class="form-group">
-								<div class="input-checkbox">
-									<input type="checkbox" id="create-account">
-									<label for="create-account">
-										<span></span>
-										Create Account?
-									</label>
-									<div class="caption">
-										<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.</p>
-										<input class="input" type="password" name="password" placeholder="Enter Your Password">
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- /Billing Details -->
-
-						<!-- Shiping Details -->
-						<div class="shiping-details">
-							<div class="section-title">
-								<h3 class="title">Shiping address</h3>
-							</div>
-							<div class="input-checkbox">
-								<input type="checkbox" id="shiping-address">
-								<label for="shiping-address">
-									<span></span>
-									Ship to a diffrent address?
-								</label>
-								<div class="caption">
-									<div class="form-group">
-										<input class="input" type="text" name="first-name" placeholder="First Name">
-									</div>
-									<div class="form-group">
-										<input class="input" type="text" name="last-name" placeholder="Last Name">
-									</div>
-									<div class="form-group">
-										<input class="input" type="email" name="email" placeholder="Email">
-									</div>
-									<div class="form-group">
-										<input class="input" type="text" name="address" placeholder="Address">
-									</div>
-									<div class="form-group">
-										<input class="input" type="text" name="city" placeholder="City">
-									</div>
-									<div class="form-group">
-										<input class="input" type="text" name="country" placeholder="Country">
-									</div>
-									<div class="form-group">
-										<input class="input" type="text" name="zip-code" placeholder="ZIP Code">
-									</div>
-									<div class="form-group">
-										<input class="input" type="tel" name="tel" placeholder="Telephone">
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- /Shiping Details -->
-
-						<!-- Order notes -->
-						<div class="order-notes">
-							<textarea class="input" placeholder="Order Notes"></textarea>
-						</div>
-						<!-- /Order notes -->
-					</div>
-
-					<!-- Order Details -->
-					<div class="col-md-5 order-details">
-						<div class="section-title text-center">
-							<h3 class="title">Your Order</h3>
-						</div>
-						<div class="order-summary">
-							<div class="order-col">
-								<div><strong>PRODUCT</strong></div>
-								<div><strong>TOTAL</strong></div>
-							</div>
-							<div class="order-products">
-								<div class="order-col">
-									<div>1x Product Name Goes Here</div>
-									<div>$980.00</div>
-								</div>
-								<div class="order-col">
-									<div>2x Product Name Goes Here</div>
-									<div>$980.00</div>
-								</div>
-							</div>
-							<div class="order-col">
-								<div>Shiping</div>
-								<div><strong>FREE</strong></div>
-							</div>
-							<div class="order-col">
-								<div><strong>TOTAL</strong></div>
-								<div><strong class="order-total">$2940.00</strong></div>
-							</div>
-						</div>
-						<div class="payment-method">
-							<div class="input-radio">
-								<input type="radio" name="payment" id="payment-1">
-								<label for="payment-1">
-									<span></span>
-									Direct Bank Transfer
-								</label>
-								<div class="caption">
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-								</div>
-							</div>
-							<div class="input-radio">
-								<input type="radio" name="payment" id="payment-2">
-								<label for="payment-2">
-									<span></span>
-									Cheque Payment
-								</label>
-								<div class="caption">
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-								</div>
-							</div>
-							<div class="input-radio">
-								<input type="radio" name="payment" id="payment-3">
-								<label for="payment-3">
-									<span></span>
-									Paypal System
-								</label>
-								<div class="caption">
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-								</div>
-							</div>
-						</div>
-						<div class="input-checkbox">
-							<input type="checkbox" id="terms">
-							<label for="terms">
-								<span></span>
-								I've read and accept the <a href="#">terms & conditions</a>
-							</label>
-						</div>
-						<a href="#" class="primary-btn order-submit">Place order</a>
-					</div>
-					<!-- /Order Details -->
-				</div>
-            {% endif %}
-				<!-- /row -->
-			</div>
-			<!-- /container -->
-		</div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     
-<div class="site-section">
+<!-- <div class="site-section"> -->
     <div class="container">
-        
             {% if not request.user.is_authenticated %}
             <div class="row mb-5">
                 <div class="col-md-12">
@@ -276,23 +54,26 @@
             </div>
             {% else %}
 
-            <form method="POST">
+			<div class="row">
+			<div class="col-md-6 mb-md-0">
+            <form method="POST" onsubmit="return validar();">
                 {% csrf_token %}
-                <div class="row">
-                    <div class="col-md-6 mb-md-0">
                         <h2 class="h3 mb-3 text-black text-center">Billing Details</h2>
                         <hr />
                         <div class="p-2 p-lg-2">
                             {{ form|crispy }}
+						<div class="order-notes">
+							<textarea name="note" class="input" placeholder="Order Notes"></textarea>
+						</div>
                         </div>
-                        <div class="form-group">
+                        <!-- <div class="form-group">
                             <button type="submit" class="btn btn-success btn-lg py-3 btn-block">
                                 Proceed to Payment
                             </button>
-                        </div>
+                        </div> -->
                     </div>
 
-                    <div class="col-md-6">
+                    {% comment %} <div class="col-md-6">
                         <div class="row mb-5">
                             <div class="col-md-12">
                                 <h2 class="h3 mb-3 text-black text-center">Your Order</h2>
@@ -332,12 +113,109 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </form>
+                    </div> {% endcomment %}
+
+					<div class="col-md-5 order-details">
+						<div class="section-title text-center">
+							<h3 class="title">Your Order</h3>
+						</div>
+						<div class="order-summary">
+							<div class="order-col">
+								<div><strong>PRODUCT</strong></div>
+								<div><strong>TOTAL</strong></div>
+							</div>
+							<div class="order-products">
+								{% for item in order.items.all %}
+								<div class="order-col">
+									<div><strong class="mx-2">{{ item.quantity }} x </strong> {{ item.product.title }}</div>
+									<div>${{ item.get_total_item_price}}</div>
+								</div>
+																		
+                                {% endfor %}
+								
+							</div>
+							<div class="order-col">
+								<div>SUBTOTAL</div>
+								<div><strong>${{ order.get_subtotal }}</strong></div>
+							</div>
+							<div class="order-col">
+								<div>ENVIO</div>
+								<div><strong>FREE</strong></div>
+							</div>
+							<div class="order-col">
+								<div><strong>TOTAL</strong></div>
+								<div><strong class="order-total">${{ order.get_total }}</strong></div>
+							</div>
+						</div>
+						<div class="payment-method">
+							<p>Seleccionar método de pago</p>
+							<div class="input-radio">
+								<input type="radio" checked name="payment" id="payment-1">
+								<label for="payment-1">
+									<span></span>
+									ENZONA
+								</label>
+								<div class="caption">
+									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+								</div>
+
+								
+							</div>
+							<!-- <div class="input-radio">
+								<input type="radio" name="payment" id="payment-2">
+								<label for="payment-2">
+									<span></span>
+									Cheque Payment
+								</label>
+								<div class="caption">
+									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+								</div>
+							</div>
+							<div class="input-radio">
+								<input type="radio" name="payment" id="payment-3">
+								<label for="payment-3">
+									<span></span>
+									Paypal System
+								</label>
+								<div class="caption">
+									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+								</div>
+							</div> -->
+						</div>
+						<!-- <div class="input-checkbox">
+							<input type="checkbox" id="terms">
+							<label for="terms">
+								<span></span>
+								I've read and accept the <a href="#">terms & conditions</a>
+							</label>
+						</div> -->
+						<button type="submit" class="primary-btn order-submit btn-lg btn-block">Place order</button>
+					</div>
+
+				</form>
+			</div>
+        </div>
 
             {% endif %}        
-        </div>
     </div>
 
+	
+
 {% endblock %}
+<!-- {% block scripts %}
+<script>
+function validar(){
+var ok = 0;
+var ckbox = document.getElementsByName('terms');
+        if(ckbox.checked == true){
+        ok = 1;
+        }
+    if(ok == 0){
+	document.getElementsByName('terms').style.color="#ff0000";
+    alert('indique al menos un mes');
+    return false;
+    }
+}
+ 
+</script> 
+{% endblock scripts %} -->

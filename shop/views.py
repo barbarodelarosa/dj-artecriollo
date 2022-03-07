@@ -189,6 +189,7 @@ class DecreaseQuantityView(generic.View):
 class RemoveFromCartView(generic.View):
     def get(self, request, *args, **kwargs):
         order_item = get_object_or_404(OrderItem, id=kwargs['pk'])
+        print(order_item)
         order_item.delete()
         return redirect("shop:summary")
 
@@ -201,6 +202,8 @@ class CheckoutView(LoginRequiredMixin, generic.FormView):
         return reverse("shop:payment-enzona")
 
     def form_valid(self, form):
+        print("FORM")
+        print(form)
         order = get_or_set_order_session(self.request)
         selected_shipping_address = form.cleaned_data.get('selected_shipping_address')
         selected_billing_address = form.cleaned_data.get('selected_billing_address')
@@ -230,7 +233,7 @@ class CheckoutView(LoginRequiredMixin, generic.FormView):
                 city=form.cleaned_data['billing_city'],
             )
             order.billing_address = address
-
+        order.note = form.cleaned_data.get('note')
         order.save()
         messages.info(
             self.request, "You have successfully added your addresses")
@@ -269,11 +272,11 @@ class OrderDetailView(LoginRequiredMixin, generic.DetailView):
  
 
 
-class ConfirmEnzonaPaymentView(generic.TemplateView):
+class ConfirmEnzonaPaymentView(generic.View):
 
-    template_name = 'shop/confirm_enzona_payment.html'
-    def get_context_data(self, **kwargs):
-        context = super(ConfirmEnzonaPaymentView, self).get_context_data(**kwargs)
+    template_name = 'new-theme/shop/confirm_enzona_payment.html'
+    def get(self, request, *args, **kwargs):
+        # context = super(ConfirmEnzonaPaymentView, self).get_context_data(**kwargs)
         order = get_or_set_order_session(self.request)
         items = []
         
@@ -318,8 +321,9 @@ class ConfirmEnzonaPaymentView(generic.TemplateView):
             resp_content = resp_enzona.json()
             links_resp = resp_content['links']
             url_confirm = links_resp[0]
-            context['url_confirm'] = url_confirm
+            # context['url_confirm'] = url_confirm
             print(resp_content)
+            return redirect(to=url_confirm['href'])
         else:
             print(resp_enzona.status_code)
             
@@ -341,11 +345,18 @@ class ConfirmEnzonaPaymentView(generic.TemplateView):
 class ConfirmOrderView(generic.View):
     def get(self, request, *args, **kwargs):
         order = get_or_set_order_session(request)
+        transaction_uuid = request.GET['transaction_uuid']
+        user_uuid = request.GET['user_uuid']
+        print("user_uuid")
+        print(user_uuid)
+        print("transaction_uuid")
+        print(transaction_uuid)
+        # print(request.body)
         # body = json.loads(request.body)
         payment = Payment.objects.create(
             order=order,
             successfull=True,
-            raw_response = "Respuesta de prueba",
+            # raw_response = "Respuesta de prueba",
             # raw_response = json.dumps(body),
             # amount = float(body["purchase_units"][0]["amount"]["value"]),
             amount = float(33.56),
@@ -362,11 +373,14 @@ class ConfirmOrderView(generic.View):
         messages.info(request, message="Se ha realizado Correctamente el pago")
 
         # return JsonResponse({"data": "Success"})
-        return HttpResponseRedirect(redirect_to='/shop/thankyou/')
+        confirm = enzona.confirm_payment_orders(transaction_uuid)
+        print("confirm")
+        print(confirm)
+        return redirect(to="shop:thankyou")
 
 
 class ThankYouView(generic.TemplateView):
-    template_name = 'shop/thanks.html'
+    template_name = 'new-theme/shop/thanks.html'
     
 
 

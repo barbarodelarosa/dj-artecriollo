@@ -243,7 +243,7 @@ class Order(models.Model):
     discount = models.IntegerField(default=0)
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, blank=True, null=True)
     pay_status = models.CharField(max_length=15, choices=PAY_STATUS_CHOICES, blank=True, null=True)
-
+    note=models.TextField(blank=True, null=True)
 
     billing_address = models.ForeignKey(
         Address, related_name='billing_address', blank=True, null=True, on_delete=models.SET_NULL

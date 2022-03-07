@@ -12,19 +12,21 @@ def test_connect():
     # import requests
     headers = {
         'Authorization': 'Basic %s' %(settings.KEY_ACCESS_TOKEN,),
+        # 'Authorization': f'Basic {settings.KEY_ACCESS_TOKEN}',
     }
     data = {
         'grant_type': 'password',
-        'username': str(settings.CONSUMER_USER),
-        'password': str(settings.CONSUMER_PASSWORD),
+        'username': 'brosa17',
+        # 'username': str(settings.CONSUMER_USER),
+        # 'password': str(settings.CONSUMER_PASSWORD),
+        'password': 'Barva2021',
         'scope':'enzona_business_payment'
     }
     try:
-        response = requests.post('https://apisandbox.enzona.net/token', headers=headers, data=data, verify=False)
-        resp = response
-        print("********* RESPONSE HEADERS*********")
-        print(resp)
-        return resp
+        response = requests.post('https://api.enzona.net/token', headers=headers, data=data, verify=False)
+        print("RESPONSE HEADER")
+        print(response)
+        return response
     except:
         return "Error al conectarse con ENZONA"
 
@@ -486,3 +488,17 @@ payload = {
   "payment_password": "string"
 }
 """
+
+
+
+
+def confirm_payment_orders(transaction_uuid):
+    """Confirmar y completar pagor"""
+    headers = get_header_bearer_token()
+       
+    url = f'{settings.URL_API_ENZONA}/payments/{transaction_uuid}/complete'
+   
+    json_data =  {}
+    response = requests.post(url=url, headers=headers, json=json_data, verify=False)
+    
+    return response
