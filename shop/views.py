@@ -1,11 +1,13 @@
 import datetime
+from itertools import product
 import json
+from django import template
 from django.views import generic
 from django.db.models import Q
 
 import shop
 from .utils import get_or_set_order_session, get_whishlist_session
-from .models import Product, OrderItem, Address, Payment, Order, Category
+from .models import Product, OrderItem, Address, Payment, Order, Category, WhishList
 from .forms import AddToCartForm, AddressForm
 from django.shortcuts import get_object_or_404, reverse, redirect
 from django.contrib import messages
@@ -112,6 +114,7 @@ class ProductDetailView(generic.FormView):
         return kwargs
 
     def form_valid(self, form):
+      
         order = get_or_set_order_session(self.request)
         product = self.get_object()
 
@@ -192,6 +195,7 @@ class RemoveFromCartView(generic.View):
         print(order_item)
         order_item.delete()
         return redirect("shop:summary")
+
 
 
 class CheckoutView(LoginRequiredMixin, generic.FormView):
@@ -410,7 +414,17 @@ class WhishlistView(generic.TemplateView):
         print("GET DATA WHISH")
         return context
 
-    
+# class AddOrRemoveToWhishlist(generic.View):
+#     def get(self, request, *args, **kwargs):
+#         user = request.user
+#         whishlist = WhishList.objects.get_or_create(user=user)
+        
+#         # order_item = get_object_or_create(OrderItem, id=kwargs['pk'])
+#         print(whishlist)
+#         # order_item.delete()
+#         next = self.request.META.get('HTTP_REFERER', None) or '/'  #Obtiene la url actual
+#         return redirect(next)
+
 
 
 # class DecreaseQuantityView(generic.View):
@@ -436,3 +450,35 @@ class WhishlistView(generic.TemplateView):
 #         order_item = get_object_or_404(OrderItem, id=kwargs['pk'])
 #         order_item.delete()
 #         return redirect("shop:summary")
+
+# def addToCart(request,product_id):
+#     # user=request.user
+#     product = get_object_or_404(Product, id=product_id)
+#     order = get_or_set_order_session(request)
+#     if request.method=="POST":
+#         form = AddToCartForm(request.POST, 
+#         product_id=product_id,
+#         quantity=1)
+#         if form.is_valid():
+            
+#             print("Formulario Valido")
+#             item_filter = order.items.filter(
+#             product=product,
+#             # colour=form.cleaned_data['colour'],
+#             # size=form.cleaned_data['size']
+#             )
+#             if item_filter.exists():
+#                 item = item_filter.first()
+#                 item.quantity += int(form.cleaned_data['quantity'])
+#                 item.save()
+
+#             else:
+#                 new_item = form.save(commit=False)
+#                 new_item.product = product
+#                 new_item.order = order
+#                 new_item.save()
+#         else:
+#             print("NO Es valido")
+#             print(form)
+#     next = request.META.get('HTTP_REFERER', None) or '/'  #Obtiene la url actual
+#     return redirect(next)

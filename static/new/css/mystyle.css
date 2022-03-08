@@ -1,15 +1,6 @@
-@import "bootstrap/functions";
-@import "bootstrap/variables";
-@import "bootstrap/mixins";
 
-/* Base */
-@import "site-base";
-/* Navbar */
-@import "site-navbar";
-/* Blocks */
-@import "site-blocks";
-
-.whatsapp {
+  /*MY STYLE*/
+  .whatsapp {
     position:fixed;
     width:60px;
     height:60px;
@@ -25,4 +16,8 @@
   
   .whatsapp-icon {
     margin-top:13px;
+  }
+
+  .button-paginate{
+    border-color: red !important;
   }

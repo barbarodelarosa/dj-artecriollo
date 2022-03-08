@@ -1,5 +1,7 @@
 {% extends "base.html" %}
 {% load price_format_tags %}
+{% load discount_tags %}
+
 
 {% block content %}
 
@@ -61,7 +63,7 @@
 					<div id="aside" class="col-md-3">
 						<!-- aside Widget -->
 							<div class="aside">
-								<h3 class="aside-title">Categories</h3>
+								<h3 class="aside-title">Categorías</h3>
 								<div class="checkbox-filter">
 									{% for cat in categories  %}
 										<div class="input-checkbox">
@@ -83,7 +85,7 @@
 						<!-- aside Widget -->
 							<form action="" method="get">
 								<div class="aside">
-									<h3 class="aside-title">Price</h3>
+									<h3 class="aside-title">Precio</h3>
 										<div class="form-group">
 											<label class="sr-only" for="exampleInputAmount">Amount (in dollars)</label>
 											<div class="input-group">
@@ -145,17 +147,25 @@
 										<div class="product-img">
 											<img src="{{product.image.url}}" height="200" width="200" alt="">
 											<div class="product-label">
-												<span class="sale">-30%</span>
-												<span class="new">NEW</span>
+												{% if product.old_price > 0 %}
+													<span class="sale">{% discount product.old_price product.price%}</span>
+												{% endif %}
+												{% if  product.new %}
+													<span class="new">NUEVO</span>													
+												{% endif %}
 											</div>
 										</div>
 										<div class="product-body">
-											{% for pro_cat in product.category.all  %}
-												<p class="product-category"> {{pro_cat.name}} </p>                                        
-											{% endfor %}
-											<h3 class="product-name"><a href="{{product.get_absolute_url}}">{{product.title}}</a></h3>
+											<p class="product-category">
+												{% for product_cat in product.category.all   %}
+													<a href="{{product_cat.get_absolute_url}}"> [{{product_cat}}] </a>
+												{% endfor %}
+											</p>
+											<a href="{{product.get_absolute_url}}">
+												<h3 class="product-name">{{product.title}}</h3>
 											
-											<h4 class="product-price">{{product.price|price_format_cup}} <del class="product-old-price">{{product.old_price|price_format_cup}}</del></h4>
+												<h4 class="product-price">{{product.price|price_format_cup}} <del class="product-old-price">{{product.old_price|price_format_cup}}</del></h4>
+											</a>
 											{% comment %} <div class="product-rating">
 												<i class="fa fa-star"></i>
 												<i class="fa fa-star"></i>
@@ -180,9 +190,12 @@
 										<form action="{{product.get_absolute_url}}">
 											<button class="add-to-cart-btn"><i class="fa fa-eye"></i> Ver producto</button>
 										</form>
+										{% comment %} <form action="{% url 'shop:add-to-cart' product.id %}" method="post">
 											
-											<button data-product="{{product.id}}" data-action="add" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-											
+											{% csrf_token %}
+											<button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+										</form>
+											 {% endcomment %}
 										</div>
 									</div>
 								</div>
@@ -210,13 +223,13 @@
 								<nav aria-label="...">
 								  <ul class="pager">
 									{% if object_list.has_previous %}
-									  <li><a href="?{{parametros.urlencode}}&page=1">&laquo; primera página</a></li> 
-									  <li><a href="?{{parametros.urlencode}}&page={{ object_list.previous_page_number }}">anterior</a></li> 
+									  <li ><a class="button-paginate"href="?{{parametros.urlencode}}&page=1">&laquo; primera página</a></li> 
+									  <li><a class="button-paginate"href="?{{parametros.urlencode}}&page={{ object_list.previous_page_number }}">anterior</a></li> 
 									{% endif %}
-									Page {{ object_list.number }} of {{ object_list.paginator.num_pages }}.
+									Página {{ object_list.number }} de {{ object_list.paginator.num_pages }}.
 									{% if object_list.has_next %}
-										<li><a href="?{{parametros.urlencode}}&page={{ object_list.next_page_number }}">siquiente</a></li>
-										<li><a href="?{{parametros.urlencode}}&page={{ object_list.paginator.num_pages }}">última página &raquo;</a></li>
+										<li><a class="button-paginate"href="?{{parametros.urlencode}}&page={{ object_list.next_page_number }}">siquiente</a></li>
+										<li><a class="button-paginate"href="?{{parametros.urlencode}}&page={{ object_list.paginator.num_pages }}">última página &raquo;</a></li>
 									{% endif %}
 								  </ul>
 								</nav>

@@ -9,12 +9,12 @@
 						<li class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}"><a href="{% url 'home' %}">Home</a></li>
 						<li class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}"><a href="{% url 'contact' %}">Contact</a></li>
 						<li class="{% if request.resolver_match.url_name == 'category-list' %}active{% endif %}"><a href="{% url 'shop:category-list' %}">Categories</a></li>
-						<li><a href="#">Hot Deals</a></li>
+						{% comment %} <li><a href="#">Hot Deals</a></li>
 						<li><a href="#">Categories</a></li>
 						<li><a href="#">Laptops</a></li>
 						<li><a href="#">Smartphones</a></li>
 						<li><a href="#">Cameras</a></li>
-						<li><a href="#">Accessories</a></li>
+						<li><a href="#">Accessories</a></li> {% endcomment %}
 					</ul>
 					<!-- /NAV -->
 				</div>

@@ -1,4 +1,5 @@
 {% load price_format_tags %}
+{% load discount_tags %}
 
 <div class="section">
 			<!-- container -->
@@ -34,10 +35,14 @@
 										
 											<div class="product">
 												<div class="product-img">
-													<img src="{{product.image.url}}" height="200"alt="">
+													<img src="{{product.image.url}}" height="200" alt="">
 													<div class="product-label">
-														{% comment %} <span class="sale">-30%</span> {% endcomment %}
-														<span class="new">NEW</span>
+														{% if product.old_price > 0 %}
+															<span class="sale">{% discount product.old_price product.price%}</span>
+														{% endif %}
+														{% if  product.new %}
+															<span class="new">NUEVO</span>													
+														{% endif %}
 													</div>
 												</div>
 												<div class="product-body">

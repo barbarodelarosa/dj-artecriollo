@@ -61,7 +61,7 @@
 									<select name="q_category" id="select_search" class="input-select">
 										{% comment %} <option value="1">Category 01</option> {% endcomment %}
 										{% comment %} <option value="1">Category 02</option> {% endcomment %}
-										<option value="0">All Categories</option>
+										<option value="0">Categorias</option>
 										{%categories_list_tag as cat_list %}
                                         {% for cat in cat_list %}
 										<option  value="{{cat.id}}">{{cat.name}}</option>
@@ -84,10 +84,10 @@
 										
 										{% if request.user.profile.whishlist %}
 											<i class="fa fa-heart"></i>
-											<span>Ver lista</span>
+											<span>Lista de deseo</span>
 											{% else %}
 											<i class="fa fa-heart-o"></i>
-											<span>Agregar a lista</span>
+											<span>Lista de deseo</span>
 										{% endif %}										
 										<div class="qty">{{request|whishlist_count}}</div>
 									</a>
@@ -99,7 +99,7 @@
 								<div class="dropdown">
 									<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
 										<i class="fa fa-shopping-cart"></i>
-										<span>Your Cart</span>
+										<span>Carrito</span>
 										<div class="qty">{{request|cart_item_count}}</div>
 									</a>
 									<div class="cart-dropdown">
@@ -125,8 +125,8 @@
 											<h5>SUBTOTAL: {{request|cart_item_order_subtotal_price}}</h5>
 										</div>
 										<div class="cart-btns">
-											<a href="{% url 'shop:summary' %}">View Cart</a>
-											<a href="{% url 'shop:checkout' %}">Checkout  <i class="fa fa-arrow-circle-right"></i></a>
+											<a href="{% url 'shop:summary' %}">Ver carro</a>
+											<a href="{% url 'shop:checkout' %}">Chequear<i class="fa fa-arrow-circle-right"></i></a>
 										</div>
 									</div>
 								</div>

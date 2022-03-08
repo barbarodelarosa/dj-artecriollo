@@ -7,11 +7,11 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div class="newsletter">
-							<p>Sign Up for the <strong>NEWSLETTER</strong></p>
+							<p>Subscríbete para estar al día sobre <strong>NUEVAS OFERTAS!</strong></p>
 							<form action="{% url 'newsletters:subscribe' %}" method="POST">
 								{% csrf_token %}
-								<input class="input" name="email" type="email" placeholder="Enter Your Email">
-								<button class="newsletter-btn"><i class="fa fa-envelope"></i> Subscribe</button>
+								<input class="input" name="email" type="email" placeholder="Ingresa tu correo">
+								<button class="newsletter-btn"><i class="fa fa-envelope"></i> Subscrírme</button>
 							</form>
 
 							<ul class="newsletter-follow">

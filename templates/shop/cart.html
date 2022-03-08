@@ -27,12 +27,12 @@
                     <table class="table table-hover table-condensed">
                         <thead>
                             <tr>
-                                <th>Image</th>
-                                <th>Product</th>
-                                <th>Price</th>
-                                <th>Quantity</th>
+                                <th>Imagen</th>
+                                <th>Producto</th>
+                                <th>Precio</th>
+                                <th>Cantidad</th>
                                 <th>Total</th>
-                                <th>Actions</th>
+                                <th>Acciones</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -43,9 +43,9 @@
                                 </td>
                                 <td class="product-name">
                                     <h2 class="h5 text-black">{{ item.product.title }}</h2>
-                                    <small><strong>Size:</strong> {{ item.size.name }}</small>
+                                    <!-- <small><strong>Size:</strong> {{ item.size.name }}</small> -->
                                     <br>
-                                    <small><strong>Colour:</strong> {{ item.colour.name }}</small>
+                                    <!-- <small><strong>Colour:</strong> {{ item.colour.name }}</small> -->
                                 
                                 </td>
                                 <td>{{item.product.get_price}}</td>
@@ -53,7 +53,8 @@
                                     <div class="input-group mb-3" style="max-width: 120px;">
                                         <div class="input-group-pretend">
                                             <a href="{% url 'shop:decrease-quantity' item.id %}" class="btn btn-outline-primary">
-                                                &minus;
+                                                <i class="fa fa-plus-circle" style="font-size: x-large;"></i>
+                                    
                                             </a>
                                         </div>
                                         
@@ -62,7 +63,7 @@
                                          
                                         <div class="input-group-pretend">
                                             <a href="{% url 'shop:increase-quantity' item.id %}" class="btn btn-outline-primary">
-                                                &plus;
+                                                <i class="fa fa-minus-circle" style="font-size: x-large;"></i>
                                             </a>
                                         </div>
                                         
@@ -78,7 +79,7 @@
                             {% empty %}
                             <tr>
                                 <td colspan="6">
-                                    There are no items in your cars. <a href="{% url 'shop:category-list' %}">Continue Shopping</a>
+                                    No se encuentran productos en su carro<a href="{% url 'shop:category-list' %}">Continuar comprando</a>
                                 </td>
                             </tr>
                             {% endfor %}
@@ -124,7 +125,7 @@
                     <div class="row mb-5">
                         <div class="col-md-12">
                             <a class="btn btn-outline-rpimary btn-sm btn-block"
-                             href="{% url 'shop:category-list' %}">Continue Shopping</a>
+                             href="{% url 'shop:category-list' %}"><p> Continuar comprando </p></a>
                         </div>
                     </div>
                 </div>
@@ -134,7 +135,7 @@
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <h3 class="text-block h4 text-uppercase">Cart Totals</h3>
+                                    <h3 class="text-block h4 text-uppercase">Total en el carro</h3>
                                 </div>
                             </div>
 
@@ -158,7 +159,7 @@
 
                             <div class="row">
                                 <div class="col-md-12">
-                                    <a href="{% url 'shop:checkout' %}" class="btn btn-warning btn-lg py-3 btn-block">Proceed to Checkout</a>
+                                    <a href="{% url 'shop:checkout' %}" class="btn btn-warning btn-lg py-3 btn-block">Chequear productos</a>
                                 </div>
                               
                             </div>
