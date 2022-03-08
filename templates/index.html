@@ -1,29 +1,29 @@
 {% extends "base.html" %}
-{% load static %}
+
 {% block content %}
 
-<div class="site-blocks-cover" style="background-image: url({% static 'images/hero.jpg' %});" data-aos="fade">
-    <div class="container">
-        <div class="row">
-            <div class="col-md-4 pt-5 pt-md-0">
 
-            </div>
-        </div>
-    </div>
+		<!-- SECTION -> CATEGORY-HOME -->
+		{% include "parts/section_category_home.html" %}
+		<!-- /END SECTION -> CATEGORY-HOME-->
 
-</div>
-<div class="container">
-    <div class="row">
-        <div class="col-md-8">
-            <ul>
-                {% for cat in category_list %}
-                <li>
-                    {{cat.name}}
-                </li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
-</div>
+		<!-- SECTION -> NEW PRODUCTS -->
+		{% include "parts/section_new_products.html" %}
+		<!-- /END SECTION -> NEW PRODUCTS-->
 
-{% endblock %}
+		<!-- HOT DEAL SECTION -->
+		{% include "parts/section_hot_product.html" %}
+		
+		<!-- /HOT DEAL SECTION -->
+
+		<!-- SECTION -->
+		{% include "parts/top_selling.html" %}
+
+		<!-- /SECTION -->
+
+		<!-- SECTION -->
+		{% include "parts/top_selling_for_category.html" %}
+		
+		<!-- /SECTION -->
+
+{% endblock content %}

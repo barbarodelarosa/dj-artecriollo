@@ -22,7 +22,7 @@ from django.core.paginator import Paginator
 
 
 class ProfileView(LoginRequiredMixin, generic.TemplateView):
-    template_name = 'new-theme/profile.html'
+    template_name = 'profile.html'
 
     def get_context_data(self, **kwargs):
         context = super(ProfileView, self).get_context_data(**kwargs)
@@ -35,13 +35,13 @@ class ProfileView(LoginRequiredMixin, generic.TemplateView):
 
 class HomeView(generic.TemplateView):
    
-    template_name = 'new-theme/index.html'
+    template_name = 'index.html'
     def get_context_data(self, **kwargs):
         context = super(HomeView, self).get_context_data(**kwargs)
         if self.request.user.is_authenticated:
             context.update({
                 'orders': Order.objects.filter(user=self.request.user, ordered=True),
-                'category_list': Category.objects.filter(active=True)[:3],
+                'category_list': Category.objects.filter(active=True)[:6],
                 'new_products': Product.objects.filter(active=True).order_by('created','updated')[:6],
                 'top_selling': Product.objects.filter(active=True, selling=True).order_by('created', 'selling_date', 'updated')[:6],
                 'nav_active':'active',
@@ -61,7 +61,7 @@ class HomeView(generic.TemplateView):
 
 class ContactView(generic.FormView):
     form_class = ContactForm
-    template_name= 'new-theme/contact.html'
+    template_name= 'contact.html'
 
     def get_success_url(self):
         return reverse("contact")
@@ -93,7 +93,7 @@ class ContactView(generic.FormView):
 
 class SearchResultsView(generic.ListView):
     model = Product
-    template_name = 'new-theme/search_results.html'
+    template_name = 'search_results.html'
     
 
 

@@ -28,13 +28,13 @@ class CategoryDeatilView(generic.DetailView):
 
 class CategoryListView(generic.ListView):
     model = Category
-    template_name = 'new-theme/shop/category_list.html'
+    template_name = 'shop/category_list.html'
 
 
 
 
 class ProductListView(generic.ListView):
-    template_name='new-theme/shop/product_list.html'
+    template_name='shop/product_list.html'
     # paginate_by = 1
     
     def get_queryset(self):
@@ -97,7 +97,7 @@ class ProductListView(generic.ListView):
         return context
 
 class ProductDetailView(generic.FormView):
-    template_name = 'new-theme/shop/product_detail.html'
+    template_name = 'shop/product_detail.html'
     form_class = AddToCartForm
     
     def get_object(self):
@@ -144,7 +144,7 @@ class ProductDetailView(generic.FormView):
 
 
 class CartView(generic.TemplateView):
-    template_name = 'new-theme/shop/cart.html'
+    template_name = 'shop/cart.html'
 
     def get_context_data(self, *args, **kwargs):
         context = super(CartView, self).get_context_data(**kwargs)
@@ -195,7 +195,7 @@ class RemoveFromCartView(generic.View):
 
 
 class CheckoutView(LoginRequiredMixin, generic.FormView):
-    template_name = 'new-theme/shop/checkout.html'
+    template_name = 'shop/checkout.html'
     form_class = AddressForm
 
     def get_success_url(self):
@@ -272,11 +272,13 @@ class OrderDetailView(LoginRequiredMixin, generic.DetailView):
  
 
 
-class ConfirmEnzonaPaymentView(generic.View):
+# class ConfirmEnzonaPaymentView(generic.View):
+class ConfirmEnzonaPaymentView(generic.TemplateView):
 
-    template_name = 'new-theme/shop/confirm_enzona_payment.html'
-    def get(self, request, *args, **kwargs):
-        # context = super(ConfirmEnzonaPaymentView, self).get_context_data(**kwargs)
+    template_name = 'shop/confirm_enzona_payment.html'
+    # def get(self, request, *args, **kwargs):
+    def get_context_data(self, *args, **kwargs):
+        context = super(ConfirmEnzonaPaymentView, self).get_context_data(**kwargs)
         order = get_or_set_order_session(self.request)
         items = []
         
@@ -316,14 +318,15 @@ class ConfirmEnzonaPaymentView(generic.View):
             cancel_url="http://127.0.0.1:8000/shop/",
             return_url="http://127.0.0.1:8000/shop/confirm-order/"
             )
+        print("resp_enzona.json()")
         print(resp_enzona.json())
         if resp_enzona.status_code == 200:
             resp_content = resp_enzona.json()
             links_resp = resp_content['links']
             url_confirm = links_resp[0]
-            # context['url_confirm'] = url_confirm
+            context['url_confirm'] = url_confirm
             print(resp_content)
-            return redirect(to=url_confirm['href'])
+            # return redirect(to=url_confirm['href'])
         else:
             print(resp_enzona.status_code)
             
@@ -335,6 +338,7 @@ class ConfirmEnzonaPaymentView(generic.View):
         print('=====================================')
         print(order.items.all())
         print('=====================================')
+    
 
         # context['CALLBACK_URL']= self.request.build_absolute_uri(reverse("cart:thank-you"))
         return context
@@ -380,7 +384,7 @@ class ConfirmOrderView(generic.View):
 
 
 class ThankYouView(generic.TemplateView):
-    template_name = 'new-theme/shop/thanks.html'
+    template_name = 'shop/thanks.html'
     
 
 
@@ -397,7 +401,7 @@ class ThankYouView(generic.TemplateView):
 
 
 class WhishlistView(generic.TemplateView):
-    template_name = 'new-theme/shop/whishlist_list.html'
+    template_name = 'shop/whishlist_list.html'
 
     def get_context_data(self, *args, **kwargs):
         context = super(WhishlistView, self).get_context_data(**kwargs)

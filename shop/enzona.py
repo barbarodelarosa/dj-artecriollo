@@ -500,5 +500,6 @@ def confirm_payment_orders(transaction_uuid):
    
     json_data =  {}
     response = requests.post(url=url, headers=headers, json=json_data, verify=False)
-    
+    print("response.json()   PYMENTS COMPLETE")
+    print(response.json())
     return response
