@@ -21,3 +21,7 @@
   .button-paginate{
     border-color: red !important;
   }
+
+  .invalid-feedback{
+    color: red !important;
+  }

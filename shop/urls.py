@@ -5,7 +5,7 @@ from . import views
 app_name='shop'
 urlpatterns = [
     path('cart/', views.CartView.as_view(), name='summary'),
-    # path('cart/<product_id>', views.addToCart, name='add-to-cart'),
+    path('cart/<product_id>/add/', views.addToCart, name='add-to-cart'), #No funciona todavia
     path('categories/', views.CategoryListView.as_view(), name='category-list'),
     # path('category/<category>/', views.CategoryDeatilView.as_view(), name='category-detatil'),
     

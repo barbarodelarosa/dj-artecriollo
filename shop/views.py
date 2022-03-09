@@ -158,34 +158,34 @@ class CartView(generic.TemplateView):
 class IncreaseQuantityView(generic.View):
     def get(self, request, *args, **kwargs):
         order_item = get_object_or_404(OrderItem, id=kwargs['pk'])
-        product = get_object_or_404(Product, orderitem=order_item)
+        # product = get_object_or_404(Product, orderitem=order_item)
 
-        if product.stock >= 1:
-            order_item.quantity += 1
-            product.stock -= 1
-            product.save()
-            order_item.save()
-        else:
+        # if product.stock >= 1:
+        order_item.quantity += 1
+            # product.stock -= 1
+            # product.save()
+        order_item.save()
+        # else:
             # order_item.save()
-            messages.info(self.request, "No quedan mas productos en stock")            
+        # messages.info(self.request, "No quedan mas productos en stock")            
         return redirect("shop:summary")
 
 
 class DecreaseQuantityView(generic.View):
     def get(self, request, *args, **kwargs):
         order_item = get_object_or_404(OrderItem, id=kwargs['pk'])
-        product = get_object_or_404(Product, orderitem=order_item)
+        # product = get_object_or_404(Product, orderitem=order_item)
 
-        if order_item.quantity <= 1:
-            product.stock -= 1
-            product.save()
-            order_item.delete()
+        # order_item.quantity <= 1:
+            # product.stock -= 1
+            # product.save()
+        order_item.delete()
 
-        else:
-            order_item.quantity -= 1
-            product.stock += 1
-            product.save()
-            order_item.save()
+        # else:
+        order_item.quantity -= 1
+            # product.stock += 1
+            # product.save()
+        order_item.save()
         return redirect("shop:summary")
 
 
@@ -203,45 +203,79 @@ class CheckoutView(LoginRequiredMixin, generic.FormView):
     form_class = AddressForm
 
     def get_success_url(self):
-        return reverse("shop:payment-enzona")
+        # return reverse("shop:payment-enzona")
+        next = self.request.META.get('HTTP_REFERER', None) or '/'  #Obtiene la url actual
+
+        return redirect(next)
 
     def form_valid(self, form):
-        print("FORM")
-        print(form)
         order = get_or_set_order_session(self.request)
-        selected_shipping_address = form.cleaned_data.get('selected_shipping_address')
-        selected_billing_address = form.cleaned_data.get('selected_billing_address')
+        # selected_shipping_address = form.cleaned_data.get('selected_shipping_address')
+        # selected_billing_address = form.cleaned_data.get('selected_billing_address')
 
-        if selected_shipping_address:
-            order.shipping_address = selected_shipping_address
-        else:
-            address = Address.objects.create(
-                address_type = 'S',
-                user = self.request.user,
-                address_line_1=form.cleaned_data['shipping_address_line_1'],
-                address_line_2=form.cleaned_data['shipping_address_line_2'],
-                zip_code=form.cleaned_data['shipping_zip_code'],
-                city=form.cleaned_data['shipping_city'],
-            )
-            order.shipping_address = address
+        # if selected_shipping_address:
+            # order.shipping_address = selected_shipping_address
+        # else:
+        #     address = Address.objects.create(
+        #         address_type = 'S',
+        #         user = self.request.user,
+        #         address_line_1=form.cleaned_data['shipping_address_line_1'],
+        #         address_line_2=form.cleaned_data['shipping_address_line_2'],
+        #         # zip_code=form.cleaned_data['shipping_zip_code'],
+        #         city=form.cleaned_data['shipping_city'],
+        #     )
+        #     order.shipping_address = address
 
-        if selected_billing_address:
-            order.billing_address = selected_billing_address
-        else:
-            address = Address.objects.create(
-                address_type = 'B',
-                user = self.request.user,
-                address_line_1=form.cleaned_data['billing_address_line_1'],
-                address_line_2=form.cleaned_data['billing_address_line_2'],
-                zip_code=form.cleaned_data['billing_zip_code'],
-                city=form.cleaned_data['billing_city'],
+        # if selected_billing_address:
+        #     order.billing_address = selected_billing_address
+        # else:
+        #     address = Address.objects.create(
+        #         address_type = 'B',
+        #         user = self.request.user,
+        #         address_line_1=form.cleaned_data['billing_address_line_1'],
+        #         address_line_2=form.cleaned_data['billing_address_line_2'],
+        #         # zip_code=form.cleaned_data['billing_zip_code'],
+        #         city=form.cleaned_data['billing_city'],
+        #     )
+        #     order.billing_address = address
+      
+        address = Address.objects.create(
+            address_type = 'P',
+            user = self.request.user,
+            address_line_1=form.cleaned_data['address_line_1'],
+            address_line_2=form.cleaned_data['address_line_2'],
+            # zip_code=form.cleaned_data['billing_zip_code'],
+            # city=form.cleaned_data['city'],
+            pais = form.cleaned_data['pais'],
+            provincia = form.cleaned_data['provincia'],
+            municipio = form.cleaned_data['municipio'],
+            localidad = form.cleaned_data['localidad'],
+            
+            numero = form.cleaned_data['numero'],
+            apt = form.cleaned_data['apt'],
+           
+            
             )
-            order.billing_address = address
+        order.billing_address = address
+        order.shipping_address = address
+        order.first_name = form.cleaned_data.get('first_name')       
+        order.last_name = form.cleaned_data.get('last_name')
+        order.phone = form.cleaned_data.get('phone')
+        order.email = form.cleaned_data.get('email')
+
         order.note = form.cleaned_data.get('note')
         order.save()
+        order_object = Order.objects.get(user=self.request.user)
+        
+        print(order_object)
         messages.info(
             self.request, "You have successfully added your addresses")
-        return super(CheckoutView, self).form_valid(form)
+        # return super(CheckoutView, self).form_valid(form)
+        next = self.request.META.get('HTTP_REFERER', None) or '/'  #Obtiene la url actual
+
+        return redirect(next)
+
+        # return super(CheckoutView, self).form_valid(form)
 
     def get_form_kwargs(self):
         kwargs = super(CheckoutView, self).get_form_kwargs()
@@ -451,34 +485,33 @@ class WhishlistView(generic.TemplateView):
 #         order_item.delete()
 #         return redirect("shop:summary")
 
-# def addToCart(request,product_id):
-#     # user=request.user
-#     product = get_object_or_404(Product, id=product_id)
-#     order = get_or_set_order_session(request)
-#     if request.method=="POST":
-#         form = AddToCartForm(request.POST, 
-#         product_id=product_id,
-#         quantity=1)
-#         if form.is_valid():
+def addToCart(request,product_id):
+    # user=request.user
+    product = get_object_or_404(Product, id=product_id)
+    order = get_or_set_order_session(request)
+    if request.method=="POST":
+        form = AddToCartForm(request.POST, 
+        product_id=product_id)
+        if form.is_valid():
             
-#             print("Formulario Valido")
-#             item_filter = order.items.filter(
-#             product=product,
-#             # colour=form.cleaned_data['colour'],
-#             # size=form.cleaned_data['size']
-#             )
-#             if item_filter.exists():
-#                 item = item_filter.first()
-#                 item.quantity += int(form.cleaned_data['quantity'])
-#                 item.save()
+            print("Formulario Valido")
+            item_filter = order.items.filter(
+            product=product,
+            # colour=form.cleaned_data['colour'],
+            # size=form.cleaned_data['size']
+            )
+            if item_filter.exists():
+                item = item_filter.first()
+                item.quantity += int(form.cleaned_data['quantity'])
+                item.save()
 
-#             else:
-#                 new_item = form.save(commit=False)
-#                 new_item.product = product
-#                 new_item.order = order
-#                 new_item.save()
-#         else:
-#             print("NO Es valido")
-#             print(form)
-#     next = request.META.get('HTTP_REFERER', None) or '/'  #Obtiene la url actual
-#     return redirect(next)
+            else:
+                new_item = form.save(commit=False)
+                new_item.product = product
+                new_item.order = order
+                new_item.save()
+        else:
+            print("NO Es valido")
+            print(form)
+    next = request.META.get('HTTP_REFERER', None) or '/'  #Obtiene la url actual
+    return redirect(next)

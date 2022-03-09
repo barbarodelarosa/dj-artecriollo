@@ -52,7 +52,7 @@
                                 <td>
                                     <div class="input-group mb-3" style="max-width: 120px;">
                                         <div class="input-group-pretend">
-                                            <a href="{% url 'shop:decrease-quantity' item.id %}" class="btn btn-outline-primary">
+                                            <a href="{% url 'shop:increase-quantity' item.id %}" class="btn btn-outline-primary">
                                                 <i class="fa fa-plus-circle" style="font-size: x-large;"></i>
                                     
                                             </a>
@@ -62,7 +62,7 @@
                                         
                                          
                                         <div class="input-group-pretend">
-                                            <a href="{% url 'shop:increase-quantity' item.id %}" class="btn btn-outline-primary">
+                                            <a href="{% url 'shop:decrease-quantity' item.id %}" class="btn btn-outline-primary">
                                                 <i class="fa fa-minus-circle" style="font-size: x-large;"></i>
                                             </a>
                                         </div>
@@ -135,7 +135,7 @@
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-12">
-                                    <h3 class="text-block h4 text-uppercase">Total en el carro</h3>
+                                    <h3 class="text-block h4 text-uppercase"><strong> Total en el carro</strong></h3>
                                 </div>
                             </div>
 

@@ -1,3 +1,4 @@
+from email.policy import default
 from django.db import models
 
 
@@ -7,7 +8,6 @@ from django.utils.text import slugify
 from django.shortcuts import reverse
 from django.contrib.auth.models import User
 from django.utils.text import slugify
-
 
 
 
@@ -23,7 +23,6 @@ class ProductImagesContent(models.Model):
    
 
 User = get_user_model()
-
 
 
 class Category(models.Model):
@@ -66,27 +65,61 @@ class Tag(models.Model):
 
 
 
+class Pais(models.Model):
+    name=models.CharField(max_length=15, default="Cuba")
+    
+    def __str__(self):
+        return f'{self.name}'
+
+class Provincia(models.Model):
+    pais = models.ForeignKey(Pais, on_delete=models.CASCADE)
+    name=models.CharField(max_length=15)
+    
+    def __str__(self):
+        return f'{self.name} | {self.pais}'
+
+class Municipio(models.Model):
+    pais = models.ForeignKey(Pais, on_delete=models.CASCADE)
+    provincia = models.ForeignKey(Provincia, on_delete=models.CASCADE)
+    name=models.CharField(max_length=15)
+    
+    def __str__(self):
+        return f'{self.name} | {self.provincia}'
+
+
 
   
 class Address(models.Model):
+    # ADDRESS_CHOICES = (
+    #     ('B', 'Billing'),
+    #     ('S', 'Shipping'),
+    # )
     ADDRESS_CHOICES = (
-        ('B', 'Billing'),
-        ('S', 'Shipping'),
+        ('P', 'Particular'),
+        ('E', 'Envio'),
     )
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
+    pais = models.ForeignKey(Pais, on_delete=models.CASCADE, blank=True, null=True)
+    provincia = models.ForeignKey(Provincia, on_delete=models.CASCADE, blank=True, null=True)
+    municipio = models.ForeignKey(Municipio, on_delete=models.CASCADE, blank=True, null=True)
+    localidad = models.CharField(max_length=25, blank=True, null=True)
     address_line_1 = models.CharField(max_length=150)
     address_line_2 = models.CharField(max_length=150)
+    numero = models.CharField(max_length=8)
+    apt = models.CharField(max_length=5)
     city = models.CharField(max_length=150)
-    zip_code = models.CharField(max_length=10, blank=True, null=True)
+    # zip_code = models.CharField(max_length=10, blank=True, null=True)
     address_type = models.CharField(max_length=1, choices=ADDRESS_CHOICES)
     default = models.BooleanField(default=False)
+  
 
     def __str__(self):
-        return f"{self.address_line_1}, {self.address_line_1}, {self.city}, {self.zip_code}"
+        return f"{self.provincia} | {self.municipio} | {self.localidad} | {self.address_line_1} | {self.address_line_2}"
 
     class Meta:
         verbose_name_plural = 'Addresses'
+        ordering = ['provincia', 'municipio']
 
 
 class ColorVariation(models.Model):
@@ -245,6 +278,11 @@ class Order(models.Model):
     status = models.CharField(max_length=15, choices=STATUS_CHOICES, blank=True, null=True)
     pay_status = models.CharField(max_length=15, choices=PAY_STATUS_CHOICES, blank=True, null=True)
     note=models.TextField(blank=True, null=True)
+    first_name = models.CharField(max_length=25, blank=True, null=True)
+    last_name = models.CharField(max_length=25, blank=True, null=True)
+    phone = models.CharField(max_length=12, blank=True, null=True)
+    email = models.EmailField(max_length=25, blank=True, null=True)
+    
 
     billing_address = models.ForeignKey(
         Address, related_name='billing_address', blank=True, null=True, on_delete=models.SET_NULL

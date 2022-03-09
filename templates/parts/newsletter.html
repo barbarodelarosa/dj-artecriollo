@@ -7,7 +7,7 @@
 				<div class="row">
 					<div class="col-md-12">
 						<div class="newsletter">
-							<p>Subscríbete para estar al día sobre <strong>NUEVAS OFERTAS!</strong></p>
+							<p>Subscríbete para estar al día con <strong>NUEVAS OFERTAS!</strong></p>
 							<form action="{% url 'newsletters:subscribe' %}" method="POST">
 								{% csrf_token %}
 								<input class="input" name="email" type="email" placeholder="Ingresa tu correo">

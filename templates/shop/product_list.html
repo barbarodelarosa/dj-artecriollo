@@ -186,17 +186,17 @@
 												<a href="#" class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp"> Ver lista</span></a>
 											</div>
 										</div>
-										<div class="add-to-cart">
+										{% comment %} <div class="add-to-cart">
 										<form action="{{product.get_absolute_url}}">
 											<button class="add-to-cart-btn"><i class="fa fa-eye"></i> Ver producto</button>
 										</form>
-										{% comment %} <form action="{% url 'shop:add-to-cart' product.id %}" method="post">
+										<form action="{% url 'shop:add-to-cart' product.id %}" method="post">
 											
 											{% csrf_token %}
 											<button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
 										</form>
-											 {% endcomment %}
-										</div>
+											 
+										</div> {% endcomment %}
 									</div>
 								</div>
                             {% endfor %}
