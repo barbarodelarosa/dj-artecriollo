@@ -1,3 +1,4 @@
+import requests
 from email.policy import default
 from django.db import models
 
@@ -9,9 +10,28 @@ from django.shortcuts import reverse
 from django.contrib.auth.models import User
 from django.utils.text import slugify
 
+import base64
 
 
 def user_directory_path(instance, filename):
+    # print(filename)
+    # params = (
+    #     ('key', 'f97180bb3340aac89d470b207127ac0a'),
+    # )
+    # path_img = 'user_{0}/product_{1}'.format(instance.user.username, filename)
+    # with open(path_img, "rb") as img_file:
+    #     my_string = base64.b64encode(img_file.read())
+    
+    # print(my_string)
+
+    # files = { 
+    #     'image': (None, filename),
+    # }
+
+
+    # response = requests.post('https://api.imgbb.com/1/upload', params=params, files=files)
+    # print(response)
+    # return response
     # This file will be uploaded to MEDIA_ROOT/the user{id}/thefile
     return 'user_{0}/product_{1}'.format(instance.user.username, filename)
 

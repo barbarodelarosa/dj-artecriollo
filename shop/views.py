@@ -348,28 +348,28 @@ class ConfirmEnzonaPaymentView(generic.TemplateView):
         amount['details']['tax']=f'{order.get_total_tax()}'
         amount['details']['discount']=f'{order.get_total_discount()}'
  
-        resp_enzona = enzona.post_payments(
-            description="Probando agregar al diccionario",
-            currency="CUP",
-            amount=amount,
-            items=items,
-            cancel_url="http://127.0.0.1:8000/shop/",
-            return_url="http://127.0.0.1:8000/shop/confirm-order/"
-            )
-        print("resp_enzona.json()")
-        print(resp_enzona.json())
-        if resp_enzona.status_code == 200:
-            resp_content = resp_enzona.json()
-            links_resp = resp_content['links']
-            url_confirm = links_resp[0]
-            context['url_confirm'] = url_confirm
-            print(resp_content)
-            # return redirect(to=url_confirm['href'])
-        else:
-            print(resp_enzona.status_code)
+        # resp_enzona = enzona.post_payments(
+        #     description="Probando agregar al diccionario",
+        #     currency="CUP",
+        #     amount=amount,
+        #     items=items,
+        #     cancel_url="http://127.0.0.1:8000/shop/",
+        #     return_url="http://127.0.0.1:8000/shop/confirm-order/"
+        #     )
+        # print("resp_enzona.json()")
+        # print(resp_enzona.json())
+        # if resp_enzona.status_code == 200:
+        #     resp_content = resp_enzona.json()
+        #     links_resp = resp_content['links']
+        #     url_confirm = links_resp[0]
+        #     context['url_confirm'] = url_confirm
+        #     print(resp_content)
+        #     # return redirect(to=url_confirm['href'])
+        # else:
+        #     print(resp_enzona.status_code)
             
      
-        context['resp_enzona'] = resp_enzona
+        # context['resp_enzona'] = resp_enzona
 
 
         context['order'] = get_or_set_order_session(self.request)
