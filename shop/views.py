@@ -369,13 +369,13 @@ class ConfirmEnzonaPaymentView(generic.TemplateView):
         #     print(resp_enzona.status_code)
             
      
-        # context['resp_enzona'] = resp_enzona
+        # context['resp_enzona'] = resp_enzona.json()
 
 
         context['order'] = get_or_set_order_session(self.request)
-        print('=====================================')
-        print(order.items.all())
-        print('=====================================')
+        # print('=====================================')
+        # print(order.items.all())
+        # print('=====================================')
     
 
         # context['CALLBACK_URL']= self.request.build_absolute_uri(reverse("cart:thank-you"))

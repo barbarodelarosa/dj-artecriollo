@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
+{% load price_format_tags %}
 {% block content %}
 
     {% comment %} <div class="bg-light py-3">
@@ -16,25 +17,39 @@
     
     <div class="container">
         <div class="row justify-content-center">
-            <div class="col-md-12 mb-0">
+            
+            <div class="col-md-12">
+            
+                 
+ 
                 <div class="panel panel-default">
                     <!-- Default panel contents -->
-                    <div class="panel-heading"> <strong>ORDEN:</strong> #53 <br> <strong>FECHA:</strong> 16/02/2022</div>
+                    <div class="panel-heading"> <strong>ORDEN:</strong> #{{order.id}} <br> <strong>FECHA:</strong> {{resp_enzona.created_at|date:"F j, Y"}}</div>
                     <div class="panel-body">
+                    
+
+
+
+
                       <p>
-                          <strong>NOMBRES:</strong> Barbaro de la Rosa <br>
-                          <strong>APELLIDOS:</strong> de la Rosa Valera <br>
-                          <strong>CORREO:</strong>barbaro@gmail.com <br>
-                          <strong>TELÉFONO:</strong>+5354063095 <br>
-                          <strong>DIRECCIÓN:</strong>Calle Maria Luisa <br>
-                          <strong>NOTA:</strong> sdlksdl ksd sdfk sdlf ksdf lsdf msdf lskdmf lksdmfl 
+                          <strong>NOMBRES:</strong> {{order.first_name}} <br>
+                          <strong>APELLIDOS:</strong> {{order.last_name}} <br>
+                          <strong>CORREO:</strong>{{order.email}}<br>
+                          <strong>TELÉFONO:</strong>{{order.phone}} <br>
+                          {% comment %} , {{order.billing_address.municipio}}, {{order.billing_address.provincia}}, {{order.billing_address.pais}}  {% endcomment %}
+                          <strong>DIRECCIÓN:</strong>{{order.billing_address.address_line_1}}, {{order.billing_address.numero}}, {{order.billing_address.apt}}, {{order.billing_address.address_line_2}}, {{order.billing_address.localidad}}<br>
+                          <strong>NOTA:</strong> {{order.note}}
 
 
                       </p>
                     </div>
+                </div>
                 
                     <!-- Table -->
-                    <table class="table">
+                     
+                <div class="table-responsive">
+                    <table class="table table-hover table-condensed">
+
                        <thead>
                            <tr>
                                <th>#</th>
@@ -47,44 +62,59 @@
                        </thead>
 
                        <tbody>
-                           <tr>
-                               <th>
-                                   1
-                               </th>
-                               <td>
-                                   IMAGEN
-                               </td>
-                               <td>NOMBRE DEL PRODUCTO</td>
-                               <td>5</td>
-                               <td>$5.00</td>
-                               <td>$25.00</td>
+                        {% for item in order.items.all %}
+                               <th>{{forloop.counter}}</th>
+                               <td><img src="{{item.product.image.url}}" alt="" width="50"></td>
+                               <td>{{item.product.title}}</td>
+                               <td>{{item.quantity}}</td>
+                               <td>{{item.product.price|price_format_cup}}</td>
+                               <td>${{item.get_total_item_price}} CUP</td>
                            </tr>
-                           <tr>
-                            <th>
-                                1
-                            </th>
-                            <td>
-                                IMAGEN
-                            </td>
-                            <td>NOMBRE DEL PRODUCTO</td>
-                            <td>5</td>
-                            <td>$5.00</td>
-                            <td>$25.00</td>
-                        </tr>
+                          
+                       {% endfor %}
                        </tbody>
                        
                     </table>
-                  </div>
+             </div>
+            </div>
+            <div class="row">
+               <div class="col-md-3">
+                   <h4>
+                       Envio: {{order.get_total_shipping}} 
+                   </h4>
+               </div>
+               <div class="col-md-3">
+                <h4>
+                    Descuento: {{order.get_raw_total_discount}}
+                </h4>
+               </div>
+               <div class="col-md-3">
+                <h4>
+                    Subtotal: {{order.get_subtotal}}
+                </h4>
+               </div>
+               <div class="col-md-3">
+                <h4>
+                    Total: {{order.get_total}}
+                </h4>
+               </div>
+            </div>
             </div>
            
             <div class="row">
                 <div class="col-md-12 mb-0">
 
                     <div class="pull-right">
-                        
+<!--                         
                         <a href=" {{url_confirm.href}}" class="primary-btn order-submit btn-lg">
                             Confirmar
-                        </a>             
+                        </a> -->
+                        <form action="{{url_confirm.href}}">
+
+                            <button disabled class="disabled primary-btn order-submit btn-lg">
+                                Confirmar
+                            </button>             
+                        </form>             
                     </div>
                 </div>
             </div>
