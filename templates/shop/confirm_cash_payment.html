@@ -24,12 +24,17 @@
  
                 <div class="panel panel-default">
                     <!-- Default panel contents -->
-                    <div class="panel-heading">
+                      <div class="panel-heading">
                         <strong>ORDEN:</strong> #{{order.id}} <br> 
-                        <strong>FECHA:</strong> {{resp_enzona.created_at|date:"F j, Y"}}
+                        <strong>FECHA:</strong> {{resp_enzona.created_at|date:"F j, Y"}}<br>
                         <strong>MÉTODO DE PAGO:</strong> {{order.payment_method}}
                     </div>
                     <div class="panel-body">
+                    
+
+
+
+
                       <p>
                           <strong>NOMBRES:</strong> {{order.first_name}} <br>
                           <strong>APELLIDOS:</strong> {{order.last_name}} <br>
@@ -38,6 +43,8 @@
                           {% comment %} , {{order.billing_address.municipio}}, {{order.billing_address.provincia}}, {{order.billing_address.pais}}  {% endcomment %}
                           <strong>DIRECCIÓN:</strong>{{order.billing_address.address_line_1}}, {{order.billing_address.numero}}, {{order.billing_address.apt}}, {{order.billing_address.address_line_2}}, {{order.billing_address.localidad}}<br>
                           <strong>NOTA:</strong> {{order.note}}
+
+
                       </p>
                     </div>
                 </div>

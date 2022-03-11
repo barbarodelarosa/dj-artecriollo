@@ -300,7 +300,7 @@ class CheckoutView(LoginRequiredMixin, generic.FormView):
         return context
 
 
-class PaymentView(generic.TemplateView):
+class PaymentView(LoginRequiredMixin, generic.TemplateView):
     template_name = 'shop/payment.html'
 
     # def get_context_data(self, **kwargs):
@@ -322,7 +322,7 @@ class OrderDetailView(LoginRequiredMixin, generic.DetailView):
 
 
 # class ConfirmEnzonaPaymentView(generic.View):
-class ConfirmEnzonaPaymentView(generic.TemplateView):
+class ConfirmEnzonaPaymentView(LoginRequiredMixin, generic.TemplateView):
 
     template_name = 'shop/confirm_enzona_payment.html'
     # def get(self, request, *args, **kwargs):
@@ -382,7 +382,8 @@ class ConfirmEnzonaPaymentView(generic.TemplateView):
      
         # context['resp_enzona'] = resp_enzona.json()
 
-
+        order.payment_method='ENZONA'
+        order.save()
         context['order'] = get_or_set_order_session(self.request)
         # print('=====================================')
         # print(order.items.all())
@@ -395,7 +396,108 @@ class ConfirmEnzonaPaymentView(generic.TemplateView):
 
 
 
-class ConfirmOrderView(generic.View):
+
+
+class ConfirmCashPaymentView(LoginRequiredMixin, generic.TemplateView):
+
+    template_name = 'shop/confirm_cash_payment.html'
+    # def get(self, request, *args, **kwargs):
+    def get_context_data(self, *args, **kwargs):
+        context = super(ConfirmCashPaymentView, self).get_context_data(**kwargs)
+        order = get_or_set_order_session(self.request)
+        items = []
+        
+
+        for item in order.items.all():
+   
+            temp_item ={}
+
+            temp_item['name']=item.product.title
+            temp_item['description']=item.product.description
+            temp_item['quantity']=item.quantity
+            temp_item['tax']=f'{item.get_tax()}'
+            temp_item['price']=f'{item.product.get_price()}'
+            # temp_item['price']=f'{item.get_total_item_price()}'
+            items.append(temp_item)
+
+        amount = {
+            "total": "2.00",
+            "details": {
+            "shipping": "0.00",
+            "tax": "0.00",
+            "discount": "0.00",
+            "tip": "0.00"
+            }
+        }
+        
+        amount['total']=f'{order.get_total()}' #OK
+        amount['details']['shipping']=f'{order.get_total_shipping()}'
+        amount['details']['tax']=f'{order.get_total_tax()}'
+        amount['details']['discount']=f'{order.get_total_discount()}'
+ 
+        # resp_enzona = enzona.post_payments(
+        #     description="Probando agregar al diccionario",
+        #     currency="CUP",
+        #     amount=amount,
+        #     items=items,
+        #     cancel_url="http://127.0.0.1:8000/shop/",
+        #     return_url="http://127.0.0.1:8000/shop/confirm-order/"
+        #     )
+        # print("resp_enzona.json()")
+        # print(resp_enzona.json())
+        # if resp_enzona.status_code == 200:
+        #     resp_content = resp_enzona.json()
+        #     links_resp = resp_content['links']
+        #     url_confirm = links_resp[0]
+        #     context['url_confirm'] = url_confirm
+        #     print(resp_content)
+        #     # return redirect(to=url_confirm['href'])
+        # else:
+        #     print(resp_enzona.status_code)
+            
+     
+        # context['resp_enzona'] = resp_enzona.json()
+
+        order.payment_method='EFECTIVO'
+        order.save()
+        context['order'] = get_or_set_order_session(self.request)
+    
+        # print('=====================================')
+        # print(order.items.all())
+        # print('=====================================')
+    
+
+        # context['CALLBACK_URL']= self.request.build_absolute_uri(reverse("cart:thank-you"))
+        return context
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+class ConfirmOrderView(LoginRequiredMixin, generic.View):
     def get(self, request, *args, **kwargs):
         order = get_or_set_order_session(request)
         transaction_uuid = request.GET['transaction_uuid']
@@ -432,7 +534,7 @@ class ConfirmOrderView(generic.View):
         return redirect(to="shop:thankyou")
 
 
-class ThankYouView(generic.TemplateView):
+class ThankYouView(LoginRequiredMixin, generic.TemplateView):
     template_name = 'shop/thanks.html'
     
 

@@ -83,11 +83,23 @@ class AddressForm(forms.Form):
         user_id = kwargs.pop('user_id')
         user = User.objects.get(id=user_id)
         super().__init__(*args, **kwargs)
-
+        address_user = Address.objects.get(user=user)
 
         self.fields['pais'].queryset = Pais.objects.all()
         self.fields['provincia'].queryset = Provincia.objects.all()
         self.fields['municipio'].queryset = Municipio.objects.all()
+        self.fields['first_name'].initial = user.profile.first_name
+        self.fields['last_name'].initial = user.profile.last_name
+        self.fields['phone'].initial = user.profile.phone
+        self.fields['email'].initial = user.email
+        self.fields['pais'].initial = address_user.pais
+        self.fields['provincia'].initial = address_user.provincia
+        self.fields['municipio'].initial = address_user.municipio
+        self.fields['address_line_1'].initial = address_user.address_line_1
+        self.fields['address_line_2'].initial = address_user.address_line_2
+        self.fields['localidad'].initial = address_user.localidad
+        self.fields['numero'].initial = address_user.numero
+        self.fields['apt'].initial = address_user.apt
 
         # shipping_address_qs = Address.objects.filter(
         #     user = user,

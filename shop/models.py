@@ -1,3 +1,4 @@
+from email.policy import default
 from django.db import models
 from ckeditor.fields import RichTextField
 
@@ -274,6 +275,9 @@ class OrderItem(models.Model):
 
 
 class Order(models.Model):
+    EFECTIVO='EFECTIVO'
+    ENZONA='ENZONA'
+    TRANSFERMOVIL='TRANSFERMOVIL'
     STATUS_CHOICES = (
         ('CONFIRMADO','CONFIRMADO'),
         ('EN PREPARACIÓN','EN PREPARACIÓN'),
@@ -286,6 +290,11 @@ class Order(models.Model):
         ('AUTORIZADO','AUTORIZADO'),
         ('PAGADO','PAGADO'),
         ('ANULADO','ANULADO'),
+    )
+    PAYMENT_METHOD_CHOICES = (
+        (EFECTIVO, 'EFECTIVO'),
+        (ENZONA, 'ENZONA'),
+        (TRANSFERMOVIL, 'TRANSFERMOVIL'),
     )
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     start_date = models.DateTimeField(auto_now_add=True)
@@ -300,6 +309,7 @@ class Order(models.Model):
     last_name = models.CharField(max_length=25, blank=True, null=True)
     phone = models.CharField(max_length=12, blank=True, null=True)
     email = models.EmailField(max_length=25, blank=True, null=True)
+    payment_method = models.CharField(max_length=25, choices=PAYMENT_METHOD_CHOICES, default=EFECTIVO)
     
 
     billing_address = models.ForeignKey(
