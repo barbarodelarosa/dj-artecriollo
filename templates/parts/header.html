@@ -13,8 +13,8 @@
 					<ul class="header-links pull-left">
                         {% site_info as info %}
 						<li><a href="#"><i class="fa fa-phone"></i> {{info.phone}}</a></li>
-						<li><a href="#"><i class="fa fa-envelope-o"></i> {{info.email}}</a></li>
-						<li><a href="#"><i class="fa fa-map-marker"></i> {{info.address}}</a></li>
+						<li><a href="mailto:artecriollo@gmail.com"><i class="fa fa-envelope-o"></i> {{info.email}}</a></li>
+						<li><a href="tel:+5351183924"><i class="fa fa-map-marker"></i> {{info.address}}</a></li>
                        
                     </ul>
 					<ul class="header-links pull-right">
@@ -113,7 +113,7 @@
 														<h3 class="product-name"><a href="#">{{cart_item.product.title}}</a></h3>
 														<h4 class="product-price"><span class="qty">{{cart_item.quantity}}x</span>{{cart_item.product.price|price_format_cup}}</h4>
 													</div>
-													<form action="{% url 'shop:remove-from-cart' cart_item.product.id %}">
+													<form action="{% url 'shop:remove-from-cart' cart_item.id %}">
 														<button class="delete"><i class="fa fa-close"></i></button>
 													</form>
 												</div>

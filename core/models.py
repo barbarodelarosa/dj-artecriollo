@@ -12,4 +12,15 @@ class SiteInfo(models.Model):
     description = models.TextField(max_length=250, blank=True, null=True)
 
 
+class SocialRed(models.Model):
+    icon = models.ImageField(upload_to='image/socialred/icon', blank=True, null=True)
+    logo = models.ImageField(upload_to='image/socialred/logo',blank=True, null=True)
+    name = models.CharField(max_length=25)
+    name_user = models.CharField(max_length=25)
+    url = models.URLField(max_length=50)
+
+    def __str__(self):
+        return f'{self.name}'
+
+
     

@@ -14,6 +14,7 @@
 				<div class="row">
 					<!-- Product main img -->
 					<div class="col-md-5 col-md-push-2">
+					
 						<div id="product-main-img">
                             {% for product_image in product.product_images.all  %}
                                 <div class="product-preview">
@@ -125,8 +126,8 @@
 						<div id="product-tab">
 							<!-- product tab nav -->
 							<ul class="tab-nav">
-								<li class="active"><a data-toggle="tab" href="#tab1">Description</a></li>
-								<li><a data-toggle="tab" href="#tab2">Details</a></li>
+								<li class="active"><a data-toggle="tab" href="#tab1">Descripción</a></li>
+								<li><a data-toggle="tab" href="#tab2">Detalles</a></li>
 								{% comment %} <li><a data-toggle="tab" href="#tab3">Reviews (3)</a></li> {% endcomment %}
 							</ul>
 							<!-- /product tab nav -->
@@ -147,7 +148,7 @@
 								<div id="tab2" class="tab-pane fade in">
 									<div class="row">
 										<div class="col-md-12">
-											<p>{{product.details}}</p>
+											<p>{{product.details|safe}}</p>
 										</div>
 									</div>
 								</div>

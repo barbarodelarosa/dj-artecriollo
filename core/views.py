@@ -61,7 +61,7 @@ class HomeView(generic.TemplateView):
 
 class ContactView(generic.FormView):
     form_class = ContactForm
-    template_name= 'contact.html'
+    template_name= 'pages/contact.html'
 
     def get_success_url(self):
         return reverse("contact")
@@ -165,4 +165,17 @@ class SearchResultsView(generic.ListView):
 
 
     
+class AboutView(generic.TemplateView):
+    template_name = 'pages/about.html'
+
     
+class PrivacyView(generic.TemplateView):
+    template_name = 'pages/privacy.html'
+
+
+class TermsView(generic.TemplateView):
+    template_name = 'pages/terms.html'
+
+
+class HelpView(generic.TemplateView):
+    template_name = 'pages/help.html'

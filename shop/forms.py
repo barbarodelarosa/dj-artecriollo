@@ -1,4 +1,6 @@
 from cProfile import label
+from email.policy import default
+from itertools import product
 from django import forms
 from django.forms import Select, Textarea, fields
 from django.contrib.auth import get_user_model
@@ -19,8 +21,10 @@ User = get_user_model()
 
 
 class AddToCartForm(forms.ModelForm):
-    colour = forms.ModelChoiceField(queryset=ColorVariation.objects.none(), required=False)
-    size = forms.ModelChoiceField(queryset=SizeVariation.objects.none(), required=False)
+    
+    colour = forms.ModelChoiceField(queryset=ColorVariation.objects.none(), label="Color", required=False)
+    size = forms.ModelChoiceField(queryset=SizeVariation.objects.none(), label="Medida", required=False)
+    quantity = forms.IntegerField(label="Cantidad", initial=1)
     class Meta:
         model = OrderItem
         fields = ['quantity', 'colour', 'size']
@@ -31,8 +35,17 @@ class AddToCartForm(forms.ModelForm):
 
         super().__init__(*args, **kwargs)
 
-        self.fields['colour'].queryset = product.avialable_colours.all()
-        self.fields['size'].queryset = product.avialable_sizes.all()
+        if product.avialable_sizes.all():
+            self.fields['size'].queryset = product.avialable_sizes.all()
+        else:
+            self.fields['size'].widget = forms.HiddenInput() #Oculta el campo
+
+        if product.avialable_colours.all():
+            self.fields['colour'].queryset = product.avialable_colours.all()
+        else:
+            self.fields['colour'].widget = forms.HiddenInput() #Oculta el campo
+        # self.fields['colour'].queryset = product.avialable_colours.all()
+        # self.fields['size']=self.hidden_fields()
 
   
 

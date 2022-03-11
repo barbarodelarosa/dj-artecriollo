@@ -1,7 +1,5 @@
-import requests
-from email.policy import default
 from django.db import models
-
+from ckeditor.fields import RichTextField
 
 from django.contrib.auth import get_user_model
 from django.db.models.signals import pre_save
@@ -186,7 +184,7 @@ class Product(models.Model):
     price = models.IntegerField(default=0)
     old_price = models.IntegerField(default=0, blank=True, null=True)
     description = models.TextField()
-    details = models.TextField()
+    details = RichTextField()
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=False)

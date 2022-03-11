@@ -144,6 +144,7 @@
                             
 								<div class="col-md-4 col-xs-6">
 									<div class="product">
+										<a href="{{product.get_absolute_url}}">
 										<div class="product-img">
 											<img src="{{product.image.url}}" height="200" width="200" alt="">
 											<div class="product-label">
@@ -155,6 +156,7 @@
 												{% endif %}
 											</div>
 										</div>
+										</a>
 										<div class="product-body">
 											<p class="product-category">
 												{% for product_cat in product.category.all   %}

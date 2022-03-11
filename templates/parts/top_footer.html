@@ -1,4 +1,5 @@
 {% load site_info_tags %}
+{% load categories_list_tags %}
 
 
 <div class="section">
@@ -13,21 +14,23 @@
 								<p>{{info.description}}</p>
 								<ul class="footer-links">
 									<li><a href="#"><i class="fa fa-map-marker"></i>{{info.address}}</a></li>
-									<li><a href="#"><i class="fa fa-phone"></i>{{info.phone}}</a></li>
-									<li><a href="#"><i class="fa fa-envelope-o"></i>{{info.email}}</a></li>
+									<li><a href="tel:+5351183924"><i class="fa fa-phone"></i>{{info.phone}}</a></li>
+									<li><a href="mailto:artecriollocuba@gmail.com"><i class="fa fa-envelope-o"></i>{{info.email}}</a></li>
 								</ul>
 							</div>
 						</div>
 
 						<div class="col-md-3 col-xs-6">
 							<div class="footer">
-								<h3 class="footer-title">Categories</h3>
+								<h3 class="footer-title">categorias</h3>
 								<ul class="footer-links">
-									<li><a href="#">Hot deals</a></li>
-									<li><a href="#">Laptops</a></li>
-									<li><a href="#">Smartphones</a></li>
-									<li><a href="#">Cameras</a></li>
-									<li><a href="#">Accessories</a></li>
+								{%categories_list_for_footer as categories_tag%}
+								
+									{% for cat in  categories_tag %}
+								
+										<li><a href="{{cat.get_absolute_url}}">{{cat.name}}</a></li>
+									{% endfor %}
+									
 								</ul>
 							</div>
 						</div>
@@ -36,26 +39,26 @@
 
 						<div class="col-md-3 col-xs-6">
 							<div class="footer">
-								<h3 class="footer-title">Information</h3>
+								<h3 class="footer-title">Información</h3>
 								<ul class="footer-links">
-									<li><a href="#">About Us</a></li>
-									<li><a href="#">Contact Us</a></li>
-									<li><a href="#">Privacy Policy</a></li>
-									<li><a href="#">Orders and Returns</a></li>
-									<li><a href="#">Terms & Conditions</a></li>
+									<li><a href="{% url 'about'%}">Acerca de</a></li>
+									<li><a href="{%url 'contact'%}">Contacto</a></li>
+									<li><a href="{%url 'privacy'%}">Política de privacidad</a></li>
+									<li><a href="{%url 'terms'%}">Términos y condiciones</a></li>
+									<li><a href="{%url 'help'%}">Ayuda</a></li>
 								</ul>
 							</div>
 						</div>
 
 						<div class="col-md-3 col-xs-6">
 							<div class="footer">
-								<h3 class="footer-title">Service</h3>
+								<h3 class="footer-title">Servicios</h3>
 								<ul class="footer-links">
-									<li><a href="#">My Account</a></li>
-									<li><a href="#">View Cart</a></li>
-									<li><a href="#">Wishlist</a></li>
-									<li><a href="#">Track My Order</a></li>
-									<li><a href="#">Help</a></li>
+									<li><a href="{%url 'profile'%}">Mi cuenta</a></li>
+									<li><a href="{%url 'shop:summary'%}">Ver carro</a></li>
+									<li><a href="{% url 'shop:whishlist' %}">Lista de deseo</a></li>
+									{% comment %} <li><a href="#">Pedidos</a></li> {% endcomment %}
+									{% comment %} <li><a href="#">Help</a></li> {% endcomment %}
 								</ul>
 							</div>
 						</div>

@@ -192,9 +192,10 @@ class DecreaseQuantityView(generic.View):
 class RemoveFromCartView(generic.View):
     def get(self, request, *args, **kwargs):
         order_item = get_object_or_404(OrderItem, id=kwargs['pk'])
-        print(order_item)
+   
         order_item.delete()
-        return redirect("shop:summary")
+        next = self.request.META.get('HTTP_REFERER', None) or '/'  #Obtiene la url actual
+        return redirect(next)
 
 
 
@@ -238,7 +239,17 @@ class CheckoutView(LoginRequiredMixin, generic.FormView):
         #         city=form.cleaned_data['billing_city'],
         #     )
         #     order.billing_address = address
-      
+        # address_exist = Address.objects.get(user=self.request.user).exist()
+        # if Address.objects.filter(user=self.request.user).exist():
+        #     Address.objects.get(user=self.request.user).delete()
+        # from django.core.exceptions import ObjectDoesNotExist
+        # try:
+        address_exist = Address.objects.get(user=self.request.user)
+        address_exist.delete()
+
+    
+        # except ObjectDoesNotExist:
+        #     print("Either the blog or entry doesn't exist.")
         address = Address.objects.create(
             address_type = 'P',
             user = self.request.user,

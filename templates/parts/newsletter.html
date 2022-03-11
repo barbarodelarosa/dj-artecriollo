@@ -1,4 +1,4 @@
-
+{% load social_red_tags %}
 
 <div id="newsletter" class="section">
 			<!-- container -->
@@ -15,10 +15,14 @@
 							</form>
 
 							<ul class="newsletter-follow">
+							{% social_red as social_red_all %}
+							{% for social in social_red_all  %}
 								<li>
-									<a href="#"><i class="fa fa-facebook"></i></a>
+									<a href="{{social.url}}"><i class="fa fa-{{social.name}}"></i></a>
 								</li>
-								<li>
+						
+							{% endfor %}
+								{% comment %} <li>
 									<a href="#"><i class="fa fa-twitter"></i></a>
 								</li>
 								<li>
@@ -26,7 +30,7 @@
 								</li>
 								<li>
 									<a href="#"><i class="fa fa-pinterest"></i></a>
-								</li>
+								</li> {% endcomment %}
 							</ul>
 							
 						</div>
