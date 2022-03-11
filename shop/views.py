@@ -126,11 +126,54 @@ class ProductDetailView(generic.FormView):
 
         if item_filter.exists():
             item = item_filter.first()
-            item.quantity += int(form.cleaned_data['quantity'])
-            product.stock -= int(form.cleaned_data['quantity'])
-            item.save()
-
+            # item.quantity += int(form.cleaned_data['quantity'])
+            # item.save()
+            quantity = int(form.cleaned_data['quantity'])
+            print("item.quantity")
+            print(quantity)
+            if quantity <= product.stock:
+                item.quantity += int(form.cleaned_data['quantity'])
+                item.save()
+                print("product.stock")
+                print(product.stock)
+                product.stock -= quantity
+                product.save()
+                print("product.stock")
+                print(product.stock)
+                item.save()
+            else:
+                # item.quantity -= int(form.cleaned_data['quantity'])
+                # item.save()
+                next = self.request.META.get('HTTP_REFERER', None) or '/'  #Obtiene la url actual
+                if item.quantity >0:
+                    messages.info(self.request, f"No exite la cantidad de productos disponibles, ya usted tiene {item.quantity} producto(s) en carrito")
+                else:
+                    messages.info(self.request,"No exite la cantidad de productos disponibles")
+                return redirect(next)
         else:
+
+
+            quantity = int(form.cleaned_data['quantity'])
+            print("item.quantity")
+            print(quantity)
+            if quantity <= product.stock:
+          
+                print("product.stock")
+                print(product.stock)
+                product.stock -= quantity
+                product.save()
+                print("product.stock")
+                print(product.stock)
+          
+            else:
+                # item.quantity -= int(form.cleaned_data['quantity'])
+                # item.save()
+                next = self.request.META.get('HTTP_REFERER', None) or '/'  #Obtiene la url actual
+            
+                messages.info(self.request,"No exite la cantidad de productos disponibles")
+                return redirect(next)
+
+
             new_item = form.save(commit=False)
             new_item.product = product
             new_item.order = order
@@ -161,13 +204,21 @@ class IncreaseQuantityView(generic.View):
         # product = get_object_or_404(Product, orderitem=order_item)
 
         # if product.stock >= 1:
-        order_item.quantity += 1
-            # product.stock -= 1
-            # product.save()
-        order_item.save()
+        if order_item.product.stock > 0:
+            order_item.quantity += 1
+        
+            order_item.product.stock -= 1
+            order_item.product.save()
+            print("order_item.product.stock")
+            print(order_item.product.stock)
+                # product.stock -= 1
+                # product.save()
+            order_item.save()
+        else:
+            messages.info(self.request, "No quedan productos disponibles por el momento")            
+
         # else:
             # order_item.save()
-        # messages.info(self.request, "No quedan mas productos en stock")            
         return redirect("shop:summary")
 
 
@@ -183,6 +234,10 @@ class DecreaseQuantityView(generic.View):
 
         # else:
         order_item.quantity -= 1
+  
+        order_item.product.stock += 1
+        order_item.product.save()
+    
             # product.stock += 1
             # product.save()
         order_item.save()
@@ -192,6 +247,12 @@ class DecreaseQuantityView(generic.View):
 class RemoveFromCartView(generic.View):
     def get(self, request, *args, **kwargs):
         order_item = get_object_or_404(OrderItem, id=kwargs['pk'])
+        print("order_item.product.stock")
+        print(order_item.product.stock)
+        order_item.product.stock += order_item.quantity
+        order_item.product.save()
+        print("order_item.product.stock")
+        print(order_item.product.stock)
    
         order_item.delete()
         next = self.request.META.get('HTTP_REFERER', None) or '/'  #Obtiene la url actual
@@ -605,26 +666,34 @@ def addToCart(request,product_id):
     if request.method=="POST":
         form = AddToCartForm(request.POST, 
         product_id=product_id)
+      
         if form.is_valid():
-            
-            print("Formulario Valido")
+           
             item_filter = order.items.filter(
             product=product,
             # colour=form.cleaned_data['colour'],
             # size=form.cleaned_data['size']
             )
             if item_filter.exists():
-                item = item_filter.first()
-                item.quantity += int(form.cleaned_data['quantity'])
-                item.save()
-
+                if product.stock > 0:
+                    item = item_filter.first()
+                    item.quantity += int(form.cleaned_data['quantity'])
+                    item.save()
+                    product.stock -= 1
+                    product.save()
+                else:
+                    messages.info(request, "No quedan productos disponibles")
             else:
-                new_item = form.save(commit=False)
-                new_item.product = product
-                new_item.order = order
-                new_item.save()
-        else:
-            print("NO Es valido")
-            print(form)
+                if product.stock > 0:
+                    new_item = form.save(commit=False)
+                    product.stock -= 1
+                    product.save()
+                    new_item.product = product
+                    new_item.order = order
+                    new_item.save()
+                else:
+                    messages.info(request, "No quedan productos disponibles")
+        
+            
     next = request.META.get('HTTP_REFERER', None) or '/'  #Obtiene la url actual
     return redirect(next)

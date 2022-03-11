@@ -53,7 +53,7 @@
 							</div> {% endcomment %}
 							<div>
 								<h3 class="product-price">{{product.price|price_format_cup}}  <del class="product-old-price">{{product.old_price|price_format_cup}}</del></h3>
-								{% comment %} <br>{{product.stock}} <span class="product-available">Producto{{product.stock|pluralize}} en Stock</span> {% endcomment %}
+								<br><span class="badge" style="background: #00BB2e;">{{product.stock}}</span><span class="product-available">Producto{{product.stock|pluralize}} en Stock</span>
 							</div>
 							<p>{{product.description|truncatewords:15}}</p>
 
