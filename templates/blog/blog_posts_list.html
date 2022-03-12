@@ -1,0 +1,38 @@
+{% extends "base.html" %}
+{% block content %}
+ <div class="container">
+     <div class="row">
+         <h1>Category detail:</h1>
+     </div>
+     <div class="row">
+         <div class="col-md-12">
+            {% for post in object_list  %}
+                <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <div class="thumbnail">
+                    <img src="{{post.image.url}}" alt="">
+                    <div class="col-md-12">
+
+                        <span class="pull-right"><strong> Publicado:</strong> {{post.updated_at}} </span>
+                        <span> <strong>Por: </strong>{{post.user}} </span>
+                    </div>
+                    <div class="caption">
+                        <h3><a href="{{post.get_absolute_url}}"> {{post.name}}</a></h3>
+                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ducimus repellat ipsum provident inventore laudantium quisquam libero voluptatem possimus culpa! Dolorem quos exercitationem illo ab sint ullam fuga ea quod nulla.</p>
+                        <p class="col-md-offset-8">
+                            <a href="{{post.get_absolute_url}}" class="btn btn-primary" role="button">Leer más</a> 
+                            <a href="#" class="btn btn-default" role="button">Button</a></p>  
+                    </div>
+                    </div>
+                </div>
+                </div>
+
+                </div> 
+
+                {% endfor %}
+        </div>
+     </div>
+ </div>
+    
+
+{% endblock content %}

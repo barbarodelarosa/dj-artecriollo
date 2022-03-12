@@ -31,6 +31,7 @@ urlpatterns = [
     path('ayuda/', views.HelpView.as_view(), name='help'),
     path('shop/', include('shop.urls', namespace='shop')),
     path('user/', include('authy.urls', namespace='user')),
+    path('blog/', include('blog.urls', namespace='blog')),
   
     path('newsletters/', include('newsletters.urls', namespace='newsletters')),
     path('profile/', views.ProfileView.as_view(), name='profile'),
