@@ -265,10 +265,11 @@ class CheckoutView(LoginRequiredMixin, generic.FormView):
     form_class = AddressForm
 
     def get_success_url(self):
-        # return reverse("shop:payment-enzona")
-        next = self.request.META.get('HTTP_REFERER', None) or '/'  #Obtiene la url actual
+        return reverse("shop:payment-enzona")
 
-        return redirect(next)
+        # next = self.request.META.get('HTTP_REFERER', None) or '/'  #Obtiene la url actual
+
+        # return redirect(next)
 
     def form_valid(self, form):
         order = get_or_set_order_session(self.request)
@@ -343,11 +344,11 @@ class CheckoutView(LoginRequiredMixin, generic.FormView):
         messages.info(
             self.request, "You have successfully added your addresses")
         # return super(CheckoutView, self).form_valid(form)
-        next = self.request.META.get('HTTP_REFERER', None) or '/'  #Obtiene la url actual
 
-        return redirect(next)
+        # next = self.request.META.get('HTTP_REFERER', None) or '/'  #Obtiene la url actual
+        # return redirect(next) #PARA NO SALIR DE LA PAGINA
 
-        # return super(CheckoutView, self).form_valid(form)
+        return super(CheckoutView, self).form_valid(form)
 
     def get_form_kwargs(self):
         kwargs = super(CheckoutView, self).get_form_kwargs()
@@ -386,8 +387,8 @@ class OrderDetailView(LoginRequiredMixin, generic.DetailView):
 class ConfirmEnzonaPaymentView(LoginRequiredMixin, generic.TemplateView):
 
     template_name = 'shop/confirm_enzona_payment.html'
-    # def get(self, request, *args, **kwargs):
-    def get_context_data(self, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
+    # def get_context_data(self, *args, **kwargs):
         context = super(ConfirmEnzonaPaymentView, self).get_context_data(**kwargs)
         order = get_or_set_order_session(self.request)
         items = []
@@ -419,6 +420,11 @@ class ConfirmEnzonaPaymentView(LoginRequiredMixin, generic.TemplateView):
         amount['details']['shipping']=f'{order.get_total_shipping()}'
         amount['details']['tax']=f'{order.get_total_tax()}'
         amount['details']['discount']=f'{order.get_total_discount()}'
+
+        print("items")
+        print(items)
+        print("amount")
+        print(amount)
  
  ###################### BLOQUE DE CONSULTA A ENZONA #######################
         resp_enzona = enzona.post_payments(
@@ -437,7 +443,7 @@ class ConfirmEnzonaPaymentView(LoginRequiredMixin, generic.TemplateView):
             url_confirm = links_resp[0]
             context['url_confirm'] = url_confirm
             print(resp_content)
-            # return redirect(to=url_confirm['href'])
+            return redirect(to=url_confirm['href']) #Redirecciona a enzona para confirmar el pago
         else:
             print(resp_enzona.status_code)
             
@@ -454,7 +460,7 @@ class ConfirmEnzonaPaymentView(LoginRequiredMixin, generic.TemplateView):
         # print('=====================================')
     
 
-        # context['CALLBACK_URL']= self.request.build_absolute_uri(reverse("cart:thank-you"))
+        # context['CALLBACK_URL']= self.request.build_absolute_uri(reverse("shop:thank-you"))
         return context
 
 
@@ -499,28 +505,28 @@ class ConfirmCashPaymentView(LoginRequiredMixin, generic.TemplateView):
         amount['details']['tax']=f'{order.get_total_tax()}'
         amount['details']['discount']=f'{order.get_total_discount()}'
  
-        # resp_enzona = enzona.post_payments(
-        #     description="Probando agregar al diccionario",
-        #     currency="CUP",
-        #     amount=amount,
-        #     items=items,
-        #     cancel_url="http://127.0.0.1:8000/shop/",
-        #     return_url="http://127.0.0.1:8000/shop/confirm-order/"
-        #     )
-        # print("resp_enzona.json()")
-        # print(resp_enzona.json())
-        # if resp_enzona.status_code == 200:
-        #     resp_content = resp_enzona.json()
-        #     links_resp = resp_content['links']
-        #     url_confirm = links_resp[0]
-        #     context['url_confirm'] = url_confirm
-        #     print(resp_content)
-        #     # return redirect(to=url_confirm['href'])
-        # else:
-        #     print(resp_enzona.status_code)
+        resp_enzona = enzona.post_payments(
+            description="Probando agregar al diccionario",
+            currency="CUP",
+            amount=amount,
+            items=items,
+            cancel_url="http://127.0.0.1:8000/shop/",
+            return_url="http://127.0.0.1:8000/shop/confirm-order/"
+            )
+        print("resp_enzona.json()")
+        print(resp_enzona.json())
+        if resp_enzona.status_code == 200:
+            resp_content = resp_enzona.json()
+            links_resp = resp_content['links']
+            url_confirm = links_resp[0]
+            context['url_confirm'] = url_confirm
+            print(resp_content)
+            # return redirect(to=url_confirm['href'])
+        else:
+            print(resp_enzona.status_code)
             
      
-        # context['resp_enzona'] = resp_enzona.json()
+        context['resp_enzona'] = resp_enzona.json()
 
         order.payment_method='EFECTIVO'
         order.save()
@@ -531,7 +537,7 @@ class ConfirmCashPaymentView(LoginRequiredMixin, generic.TemplateView):
         # print('=====================================')
     
 
-        # context['CALLBACK_URL']= self.request.build_absolute_uri(reverse("cart:thank-you"))
+        context['CALLBACK_URL']= self.request.build_absolute_uri(reverse("cart:thank-you"))
         return context
 
 

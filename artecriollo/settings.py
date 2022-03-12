@@ -9,10 +9,10 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
-
 from pathlib import Path
 import environ
 import os
+
 
 env = environ.Env()
 
@@ -34,10 +34,7 @@ DEBUG = env('DEBUG')
 
 ALLOWED_HOSTS = ['*']
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
-DEFAULT_FROM_EMAIL= env('DEFAULT_FROM_EMAIL')
-NOTIFY_EMAIL= env('NOTIFY_EMAIL')
 
 # Application definition
 
@@ -70,10 +67,8 @@ INSTALLED_APPS = [
     'ckeditor',
 
 ]
+INSTALLED_APPS += ("djcelery_email", )
 
-
-EMAIL_HOST_USER='mail@mail.com'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -193,7 +188,7 @@ if DEBUG is False:
     SECURE_SSL_REDIRECT = True
     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https') 
 
-    EMAIL_BACKEND = 'django.core.mail.smtp.EmailBackend'
+    # EMAIL_BACKEND = 'django.core.mail.smtp.EmailBackend'
 
     ALLOWED_HOSTS = ["https://artecriollo.nat.cu"]
 
@@ -236,3 +231,39 @@ MESSAGE_TAGS = {
         messages.WARNING: 'warning',
         messages.ERROR: 'danger',
  }
+
+
+
+#EMAIL CONFIG
+
+# EMAIL_FROM = env('EMAIL_FROM')
+# EMAIL_BCC = env('EMAIL_BCC')
+
+# EMAIL_HOST = env('EMAIL_HOST')
+# EMAIL_PORT = env('EMAIL_PORT')
+# EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+# EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+# EMAIL_USE_TLS = True
+# EMAIL_USE_SSL = False
+
+# DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
+
+# # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
+
+
+# DEFAULT_FROM_EMAIL= env('DEFAULT_FROM_EMAIL')
+# EMAIL_HOST_USER='mail@mail.com'
+
+
+DEFAULT_FROM_EMAIL=env('DEFAULT_FROM_EMAIL')
+NOTIFY_EMAIL= env('NOTIFY_EMAIL')
+EMAIL_FROM=env('EMAIL_FROM')
+EMAIL_BCC=env('EMAIL_BCC')
+EMAIL_HOST=env('EMAIL_HOST')
+EMAIL_PORT=587
+EMAIL_HOST_USER=env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD=env('EMAIL_HOST_PASSWORD')
+# EMAIL_USE_SSL=False
+EMAIL_USE_TLS=True # SI SE DESHABILITA DA PROBLEMA EN EL SERVIDOR
+# EMAIL_USE_SSL=False
