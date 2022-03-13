@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+		<!-- SECTION -> CATEGORY-HOME -->
+		{% include "parts/section_category_home.html" %}
+		<!-- /END SECTION -> CATEGORY-HOME-->
+
+		<!-- SECTION -> NEW PRODUCTS -->
+		{% include "parts/section_new_products.html" %}
+		<!-- /END SECTION -> NEW PRODUCTS-->
+
+		<!-- HOT DEAL SECTION -->
+		{% comment %} {% include "parts/section_hot_product.html" %} {% endcomment %}
+		
+		<!-- /HOT DEAL SECTION -->
+
+		<!-- SECTION -->
+		{% comment %} {% include "parts/top_selling.html" %} {% endcomment %}
+
+		<!-- /SECTION -->
+
+		<!-- SECTION -->
+		{% comment %} {% include "parts/top_selling_for_category.html" %} {% endcomment %}
+		
+		<!-- /SECTION -->
+
+{% endblock content %}

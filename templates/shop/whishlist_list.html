@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="site-section">
+    <div class="container">
+
+            <div class="col-md-12">
+                {% if whishlist.count > 0 %}
+                
+                
+                {% comment %} <div class="site-blocks-table"> {% endcomment %}
+                <div class="table-responsive">
+
+                    <table  class="table table-hover table-condensed">
+                        <thead>
+                            <tr>
+                                <th><h3>Imagen</h3></th>
+                                <th><h3>Producto</h3></th>
+                                <th><h3>Precio</h3></th>
+                                <th><h3>Acción</h3></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for product in whishlist %}
+                            <tr>
+                                <td class="product-thumbnail" >
+                                    <img src="{{ product.image.url }}" style="height: 25rem" class="img-fluid">
+                                </td>
+                                <td class="product-name">
+                                    <h2 class="h5 text-black">{{ product.title }}</h2>
+                                    {% comment %} <small><strong>Size:</strong> {{ size.name }}</small>
+                                    <br>
+                                    <small><strong>Colour:</strong> {{ colour.name }}</small>
+                                 {% endcomment %}
+                                </td>
+                                <td>{{product.get_price}}</td>
+                                
+                               
+                                <td>
+                                    <a  style="margin: 10px;" href="{{ product.get_absolute_url}}" class="btn btn-primary"> Ver producto</a>
+                                    <br>
+                                    <a href="{% url 'profile:addorremovetowhishlist' product.id %}" class="btn btn-danger"> Eliminar de la lista</a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="6">
+                                    There are no items in your cars. <a href="{% url 'shop:category-list' %}">Continue Shopping</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+
+                    </table>
+
+
+                {% else %}
+                    <tr>
+                        <td colspan="6">
+                            Actualmente no tiene productos en su lista de deseos, para agregar alguno <a href="{% url 'shop:category-list' %}">Acceda a la tienda</a>
+                        </td>
+                    </tr>
+                {% endif %}
+                </div>
+
+
+        </div>
+       
+    </div>
+</div>
+
+{% endblock content %}

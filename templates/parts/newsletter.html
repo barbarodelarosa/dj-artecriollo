@@ -1,0 +1,42 @@
+{% load social_red_tags %}
+
+<div id="newsletter" class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<div class="col-md-12">
+						<div class="newsletter">
+							<p>Subscríbete para estar al día con <strong>NUEVAS OFERTAS!</strong></p>
+							<form action="{% url 'newsletters:subscribe' %}" method="POST">
+								{% csrf_token %}
+								<input class="input" name="email" type="email" placeholder="Ingresa tu correo">
+								<button class="newsletter-btn"><i class="fa fa-envelope"></i> Subscrírme</button>
+							</form>
+
+							<ul class="newsletter-follow">
+							{% social_red as social_red_all %}
+							{% for social in social_red_all  %}
+								<li>
+									<a href="{{social.url}}"><i class="fa fa-{{social.name}}"></i></a>
+								</li>
+						
+							{% endfor %}
+								{% comment %} <li>
+									<a href="#"><i class="fa fa-twitter"></i></a>
+								</li>
+								<li>
+									<a href="#"><i class="fa fa-instagram"></i></a>
+								</li>
+								<li>
+									<a href="#"><i class="fa fa-pinterest"></i></a>
+								</li> {% endcomment %}
+							</ul>
+							
+						</div>
+					</div>
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>

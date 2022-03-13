@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div class="container">
+    <div class="row">
+
+        {% for category in object_list  %}
+
+            <div class="col-sm-6 col-md-4">
+            <a href="{{category.get_absolute_url}}" class="cta-btn">
+                <div class="thumbnail" style="border-radius: 25px;">
+                    <img src="{{category.image.url}}" alt="...">
+                    <h3 class="text-center">Thumbnail label</h3>
+                <!-- <div class="caption">
+                  <p>...</p>
+                  <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+                </div> -->
+              </div>
+            </a>
+            </div>
+            
+        {% endfor %}
+    </div>
+</div>
+    {% endblock content %}

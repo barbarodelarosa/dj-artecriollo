@@ -1,0 +1,103 @@
+{% load price_format_tags %}
+{% load discount_tags %}
+
+<div class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+
+					<!-- section title -->
+					<div class="col-md-12">
+						<div class="section-title">
+							<h3 class="title">Productos nuevos</h3>
+							<div class="section-nav">
+								<ul class="section-tab-nav tab-nav">
+									<li class="active"><a data-toggle="tab" href="#tab1">Todos</a></li>
+									{% comment %} <li><a data-toggle="tab" href="#tab1">Smartphones</a></li> {% endcomment %}
+									{% comment %} <li><a data-toggle="tab" href="#tab1">Cameras</a></li> {% endcomment %}
+									{% comment %} <li><a data-toggle="tab" href="#tab1">Accessories</a></li> {% endcomment %}
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- /section title -->
+
+					<!-- Products tab & slick -->
+					<div class="col-md-12">
+						<div class="row">
+							<div class="products-tabs">
+								<!-- tab -->
+								<div id="tab1" class="tab-pane active">
+									<div class="products-slick" data-nav="#slick-nav-1">
+										<!-- product -->
+										{% for product in new_products  %}
+										
+											<div class="product">
+												<div class="product-img">
+													<img src="{{product.image.url}}" height="200" alt="">
+													<div class="product-label">
+														{% if product.old_price > 0 %}
+															<span class="sale">{% discount product.old_price product.price%}</span>
+														{% endif %}
+														{% if  product.new %}
+															<span class="new">NUEVO</span>													
+														{% endif %}
+													</div>
+												</div>
+												<div class="product-body">
+													<p class="product-category">
+													 	{% for product_cat in product.category.all   %}
+								    						<a href="{{product_cat.get_absolute_url}}"> [{{product_cat}}] </a>
+                                						{% endfor %}
+													</p>
+													<a href="{{ product.get_absolute_url }}">
+														<h3 class="product-name">{{product.title}}</h3>
+														<h4 class="product-price">{{product.price|price_format_cup}} 
+														{% if product.old_price > 0 %}
+														 <del class="product-old-price">{{product.old_price|price_format_cup}}</del>
+														{% endif %}</h4>
+													</a>
+													<div class="product-rating">
+														{% comment %} <i class="fa fa-star"></i>
+														<i class="fa fa-star"></i>
+														<i class="fa fa-star"></i>
+														<i class="fa fa-star"></i>
+														<i class="fa fa-star"></i> {% endcomment %}
+													</div>
+														<div class="product-btns">
+												{% if product in user.profile.whishlist.all%}
+													<a href="{% url 'profile:addorremovetowhishlist' product.id %}" class="add-to-wishlist" style="color: #D10024;"><i class="fa fa-heart"></i><span class="tooltipp"> Eliminar de lista</span></a>
+												{%else%}
+													<a href="{% url 'profile:addorremovetowhishlist' product.id %}" class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp"> Agregar a lista</span></a>
+												{%endif%}
+												{% comment %} <form action="{% url 'profile:addorremovetowhishlist' product.id %}"> {% endcomment %}
+												{% comment %} </form> {% endcomment %}
+												<!-- <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button> -->
+												<br>
+												<form action="{%url 'shop:add-to-cart' product.id %}" method="POST" >{% csrf_token %}
+												  <input type="hidden" name="quantity" value="1">
+												  <button type="submit" class="quick-view"><i class="fa fa-cart"></i><span class="tooltipp"> Add to car</span></button></form>
+											</div>
+												</div>
+												{% comment %} <div class="add-to-cart">
+												
+													
+													<button data-product="{{product.id}}" data-action="add" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+													
+												</div> {% endcomment %}
+											</div>
+										{% endfor %}
+									</div>
+									<div id="slick-nav-1" class="products-slick-nav"></div>
+								</div>
+								<!-- /tab -->
+							</div>
+						</div>
+					</div>
+					<!-- Products tab & slick -->
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>

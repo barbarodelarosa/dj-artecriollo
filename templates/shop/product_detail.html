@@ -1,0 +1,469 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% load price_format_tags %}
+{% load discount_tags %}
+
+{% block content %}
+
+
+
+<div class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					<!-- Product main img -->
+					<div class="col-md-5 col-md-push-2">
+					
+						<div id="product-main-img">
+                            {% for product_image in product.product_images.all  %}
+                                <div class="product-preview">
+                                    <img src="{{product_image.file.url}}" alt="">
+                                </div>
+                            {% endfor %}
+						</div>
+					</div>
+					<!-- /Product main img -->
+
+					<!-- Product thumb imgs -->
+					<div class="col-md-2  col-md-pull-5">
+						<div id="product-imgs">
+                            {% for product_image in product.product_images.all  %}
+                                <div class="product-preview">
+                                    <img src="{{product_image.file.url}}" alt="">
+                                </div>
+                            {% endfor %}
+						</div>
+					</div>
+					<!-- /Product thumb imgs -->
+
+					<!-- Product details -->
+					<div class="col-md-5">
+						<div class="product-details">
+							<h2 class="product-name">{{product.title}}</h2>
+							{% comment %} <div>
+								<div class="product-rating">
+									<i class="fa fa-star"></i>
+									<i class="fa fa-star"></i>
+									<i class="fa fa-star"></i>
+									<i class="fa fa-star"></i>
+									<i class="fa fa-star-o"></i>
+								</div>
+								<a class="review-link" href="#">10 Review(s) | Add your review</a>
+							</div> {% endcomment %}
+							<div>
+								<h3 class="product-price">{{product.price|price_format_cup}}  <del class="product-old-price">{{product.old_price|price_format_cup}}</del></h3>
+								<br><span class="badge" style="background: #00BB2e;">{{product.stock}}</span><span class="product-available">Producto{{product.stock|pluralize}} en Stock</span>
+							</div>
+							<p>{{product.description|truncatewords:15}}</p>
+
+                            <form method="POST" class="product-details">
+                              
+                                {% csrf_token %}
+                                {{ form|crispy }}
+                                {% comment %} <button type='submit' class="btn btn-sm btn-primary buy-now" >Add to cart</button> {% endcomment %}
+                                <div class="add-to-cart">
+                                    <button type='submit' class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> agregar al carrito</button>
+                                </div>
+                            
+                            </form>
+
+
+							{% comment %} <div class="product-options">
+								<label>
+									Size
+									<select class="input-select">
+										<option value="0">X</option>
+									</select>
+								</label>
+								<label>
+									Color
+									<select class="input-select">
+										<option value="0">Red</option>
+									</select>
+								</label>
+							</div> {% endcomment %}
+
+							{% comment %} <div class="add-to-cart">
+								<div class="qty-label">
+									Qty
+									<div class="input-number">
+										<input type="number">
+										<span class="qty-up">+</span>
+										<span class="qty-down">-</span>
+									</div>
+								</div>
+								<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+							</div> {% endcomment %}
+
+							{% comment %} <ul class="product-btns">
+								<li><a href="#"><i class="fa fa-heart-o"></i> add to wishlist</a></li>
+								<li><a href="#"><i class="fa fa-exchange"></i> add to compare</a></li>
+							</ul> {% endcomment %}
+
+							<ul class="product-links">
+								<li>Categorias:</li>
+                                {% for product_cat in product.category.all   %}
+								    <li><a href="#">{{product_cat}}</a></li>
+                                {% endfor %}
+								{% comment %} <li><a href="#">Accessories</a></li> {% endcomment %}
+							</ul>
+
+							{% comment %} <ul class="product-links">
+								<li>Share:</li>
+								<li><a href="#"><i class="fa fa-facebook"></i></a></li>
+								<li><a href="#"><i class="fa fa-twitter"></i></a></li>
+								<li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+								<li><a href="#"><i class="fa fa-envelope"></i></a></li>
+							</ul> {% endcomment %}
+
+						</div>
+					</div>
+					<!-- /Product details -->
+
+					<!-- Product tab -->
+					<div class="col-md-12">
+						<div id="product-tab">
+							<!-- product tab nav -->
+							<ul class="tab-nav">
+								<li class="active"><a data-toggle="tab" href="#tab1">Descripción</a></li>
+								<li><a data-toggle="tab" href="#tab2">Detalles</a></li>
+								{% comment %} <li><a data-toggle="tab" href="#tab3">Reviews (3)</a></li> {% endcomment %}
+							</ul>
+							<!-- /product tab nav -->
+
+							<!-- product tab content -->
+							<div class="tab-content">
+								<!-- tab1  -->
+								<div id="tab1" class="tab-pane fade in active">
+									<div class="row">
+										<div class="col-md-12">
+											<p>{{product.description}}</p>
+										</div>
+									</div>
+								</div>
+								<!-- /tab1  -->
+
+								<!-- tab2  -->
+								<div id="tab2" class="tab-pane fade in">
+									<div class="row">
+										<div class="col-md-12">
+											<p>{{product.details|safe}}</p>
+										</div>
+									</div>
+								</div>
+								<!-- /tab2  -->
+
+								<!-- tab3  -->
+								<div id="tab3" class="tab-pane fade in">
+									<div class="row">
+										<!-- Rating -->
+										<div class="col-md-3">
+											<div id="rating">
+												<div class="rating-avg">
+													<span>4.5</span>
+													<div class="rating-stars">
+														<i class="fa fa-star"></i>
+														<i class="fa fa-star"></i>
+														<i class="fa fa-star"></i>
+														<i class="fa fa-star"></i>
+														<i class="fa fa-star-o"></i>
+													</div>
+												</div>
+												<ul class="rating">
+													<li>
+														<div class="rating-stars">
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+														</div>
+														<div class="rating-progress">
+															<div style="width: 80%;"></div>
+														</div>
+														<span class="sum">3</span>
+													</li>
+													<li>
+														<div class="rating-stars">
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star-o"></i>
+														</div>
+														<div class="rating-progress">
+															<div style="width: 60%;"></div>
+														</div>
+														<span class="sum">2</span>
+													</li>
+													<li>
+														<div class="rating-stars">
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star-o"></i>
+															<i class="fa fa-star-o"></i>
+														</div>
+														<div class="rating-progress">
+															<div></div>
+														</div>
+														<span class="sum">0</span>
+													</li>
+													<li>
+														<div class="rating-stars">
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star-o"></i>
+															<i class="fa fa-star-o"></i>
+															<i class="fa fa-star-o"></i>
+														</div>
+														<div class="rating-progress">
+															<div></div>
+														</div>
+														<span class="sum">0</span>
+													</li>
+													<li>
+														<div class="rating-stars">
+															<i class="fa fa-star"></i>
+															<i class="fa fa-star-o"></i>
+															<i class="fa fa-star-o"></i>
+															<i class="fa fa-star-o"></i>
+															<i class="fa fa-star-o"></i>
+														</div>
+														<div class="rating-progress">
+															<div></div>
+														</div>
+														<span class="sum">0</span>
+													</li>
+												</ul>
+											</div>
+										</div>
+										<!-- /Rating -->
+
+										<!-- Reviews -->
+										<div class="col-md-6">
+											<div id="reviews">
+												<ul class="reviews">
+													<li>
+														<div class="review-heading">
+															<h5 class="name">John</h5>
+															<p class="date">27 DEC 2018, 8:0 PM</p>
+															<div class="review-rating">
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star-o empty"></i>
+															</div>
+														</div>
+														<div class="review-body">
+															<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
+														</div>
+													</li>
+													<li>
+														<div class="review-heading">
+															<h5 class="name">John</h5>
+															<p class="date">27 DEC 2018, 8:0 PM</p>
+															<div class="review-rating">
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star-o empty"></i>
+															</div>
+														</div>
+														<div class="review-body">
+															<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
+														</div>
+													</li>
+													<li>
+														<div class="review-heading">
+															<h5 class="name">John</h5>
+															<p class="date">27 DEC 2018, 8:0 PM</p>
+															<div class="review-rating">
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star"></i>
+																<i class="fa fa-star-o empty"></i>
+															</div>
+														</div>
+														<div class="review-body">
+															<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua</p>
+														</div>
+													</li>
+												</ul>
+												<ul class="reviews-pagination">
+													<li class="active">1</li>
+													<li><a href="#">2</a></li>
+													<li><a href="#">3</a></li>
+													<li><a href="#">4</a></li>
+													<li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+												</ul>
+											</div>
+										</div>
+										<!-- /Reviews -->
+
+										<!-- Review Form -->
+										<div class="col-md-3">
+											<div id="review-form">
+												<form class="review-form">
+													<input class="input" type="text" placeholder="Your Name">
+													<input class="input" type="email" placeholder="Your Email">
+													<textarea class="input" placeholder="Your Review"></textarea>
+													<div class="input-rating">
+														<span>Your Rating: </span>
+														<div class="stars">
+															<input id="star5" name="rating" value="5" type="radio"><label for="star5"></label>
+															<input id="star4" name="rating" value="4" type="radio"><label for="star4"></label>
+															<input id="star3" name="rating" value="3" type="radio"><label for="star3"></label>
+															<input id="star2" name="rating" value="2" type="radio"><label for="star2"></label>
+															<input id="star1" name="rating" value="1" type="radio"><label for="star1"></label>
+														</div>
+													</div>
+													<button class="primary-btn">Submit</button>
+												</form>
+											</div>
+										</div>
+										<!-- /Review Form -->
+									</div>
+								</div>
+								<!-- /tab3  -->
+							</div>
+							<!-- /product tab content  -->
+						</div>
+					</div>
+					<!-- /product tab -->
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+
+
+
+
+        <div class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+
+
+<div class="row">
+
+					<!-- section title -->
+					<div class="col-md-12">
+						<div class="section-title">
+							<h3 class="title">Productos relacionados</h3>
+							<div class="section-nav">
+								<ul class="section-tab-nav tab-nav">
+									<li class="active"><a data-toggle="tab" href="#tab1">Todos</a></li>
+									{% comment %} <li><a data-toggle="tab" href="#tab1">Smartphones</a></li> {% endcomment %}
+									{% comment %} <li><a data-toggle="tab" href="#tab1">Cameras</a></li> {% endcomment %}
+									{% comment %} <li><a data-toggle="tab" href="#tab1">Accessories</a></li> {% endcomment %}
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- /section title -->
+
+					<!-- Products tab & slick -->
+					<div class="col-md-12">
+						<div class="row">
+							<div class="products-tabs">
+								<!-- tab -->
+								<div id="tab1" class="tab-pane active">
+									<div class="products-slick" data-nav="#slick-nav-1">
+										<!-- product -->
+										{% for related_product in product.related_products.all  %}
+											 {% if related_product.id != product.id %}
+										
+											<div class="product">
+												<div class="product-img">
+													<img src="{{related_product.image.url}}" height="200" alt="">
+													<div class="product-label">
+														{% if related_product.old_price > 0 %}
+															<span class="sale">{% discount related_product.old_price related_product.price%}</span>
+														{% endif %}
+														{% if  related_product.new %}
+															<span class="new">NUEVO</span>													
+														{% endif %}
+													</div>
+												</div>
+												<div class="product-body">
+													<p class="product-category">
+													 	{% for product_cat in related_product.category.all   %}
+								    						<a href="{{product_cat.get_absolute_url}}"> [{{product_cat}}] </a>
+                                						{% endfor %}
+													</p>
+													<a href="{{ related_product.get_absolute_url }}">
+														<h3 class="product-name">{{related_product.title}}</h3>
+														<h4 class="product-price">{{related_product.price|price_format_cup}} 
+														{% if related_product.old_price > 0 %}
+														 <del class="product-old-price">{{related_product.old_price|price_format_cup}}</del>
+														{% endif %}</h4>
+													</a>
+													<div class="product-rating">
+														{% comment %} <i class="fa fa-star"></i>
+														<i class="fa fa-star"></i>
+														<i class="fa fa-star"></i>
+														<i class="fa fa-star"></i>
+														<i class="fa fa-star"></i> {% endcomment %}
+													</div>
+														<div class="product-btns">
+												{% if product in user.profile.whishlist.all%}
+													<a href="{% url 'profile:addorremovetowhishlist' product.id %}" class="add-to-wishlist" style="color: #D10024;"><i class="fa fa-heart"></i><span class="tooltipp"> Eliminar de lista</span></a>
+												{%else%}
+													<a href="{% url 'profile:addorremovetowhishlist' product.id %}" class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp"> Agregar a lista</span></a>
+												{%endif%}
+												{% comment %} <form action="{% url 'profile:addorremovetowhishlist' product.id %}"> {% endcomment %}
+												{% comment %} </form> {% endcomment %}
+												<!-- <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button> -->
+												<br>
+												<a href="#" class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp"> Ver lista</span></a>
+											</div>
+												</div>
+												{% comment %} <div class="add-to-cart">
+												
+													
+													<button data-product="{{product.id}}" data-action="add" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+													
+												</div> {% endcomment %}
+											</div>
+											{%endif%}
+										{% endfor %}
+									</div>
+									<div id="slick-nav-1" class="products-slick-nav"></div>
+								</div>
+								<!-- /tab -->
+							</div>
+						</div>
+					</div>
+					<!-- Products tab & slick -->
+				</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+				
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+
+
+{% endblock %}

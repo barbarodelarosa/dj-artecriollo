@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-md-12" style="background: turquoise;">
+            <img height="600" width="100%" src="{{post.image.url}}">
+        </div>
+        <div class="col-md-12">
+            <p class="pull-right"><strong> Publicado:</strong> {{post.updated_at}} </p>
+            <p> <strong>Por: </strong>{{post.user}} </p>
+        </div>
+        <div class="col-md-10 offset-md-1">
+            <h1>
+                {{post.name}}
+            </h1>
+        </div>
+    </div>
+
+    <div class="row" style="margin: 20px;">
+        <div class="col-md-12" style="margin: 20px;">
+            {{post.content}}
+        </div>
+    </div>
+    <div class="row" style="margin: 2rem;">
+        <h3>ARTÍCULOS RELACIONADOS</h3>
+        {% for related in post.related_post.all  %}
+        <div class="col-sm-4 col-md-3">
+        <a href="{{related.get_absolute_url}}">
+            <div class="thumbnail" style="border: none !important;">
+                <img src="{{related.image.url}}" width="200" height="200" alt="" style="background: turquoise; border-radius: 20%;">
+                <div class="caption">
+                    <h3>{{related.name}}</h3>
+                </div>
+            </div>
+        </a>
+        </div>
+        {% endfor %}
+      </div>
+    <!-- <div class="row">
+        <div class="col-md-12" style="background: turquoise;">
+            Aqui van tos comentarios
+        </div>
+    </div> -->
+</div>
+{% endblock content %}
