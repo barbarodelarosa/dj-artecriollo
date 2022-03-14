@@ -44,6 +44,29 @@ class ProductImagesContent(models.Model):
 User = get_user_model()
 
 
+
+class Merchant(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    name = models.CharField(max_length=25)
+    slug = models.SlugField(max_length=25, blank=True, null=True, unique=True)
+    logo = models.ImageField(upload_to="image/merchant", blank=True, null=True)
+    image = models.ImageField(upload_to="image/merchant", blank=True, null=True)
+    banner = models.ImageField(upload_to="image/merchant", blank=True, null=True)
+    description=RichTextField()
+    phone = models.CharField(max_length=11, blank=True, null=True)
+    address = models.CharField(max_length=125, blank=True, null=True)
+    status = models.BooleanField(default=False)
+    public = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.name
+    
+    def get_absolute_url(self):        
+        return reverse("shop:merchant", kwargs={'slug': self.slug})
+
+
+
+
 class Category(models.Model):
     image = models.ImageField(upload_to="image/category", blank=True, null=True) 
     name  = models.CharField(max_length=100)
@@ -75,7 +98,7 @@ class Tag(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
-        super(Category, self).save(*args, **kwargs)
+        super(Tag, self).save(*args, **kwargs)
 
 
     def __str__(self):
@@ -177,6 +200,7 @@ class Brand(models.Model):
 class Product(models.Model):
     category = models.ManyToManyField(Category)
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE, blank=True, null=True)
+    merchant=models.ForeignKey(Merchant, on_delete=models.CASCADE, blank=True, null=True)
     tag = models.ManyToManyField(Tag, blank=True)
     title = models.CharField(max_length=150)
     product_images = models.ManyToManyField(ProductImagesContent, blank=True, related_name='images_product')
@@ -398,6 +422,16 @@ class Payment(models.Model):
 
      def __str__(self):
          return f"PAYMENT-{self.order}-{self.pk}"
+
+
+
+
+
+
+def pre_save_merchant_receiver(sender, instance, *args, **kwargs):
+    if not instance.slug:
+        instance.slug = slugify(instance.name)
+pre_save.connect(pre_save_merchant_receiver, sender=Merchant)
 
 
 def pre_save_product_receiver(sender, instance, *args, **kwargs):

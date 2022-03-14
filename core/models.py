@@ -1,5 +1,12 @@
 from email.policy import default
 from django.db import models
+from ckeditor.fields import RichTextField
+from django.utils.text import slugify
+from django.shortcuts import reverse
+from django.db.models.signals import pre_save
+
+
+
 
 # Create your models here.
 class SiteInfo(models.Model):
@@ -24,4 +31,16 @@ class SocialRed(models.Model):
         return f'{self.name}'
 
 
-    
+class Page(models.Model):
+    name = models.CharField(max_length=50)
+    slug = models.SlugField(max_length=50, blank=True, null=True)
+    content = RichTextField()
+
+    def __str__(self):
+        return self.name
+
+
+def pre_safe_page_receiver(sender, instance, *args, **kwargs):
+    if not instance.slug:
+        instance.slug = slugify(instance.name)
+pre_save.connect(pre_safe_page_receiver, sender=Page)

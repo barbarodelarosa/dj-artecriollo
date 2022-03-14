@@ -4,22 +4,19 @@
 
 
 <div class="container">
-     <div class="row">
-         <h1>Etiqueta: {{tag.name}}</h1>
-     </div>
     <div class="row">
         <div class="col-md-9">
 
-            {% for post in object.tag_post.all|dictsortreversed:"updated_at"  %}
+            {% for post in object_list  %}
             
             <div class="col-xs-12 col-sm-6 col-md-4">
                 <a href="{{post.get_absolute_url}}" class="cta-btn">
                     <div class="thumbnail" style="border-radius: 10px;">
                         <img src="{{post.image.url}}" style="height: 200px;" alt="">
-                        <h3 class="text-center">T{{post.name}}</h3>
+                        <h3 class="text-center">{{post.name}}</h3>
                         <div class="caption">
                             <p>{{post.content|safe|truncatechars:100}}</p>
-                  <p class="pull-right"><a href="#" class="btn btn-primary" role="button">Button</a> </p>
+                  <p class="pull-right"><a href="#" class="btn btn-primary" role="button">Leer más</a></p>
                 </div>
               </div>
             </a>

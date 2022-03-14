@@ -1,4 +1,3 @@
-from unicodedata import category
 from .models import *
 from django.contrib import admin
 
@@ -13,11 +12,17 @@ class AddressAdmin(admin.ModelAdmin):
 class CategoryAdmin(admin.ModelAdmin):
     search_fields=['name']
 
+class MerchantAdmin(admin.ModelAdmin):
+    search_fields=['name']
+
+    
+
 
 
 class ProductAdmin(admin.ModelAdmin):
     search_fields = ['title']
     autocomplete_fields=['category','related_products']
+    
 
 
 # Register your models here.

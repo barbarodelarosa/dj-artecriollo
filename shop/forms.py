@@ -4,6 +4,7 @@ from itertools import product
 from django import forms
 from django.forms import Select, Textarea, fields
 from django.contrib.auth import get_user_model
+from django.core.exceptions import ObjectDoesNotExist
 
 from .models import (
     Address,
@@ -83,8 +84,8 @@ class AddressForm(forms.Form):
         user_id = kwargs.pop('user_id')
         user = User.objects.get(id=user_id)
         super().__init__(*args, **kwargs)
-        address_user = Address.objects.get(user=user)
-
+        
+        
         self.fields['pais'].queryset = Pais.objects.all()
         self.fields['provincia'].queryset = Provincia.objects.all()
         self.fields['municipio'].queryset = Municipio.objects.all()
@@ -92,14 +93,19 @@ class AddressForm(forms.Form):
         self.fields['last_name'].initial = user.profile.last_name
         self.fields['phone'].initial = user.profile.phone
         self.fields['email'].initial = user.email
-        self.fields['pais'].initial = address_user.pais
-        self.fields['provincia'].initial = address_user.provincia
-        self.fields['municipio'].initial = address_user.municipio
-        self.fields['address_line_1'].initial = address_user.address_line_1
-        self.fields['address_line_2'].initial = address_user.address_line_2
-        self.fields['localidad'].initial = address_user.localidad
-        self.fields['numero'].initial = address_user.numero
-        self.fields['apt'].initial = address_user.apt
+        try: 
+            address_user = Address.objects.get(user=user)
+       
+            self.fields['pais'].initial = address_user.pais
+            self.fields['provincia'].initial = address_user.provincia
+            self.fields['municipio'].initial = address_user.municipio
+            self.fields['address_line_1'].initial = address_user.address_line_1
+            self.fields['address_line_2'].initial = address_user.address_line_2
+            self.fields['localidad'].initial = address_user.localidad
+            self.fields['numero'].initial = address_user.numero
+            self.fields['apt'].initial = address_user.apt
+        except ObjectDoesNotExist:
+            print("No existe direccion del")
 
         # shipping_address_qs = Address.objects.filter(
         #     user = user,

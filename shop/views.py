@@ -304,14 +304,14 @@ class CheckoutView(LoginRequiredMixin, generic.FormView):
         # address_exist = Address.objects.get(user=self.request.user).exist()
         # if Address.objects.filter(user=self.request.user).exist():
         #     Address.objects.get(user=self.request.user).delete()
-        # from django.core.exceptions import ObjectDoesNotExist
-        # try:
-        address_exist = Address.objects.get(user=self.request.user)
-        address_exist.delete()
+        from django.core.exceptions import ObjectDoesNotExist
+        try:
+            address_exist = Address.objects.get(user=self.request.user)
+            address_exist.delete()
 
     
-        # except ObjectDoesNotExist:
-        #     print("Either the blog or entry doesn't exist.")
+        except ObjectDoesNotExist:
+            print("Either the blog or entry doesn't exist.")
         address = Address.objects.create(
             address_type = 'P',
             user = self.request.user,
@@ -326,7 +326,7 @@ class CheckoutView(LoginRequiredMixin, generic.FormView):
             
             numero = form.cleaned_data['numero'],
             apt = form.cleaned_data['apt'],
-           
+        
             
             )
         order.billing_address = address
@@ -338,9 +338,10 @@ class CheckoutView(LoginRequiredMixin, generic.FormView):
 
         order.note = form.cleaned_data.get('note')
         order.save()
-        order_object = Order.objects.get(user=self.request.user)
+
+        # order_object = Order.objects.get(user=self.request.user)
         
-        print(order_object)
+        # print(order_object)
         messages.info(
             self.request, "You have successfully added your addresses")
         # return super(CheckoutView, self).form_valid(form)
@@ -438,6 +439,8 @@ class ConfirmEnzonaPaymentView(LoginRequiredMixin, generic.TemplateView):
         print("resp_enzona.json()")
         print(resp_enzona.json())
         if resp_enzona.status_code == 200:
+            print("resp_enzona.status_code2000200")
+            print(resp_enzona.status_code)
             resp_content = resp_enzona.json()
             links_resp = resp_content['links']
             url_confirm = links_resp[0]
@@ -445,6 +448,8 @@ class ConfirmEnzonaPaymentView(LoginRequiredMixin, generic.TemplateView):
             print(resp_content)
             return redirect(to=url_confirm['href']) #Redirecciona a enzona para confirmar el pago
         else:
+            print("resp_enzona.status_code")
+            print(resp_enzona.status_code)
             print(resp_enzona.status_code)
             
      
@@ -537,7 +542,7 @@ class ConfirmCashPaymentView(LoginRequiredMixin, generic.TemplateView):
         # print('=====================================')
     
 
-        context['CALLBACK_URL']= self.request.build_absolute_uri(reverse("cart:thank-you"))
+        context['CALLBACK_URL']= self.request.build_absolute_uri(reverse("shop:thankyou"))
         return context
 
 
@@ -588,7 +593,7 @@ class ConfirmOrderView(LoginRequiredMixin, generic.View):
             payment_method='ENZONA'
         )
         order.ordered = True
-        order.ordered_date = datetime.date.today()
+        order.ordered_date = datetime.datetime.now()
 
         for item in order.items.all(): #Funcion para agregar al producto la fecha en que fue vendido   
             item.product.selling_date = datetime.datetime.now()

@@ -22,7 +22,7 @@ def image_directory_path(instance, filename):
 class Category(models.Model):
     name=models.CharField(max_length=25)
     slug=models.SlugField(max_length=50, unique=True, blank=True, null=True)
-    image=models.ImageField(upload_to=image_directory_path)
+    image=models.ImageField(upload_to=image_directory_path, blank=True, null=True)
 
 
     def __str__(self):
@@ -50,7 +50,7 @@ class Tag(models.Model):
 class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ManyToManyField(Category, related_name="category_post")
-    tag = models.ManyToManyField(Category, related_name="tag_post")
+    tag = models.ManyToManyField(Tag, related_name="tag_post")
     name=models.CharField(max_length=50)
     slug=models.SlugField(max_length=50, unique=True, blank=True, null=True)
     image=models.ImageField(upload_to=image_directory_path)

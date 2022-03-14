@@ -22,6 +22,8 @@ urlpatterns = [
     path('newsletters/', include('newsletters.urls', namespace='newsletters')),
     path('profile/', views.ProfileView.as_view(), name='profile'),
     path('search/', views.SearchResultsView.as_view(), name='search_results'),
+    path('page/<slug>/', views.PageDetailView.as_view(), name='page-detail'),
+
 
 ]
 

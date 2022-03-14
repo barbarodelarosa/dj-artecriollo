@@ -1,0 +1,33 @@
+ <div class="row">              
+              <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h2 class="panel-title">Categorias</h2>
+                </div>
+                {% for cat in categories  %}
+                <div class="panel-body">
+                    <a href="{{cat.get_absolute_url}}">
+                        {{cat.name}} <span class="badge ">{{cat.category_post.count}}</span>
+                    </a>
+                    
+                </div>
+                <br>
+                {% endfor %}
+              </div>
+
+        </div>
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                  <h2 class="panel-title">Etiquetas</h2>
+                </div>
+                {% for tag in tags  %}
+                <div class="panel-body">
+                    <a href="{{tag.get_absolute_url}}">
+                        <span class="label label-success">{{tag.name}} {{tag.tag_post.count}}</span>
+                    </a>
+                    
+                </div>
+                <br>
+                {% endfor %}
+              </div>
+        </div>

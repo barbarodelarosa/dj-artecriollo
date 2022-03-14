@@ -1,3 +1,4 @@
+from core.models import Page
 from typing import OrderedDict
 from unicodedata import category
 
@@ -179,3 +180,8 @@ class TermsView(generic.TemplateView):
 
 class HelpView(generic.TemplateView):
     template_name = 'pages/help.html'
+
+
+class PageDetailView(generic.DetailView):
+    model = Page
+    template_name="pages/page_detail.html"

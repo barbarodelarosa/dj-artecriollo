@@ -1,39 +1,37 @@
 {% extends "base.html" %}
+
 {% block content %}
- <div class="container">
+
+
+<div class="container">
      <div class="row">
-         <h1>Category detail: {{category.name}}</h1>
+         <h1>Categoria: {{category.name}}</h1>
      </div>
-     <div class="row">
-         <div class="col-md-12">
-            {% for post in category.category_post.all  %}
-                <div class="row">
-                <div class="col-md-8 col-md-offset-2">
-                    <div class="thumbnail">
-                    <img src="{{post.image.url}}" alt="">
-                    <div class="col-md-12">
+    <div class="row">
+        <div class="col-md-9">
 
-                        <span class="pull-right"><strong> Publicado:</strong> {{post.updated_at}} </span>
-                        <span> <strong>Por: </strong>{{post.user}} </span>
-                    </div>
-                    <div class="caption">
-                        <h3><a href="{{post.get_absolute_url}}"> {{post.name}}</a></h3>
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Ducimus repellat ipsum provident inventore laudantium quisquam libero voluptatem possimus culpa! Dolorem quos exercitationem illo ab sint ullam fuga ea quod nulla.</p>
-                        <p class="col-md-offset-8">
-                            <a href="{{post.get_absolute_url}}" class="btn btn-primary" role="button">Leer más</a> 
-                            <a href="#" class="btn btn-default" role="button">Button</a></p>
-                        
-                    </div>
-                    </div>
+            {% for post in object.category_post.all|dictsortreversed:"updated_at"  %}
+            
+            <div class="col-xs-12 col-sm-6 col-md-4">
+                <a href="{{post.get_absolute_url}}" class="cta-btn">
+                    <div class="thumbnail" style="border-radius: 10px;">
+                        <img src="{{post.image.url}}" style="height: 200px;" alt="">
+                        <h3 class="text-center">{{post.name}}</h3>
+                        <div class="caption">
+                            <p>{{post.content|safe|truncatechars:100}}</p>
+                  <p class="pull-right"><a href="#" class="btn btn-primary" role="button">Button</a></p>
                 </div>
-                </div>
+              </div>
+            </a>
+            </div>
 
-                </div> 
-
-                {% endfor %}
+            
+            {% endfor %}
         </div>
-     </div>
- </div>
-    
+        <div class="col-md-3 col-xs-12">
+            {% include "parts/blog/side_bar_blog.html" %}
+        </div>
 
-{% endblock content %}
+    </div>
+</div>
+    {% endblock content %}
