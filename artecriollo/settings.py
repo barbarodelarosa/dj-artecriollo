@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
+    
 
 
     #My APPS
@@ -249,8 +250,9 @@ MESSAGE_TAGS = {
 
 # DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
 
-# # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-# EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# 
+# KEND = 'djcelery_email.backends.CeleryEmailBackend'
 
 
 # DEFAULT_FROM_EMAIL= env('DEFAULT_FROM_EMAIL')

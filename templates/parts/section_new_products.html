@@ -75,9 +75,15 @@
 												{% comment %} </form> {% endcomment %}
 												<!-- <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button> -->
 												<br>
-												<form action="{%url 'shop:add-to-cart' product.id %}" method="POST" >{% csrf_token %}
-												  <input type="hidden" name="quantity" value="1">
-												  <button type="submit" class="quick-view"><i class="fa fa-cart"></i><span class="tooltipp"> Add to car</span></button></form>
+												{% if request.user.is_authenticated %}
+													<form action="{%url 'shop:add-to-cart' product.id %}" method="POST" >{% csrf_token %}
+													<input type="hidden" name="quantity" value="1">
+													<button type="submit" class="quick-view"><i class="fa fa-cart"></i><span class="tooltipp"> Add to car</span></button></form>
+												
+												{% else %}
+									
+													<button type="button" class="quick-view" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-shopping-cart" style="font-size: xx-large;"></i><span class="tooltipp">Agregar a carrito</span></button>
+												{% endif %}
 											</div>
 												</div>
 												{% comment %} <div class="add-to-cart">

@@ -63,11 +63,18 @@
                                 {{ form|crispy }}
                                 {% comment %} <button type='submit' class="btn btn-sm btn-primary buy-now" >Add to cart</button> {% endcomment %}
                                 <div class="add-to-cart">
+								{% if request.user.is_authenticated %}
                                     <button type='submit' class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> agregar al carrito</button>
+								{% endif %}
+							
                                 </div>
                             
                             </form>
-
+ 								<div class="add-to-cart">								
+									{% if not request.user.is_authenticated %}
+										<button data-toggle="modal" data-target="#exampleModal"  class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> agregar al carrito</button>
+									{% endif %}
+                                </div>
 
 							{% comment %} <div class="product-options">
 								<label>

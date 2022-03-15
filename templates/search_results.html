@@ -34,18 +34,24 @@
               <i class="fa fa-star"></i>
               <i class="fa fa-star"></i>
             </div> {% endcomment %}
-            <div class="product-btns">
+            {% comment %} <div class="product-btns">
               <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
               <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
               <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-            </div>
+            </div> {% endcomment %}
           </div>
           <div class="add-to-cart">
                             <form action="{{product.get_absolute_url}}">
             <button class="add-to-cart-btn"><i class="fa fa-eye"></i> Ver producto</button>
                             </form>
-                                
-            <button data-product="{{product.id}}" data-action="add" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+            {% if request.user.is_authenticated %}
+              <button data-product="{{product.id}}" data-action="add" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+            
+            {% else %}
+              <button data-toggle="modal" data-target="#exampleModal" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+							{% comment %} <button type="button" class="quick-view" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-shopping-cart" style="font-size: xx-large;"></i><span class="tooltipp">Agregar a carrito</span></button> {% endcomment %}
+
+            {% endif %}                  
                                 
           </div>
         </div>

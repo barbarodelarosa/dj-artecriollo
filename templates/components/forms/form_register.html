@@ -1,0 +1,10 @@
+    <form class="signup" id="signup_form" method="post" action="/accounts/signup/">
+                {%csrf_token%}            
+            <div id="div_id_email" class="form-group"> <label for="id_email" class=" requiredField">
+                        Correo electrónico<span class="asteriskField">*</span> </label> <div> <input type="email" name="email" placeholder="Correo electrónico" autocomplete="email" class="textinput textInput form-control" required="" id="id_email"> </div> </div> <div id="div_id_password1" class="form-group"> <label for="id_password1" class=" requiredField">
+                        Contraseña<span class="asteriskField">*</span> </label> <div> <input type="password" name="password1" placeholder="Contraseña" autocomplete="new-password" class="textinput textInput form-control" required="" id="id_password1"> </div> </div> <div id="div_id_password2" class="form-group"> <label for="id_password2" class=" requiredField">
+                        Contraseña (de nuevo)<span class="asteriskField">*</span> </label> <div> <input type="password" name="password2" placeholder="Contraseña (de nuevo)" autocomplete="new-password" class="textinput textInput form-control" required="" id="id_password2"> </div> </div>
+
+            
+            <button class="btn btn-primary" type="submit">Regístrarse »</button>
+        </form>

@@ -1,0 +1,15 @@
+  {% comment %} <form class="login" method="POST" action="/accounts/login/"> {% endcomment %}
+  <form class="login" method="POST" action="/accounts/login/">
+        {%csrf_token%}            
+
+        <div id="div_id_login" class="form-group"> <label for="id_login" class=" requiredField">
+                        Usuario<span class="asteriskField">*</span> </label> <div> <input type="text" name="login" placeholder="Usuario" autocomplete="username" maxlength="150" class="textinput textInput form-control" required="" id="id_login"> </div> </div> <div id="div_id_password" class="form-group"> <label for="id_password" class=" requiredField">
+                        Contraseña<span class="asteriskField">*</span> </label> <div> <input type="password" name="password" placeholder="Contraseña" autocomplete="current-password" class="textinput textInput form-control" required="" id="id_password"> </div> </div> <div class="form-group"> <div id="div_id_remember" class="form-check"> <input type="checkbox" name="remember" class="checkboxinput form-check-input" id="id_remember"> <label for="id_remember" class="form-check-label">
+                            Recordarme
+                        </label> </div> </div>
+
+            
+            <button class="primaryAction btn btn-primary" type="submit">Iniciar sesión</button>
+            <br>
+        </form>
+            <a class="button secondaryAction" href="/accounts/password/reset/">¿Olvidó su contraseña?</a>
