@@ -3,7 +3,7 @@
 {% block content %}
 
 
-<div class="container">
+<div class="container padding-top-15">
      <div class="row">
          <h1>Categoria: {{category.name}}</h1>
      </div>
@@ -19,7 +19,7 @@
                         <h3 class="text-center">{{post.name}}</h3>
                         <div class="caption">
                             <p>{{post.content|safe|truncatechars:100}}</p>
-                  <p class="pull-right"><a href="#" class="btn btn-primary" role="button">Button</a></p>
+                  <p class="pull-right"><a href="{{post.get_absolute_url}}" class="btn btn-primary" role="button">Leer más</a></p>
                 </div>
               </div>
             </a>
