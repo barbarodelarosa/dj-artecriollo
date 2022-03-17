@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     #My APPS
     'core',
     'shop',
+    'auction',
     # 'authy',
     'profile',
     'newsletters',

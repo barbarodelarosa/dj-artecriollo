@@ -8,6 +8,7 @@ from core import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
+    path('subasta/', include('auction.urls')),
     path('', views.HomeView.as_view(), name='home'),
     path('contacto/', views.ContactView.as_view(), name='contact'),
     path('acerca-de/', views.AboutView.as_view(), name='about'),

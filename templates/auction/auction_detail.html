@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block scripts %}
+    <script src="{% static 'new/js/countdown.js' %}" defer>
+    
+    </script>
+{% endblock scripts %}
+
+{% block content %}
+    <div>{{object.product.title}} will take place:</div>
+    <div id="event-box">{{object.date_finish|date:"M d, Y H:m:s"}}</div>
+    <div>TIME LEFT:</div>
+    <div id="countdown-box" class="text-center mt-3 h1">
+      
+    </div>
+
+{% endblock content %}
