@@ -218,6 +218,7 @@ class Product(models.Model):
     stock = models.PositiveIntegerField(default=0)
     new = models.BooleanField(default=True)
     selling = models.BooleanField(default=False)
+    for_auction = models.BooleanField(default=False)
     selling_date = models.DateTimeField(auto_now=True)
     related_products = models.ManyToManyField('self', blank=True)
     

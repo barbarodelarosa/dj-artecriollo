@@ -10,6 +10,7 @@
 						<li class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}"><a href="{% url 'contact' %}">Contact</a></li>
 						<li class="{% if request.resolver_match.url_name == 'category-list' %}active{% endif %}"><a href="{% url 'shop:category-list' %}">Categories</a></li>
 						<li class="{% if request.resolver_match.url_name == 'index-blog' %}active{% endif %}"><a href="{% url 'blog:posts' %}">Blog</a></li>
+						<li class="{% if request.resolver_match.url_name == 'auction:auction-index' %}active{% endif %}"><a href="{% url 'auction:auction-index' %}">Subasta</a></li>
 						{% comment %} <li><a href="#">Hot Deals</a></li>
 						<li><a href="#">Categories</a></li>
 						<li><a href="#">Laptops</a></li>

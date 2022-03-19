@@ -1,7 +1,148 @@
 {% extends "base.html" %}
+{% load price_format_tags %}
 
 {% block content %}
-{% for obj in object_list  %}
-    <a href="{{obj.get_absolute_url}}">{{obj.product.title}}</a><br>
-{% endfor %}
+
+
+
+
+
+
+
+
+
+<div class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+					
+					<!-- ASIDE -->
+					
+							<!-- /ASIDE -->
+							<!-- STORE -->
+						<div id="store" class="col-md-9">
+				
+
+							<!-- store products -->
+							<div class="row">
+							<!-- product -->
+                            {% for auction in page_obj  %}
+                            
+								<div class="col-md-4 col-xs-6">
+									<div class="product">
+										<a href="{% url 'auction:auction-detail' auction.pk %}">
+										<div class="product-img">
+											<img src="{{auction.product.image.url}}" height="200" width="200" alt="">
+											<div class="product-label">
+												{% if not auction.product.seller%}
+													<span class="sale" style="color: green; border-color: green;">{{auction.date_finish|date:"M d, Y H:m"}}</span>
+												{% endif %}
+												{% if  product.new %}
+													<span class="new">VENDIDO</span>													
+												{% endif %}
+											</div>
+										</div>
+										</a>
+										<div class="product-body">
+											<p class="product-category">
+												{% comment %} {% for product_cat in product.category.all   %}
+													<a href="{{product_cat.get_absolute_url}}"> [{{product_cat}}] </a>
+												{% endfor %} {% endcomment %}
+											</p>
+											<a href="{% url 'auction:auction-detail' auction.pk %}">
+												<h3 class="product-name">{{auction.product.title}}</h3>
+											
+												<h4 class="product-price">{{auction.product.price|price_format_cup}}</h4>
+											</a>
+											{% comment %} <div class="product-rating">
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+											</div> {% endcomment %}
+											<div class="product-btns">
+												{% comment %} {% if product in user.profile.whishlist.all%}
+													<a href="{% url 'profile:addorremovetowhishlist' product.id %}" class="add-to-wishlist" style="color: #D10024;"><i class="fa fa-heart"></i><span class="tooltipp"> Eliminar de lista</span></a>
+												{%else%}
+													<a href="{% url 'profile:addorremovetowhishlist' auc.id %}" class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">Agregar a lista</span></a>
+												{%endif%} {% endcomment %}
+												{% comment %} <form action="{% url 'profile:addorremovetowhishlist' product.id %}"> {% endcomment %}
+												{% comment %} </form> {% endcomment %}
+												<!-- <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button> -->
+												<br>
+                                                {% if user.is_authenticated %}
+                                                    <form action="{% url 'auction:user-bid-amount' auction.pk %}" method="post">
+                                                    {% csrf_token %}
+                                                        <input type="hidden" value="250.55" name="bid_amount">
+                                                        <button type="submit" class="quick-view"><i class="fa fa-hand-paper-o"></i><span class="tooltipp"> Pujar monto</span></button>
+                                                    </form>
+                                                {% endif %}
+                                                
+                                                {% if not user.is_authenticated %}
+                                                    <button data-toggle="modal" data-target="#exampleModal" class="quick-view"><i class="fa fa-hand-paper-o"></i><span class="tooltipp"> Pujar monto</span></button>
+                                                {% endif %}
+											</div>
+										</div>
+										{% comment %} <div class="add-to-cart">
+										<form action="{{product.get_absolute_url}}">
+											<button class="add-to-cart-btn"><i class="fa fa-eye"></i> Ver producto</button>
+										</form>
+										<form action="{% url 'shop:add-to-cart' product.id %}" method="post">
+											
+											{% csrf_token %}
+											<button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+										</form>
+											 
+										</div> {% endcomment %}
+									</div>
+								</div>
+                            {% endfor %}
+							<!-- /product -->
+
+							
+
+							</div>
+							<!-- /store products -->
+
+						<!-- store bottom pagination -->
+							<!-- <div class="store-filter clearfix">
+								<span class="store-qty">Showing 20-100 products</span>
+								<ul class="store-pagination">
+									<li class="active">1</li>
+									<li><a href="#">2</a></li>
+									<li><a href="#">3</a></li>
+									<li><a href="#">4</a></li>
+									<li><a href="#"><i class="fa fa-angle-right"></i></a></li>
+								</ul>
+							</div> -->
+
+							<div class="row">
+								<nav aria-label="...">
+								  <ul class="pager">
+									{% if page_obj.has_previous %}
+									  <li ><a class="button-paginate"href="?page=1">&laquo; primera página</a></li> 
+									  <li><a class="button-paginate"href="?page={{ page_obj.previous_page_number }}">anterior</a></li> 
+									{% endif %}
+									Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+									{% if page_obj.has_next %}
+										<li><a class="button-paginate"href="?page={{ page_obj.next_page_number }}">siquiente</a></li>
+										<li><a class="button-paginate"href="?page={{ page_obj.paginator.num_pages }}">última página &raquo;</a></li>
+									{% endif %}
+								  </ul>
+								</nav>
+							  </div>
+							</div>
+						<!-- /store bottom pagination -->
+					<!-- /STORE -->
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+		<!-- /SECTION -->
+
+
+
 {% endblock content %}
