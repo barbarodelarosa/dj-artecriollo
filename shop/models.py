@@ -1,4 +1,7 @@
 from email.policy import default
+from itertools import product
+import os
+from django.conf import settings
 from django.db import models
 from ckeditor.fields import RichTextField
 
@@ -32,7 +35,11 @@ def user_directory_path(instance, filename):
     # print(response)
     # return response
     # This file will be uploaded to MEDIA_ROOT/the user{id}/thefile
-    return 'user_{0}/product_{1}'.format(instance.user.username, filename)
+    img_path = 'user_{0}/product_{1}'.format(instance.user.username, filename)
+    full_path = os.path.join(settings.MEDIA_ROOT, img_path)
+    if os.path.exists(full_path):
+        os.remove(full_path)
+    return img_path
 
 class ProductImagesContent(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='content_owner', blank=True, null=True)
@@ -198,6 +205,7 @@ class Brand(models.Model):
 
 
 class Product(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     category = models.ManyToManyField(Category)
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE, blank=True, null=True)
     merchant=models.ForeignKey(Merchant, on_delete=models.CASCADE, blank=True, null=True)
@@ -205,7 +213,7 @@ class Product(models.Model):
     title = models.CharField(max_length=150)
     product_images = models.ManyToManyField(ProductImagesContent, blank=True, related_name='images_product')
     slug = models.SlugField(unique=True, blank=True)
-    image = models.ImageField(upload_to='product_image')
+    image = models.ImageField(upload_to=user_directory_path)
     price = models.IntegerField(default=0)
     old_price = models.IntegerField(default=0, blank=True, null=True)
     description = models.TextField()
@@ -218,6 +226,9 @@ class Product(models.Model):
     stock = models.PositiveIntegerField(default=0)
     new = models.BooleanField(default=True)
     selling = models.BooleanField(default=False)
+    digital = models.BooleanField(default=False)
+    content_url = models.URLField(blank=True, null=True)
+    content_file = models.FileField(upload_to='products/content-files/', blank=True, null=True)
     for_auction = models.BooleanField(default=False)
     selling_date = models.DateTimeField(auto_now=True)
     related_products = models.ManyToManyField('self', blank=True)
@@ -246,7 +257,14 @@ class Product(models.Model):
         
         return reverse("shop:product-detail", kwargs={'category': category.slug,'slug': self.slug})
 
+class PurchasedProduct(models.Model):
+    email = models.EmailField()
+    product = models.ForeignKey(Product, models.CASCADE)
+    date_purchased = models.DateTimeField(auto_now_add=True)
 
+
+    def __str__(self):
+        return self.email
 
 class WhishList(models.Model):
     title = models.CharField(max_length=150, blank=True, null=True)

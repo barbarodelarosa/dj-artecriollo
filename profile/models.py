@@ -1,6 +1,8 @@
+from dbm.ndbm import library
+from itertools import product
 from django.db import models
 from django.contrib.auth.models import User
-from shop.models import Product
+from shop.models import Product, PurchasedProduct
 
 from django.db.models.signals import post_save
 
@@ -71,5 +73,33 @@ class PeopleList(models.Model):
 	user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='list_user')
 	people = models.ManyToManyField(User, related_name='people_user')	
 
+	def __str__(self):
+		return self.title
+
+
+
+class UserLibrary(models.Model):
+	user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='library')
+	products = models.ManyToManyField(Product, blank=True)
+
+	class Meta:
+		verbose_name_plural = 'User Libraries'
+
+		
+	def __str__(self):
+		return self.user.email
+		
+
+def post_save_user_riceiver(sender, instance, created, **kwargs):
+	if created:
+		library = UserLibrary.objects.create(user=instance)
+	
+	purchased_products = PurchasedProduct.objects.filter(email=instance.email)
+
+	for purchased_product in purchased_products:
+		library.products.add(purchased_product.product)
+
+	
+post_save.connect(post_save_user_riceiver, sender=User)
 post_save.connect(create_user_profile, sender=User)
 post_save.connect(save_user_profile, sender=User)

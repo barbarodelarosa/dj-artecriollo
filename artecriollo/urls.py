@@ -24,6 +24,8 @@ urlpatterns = [
     path('profile/', views.ProfileView.as_view(), name='profile'),
     path('search/', views.SearchResultsView.as_view(), name='search_results'),
     path('page/<slug>/', views.PageDetailView.as_view(), name='page-detail'),
+    path('download/', views.downloadFile, name='download'),
+    path('download1/', views.GithubAvatarDownloadView.as_view(), name='download1'),
 
 
 ]

@@ -1,7 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
-
+{% comment %} <form action="{%url 'download1'%}" method="post">
+	{% csrf_token %}
+<button type="submit">Desargar</button>
+</form> {% endcomment %}
+<a href="{%url 'download1'%}">donwload</a>
 		<!-- SECTION -> CATEGORY-HOME -->
 		{% include "parts/section_category_home.html" %}
 		<!-- /END SECTION -> CATEGORY-HOME-->

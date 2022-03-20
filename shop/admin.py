@@ -41,6 +41,7 @@ admin.site.register(ColorVariation)
 admin.site.register(SizeVariation)
 admin.site.register(Address, AddressAdmin)
 admin.site.register(Payment)
+admin.site.register(PurchasedProduct)
 
 
 

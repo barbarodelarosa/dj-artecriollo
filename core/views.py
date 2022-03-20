@@ -1,12 +1,16 @@
+from logging import FileHandler
+import os
+
+import requests
 from core.models import Page
 from typing import OrderedDict
 from unicodedata import category
 
-from django.http import request
+from django.http import HttpResponse, request
 from shop.enzona import payment_orders
 from django import shortcuts
 from django.forms import forms
-from django.shortcuts import render, reverse
+from django.shortcuts import redirect, render, reverse
 
 from django.core.mail import send_mail
 from django.contrib import messages
@@ -185,3 +189,29 @@ class HelpView(generic.TemplateView):
 class PageDetailView(generic.DetailView):
     model = Page
     template_name="pages/page_detail.html"
+
+
+
+def downloadFile(request):
+    # user=request.user
+    # auction = get_object_or_404(Auction, pk=pk)
+    # user = request.user
+    if request.method=="POST":
+       #probar que sea valido el formulario para descarga
+
+        # full_path = os.path.join(settings.MEDIA_ROOT, 'bootstrap-5.1.3-examples.zip') #OKKK
+        full_path = os.path.join(settings.MEDIA_ROOT, 'user_barbaro/product_hero.jpg')
+        content = open(full_path, "rb")
+        response = HttpResponse(content.read(), content_type="application/adminupload")
+        response['Content-Disposition']='inline;filename='+os.path.basename(full_path)
+
+        return response
+            
+    next = request.META.get('HTTP_REFERER', None) or '/'  #Obtiene la url actual
+    return redirect(next)
+
+from django_downloadview import HTTPDownloadView
+
+class GithubAvatarDownloadView(HTTPDownloadView):
+    def get_url(self):
+        return "http://127.0.0.1:8000/bootstrap-5.1.3-examples.zip"
