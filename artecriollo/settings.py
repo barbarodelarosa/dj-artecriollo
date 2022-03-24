@@ -68,6 +68,8 @@ INSTALLED_APPS = [
     #OTHERS
     'crispy_forms',
     'ckeditor',
+ 
+   
 
 ]
 INSTALLED_APPS += ("djcelery_email", )

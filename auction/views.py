@@ -1,10 +1,14 @@
 from datetime import datetime
-from auction.forms import AddToUserBidForm
-from django.shortcuts import get_object_or_404, redirect, render
+
+from django.http import HttpResponse, HttpResponseRedirect
+from auction.forms import AddAuctionForm, AddToUserBidForm
+from django.shortcuts import get_object_or_404, redirect, render, reverse
 from django.views import generic
 from .models import Auction
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+
 
 class ActionProductsListView(generic.ListView):
     model = Auction
@@ -36,3 +40,50 @@ def addToUserBid(request,pk):
             
     next = request.META.get('HTTP_REFERER', None) or '/'  #Obtiene la url actual
     return redirect(next)
+
+
+
+
+
+class CreateAuctionView(LoginRequiredMixin, generic.FormView):
+    template_name='auction/create_auction.html'
+    form_class=AddAuctionForm
+
+
+
+    def get_success_url(self):
+        return reverse("auction:create-auction")
+
+    def get_form_kwargs(self):
+        kwargs = super(CreateAuctionView, self).get_form_kwargs()
+        kwargs["user"] = self.request.user
+        print(self.request.user)
+        return kwargs
+
+    def form_invalid(self, form: AddAuctionForm) -> HttpResponse:
+   
+        return super().form_invalid(form)
+
+
+    def form_valid(self, form):
+        related_auction_list = []
+
+        related = form.cleaned_data.get('related_auction')
+        for rel in related:
+            related_auction_list.append(rel)
+
+
+        created = Auction.objects.create(
+            user = self.request.user,
+            product = form.cleaned_data.get('product'),
+            created_at = form.cleaned_data.get('created_at'),
+            date_finish = form.cleaned_data.get('date_finish'),
+            price_init = form.cleaned_data.get('price_init'),
+            note = form.cleaned_data.get('note'),
+          
+        )
+
+        created.related_auction.set(related_auction_list)
+        created.save()
+        messages.info(self.request,"Subasta creada exitosamente")
+        return super().form_valid(form)

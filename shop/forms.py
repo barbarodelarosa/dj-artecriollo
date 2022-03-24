@@ -1,20 +1,27 @@
-# from cProfile import label
+# from email.policy import default
+# from itertools import product
 from email.policy import default
-from itertools import product
 from django import forms
 from django.forms import Select, Textarea, fields
 from django.contrib.auth import get_user_model
 from django.core.exceptions import ObjectDoesNotExist
+from pkg_resources import require
+from ckeditor.fields import RichTextField
 
 from .models import (
     Address,
+    Brand,
+    Category,
+    Merchant,
     Municipio,
     OrderItem, 
     ColorVariation,
     Pais, 
     Product,
+    ProductImagesContent,
     Provincia,
     SizeVariation,
+    Tag,
     
 )
 
@@ -147,3 +154,112 @@ class AddressForm(forms.Form):
         #     if not data.get('billing_city', None):
         #         self.add_error("billing_city", "Por favor complete este campo")
      
+
+
+
+
+
+
+
+class AddProductBasicForm(forms.ModelForm):
+    
+
+    # category = forms.ModelMultipleChoiceField(label="Categorias", queryset=Category.objects.all(),widget=Select(attrs={'class':'select2', 'multiple':'multiple'}), required=False)
+    category = forms.ModelMultipleChoiceField(label="Categorias", queryset=Category.objects.all(), required=False)
+    merchant = forms.ModelChoiceField(queryset = Merchant.objects.none(),label="Tienda", widget=Select(attrs={'class':'select2'}), required=False)
+    brand = forms.ModelChoiceField(queryset = Brand.objects.none(), label="Marca", widget=Select(attrs={'class':'select2'}), required=False)
+    # tag = forms.ModelMultipleChoiceField(label="Etiquetas", queryset=Tag.objects.all(),widget=Select(attrs={'class':'select2', 'multiple':'multiple'}), required=False)
+    product_images = forms.FileField(label="Galeria del producto",help_text="Agregar hasta 5 imagenes del producto", widget=forms.ClearableFileInput(attrs={'multiple': True}), required=True)
+    # avialable_colours = forms.ModelMultipleChoiceField(label="Colores", queryset=ColorVariation.objects.none(),widget=Select(attrs={'class':'select2', 'multiple':'multiple'}), required=False)
+    # avialable_sizes = forms.ModelMultipleChoiceField(label="Medidas", queryset=SizeVariation.objects.none(),widget=Select(attrs={'class':'select2', 'multiple':'multiple'}), required=False)
+    # related_products = forms.ModelMultipleChoiceField(label="Productos relacionados", queryset=Product.objects.none(),widget=Select(attrs={'class':'select2', 'multiple':'multiple'}), required=False)
+    title=forms.CharField(label="Nombre del producto", help_text="Agregar nombre descriptivo del producto")
+    image=forms.ImageField(label="Imagen principal", help_text="Poner la imagen principal del producto")
+    price=forms.IntegerField(label="Precio", help_text="Agregar precio del producto")
+    stock=forms.IntegerField(label="Productos en stock", help_text="Agregar la cantidad de productos disponibles para la venta")
+    old_price=forms.IntegerField(label="Precio anterior", help_text="Solo agregar si existe un precio anterior menor al actual")
+    description=forms.Textarea()
+    details=RichTextField()
+    for_auction=forms.BooleanField(label="Producto para subasta", required=False, initial=False)
+
+    class Meta:
+        model = Product
+        fields = ['category','merchant','title','image','product_images','price','stock','old_price','description','details','brand','for_auction']
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
+        super().__init__(*args, **kwargs)
+        
+        
+        # self.fields['category'].queryset = Category.objects.all()
+        self.fields['merchant'].queryset = Merchant.objects.filter(user=user)
+        self.fields['brand'].queryset = Brand.objects.all()
+        # self.fields['tag'].queryset = Tag.objects.all()
+        self.fields['product_images'].queryset = ProductImagesContent.objects.filter(user=user)
+        # self.fields['avialable_colours'].initial = ColorVariation.objects.all()
+        # self.fields['avialable_sizes'].initial = SizeVariation.objects.all()
+        # self.fields['related_products'].initial = Product.objects.all()
+        
+
+
+class AddDigitalProductForm(forms.ModelForm):
+     # category = forms.ModelMultipleChoiceField(label="Categorias", queryset=Category.objects.all(),widget=Select(attrs={'class':'select2', 'multiple':'multiple'}), required=False)
+    category = forms.ModelMultipleChoiceField(label="Categorias", queryset=Category.objects.all(), required=False)
+    merchant = forms.ModelChoiceField(queryset = Merchant.objects.none(),label="Tienda", widget=Select(attrs={'class':'select2'}), required=False)
+    # tag = forms.ModelMultipleChoiceField(label="Etiquetas", queryset=Tag.objects.all(),widget=Select(attrs={'class':'select2', 'multiple':'multiple'}), required=False)
+    product_images = forms.FileField(label="Galeria del producto",help_text="Agregar hasta 5 imagenes del producto", widget=forms.ClearableFileInput(attrs={'multiple': True}), required=True)
+    # related_products = forms.ModelMultipleChoiceField(label="Productos relacionados", queryset=Product.objects.none(),widget=Select(attrs={'class':'select2', 'multiple':'multiple'}), required=False)
+    title=forms.CharField(label="Nombre del producto", help_text="Agregar nombre descriptivo del producto")
+    image=forms.ImageField(label="Imagen principal", help_text="Poner la imagen principal del producto")
+    price=forms.IntegerField(label="Precio", help_text="Agregar precio del producto")
+    old_price=forms.IntegerField(label="Precio anterior", help_text="Solo agregar si existe un precio anterior menor al actual")
+    description=forms.Textarea()
+    details=RichTextField()
+    
+    content_file=forms.FileField(label="Archivo", help_text="Agregar archivo descargable maximo 5mb", required=False)
+    content_url=forms.URLField(label="URL del contenido", help_text="Agrega la url del contenido a descargar", required=False)
+
+  
+    class Meta:
+        model = Product
+        fields = ['category','merchant','title','image','product_images','price','stock','old_price','description','details','content_file','content_url' ]
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
+        super().__init__(*args, **kwargs)
+        
+        
+        # self.fields['category'].queryset = Category.objects.all()
+        self.fields['merchant'].queryset = Merchant.objects.filter(user=user)
+        # self.fields['brand'].queryset = Brand.objects.all()
+        # self.fields['tag'].queryset = Tag.objects.all()
+        self.fields['product_images'].queryset = ProductImagesContent.objects.filter(user=user)
+        # self.fields['avialable_colours'].initial = ColorVariation.objects.all()
+        # self.fields['avialable_sizes'].initial = SizeVariation.objects.all()
+        # self.fields['related_products'].initial = Product.objects.all()
+
+
+
+
+
+class AddMerchanForm(forms.ModelForm):
+
+    name=forms.CharField(label="Nombre de la Tienda")
+    logo=forms.ImageField(label="Logo")
+    image=forms.ImageField(label="Imagen principal")
+    banner=forms.ImageField(label="Banner")
+    phone=forms.CharField(label="Teléfono")
+    description=RichTextField()
+    address = forms.ModelChoiceField(queryset = Address.objects.none(),label="Dirección de la tienda", widget=Select(attrs={'class':'select2'}), required=False)
+    public = forms.BooleanField(initial=True)
+
+    class Meta:
+        model = Merchant
+        fields = ['name','logo','image','banner','phone','description','address','public']
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user')
+        super().__init__(*args, **kwargs)
+        
+        self.fields['address'].queryset = Address.objects.filter(user=user)
+  

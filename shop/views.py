@@ -4,15 +4,16 @@ import json
 from django import template
 from django.views import generic
 from django.db.models import Q
+from requests import request
 
 import shop
 from .utils import get_or_set_order_session, get_whishlist_session
-from .models import Product, OrderItem, Address, Payment, Order, Category, WhishList
-from .forms import AddToCartForm, AddressForm
+from .models import Merchant, Product, OrderItem, Address, Payment, Order, Category, ProductImagesContent, WhishList
+from .forms import AddDigitalProductForm, AddMerchanForm, AddProductBasicForm, AddToCartForm, AddressForm
 from django.shortcuts import get_object_or_404, reverse, redirect
 from django.contrib import messages
 from django.conf import settings
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from shop import enzona
@@ -31,6 +32,192 @@ class CategoryDeatilView(generic.DetailView):
 class CategoryListView(generic.ListView):
     model = Category
     template_name = 'shop/category_list.html'
+
+
+class CreateProductView(LoginRequiredMixin, generic.FormView):
+    template_name='shop/create_product.html'
+    form_class=AddProductBasicForm
+    success_url="shop:create-product"
+
+
+
+    def get_form_kwargs(self):
+        kwargs = super(CreateProductView, self).get_form_kwargs()
+        kwargs["user"] = self.request.user
+        print(self.request.user)
+        return kwargs
+
+    def form_invalid(self, form: AddProductBasicForm) -> HttpResponse:
+      
+        return super().form_invalid(form)
+
+    def form_valid(self, form):
+     
+        files_objs = []
+
+        files = self.request.FILES.getlist('product_images')
+        for file in files:
+            file_instant = ProductImagesContent(file=file, user=self.request.user,)
+            file_instant.save()
+            files_objs.append(file_instant)
+
+
+        categories = form.cleaned_data['category']
+        # tag = form.cleaned_data['tag'],
+    
+        # avialable_colours = form.cleaned_data.get('avialable_colours')
+        # avialable_sizes = form.cleaned_data.get('avialable_sizes')
+        # related_products = form.cleaned_data.get('related_products')
+
+        created = Product.objects.create(
+            user = self.request.user,
+            brand = form.cleaned_data.get('brand'),
+            merchant = form.cleaned_data.get('merchant'),
+            title = form.cleaned_data.get('title'),
+            slug = form.cleaned_data.get('slug'),
+            image = form.cleaned_data.get('image'),
+            price = form.cleaned_data.get('price'),
+            old_price = form.cleaned_data.get('old_price'),
+            description = form.cleaned_data.get('description'),
+            details = form.cleaned_data.get('details'),
+            created = form.cleaned_data.get('created'),
+            updated = form.cleaned_data.get('updated'),
+            active = True,
+            stock = form.cleaned_data.get('stock'),
+            new = True,
+            selling = False,
+            digital = False,
+            content_url = form.cleaned_data.get('content_url'),
+            content_file = form.cleaned_data.get('content_file'),
+            for_auction = False,
+            selling_date = form.cleaned_data.get('selling_date'),
+        )
+
+        created.product_images.set(files_objs)
+        created.category.set(categories)
+        # created.tag.set(tag)
+        # created.avialable_colours.set(avialable_colours)
+        # created.avialable_sizes.set(avialable_sizes)
+        # created.related_products.set(related_products)
+        created.save()
+        messages.info(self.request,"Producto agregado exitosamente")
+        return super().form_valid(form)
+
+    
+class CreateDigitalProductView(LoginRequiredMixin, generic.FormView):
+    template_name='shop/create_digital_product.html'
+    form_class=AddDigitalProductForm
+    success_url="admin"
+
+
+
+    def get_form_kwargs(self):
+        kwargs = super(CreateDigitalProductView, self).get_form_kwargs()
+        kwargs["user"] = self.request.user
+        print(self.request.user)
+        return kwargs
+
+    def form_invalid(self, form: AddDigitalProductForm) -> HttpResponse:
+        return super().form_invalid(form)
+
+
+    def form_valid(self, form):
+     
+        files_objs = []
+
+        files = self.request.FILES.getlist('product_images')
+        for file in files:
+            file_instant = ProductImagesContent(file=file, user=self.request.user,)
+            file_instant.save()
+            files_objs.append(file_instant)
+
+        
+
+        print(form)
+        categories = form.cleaned_data['category']
+        content_file = form.cleaned_data['content_file']
+        print(content_file)
+        # tag = form.cleaned_data['tag'],
+    
+        # avialable_colours = form.cleaned_data.get('avialable_colours')
+        # avialable_sizes = form.cleaned_data.get('avialable_sizes')
+        # related_products = form.cleaned_data.get('related_products')
+
+        created = Product.objects.create(
+            user = self.request.user,
+            brand = form.cleaned_data.get('brand'),
+            merchant = form.cleaned_data.get('merchant'),
+            title = form.cleaned_data.get('title'),
+            slug = form.cleaned_data.get('slug'),
+            image = form.cleaned_data.get('image'),
+            price = form.cleaned_data.get('price'),
+            old_price = form.cleaned_data.get('old_price'),
+            description = form.cleaned_data.get('description'),
+            details = form.cleaned_data.get('details'),
+            created = form.cleaned_data.get('created'),
+            updated = form.cleaned_data.get('updated'),
+            active = True,
+            stock = form.cleaned_data.get('stock'),
+            new = True,
+            selling = False,
+            digital = True,
+            content_url = form.cleaned_data.get('content_url'),
+            content_file = form.cleaned_data.get('content_file'),
+            for_auction = False,
+            selling_date = form.cleaned_data.get('selling_date'),
+        )
+
+        created.product_images.set(files_objs)
+        created.category.set(categories)
+        # created.tag.set(tag)
+        # created.avialable_colours.set(avialable_colours)
+        # created.avialable_sizes.set(avialable_sizes)
+        # created.related_products.set(related_products)
+        created.save()
+        messages.info(self.request,"Producto agregado exitosamente")
+        return super().form_valid(form)
+
+    
+class CreateMerchantView(LoginRequiredMixin, generic.FormView):
+    template_name='shop/create_merchant.html'
+    form_class=AddMerchanForm
+   
+
+    def get_success_url(self):
+        return reverse("shop:create-merchant")
+
+
+
+    def get_form_kwargs(self):
+        kwargs = super(CreateMerchantView, self).get_form_kwargs()
+        kwargs["user"] = self.request.user
+        print(self.request.user)
+        return kwargs
+
+    def form_invalid(self, form: AddMerchanForm) -> HttpResponse:
+        return super().form_invalid(form)
+
+
+    def form_valid(self, form):
+     
+
+        created = Merchant.objects.create(
+            user = self.request.user,
+            name = form.cleaned_data.get('name'),
+            slug = form.cleaned_data.get('slug'),
+            logo = form.cleaned_data.get('logo'),
+            image = form.cleaned_data.get('image'),
+            banner = form.cleaned_data.get('banner'),
+            description = form.cleaned_data.get('description'),
+            phone = form.cleaned_data.get('phone'),
+            address = form.cleaned_data.get('address'),
+            # status = form.cleaned_data.get('status'),
+            public = form.cleaned_data.get('public'),
+        )
+
+        created.save()
+        messages.info(self.request,"Tienda creada exitosamente, debe esperar a que ésta sea aprobada por los administradores")
+        return super().form_valid(form)
 
 
 

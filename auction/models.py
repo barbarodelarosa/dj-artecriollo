@@ -8,12 +8,15 @@ User = get_user_model()
 
 
 class Auction(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.OneToOneField(Product, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     date_finish = models.DateTimeField()
     price_init = models.FloatField(default=0.00)
     related_auction = models.ManyToManyField('self', blank=True)
+    note = models.TextField(blank=True, null=True)
+    aprobated = models.BooleanField(default=False)
+
     
 
     def __str__(self):

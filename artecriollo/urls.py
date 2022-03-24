@@ -5,6 +5,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.urls.conf import include
 from core import views
+
+from django.views import i18n
+                    
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
@@ -26,6 +29,7 @@ urlpatterns = [
     path('page/<slug>/', views.PageDetailView.as_view(), name='page-detail'),
     path('download/', views.downloadFile, name='download'),
     path('download1/', views.GithubAvatarDownloadView.as_view(), name='download1'),
+    path('jsi18n/', i18n.JavaScriptCatalog.as_view(), name='jsi18n'),
 
 
 ]

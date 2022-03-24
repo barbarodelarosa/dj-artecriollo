@@ -28,6 +28,7 @@ class ProductAdmin(admin.ModelAdmin):
 # Register your models here.
 admin.site.register(Brand)
 admin.site.register(Pais)
+admin.site.register(Merchant, MerchantAdmin)
 admin.site.register(Provincia)
 admin.site.register(Municipio)
 admin.site.register(ProductImagesContent)

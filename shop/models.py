@@ -53,7 +53,7 @@ User = get_user_model()
 
 
 class Merchant(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=25)
     slug = models.SlugField(max_length=25, blank=True, null=True, unique=True)
     logo = models.ImageField(upload_to="image/merchant", blank=True, null=True)
@@ -61,9 +61,10 @@ class Merchant(models.Model):
     banner = models.ImageField(upload_to="image/merchant", blank=True, null=True)
     description=RichTextField()
     phone = models.CharField(max_length=11, blank=True, null=True)
-    address = models.CharField(max_length=125, blank=True, null=True)
+    address = models.ForeignKey("Address", on_delete=models.CASCADE, blank=True, null=True)
     status = models.BooleanField(default=False)
     public = models.BooleanField(default=False)
+    aprobated = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
@@ -230,8 +231,11 @@ class Product(models.Model):
     content_url = models.URLField(blank=True, null=True)
     content_file = models.FileField(upload_to='products/content-files/', blank=True, null=True)
     for_auction = models.BooleanField(default=False)
+    close_auction = models.DateTimeField(auto_now=True)
     selling_date = models.DateTimeField(auto_now=True)
     related_products = models.ManyToManyField('self', blank=True)
+    aprobated = models.BooleanField(default=False)
+
     
     
     class Meta:

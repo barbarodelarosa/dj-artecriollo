@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags%}
+{% block content %}
+<div class="container">
+  <div class="row">
+    <h1>Crear Tienda:</h1>
+  </div>
+</div>
+
+<div class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+                <form action="{%url 'shop:create-merchant'%}" enctype='multipart/form-data' method="POST" >
+                    {% csrf_token %}
+                    {% comment %} {{form.product_images}} {% endcomment %}
+                    {{form|crispy}}
+                    {{form.media}}
+                    <button type="submit" class="btn btn-primary">Crear</button>
+                </form>
+
+			
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>
+
+
+
+
+{% endblock %}
