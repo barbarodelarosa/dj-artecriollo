@@ -11,6 +11,7 @@ from django.views import i18n
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
+    path('affiliate/', include('affiliate.urls')),
     path('subasta/', include('auction.urls')),
     path('', views.HomeView.as_view(), name='home'),
     path('contacto/', views.ContactView.as_view(), name='contact'),
@@ -30,6 +31,8 @@ urlpatterns = [
     path('download/', views.downloadFile, name='download'),
     path('download1/', views.GithubAvatarDownloadView.as_view(), name='download1'),
     path('jsi18n/', i18n.JavaScriptCatalog.as_view(), name='jsi18n'),
+    path('u/<str:shortened_part>', views.redirect_url_view, name='redirect-url-short'),
+
 
 
 ]

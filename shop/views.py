@@ -1,6 +1,7 @@
 import datetime
 from itertools import product
 import json
+from profile.models import Profile
 from django import template
 from django.views import generic
 from django.db.models import Q
@@ -370,6 +371,7 @@ class ProductDetailView(generic.FormView):
 
 
     def get_context_data(self, **kwargs):
+
         context = super(ProductDetailView, self).get_context_data(**kwargs)
         context['product'] = self.get_object()
         
@@ -759,7 +761,7 @@ class ConfirmCashPaymentView(LoginRequiredMixin, generic.TemplateView):
 
 
 
-class ConfirmOrderView(LoginRequiredMixin, generic.View):
+class ConfirmOrderView(LoginRequiredMixin, generic.View): #Confirma el pago realizado por el usuario
     def get(self, request, *args, **kwargs):
         order = get_or_set_order_session(request)
         transaction_uuid = request.GET['transaction_uuid']
@@ -789,7 +791,15 @@ class ConfirmOrderView(LoginRequiredMixin, generic.View):
         order.save()
         messages.info(request, message="Se ha realizado Correctamente el pago")
 
+
         # return JsonResponse({"data": "Success"})
+
+        ref_profile = request.session['ref_profile'] #Recibir referencia y agregarla a la cuenta del usuario
+      
+        profile = Profile.objects.get(id=ref_profile)
+   
+        profile.recommended_products.add(order)
+
         confirm = enzona.confirm_payment_orders(transaction_uuid)
         print("confirm")
         print(confirm)

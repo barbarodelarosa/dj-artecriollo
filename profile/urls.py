@@ -1,6 +1,6 @@
 # from authy.models import PeopleList
 from django.urls import path, re_path
-from profile.views import EditProfile, addOrRemoveToWhishList, addToList, PeopleListView, ListPeopleDelete, product_file_view, ProductDownloadURL
+from profile.views import EditProfile, UpdateProfileView, addOrRemoveToWhishList, addToList, PeopleListView, ListPeopleDelete, affiliateApplication, product_file_view, ProductDownloadURL, referedCode
 # ShowList, 
 
 from django.contrib.auth import views as authViews 
@@ -9,14 +9,18 @@ app_name='profile'
 
 urlpatterns = [
    	
-    path('profile/edit', EditProfile, name='edit-profile'),
+    # path('profile/edit', EditProfile, name='edit-profile'),
+    path('profile/<pk>/edit', UpdateProfileView.as_view(), name='edit-profile'),
+    path('solicitar-afiliado/', affiliateApplication, name='solicitar-afiliado'),
     path('profile/addtolist', addToList, name='add-to-list'),
+    path('ref-code/<str:ref_code>/', referedCode, name='ref-code'), #Enviar en la solicitud el codigo de usuario y la url a la que sera redirigido
 
    	path('mylists/<list_id>', PeopleListView, name='people-list'),
    	path('mylists/<list_id>/delete', ListPeopleDelete, name='list-people-delete'),
    	path('addorremovetowhishlist/<product>', addOrRemoveToWhishList, name='addorremovetowhishlist'),
 	re_path(r"^download-file/(?P<pk>[a-zA-Z0-9_-]+)/$", product_file_view, name="product_file_view",),
 	re_path(r"^download-file-url/(?P<pk>[a-zA-Z0-9_-]+)/$", ProductDownloadURL.as_view(), name="product_download_url",),
+
 	
    	
        

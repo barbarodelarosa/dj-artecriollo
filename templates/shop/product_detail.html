@@ -40,6 +40,12 @@
 					<!-- Product details -->
 					<div class="col-md-5">
 						<div class="product-details">
+							<form action="{% url 'affiliate:shortener'%}" method="post">
+								{% csrf_token %}
+								<input type="hidden" name="long_url" value="{{product.get_absolute_url}}">
+								<input type="hidden" name="product_id" value="{{product.id}}">
+								<button type="submit">SHROTENER</button>
+							</form>
 							<h2 class="product-name">{{product.title}}</h2>
 							{% comment %} <div>
 								<div class="product-rating">

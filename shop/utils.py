@@ -4,6 +4,7 @@ from .models import Order
 def get_or_set_order_session(request):
 
     order_id = request.session.get('order_id', None)
+    
     if order_id is None:
         order = Order()
      

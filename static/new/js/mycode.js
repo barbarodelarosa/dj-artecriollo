@@ -9,3 +9,16 @@ $('#myModal').on('shown.bs.modal', function () {
     e.preventDefault()
     $(this).tab('show')
   })
+
+  $('#example').DataTable();
+
+
+
+
+
+
+
+
+
+
+

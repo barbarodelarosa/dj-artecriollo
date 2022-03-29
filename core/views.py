@@ -1,3 +1,4 @@
+from affiliate.models import Shortener
 from logging import FileHandler
 import os
 
@@ -6,7 +7,7 @@ from core.models import Page
 from typing import OrderedDict
 from unicodedata import category
 
-from django.http import HttpResponse, request
+from django.http import Http404, HttpResponse, HttpResponseRedirect, request
 from shop.enzona import payment_orders
 from django import shortcuts
 from django.forms import forms
@@ -23,11 +24,38 @@ from shop.models import Category, Order, Product
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.core.paginator import Paginator
+from profile.models import Profile
+from django.contrib.auth.models import User
+
+
+
 # Create your views here.
 
 
 class ProfileView(LoginRequiredMixin, generic.TemplateView):
     template_name = 'profile.html'
+
+    def get(self, request, *args, **kwargs):
+        # try:
+        ref_profile = self.request.session.get('ref_profile')
+        registered_user = User.objects.get(id=self.request.user.id)
+        registered_profile = Profile.objects.get(user=registered_user)
+        # profile = Profile.objects.get(user=self.request.user)
+        if registered_profile.recommended_by is None:
+            if ref_profile is not None:
+                print("ref_profile",ref_profile)
+                recommended_by_profile = Profile.objects.get(user_id=ref_profile)
+                registered_profile = Profile.objects.filter(user=registered_user).update(recommended_by=recommended_by_profile)
+
+                
+                print("recommended_by_profile:",recommended_by_profile)
+                # registered_profile.recommended_by = recommended_by_profile
+                print("Recomended:",registered_profile)
+                # registered_profile.save()
+        # except:
+            # print("NO HAY NADA")
+            # pass
+        return super().get(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super(ProfileView, self).get_context_data(**kwargs)
@@ -215,3 +243,26 @@ from django_downloadview import HTTPDownloadView
 class GithubAvatarDownloadView(HTTPDownloadView):
     def get_url(self):
         return "http://127.0.0.1:8000/bootstrap-5.1.3-examples.zip"
+
+
+
+
+def redirect_url_view(request, shortened_part):
+
+    try:
+        shortener = Shortener.objects.get(short_url=shortened_part)
+
+        shortener.times_followed += 1        
+
+        shortener.save()
+        # new_url = request.build_absolute_uri('/') + shortened_object.short_url
+        print("request.get_host('/')")
+        print(request.build_absolute_uri('/'))
+        print(request.get_host())
+        next_url = request.build_absolute_uri('/') + shortener.long_url
+        print(next_url)
+        
+        return HttpResponseRedirect(next_url)
+        
+    except:
+        raise Http404('Lo sentimos, enlace roto :(')

@@ -1,3 +1,4 @@
+
 from email.policy import default
 from itertools import product
 import os
@@ -214,6 +215,7 @@ class Product(models.Model):
     title = models.CharField(max_length=150)
     product_images = models.ManyToManyField(ProductImagesContent, blank=True, related_name='images_product')
     slug = models.SlugField(unique=True, blank=True)
+    url_short = models.URLField(blank=True)
     image = models.ImageField(upload_to=user_directory_path)
     price = models.IntegerField(default=0)
     old_price = models.IntegerField(default=0, blank=True, null=True)
@@ -357,6 +359,7 @@ class Order(models.Model):
     phone = models.CharField(max_length=12, blank=True, null=True)
     email = models.EmailField(max_length=25, blank=True, null=True)
     payment_method = models.CharField(max_length=25, choices=PAYMENT_METHOD_CHOICES, default=EFECTIVO)
+    user_recommended=models.ForeignKey(User, blank=True, null=True, related_name='user_recommended', on_delete=models.CASCADE)
     
 
     billing_address = models.ForeignKey(
@@ -462,7 +465,9 @@ def pre_save_product_receiver(sender, instance, *args, **kwargs):
         instance.slug = slugify(instance.title)
 pre_save.connect(pre_save_product_receiver, sender=Product)
 
-
+# def pre_save_product_short_url_receiver(sender, instance, *args, **kwargs):
+#     print("GUARDADO PRODUCT", kwargs )
+# pre_save.connect(pre_save_product_short_url_receiver, sender=Product)
 
 def pre_safe_category_receiver(sender, instance, *args, **kwargs):
     if not instance.slug:

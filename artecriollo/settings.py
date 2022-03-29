@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'profile',
     'newsletters',
     'blog',
+    'affiliate',
 
     #OTHERS
     'crispy_forms',
@@ -224,7 +225,8 @@ ACCOUNT_AUTHENTICATON_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
-LOGIN_REDIRECT_URL = '/'
+# LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = "/profile/"
 
 import os
 from django.contrib.messages import constants as messages
@@ -273,3 +275,5 @@ EMAIL_HOST_PASSWORD=env('EMAIL_HOST_PASSWORD')
 # EMAIL_USE_SSL=False
 EMAIL_USE_TLS=True # SI SE DESHABILITA DA PROBLEMA EN EL SERVIDOR
 # EMAIL_USE_SSL=False
+
+

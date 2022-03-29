@@ -95,7 +95,13 @@
                     </div>
                     <hr>
                     <div class="row">
-                        <a href="{% url 'profile:edit-profile' %}" class="btn btn-success">Editar cuenta</a>
+                        <a href="{% url 'profile:edit-profile' request.user.profile.id %}" class="btn btn-success">Editar cuenta</a>
+                        {% if not request.user.profile.affiliated %}
+                            <form action="{% url 'profile:solicitar-afiliado' %}" method="post">
+                            {% csrf_token %}
+                                <button type="submit" class="btn btn-primary" href="{% url 'profile:solicitar-afiliado' %}"> <small class="float-right" >Solicitar cuenta de afiliado</small></button>                        
+                            </form>
+                        {% endif %}
                         <a class="btn btn-danger" href="{% url 'account_logout' %}"> <small class="float-right" >Cerrar sesión</small></a>
                     </div>
                 </div>

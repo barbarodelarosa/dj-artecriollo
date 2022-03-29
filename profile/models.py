@@ -1,8 +1,10 @@
 from dbm.ndbm import library
+from email.policy import default
 from itertools import product
+from profile.utils import generate_ref_code
 from django.db import models
 from django.contrib.auth.models import User
-from shop.models import Product, PurchasedProduct
+from shop.models import Order, Product, PurchasedProduct
 
 from django.db.models.signals import post_save
 
@@ -33,6 +35,12 @@ def user_directory_path_banner(instance, filename):
 
 # Create your models here.
 class Profile(models.Model):
+	GENDER_CHOICE = (
+				('HOMBRE', 'HOMBRE'),
+				('MUJER', 'MUJER'),
+				('OTRO', 'OTRO'),
+
+    )
 	user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
 	first_name = models.CharField(max_length=50, null=True, blank=True)
 	last_name = models.CharField(max_length=50, null=True, blank=True)
@@ -42,6 +50,14 @@ class Profile(models.Model):
 	created = models.DateField(auto_now_add=True)
 	whishlist = models.ManyToManyField(Product, related_name="whishlist_user", blank=True)
 	phone = models.CharField(max_length=11, blank=True, null=True)
+	ci = models.CharField(max_length=11, blank=True, null=True)
+	code = models.CharField(max_length=20, blank=True, unique=True)
+	recommended_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name="recommended")
+	updated = models.DateTimeField(auto_now=True)
+	created = models.DateTimeField(auto_now_add=True)
+	gender = models.CharField(max_length=6, choices=GENDER_CHOICE, blank=True, null=True)
+	affiliated=models.BooleanField(default=False, blank=True, null=True)#Solo se aprueba desde el administrador cuando cumpla los requisitos verificables
+	recommended_products=models.ManyToManyField(Order, blank=True)
 	# favorites = models.ManyToManyField(Post)
 
 	# picture = models.ImageField(upload_to=user_directory_path_profile, blank=True, null=True, verbose_name='Picture')
@@ -57,7 +73,16 @@ class Profile(models.Model):
 	# 		pic.save(self.picture.path)
 
 	def __str__(self):
-		return self.user.username
+		return f"{self.user.username} - {self.code}"
+
+	def get_recommended_profiles(self):
+		pass
+
+	def save(self, *args, **kwargs):
+		if self.code=="":
+			code = generate_ref_code()
+			self.code = code
+		super().save(*args, **kwargs)
 		
 
 def create_user_profile(sender, instance, created, **kwargs):
@@ -99,7 +124,29 @@ def post_save_user_riceiver(sender, instance, created, **kwargs):
 	for purchased_product in purchased_products:
 		library.products.add(purchased_product.product)
 
-	
+
+"""
+************************************************************************************
+OJO ESTAS FUNCIONES SE EJECUTAN CUANDO SE ESTA CREANDO EL USUARIO Y SE CREA EL PERFIL
+************************************************************************************
+"""
 post_save.connect(post_save_user_riceiver, sender=User)
 post_save.connect(create_user_profile, sender=User)
 post_save.connect(save_user_profile, sender=User)
+
+
+class AffiliateApplication(models.Model):
+	profile = models.ForeignKey(Profile, on_delete=models.CASCADE)
+	created = models.DateTimeField(auto_now_add=True)
+	updated = models.DateTimeField(auto_now=True)
+	aprovated = models.BooleanField(default=False)
+
+
+	def __str__(self):
+		return self.profile.user.email
+	
+
+def post_save_affiliate_application_riceiver(sender, instance, created, **kwargs):
+	profile =  Profile.objects.filter(user=instance.profile.user).update(affiliated=instance.aprovated)
+	print("PROFILE",profile)
+post_save.connect(post_save_affiliate_application_riceiver, sender=AffiliateApplication)

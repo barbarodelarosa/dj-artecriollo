@@ -1,25 +1,25 @@
+from profile.forms import AffiliateApplicationForm
 from shop.models import WhishList, Product
 from django.shortcuts import render, redirect, get_object_or_404
 # from profile.forms import NewListForm, EditProfileForm
 from django.contrib.auth.models import User
-from django.views.generic import CreateView
+from django.views.generic import CreateView, UpdateView
 
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash
 
-from profile.models import PeopleList, Profile
+from profile.models import AffiliateApplication, PeopleList, Profile
 # , PeopleList
 # from profile.forms import NewListForm
 # from post.models import Post, Follow, Stream
 from django.db import transaction
 from django.template import loader
 from django.http import HttpResponse, HttpResponseRedirect
-from django.urls import reverse
 
 from django.core.paginator import Paginator
 
-from django.urls import resolve
+from django.urls import resolve, reverse
 
 from django_downloadview import ObjectDownloadView
 from django_downloadview import HTTPDownloadView
@@ -179,6 +179,15 @@ def EditProfile(request):
 	return render(request, 'account/edit_profile.html', context)
 
 
+class UpdateProfileView(UpdateView):
+	model = Profile
+	fields=['first_name','last_name','profile_info','phone','ci','gender']
+	success_url='/profile/'
+	template_name='account/edit_profile.html'
+
+
+
+
 # @login_required
 # def follow(request, username, option):
 # 	following = get_object_or_404(User, username=username)
@@ -274,12 +283,7 @@ def addOrRemoveToWhishList(request, product):
 	user = request.user
 	profile = get_object_or_404(Profile, user=user)
 	next = request.META.get('HTTP_REFERER', None) or '/'
-	print("profile")
-	print(profile)
-	print(product)
-	print("profile.whishlist")
-	print(profile.whishlist.filter(id=product).exists())
-	print("profile.whishlist")
+
 	if profile.whishlist.filter(id=product).exists():
 		profile.whishlist.remove(product)
 	else:
@@ -294,3 +298,49 @@ product_file_view = ObjectDownloadView.as_view(model=Product, file_field="conten
 class ProductDownloadURL(HTTPDownloadView):
 	def get_url(self):
 		return "https://cdn3.mindmeister.com/assets/meisterlabs/products/mindmeister/icon-72e579b5f4d1fb05fd77cdf6ea74f3c2d39cf956a8b3266b43d1d0ed2cbf6027.png"
+
+
+
+
+
+def referedCode(request, *args, **kwargs):
+
+	code = str(kwargs.get('ref_code'))
+	next_url = str(request.GET.get('next_url'))
+
+	try:
+		profile = Profile.objects.get(code=code)
+		
+		request.session['ref_profile']=profile.id
+
+	except:
+		pass
+	
+	url = request.build_absolute_uri()
+	print("URL REFER")
+	print(next_url)
+	return HttpResponseRedirect(next_url)
+
+
+
+
+def affiliateApplication(request):
+	profile = Profile.objects.get(user=request.user)
+	if profile.phone and profile.ci:
+
+		form = AffiliateApplicationForm(request.POST or None)
+		if request.method == 'POST' and form.is_valid():
+			
+			# profile = form.cleaned_data['profile']
+			
+			AffiliateApplication.objects.create(profile=profile)
+
+			messages.info(request, "Solicitud enviada")
+			return HttpResponseRedirect(reverse('profile'))
+
+		else:
+			messages.info(request, "Error al enviar la solicitud, por favor revisar los requisitos")
+			return HttpResponseRedirect(reverse('profile'))
+	else:
+		messages.error(request, "Antes de solicitar la cuenta de afilidado, debe editar su perfil y agregar su numero de telefono y CI")
+		return HttpResponseRedirect(reverse('profile'))
