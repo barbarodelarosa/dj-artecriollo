@@ -11,7 +11,7 @@ from django.db.models.signals import pre_save
 # Create your models here.
 class SiteInfo(models.Model):
     name = models.CharField(max_length=25, default='ArteCriollo')
-    logo = models.ImageField(upload_to='image/logo', default='/static/images/logo.png' )
+    logo = models.ImageField(upload_to='image/logo', default='/static/images/logo.png')
     icon = models.ImageField(upload_to='image/icon', default='/static/images/logo.png')
     email = models.EmailField(max_length=30, default='artecriollocuba@gmail.com')
     address = models.CharField(max_length=50, blank=True, null=True)

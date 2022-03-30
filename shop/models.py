@@ -12,6 +12,8 @@ from django.utils.text import slugify
 from django.shortcuts import reverse
 from django.contrib.auth.models import User
 
+from artecriollo.utils import ResizeImageMixin
+
 
 import base64
 
@@ -42,18 +44,22 @@ def user_directory_path(instance, filename):
         os.remove(full_path)
     return img_path
 
-class ProductImagesContent(models.Model):
+class ProductImagesContent(models.Model, ResizeImageMixin):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='content_owner', blank=True, null=True)
     file = models.FileField(upload_to= user_directory_path)
     posted = models.DateTimeField(auto_now_add=True)
 
-   
+    def save(self, *args, **kwargs):
+        if self.pk is None:
+            self.resize(self.file, (350, 350))
+
+        super().save(*args, **kwargs)
 
 User = get_user_model()
 
 
 
-class Merchant(models.Model):
+class Merchant(models.Model, ResizeImageMixin):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=25)
     slug = models.SlugField(max_length=25, blank=True, null=True, unique=True)
@@ -76,7 +82,7 @@ class Merchant(models.Model):
 
 
 
-class Category(models.Model):
+class Category(models.Model, ResizeImageMixin):
     image = models.ImageField(upload_to="image/category", blank=True, null=True) 
     name  = models.CharField(max_length=100)
     slug  = models.SlugField(unique=True, blank=True, null=True)
@@ -206,7 +212,7 @@ class Brand(models.Model):
         return self.name
 
 
-class Product(models.Model):
+class Product(models.Model, ResizeImageMixin):
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     category = models.ManyToManyField(Category)
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE, blank=True, null=True)
@@ -457,12 +463,18 @@ class Payment(models.Model):
 def pre_save_merchant_receiver(sender, instance, *args, **kwargs):
     if not instance.slug:
         instance.slug = slugify(instance.name)
+    if instance.pk is None:
+        instance.resize(instance.image, (200, 200))
+        instance.resize(instance.banner, (700, 40))
+        instance.resize(instance.logo, (200, 200))
 pre_save.connect(pre_save_merchant_receiver, sender=Merchant)
 
 
 def pre_save_product_receiver(sender, instance, *args, **kwargs):
     if not instance.slug:
         instance.slug = slugify(instance.title)
+    if instance.pk is None:
+        instance.resize(instance.image, (380, 304))
 pre_save.connect(pre_save_product_receiver, sender=Product)
 
 # def pre_save_product_short_url_receiver(sender, instance, *args, **kwargs):
@@ -472,4 +484,6 @@ pre_save.connect(pre_save_product_receiver, sender=Product)
 def pre_safe_category_receiver(sender, instance, *args, **kwargs):
     if not instance.slug:
         instance.slug = slugify(instance.name)
+    if instance.pk is None:
+        instance.resize(instance.image, (400, 400))
 pre_save.connect(pre_safe_category_receiver, sender=Category)
