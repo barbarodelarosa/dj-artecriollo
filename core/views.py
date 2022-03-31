@@ -75,16 +75,16 @@ class HomeView(generic.TemplateView):
             context.update({
                 'orders': Order.objects.filter(user=self.request.user, ordered=True),
                 'category_list': Category.objects.filter(active=True)[:6],
-                'new_products': Product.objects.filter(active=True).order_by('created','updated')[:6],
-                'top_selling': Product.objects.filter(active=True, selling=True).order_by('created', 'selling_date', 'updated')[:6],
+                'new_products': Product.objects.filter(aprobated=True).filter(for_auction=False).filter(active=True).order_by('created','updated')[:6],
+                'top_selling': Product.objects.filter(aprobated=True).filter(for_auction=False).filter(active=True, selling=True).order_by('created', 'selling_date', 'updated')[:6],
                 'nav_active':'active',
             })
         else:
             context.update({
                 'orders': [],
                 'category_list': Category.objects.filter(active=True)[:3],
-                'new_products': Product.objects.filter(active=True).order_by('created','updated')[:6],
-                'top_selling': Product.objects.filter(active=True, selling=True).order_by('created', 'selling_date', 'updated')[:6],
+                'new_products': Product.objects.filter(aprobated=True).filter(for_auction=False).filter(active=True).order_by('created','updated')[:6],
+                'top_selling': Product.objects.filter(aprobated=True).filter(for_auction=False).filter(active=True, selling=True).order_by('created', 'selling_date', 'updated')[:6],
                 'nav_active':'active',
             })
         return context
@@ -180,13 +180,13 @@ class SearchResultsView(generic.ListView):
     
     def results_query_object_list(self, query, query_category):
         if query_category == '0':
-            object_list = Product.objects.filter(Q(title__contains=query)|Q(description__contains=query)).order_by(
+            object_list = Product.objects.filter(for_auction=False).filter(Q(title__contains=query)|Q(description__contains=query)).order_by(
                 "updated",
                 "created",
                 "title",
             )
         else:       
-            object_list = Product.objects.filter(
+            object_list = Product.objects.filter(for_auction=False).filter(
             Q(category=query_category)).filter(Q(title__contains=query)|Q(description__contains=query)).order_by(
                 "updated",
                 "created",

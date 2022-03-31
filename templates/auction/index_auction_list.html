@@ -28,6 +28,10 @@
 							<div class="row">
 							<!-- product -->
                             {% for auction in page_obj  %}
+								{% if not auction.purchused %}
+									{% include "components/modal_for_auction_user.html" %}								
+								{% endif %}
+
                             
 								<div class="col-md-4 col-xs-6">
 									<div class="product">
@@ -35,11 +39,10 @@
 										<div class="product-img">
 											<img src="{{auction.product.image.url}}" height="200" width="200" alt="">
 											<div class="product-label">
-												{% if not auction.product.seller%}
-													<span class="sale" style="color: green; border-color: green;">{{auction.date_finish|date:"M d, Y H:m"}}</span>
-												{% endif %}
-												{% if  product.new %}
+												{% if auction.purchused%}
 													<span class="new">VENDIDO</span>													
+												{% else %}
+													<span class="sale" style="color: green; border-color: green;">{{auction.date_finish|date:"M d, Y H:m"}}</span>
 												{% endif %}
 											</div>
 										</div>
@@ -63,6 +66,7 @@
 												<i class="fa fa-star"></i>
 											</div> {% endcomment %}
 											<div class="product-btns">
+
 												{% comment %} {% if product in user.profile.whishlist.all%}
 													<a href="{% url 'profile:addorremovetowhishlist' product.id %}" class="add-to-wishlist" style="color: #D10024;"><i class="fa fa-heart"></i><span class="tooltipp"> Eliminar de lista</span></a>
 												{%else%}
@@ -72,17 +76,19 @@
 												{% comment %} </form> {% endcomment %}
 												<!-- <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button> -->
 												<br>
-                                                {% if user.is_authenticated %}
-                                                    <form action="{% url 'auction:user-bid-amount' auction.pk %}" method="post">
-                                                    {% csrf_token %}
-                                                        <input type="hidden" value="250.55" name="bid_amount">
-                                                        <button type="submit" class="quick-view"><i class="fa fa-hand-paper-o"></i><span class="tooltipp"> Pujar monto</span></button>
-                                                    </form>
-                                                {% endif %}
-                                                
-                                                {% if not user.is_authenticated %}
-                                                    <button data-toggle="modal" data-target="#exampleModal" class="quick-view"><i class="fa fa-hand-paper-o"></i><span class="tooltipp"> Pujar monto</span></button>
-                                                {% endif %}
+												{% if not auction.purchused %}
+												
+													{% if user.is_authenticated %}
+														<button data-toggle="modal" data-target="#exampleModalAuction-{{auction.id}}" class="quick-view"><i class="fa fa-hand-o-up"></i><span class="tooltipp"> Pujar monto M</span></button>
+													{%else%}
+														<button data-toggle="modal" data-target="#exampleModal" class="quick-view"><i class="fa fa-hand-o-up"></i><span class="tooltipp"> Pujar monto</span></button>
+													{% endif %}
+												{% else %}
+													<a  href="{% url 'auction:auction-detail' auction.pk %}" class="btn btn-warning"> Subasta cerrada</a>
+												{% endif %}
+													
+												
+											
 											</div>
 										</div>
 										{% comment %} <div class="add-to-cart">

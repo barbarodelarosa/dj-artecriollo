@@ -8,7 +8,12 @@
     <!-- <div>{{object.product.title}} will take place:</div> -->
     <div id="event-box" style="display: none;">{{object.date_finish|date:"M d, Y H:m:s"}}</div>
     <!-- <div>TIME LEFT:</div> -->
-    <div id="countdown-box" class="text-center mt-3 h1" style="background: green; color: honeydew;"></div>
+	{% if object.purchused %}
+    	<h2 class="text-center mt-3" style="background: red; color: honeydew;">SUBASTA CERRADA</h2>
+	
+	{% else %}
+    	<div id="countdown-box" class="text-center mt-3 h1" style="background: green; color: honeydew;"></div>
+	{% endif %}
 
 
 
@@ -46,7 +51,7 @@
 					<!-- Product details -->
 					<div class="col-md-5">
 						<div class="product-details">
-							<h2 class="product-name">{{object.product.title}}</h2>
+							<h1 class="product-name">{{object.product.title}}</h1>
 							{% comment %} <div>
 								<div class="product-rating">
 									<i class="fa fa-star"></i>
@@ -59,29 +64,38 @@
 							</div> {% endcomment %}
 							<div>
 								<h3 class="product-price">{{object.product.price|price_format_cup}} </h3>
+							{% if object.purchused %}
+								<br><span class="product-available">Ejemplares entregados: </span><span class="badge" style="background: #00BB2e;">{{object.product.stock}}</span>
+							{% else %}
 								<br><span class="product-available">Ejemplares a entregar: </span><span class="badge" style="background: #00BB2e;">{{object.product.stock}}</span>
+							{% endif %}
 							</div>
 							<p>{{object.product.description|truncatewords:15}}</p>
-                            <div id="event-box" ><strong style="color: green;" >DISPONIBLE HASTA: </strong> {{object.date_finish|date:"M d, Y H:m:s"}}</div>
+							{% if object.purchused %}
+                            	<div id="event-box" ><strong style="color: red;" >SUBASTA CERRADA: </strong> {{object.date_finish|date:"M d, Y H:m:s"}}</div>
+							{% else %}
+                            	<div id="event-box" ><strong style="color: green;" >SUBASTA ABIERTA HASTA: </strong> {{object.date_finish|date:"M d, Y H:m:s"}}</div>
                             
-                            <form method="POST" action="{% url 'auction:user-bid-amount' auction.pk %}" class="product-details">
-                              
-                                {% csrf_token %}
-                                <div class="input-group">
-                                    <span class="input-group-addon">$</span>
-                                    <input type="text" name="bid_amount" placeholder="Monto a pujar" required maxlength="7" class="form-control" aria-label="Amount (to the nearest dollar)">
-                                    <span class="input-group-addon">.00</span>
-                                  </div>
-                               
-                                {% comment %} <button type='submit' class="btn btn-sm btn-primary buy-now" >Add to cart</button> {% endcomment %}
-                                <div class="add-to-cart">
-								{% if request.user.is_authenticated %}
-                                    <button type='submit' class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> agregar al carrito</button>
-								{% endif %}
-							
-                                </div>
-                            
-                            </form>
+
+								<form method="POST" action="{% url 'auction:user-bid-amount' auction.pk %}" class="product-details">
+								
+									{% csrf_token %}
+									<div class="input-group">
+										<span class="input-group-addon">$</span>
+										<input type="text" name="bid_amount" placeholder="Monto a pujar" required maxlength="7" class="form-control" aria-label="Amount (to the nearest dollar)">
+										<span class="input-group-addon">.00</span>
+									</div>
+								
+									{% comment %} <button type='submit' class="btn btn-sm btn-primary buy-now" >Add to cart</button> {% endcomment %}
+									<div class="add-to-cart">
+									{% if request.user.is_authenticated %}
+										<button type='submit' class="add-to-cart-btn"><i class="fa fa-hand-o-up" aria-hidden="true"></i>Pujar monto</button>
+									{% endif %}
+								
+									</div>
+								
+								</form>
+							{% endif %}
  								<div class="add-to-cart">	
                                   
 									{% if not request.user.is_authenticated %}
@@ -173,7 +187,13 @@
                                                     </thead>
                                                     <tbody>
                                                         {% for item in auction.userbid_set.all|dictsortreversed:"bid_amount" %}
-                                                        <tr>
+														{% if auction.purchused %}
+															{% if forloop.first %}
+                                                        		<tr style="background: green;">															
+															{% endif %}
+														{% else %}
+                                                        	<tr>
+														{% endif %}
                                                             <td>
                                                                 <h5>
                                                                     {{forloop.counter}}
@@ -434,7 +454,7 @@
 					<!-- section title -->
 					<div class="col-md-12">
 						<div class="section-title">
-							<h3 class="title">Productos relacionados</h3>
+							<h3 class="title">Subastas relacionadas</h3>
 							<div class="section-nav">
 								<ul class="section-tab-nav tab-nav">
 									<li class="active"><a data-toggle="tab" href="#tab1">Todos</a></li>
@@ -463,12 +483,12 @@
 												<div class="product-img">
 													<img src="{{related_auction.product.image.url}}" height="200" alt="">
 													<div class="product-label">
-														{% if not related_auction.product.seller%}
-															<span class="sale">{{auction.date_finish}}</span>
-														{% endif %}
-														{% if  related_auction.product.seller%}
+														{% if related_auction.purchused%}
 															<span class="new">VENDIDO</span>													
+															{%else%}
+															<span class="sale" style="color: green; border-color: green;">{{auction.date_finish}}</span>
 														{% endif %}
+														
 													</div>
 												</div>
 												<div class="product-body">

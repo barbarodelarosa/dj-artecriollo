@@ -16,6 +16,9 @@ class Auction(models.Model):
     related_auction = models.ManyToManyField('self', blank=True)
     note = models.TextField(blank=True, null=True)
     aprobated = models.BooleanField(default=False)
+    purchused = models.BooleanField(default=False)
+    purchused_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name="purchused_by")
+    
 
     
 

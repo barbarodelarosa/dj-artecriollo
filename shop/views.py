@@ -253,12 +253,12 @@ class ProductListView(generic.ListView):
                     price_max = float(price_max)
                 price_min = price_min*100
                 price_max = price_max*100
-                print("LATEST")
+       
                 if not sort_by:
                     sort_by = '-created'
                 
                 # print(tag.product_set.filter(Q(price__lte = price_max) & Q(price__gte = price_min)).order_by(sort_by)) #
-                qs = tag.product_set.filter(Q(price__lte = price_max) & Q(price__gte = price_min)).order_by(sort_by)
+                qs = tag.product_set.filter(aprobated=True).filter(for_auction=False).filter(Q(price__lte = price_max) & Q(price__gte = price_min)).order_by(sort_by)
                 
                 # Q(secondary_categories__slug=category))
                 paginator = Paginator(qs, 2)

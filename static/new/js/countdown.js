@@ -22,7 +22,7 @@ const myCountdown = setInterval(()=>{
         countdownBox.innerHTML = d + " dias, " + h + " horas, " + m + " minutos, " + s + " segundos "
     }else{
         clearInterval(myCountdown)
-        countdownBox.innerHTML = "Conteo regresivo completado"
+        countdownBox.innerHTML = "Subasta cerrada"
     }
 
 }, 1000)

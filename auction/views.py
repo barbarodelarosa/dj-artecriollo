@@ -11,9 +11,12 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class ActionProductsListView(generic.ListView):
-    model = Auction
+    # model = Auction
     template_name='auction/index_auction_list.html'
-    paginate_by=2
+    paginate_by=10
+    def get_queryset(self):
+        return Auction.objects.filter(aprobated=True).order_by('purchused','-date_finish')
+
 
 class ActionProductsDetailView(generic.DetailView):
     model = Auction

@@ -112,7 +112,7 @@
 														<img src="{{cart_item.product.image.url}}" alt="">
 													</div>
 													<div class="product-body">
-														<h3 class="product-name"><a href="#">{{cart_item.product.title}}</a></h3>
+														<h3 class="product-name"><a href="{{cart_item.product.get_absolute_url}}">{{cart_item.product.title}}</a></h3>
 														<h4 class="product-price"><span class="qty">{{cart_item.quantity}}x</span>{{cart_item.product.price|price_format_cup}}</h4>
 													</div>
 													<form action="{% url 'shop:remove-from-cart' cart_item.id %}">
