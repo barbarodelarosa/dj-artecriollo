@@ -196,7 +196,7 @@ if DEBUG is False:
 
     # EMAIL_BACKEND = 'django.core.mail.smtp.EmailBackend'
 
-    ALLOWED_HOSTS = ["https://artecriollo.nat.cu"]
+    ALLOWED_HOSTS = ["https://artecriollo.nat.cu", "https://artecriollo.pythonanywhere.com"]
 
     DATABASES = {
         'default':{
@@ -240,24 +240,26 @@ MESSAGE_TAGS = {
  }
 
 
-
+#*********************************************
 #EMAIL CONFIG
 
-# EMAIL_FROM = env('EMAIL_FROM')
-# EMAIL_BCC = env('EMAIL_BCC')
+EMAIL_FROM = env('EMAIL_FROM')
+EMAIL_BCC = env('EMAIL_BCC')
 
-# EMAIL_HOST = env('EMAIL_HOST')
-# EMAIL_PORT = env('EMAIL_PORT')
-# EMAIL_HOST_USER = env('EMAIL_HOST_USER')
-# EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
-# EMAIL_USE_TLS = True
-# EMAIL_USE_SSL = False
+EMAIL_HOST = env('EMAIL_HOST')
+EMAIL_PORT = env('EMAIL_PORT')
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
 
-# DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
+DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
+# EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-# 
-# KEND = 'djcelery_email.backends.CeleryEmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+#************************************************************
 
 
 # DEFAULT_FROM_EMAIL= env('DEFAULT_FROM_EMAIL')
