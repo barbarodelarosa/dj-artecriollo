@@ -1,7 +1,7 @@
 import datetime
 from itertools import product
 import json
-from profile.models import Profile
+from profile.models import Profile, UserLibrary
 from django import template
 from django.views import generic
 from django.db.models import Q
@@ -10,7 +10,7 @@ from requests import request
 import shop
 from .utils import get_or_set_order_session, get_whishlist_session
 from .models import Merchant, Product, OrderItem, Address, Payment, Order, Category, ProductImagesContent, WhishList
-from .forms import AddDigitalProductForm, AddMerchanForm, AddProductBasicForm, AddToCartForm, AddressForm
+from .forms import AddDigitalProductForm, AddMerchanForm, AddProductBasicForm, AddToCartForm, AddressForm, PaymentDigitalProductForm
 from django.shortcuts import get_object_or_404, reverse, redirect
 from django.contrib import messages
 from django.conf import settings
@@ -595,7 +595,7 @@ class ConfirmEnzonaPaymentView(LoginRequiredMixin, generic.TemplateView):
             temp_item['price']=f'{item.product.get_price()}'
             # temp_item['price']=f'{item.get_total_item_price()}'
             items.append(temp_item)
-
+   
         amount = {
             "total": "2.00",
             "details": {
@@ -628,13 +628,12 @@ class ConfirmEnzonaPaymentView(LoginRequiredMixin, generic.TemplateView):
         print("resp_enzona.json()")
         print(resp_enzona.json())
         if resp_enzona.status_code == 200:
-            print("resp_enzona.status_code2000200")
-            print(resp_enzona.status_code)
+      
             resp_content = resp_enzona.json()
             links_resp = resp_content['links']
             url_confirm = links_resp[0]
             context['url_confirm'] = url_confirm
-            print(resp_content)
+       
             return redirect(to=url_confirm['href']) #Redirecciona a enzona para confirmar el pago
         else:
             print("resp_enzona.status_code")
@@ -763,42 +762,61 @@ class ConfirmCashPaymentView(LoginRequiredMixin, generic.TemplateView):
 
 class ConfirmOrderView(LoginRequiredMixin, generic.View): #Confirma el pago realizado por el usuario
     def get(self, request, *args, **kwargs):
-        order = get_or_set_order_session(request)
+        digital_product=None
+        try:
+            digital_product = request.session['digital_product']
+            print("product_digital")
+            print(digital_product)
+        except:
+            pass
         transaction_uuid = request.GET['transaction_uuid']
         user_uuid = request.GET['user_uuid']
-        print("user_uuid")
-        print(user_uuid)
-        print("transaction_uuid")
-        print(transaction_uuid)
-        # print(request.body)
-        # body = json.loads(request.body)
-        payment = Payment.objects.create(
-            order=order,
-            successfull=True,
-            # raw_response = "Respuesta de prueba",
-            # raw_response = json.dumps(body),
-            # amount = float(body["purchase_units"][0]["amount"]["value"]),
-            amount = float(33.56),
-            payment_method='ENZONA'
-        )
-        order.ordered = True
-        order.ordered_date = datetime.datetime.now()
+        if not digital_product:
+            order = get_or_set_order_session(request)
+            print("user_uuid")
+            print(user_uuid)
+            print("transaction_uuid")
+            print(transaction_uuid)
+            # print(request.body)
+            # body = json.loads(request.body)
+            payment = Payment.objects.create(
+                order=order,
+                successfull=True,
+                # raw_response = "Respuesta de prueba",
+                # raw_response = json.dumps(body),
+                # amount = float(body["purchase_units"][0]["amount"]["value"]),
+                amount = float(33.56),
+                payment_method='ENZONA'
+            )
+            order.ordered = True
+            order.ordered_date = datetime.datetime.now()
 
-        for item in order.items.all(): #Funcion para agregar al producto la fecha en que fue vendido   
-            item.product.selling_date = datetime.datetime.now()
-            item.product.save()
+            for item in order.items.all(): #Funcion para agregar al producto la fecha en que fue vendido   
+                item.product.selling_date = datetime.datetime.now()
+                item.product.save()
 
-        order.save()
-        messages.info(request, message="Se ha realizado Correctamente el pago")
+            order.save()
+            messages.info(request, message="Se ha realizado Correctamente el pago")
+            ref_profile = request.session['ref_profile'] #Recibir referencia y agregarla a la cuenta del usuario
+            profile = Profile.objects.get(id=ref_profile)
+    
+            profile.recommended_products.add(order)
+            profile.save()
+        else:
+            user_library = UserLibrary.objects.get(user=request.user)
+            product = Product.objects.get(id=digital_product)
+            user_library.products.add(product)
+            user_library.save()
+            del request.session['digital_product']
+            ref_profile = request.session['ref_profile'] #Recibir referencia y agregarla a la cuenta del usuario
+            profile = Profile.objects.get(id=ref_profile)
+            profile.recommended_digital_products.add(product)
+            profile.save() 
+            messages.info(request, message="Se ha realizado Correctamente el pago y el producto se ha agregado a su libreria de descargas")
+            # UserLibrary
+           
 
 
-        # return JsonResponse({"data": "Success"})
-
-        ref_profile = request.session['ref_profile'] #Recibir referencia y agregarla a la cuenta del usuario
-      
-        profile = Profile.objects.get(id=ref_profile)
-   
-        profile.recommended_products.add(order)
 
         confirm = enzona.confirm_payment_orders(transaction_uuid)
         print("confirm")
@@ -908,3 +926,89 @@ def addToCart(request,product_id):
             
     next = request.META.get('HTTP_REFERER', None) or '/'  #Obtiene la url actual
     return redirect(next)
+
+
+
+
+
+
+
+class EnzonaPaymentDigitalProductView(LoginRequiredMixin, generic.TemplateView):
+
+    template_name = 'shop/confirm_enzona_payment.html'
+    def post(self, request, *args, **kwargs):
+        if request.method=="POST":
+            form = PaymentDigitalProductForm(request.POST)
+            print(form)
+            if form.is_valid():
+                name = form.cleaned_data.get("title")
+                description = form.cleaned_data.get("description")
+                price = form.cleaned_data.get("price")
+            
+                new_format_price = "{0:.2f}".format(price / 100)
+                context = super(EnzonaPaymentDigitalProductView, self).get_context_data(**kwargs)
+                
+        
+                items = []
+                temp_item = {
+                'name': name, #OJO ---> Los nombres no pueden tener caracteres especiales porque da error
+                'description': description,
+                'quantity': 1,
+                'price': new_format_price,
+                'tax': '0.00'
+                }
+                items.append(temp_item)
+         
+                amount = {
+                    "total": new_format_price,
+                    "details": {
+                    "shipping": "0.00",
+                    "tax": "0.00",
+                    "discount": "0.00",
+                    "tip": "0.00"
+                    }
+                }
+             
+         
+                request.session["digital_product"]=kwargs['pk']
+            
+ ###################### BLOQUE DE CONSULTA A ENZONA #######################
+                resp_enzona = enzona.post_payments(
+                    description="description",
+                    currency="CUP",
+                    amount=amount,
+                    items=items,
+                    cancel_url=f'http://{request.get_host()}/shop/', #OK
+                    return_url=f'http://{request.get_host()}/shop/confirm-order/' #OK
+                    )
+                print("resp_enzona.json()")
+                print(resp_enzona.json())
+                if resp_enzona.status_code == 200:
+                   
+                    resp_content = resp_enzona.json()
+                    links_resp = resp_content['links']
+                    url_confirm = links_resp[0]
+                    context['url_confirm'] = url_confirm
+                    # guardar valores en session para desdupes de confirmado el pago utilizarlos y eliminarlos
+                    return redirect(to=url_confirm['href']) #Redirecciona a enzona para confirmar el pago
+                else:
+                    print("resp_enzona.status_code")
+                    print(resp_enzona.status_code)
+                    print(resp_enzona.status_code)
+                    
+            
+                context['resp_enzona'] = resp_enzona.json()
+
+ ###################### FIN BLOQUE DE CONSULTA A ENZONA #######################
+
+        # order.payment_method='ENZONA'
+        # order.save()
+        context['order'] = get_or_set_order_session(self.request)
+        # print('=====================================')
+        # print(order.items.all())
+        # print('=====================================')
+    
+
+        # context['CALLBACK_URL']= self.request.build_absolute_uri(reverse("shop:thank-you"))
+        return context
+

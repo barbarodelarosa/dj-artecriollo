@@ -100,7 +100,7 @@ def post_payments(description="",  currency="CUP", amount={}, merchant_op_id=123
     
 
     url = f'{settings.URL_API_ENZONA}/payments'
-    print(url)
+  
     
     json_data = {
         "description": "",
@@ -117,8 +117,8 @@ def post_payments(description="",  currency="CUP", amount={}, merchant_op_id=123
         "items":   [{
                 'name': 'Prueba',
                 'description': 'Prueba de producto',
-                'quantity': 10,
-                'price': '0.10',
+                'quantity': 1,
+                'price': '1.00',
                 'tax': '0.00'
             }],
         "merchant_op_id": 123456789123,
@@ -129,10 +129,10 @@ def post_payments(description="",  currency="CUP", amount={}, merchant_op_id=123
         "buyer_identity_code": ""
         }
 
-    print(json_data.get('description'))
+
     json_data['description']=description
     json_data['currency']=currency
-    json_data['amount']=amount
+    json_data['amount']=amount #OK
     json_data['items']=items
     json_data['merchant_op_id']=merchant_op_id
     json_data['invoice_number']=invoice_number
@@ -140,13 +140,14 @@ def post_payments(description="",  currency="CUP", amount={}, merchant_op_id=123
     json_data['cancel_url']=cancel_url
     json_data['terminal_id']=terminal_id
     json_data['buyer_identity_code']=buyer_identity_code
-    print(json_data.get('description'))
-    print(json_data.get('currency'))
-    print(json_data.get('cancel_url'))
 
-    # print(json_data)
 
-    # print(json_data['description'])
+    print("json_data**************")
+
+    print(json_data)
+    print("headers**************")
+
+    print(headers)
     response = requests.post(url=url, headers=headers, json=json_data, verify=False)
 
     return response

@@ -1,6 +1,7 @@
 # from email.policy import default
 # from itertools import product
 from email.policy import default
+from pyexpat import model
 from django import forms
 from django.forms import Select, Textarea, fields
 from django.contrib.auth import get_user_model
@@ -263,3 +264,8 @@ class AddMerchanForm(forms.ModelForm):
         
         self.fields['address'].queryset = Address.objects.filter(user=user)
   
+
+class PaymentDigitalProductForm(forms.ModelForm):
+    class Meta:
+        model=Product
+        fields=['title','description','price']

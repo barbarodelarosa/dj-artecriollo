@@ -58,6 +58,7 @@ class Profile(models.Model):
 	gender = models.CharField(max_length=6, choices=GENDER_CHOICE, blank=True, null=True)
 	affiliated=models.BooleanField(default=False, blank=True, null=True)#Solo se aprueba desde el administrador cuando cumpla los requisitos verificables
 	recommended_products=models.ManyToManyField(Order, blank=True)
+	recommended_digital_products=models.ManyToManyField(Product, blank=True)
 	# favorites = models.ManyToManyField(Post)
 
 	# picture = models.ImageField(upload_to=user_directory_path_profile, blank=True, null=True, verbose_name='Picture')
