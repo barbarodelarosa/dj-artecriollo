@@ -15,7 +15,7 @@ class ActionProductsListView(generic.ListView):
     template_name='auction/index_auction_list.html'
     paginate_by=10
     def get_queryset(self):
-        return Auction.objects.filter(aprobated=True).order_by('purchused','-date_finish')
+        return Auction.objects.filter(aprobated=True, active=True).order_by('purchused','-date_finish')
 
 
 class ActionProductsDetailView(generic.DetailView):

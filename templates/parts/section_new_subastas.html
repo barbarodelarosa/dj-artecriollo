@@ -1,0 +1,110 @@
+{% load price_format_tags %}
+{% load discount_tags %}
+
+<div class="section">
+			<!-- container -->
+			<div class="container">
+				<!-- row -->
+				<div class="row">
+
+					<!-- section title -->
+					<div class="col-md-12">
+						<div class="section-title">
+							<h3 class="title">Subastas recientes</h3>
+							<div class="section-nav">
+								<ul class="section-tab-nav tab-nav">
+									<li class="active"><a data-toggle="tab" href="#tab1">Todas</a></li>
+									{% comment %} <li><a data-toggle="tab" href="#tab1">Smartphones</a></li> {% endcomment %}
+									{% comment %} <li><a data-toggle="tab" href="#tab1">Cameras</a></li> {% endcomment %}
+									{% comment %} <li><a data-toggle="tab" href="#tab1">Accessories</a></li> {% endcomment %}
+								</ul>
+							</div>
+						</div>
+					</div>
+					<!-- /section title -->
+
+					<!-- Products tab & slick -->
+					<div class="col-md-12">
+						<div class="row">
+							<div class="products-tabs">
+								<!-- tab -->
+								<div id="tab1" class="tab-pane active">
+									<div class="products-slick" data-nav="#slick-nav-2">
+										<!-- product -->
+										{% for auction in new_auction  %}
+											{% if not auction.purchused %}
+												{% include "components/modal_for_auction_user.html" %}								
+											{% endif %}
+
+										
+											<div class="product">
+												<div class="product-img">
+													<img src="{{auction.product.image.url}}" height="200" alt="">
+													<div class="product-label">
+															{% if auction.purchused%}
+																<span class="new">VENDIDO</span>													
+															{% else %}
+																<span class="sale" style="color: green; border-color: green;">{{auction.date_finish|date:"M d, Y H:m"}}</span>
+															{% endif %}
+													</div>
+												</div>
+												<div class="product-body">
+													{% comment %} <p class="product-category">
+													 	{% for product_cat in product.category.all   %}
+								    						<a href="{{product_cat.get_absolute_url}}"> [{{product_cat}}] </a>
+                                						{% endfor %}
+													</p> {% endcomment %}
+														<a href="{% url 'auction:auction-detail' auction.pk %}">
+															<h3 class="product-name">{{auction.product.title}}</h3>
+															<h4 class="product-price">{{auction.product.price|price_format_cup}} 
+															
+														</a>
+												
+													{% comment %} <div class="product-rating"> {% endcomment %}
+														{% comment %} <i class="fa fa-star"></i>
+														<i class="fa fa-star"></i>
+														<i class="fa fa-star"></i>
+														<i class="fa fa-star"></i>
+														<i class="fa fa-star"></i> {% endcomment %}
+													{% comment %} </div> {% endcomment %}
+													<div class="product-btns">
+										
+														{% if not auction.purchused %}
+														
+															{% if user.is_authenticated %}
+																<button data-toggle="modal" data-target="#exampleModalAuction-{{auction.id}}" class="quick-view"><i class="fa fa-hand-o-up"></i><span class="tooltipp"> Pujar monto M</span></button>
+															{%else%}
+																<button data-toggle="modal" data-target="#exampleModal" class="quick-view"><i class="fa fa-hand-o-up"></i><span class="tooltipp"> Pujar monto</span></button>
+															{% endif %}
+														{% else %}
+															<a  href="{% url 'auction:auction-detail' auction.pk %}" class="btn btn-warning"> Subasta cerrada</a>
+														{% endif %}
+												{% comment %} <form action="{% url 'profile:addorremovetowhishlist' product.id %}"> {% endcomment %}
+												{% comment %} </form> {% endcomment %}
+												<!-- <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button> -->
+												
+													{% comment %} <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Open modal for @mdo</button> {% endcomment %}
+
+													</div>
+												</div>
+												{% comment %} <div class="add-to-cart">
+												
+													
+													<button data-product="{{product.id}}" data-action="add" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+													
+												</div> {% endcomment %}
+											</div>
+										{% endfor %}
+									</div>
+									<div id="slick-nav-2" class="products-slick-nav"></div>
+								</div>
+								<!-- /tab -->
+							</div>
+						</div>
+					</div>
+					<!-- Products tab & slick -->
+				</div>
+				<!-- /row -->
+			</div>
+			<!-- /container -->
+		</div>

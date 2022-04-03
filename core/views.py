@@ -4,8 +4,6 @@ import os
 
 import requests
 from core.models import Page
-from typing import OrderedDict
-from unicodedata import category
 
 from django.http import Http404, HttpResponse, HttpResponseRedirect, request
 from shop.enzona import payment_orders
@@ -25,6 +23,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.core.paginator import Paginator
 from profile.models import Profile
+from auction.models import Auction
 from django.contrib.auth.models import User
 
 
@@ -77,6 +76,7 @@ class HomeView(generic.TemplateView):
                 'category_list': Category.objects.filter(active=True)[:6],
                 'new_products': Product.objects.filter(aprobated=True).filter(for_auction=False).filter(active=True).order_by('created','updated')[:6],
                 'top_selling': Product.objects.filter(aprobated=True).filter(for_auction=False).filter(active=True, selling=True).order_by('created', 'selling_date', 'updated')[:6],
+                'new_auction': Auction.objects.filter(aprobated=True, active=True).order_by('purchused','-date_finish')[:6],
                 'nav_active':'active',
             })
         else:
@@ -85,6 +85,7 @@ class HomeView(generic.TemplateView):
                 'category_list': Category.objects.filter(active=True)[:3],
                 'new_products': Product.objects.filter(aprobated=True).filter(for_auction=False).filter(active=True).order_by('created','updated')[:6],
                 'top_selling': Product.objects.filter(aprobated=True).filter(for_auction=False).filter(active=True, selling=True).order_by('created', 'selling_date', 'updated')[:6],
+                'new_auction': Auction.objects.filter(aprobated=True, active=True).order_by('purchused','-date_finish')[:6],
                 'nav_active':'active',
             })
         return context

@@ -797,11 +797,15 @@ class ConfirmOrderView(LoginRequiredMixin, generic.View): #Confirma el pago real
 
             order.save()
             messages.info(request, message="Se ha realizado Correctamente el pago")
-            ref_profile = request.session['ref_profile'] #Recibir referencia y agregarla a la cuenta del usuario
-            profile = Profile.objects.get(id=ref_profile)
+            try: 
+                ref_profile = request.session['ref_profile'] #Recibir referencia y agregarla a la cuenta del usuario
+                profile = Profile.objects.get(id=ref_profile)
+                profile.recommended_products.add(order)
+                profile.save()
+            except:
+                pass
+
     
-            profile.recommended_products.add(order)
-            profile.save()
         else:
             user_library = UserLibrary.objects.get(user=request.user)
             product = Product.objects.get(id=digital_product)
