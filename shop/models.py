@@ -230,6 +230,7 @@ class Product(models.Model, ResizeImageMixin):
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
     active = models.BooleanField(default=False)
+    aprobated = models.BooleanField(default=False)
     avialable_colours = models.ManyToManyField(ColorVariation, blank=True)
     avialable_sizes = models.ManyToManyField(SizeVariation,blank=True)
     stock = models.PositiveIntegerField(default=0)
@@ -242,7 +243,6 @@ class Product(models.Model, ResizeImageMixin):
     close_auction = models.DateTimeField(auto_now=True)
     selling_date = models.DateTimeField(auto_now=True)
     related_products = models.ManyToManyField('self', blank=True)
-    aprobated = models.BooleanField(default=False)
 
     
     

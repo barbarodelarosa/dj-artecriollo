@@ -2,6 +2,8 @@
 {% load crispy_forms_tags %}
 {% load price_format_tags %}
 {% load discount_tags %}
+{% load static %}
+
 
 
 {% block content %}
@@ -32,11 +34,15 @@
 					<div class="col-md-5 col-md-push-2">
 					
 						<div id="product-main-img">
-                            {% for product_image in product.product_images.all  %}
-                                <div class="product-preview">
-                                    <img src="{{product_image.file.url}}" alt="">
-                                </div>
-                            {% endfor %}
+                          	{% if product.product_images.count == 0 %}
+                                    <img src="{% static 'images/defaults/products.jpg' %}" alt="">
+							{% else %}
+								{% for product_image in product.product_images.all  %}
+									<div class="product-preview">
+										<img src="{{product_image.file.url}}" alt="">
+									</div>
+								{% endfor %}
+							{% endif %}
 						</div>
 					</div>
 					<!-- /Product main img -->
@@ -44,11 +50,15 @@
 					<!-- Product thumb imgs -->
 					<div class="col-md-2  col-md-pull-5">
 						<div id="product-imgs">
-                            {% for product_image in product.product_images.all  %}
-                                <div class="product-preview">
-                                    <img src="{{product_image.file.url}}" alt="">
-                                </div>
-                            {% endfor %}
+							{% if product.product_images.count == 0 %}
+                                    <img src="{% static 'images/defaults/products.jpg' %}" alt="">
+							{% else %}
+								{% for product_image in product.product_images.all  %}
+									<div class="product-preview">
+										<img src="{{product_image.file.url}}" alt="">
+									</div>
+								{% endfor %}
+							{% endif %}
 						</div>
 					</div>
 					<!-- /Product thumb imgs -->
@@ -69,10 +79,16 @@
 								<a class="review-link" href="#">10 Review(s) | Add your review</a>
 							</div> {% endcomment %}
 							<div>
-								<h3 class="product-price">{{product.price|price_format_cup}}  <del class="product-old-price">{{product.old_price|price_format_cup}}</del></h3>
+							
+								<h4 class="product-price">{{product.price|price_format_cup}} 
+									{% if product.old_price > 0 %}
+										<del class="product-old-price">{{product.old_price|price_format_cup}}</del>
+									{% endif %} 
+								</h4>
+												
 								<br>
 								{% if not product.digital %}
-									<span class="badge" style="background: #00BB2e;">{{product.stock}}</span><span class="product-available">Producto{{product.stock|pluralize}} en Stock</span>
+									<span class="badge" style="background: #00BB2e;">{{product.stock}}</span><span class="product-available">Producto{{product.stock|pluralize}} disponible{{product.stock|pluralize}}</span>
 								{% comment %} {%else%} {% endcomment %}
 									{% comment %} boton para descargas de contenido si el usuario ha pagado el producto								 {% endcomment %}
 								{% endif %}

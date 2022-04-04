@@ -66,16 +66,18 @@
 								<h3 class="aside-title">Categorías</h3>
 								<div class="checkbox-filter">
 									{% for cat in categories  %}
-										<div class="input-checkbox">
-											<a href="{% url 'shop:product-list' cat.slug %}">
-												{{cat.name}}
-											</a>
-											<!-- <input type="checkbox" id="{{cat.slug}}"> -->
-											<!-- <label for="{{cat.slug}}"> -->
-												<span></span>
-												<small> - ({{cat.product_set.count}})</small>
-											<!-- </label> -->
-										</div>                                
+										{% if cat.product_set.count %}
+											<div class="input-checkbox">
+												<a href="{% url 'shop:product-list' cat.slug %}">
+													{{cat.name}}
+												</a>
+												<!-- <input type="checkbox" id="{{cat.slug}}"> -->
+												<!-- <label for="{{cat.slug}}"> -->
+													<span></span>
+													{% comment %} <small> - ({{cat.product_set.count}})</small> {% endcomment %}
+												<!-- </label> -->
+											</div>                                
+										{% endif %}
 									{% endfor %}
 
 								</div>
@@ -166,7 +168,12 @@
 											<a href="{{product.get_absolute_url}}">
 												<h3 class="product-name">{{product.title}}</h3>
 											
-												<h4 class="product-price">{{product.price|price_format_cup}} <del class="product-old-price">{{product.old_price|price_format_cup}}</del></h4>
+												<h4 class="product-price">{{product.price|price_format_cup}} 
+													{% if product.old_price > 0 %}
+														<del class="product-old-price">{{product.old_price|price_format_cup}}</del>
+													{% endif %} 
+												</h4>
+												
 											</a>
 											{% comment %} <div class="product-rating">
 												<i class="fa fa-star"></i>
@@ -222,6 +229,9 @@
 							
 
 							</div>
+							{% if not object_list %}
+								<p> En éste momento no se encuentran productos para esta categoría </p>
+							{% endif %}
 							<!-- /store products -->
 
 						<!-- store bottom pagination -->
@@ -243,7 +253,9 @@
 									  <li ><a class="button-paginate"href="?{{parametros.urlencode}}&page=1">&laquo; primera página</a></li> 
 									  <li><a class="button-paginate"href="?{{parametros.urlencode}}&page={{ object_list.previous_page_number }}">anterior</a></li> 
 									{% endif %}
-									Página {{ object_list.number }} de {{ object_list.paginator.num_pages }}.
+									{% if object_list and object_list.has_previous or  object_list.has_next%}									
+										Página {{ object_list.number }} de {{ object_list.paginator.num_pages }}.
+									{% endif %}
 									{% if object_list.has_next %}
 										<li><a class="button-paginate"href="?{{parametros.urlencode}}&page={{ object_list.next_page_number }}">siquiente</a></li>
 										<li><a class="button-paginate"href="?{{parametros.urlencode}}&page={{ object_list.paginator.num_pages }}">última página &raquo;</a></li>

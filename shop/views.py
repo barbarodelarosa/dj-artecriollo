@@ -258,10 +258,10 @@ class ProductListView(generic.ListView):
                     sort_by = '-created'
                 
                 # print(tag.product_set.filter(Q(price__lte = price_max) & Q(price__gte = price_min)).order_by(sort_by)) #
-                qs = tag.product_set.filter(aprobated=True).filter(for_auction=False).filter(Q(price__lte = price_max) & Q(price__gte = price_min)).order_by(sort_by)
+                qs = tag.product_set.filter(aprobated=True, active=True, for_auction=False).filter(Q(price__lte = price_max) & Q(price__gte = price_min)).order_by(sort_by)
                 
                 # Q(secondary_categories__slug=category))
-                paginator = Paginator(qs, 2)
+                paginator = Paginator(qs, 12)
                 # object_list = object.page(page).object_list
                 page_number = self.request.GET.get('page')
                 page_obj = paginator.get_page(page_number)

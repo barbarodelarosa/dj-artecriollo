@@ -56,7 +56,8 @@
 
 			<div class="row">
 			<div class="col-md-6 mb-md-0">
-            <form method="POST" onsubmit="return validar();">
+            <!-- <form method="POST" onsubmit="return validar();"> -->
+            <form method="POST" id="submit-order-form">
                 {% csrf_token %}
                         <h2 class="h3 mb-3 text-black text-center">Detalles de facturación</h2>
                         <hr />
@@ -132,7 +133,7 @@
 
 								
 							</div>
-							<div class="input-radio">
+							<!-- <div class="input-radio">
 							
 
 								<input type="radio" name="payment" id="payment-2">
@@ -145,7 +146,7 @@
 								</div>
 
 								
-							</div>
+							</div> -->
 							<!-- <div class="input-radio">
 								<input type="radio" name="payment" id="payment-2">
 								<label for="payment-2">
@@ -167,17 +168,19 @@
 								</div>
 							</div> -->
 						</div>
-						<!-- <div class="input-checkbox">
-							<input type="checkbox" id="terms">
-							<label for="terms">
+						<div class="input-checkbox">
+							<input type="checkbox" id="terms" onclick="validar()">
+							<label for="terms" id="label-terms" >
 								<span></span>
-								I've read and accept the <a href="#">terms & conditions</a>
+								He leído y acepto los <a href="{% url 'terms' %}" target="_blank" rel="noopener noreferrer">términos y condiciones</a>
 							</label>
-						</div> -->
-						<button type="submit" class="primary-btn order-submit btn-lg btn-block">Realizar pedido</button>
-						<a href="{%url 'shop:payment-cash'%}" class="primary-btn order-submit btn-lg btn-block">Realizar en efectivo</a>
-					</div>
+						</div>
 
+						<!-- <button type="submit" id="btn-payment" class="primary-btn order-submit btn-lg btn-block">Realizar pedido</button> -->
+						<!-- <a href="{%url 'shop:payment-cash'%}" class="primary-btn order-submit btn-lg btn-block">Realizar en efectivo</a> -->
+						<button id="btn-payment" onclick="submit_order()" class="primary-btn order-submit btn-lg btn-block">Realizar pedido</button>
+					</div>
+					
 				</form>
 			</div>
         </div>
@@ -188,20 +191,54 @@
 	
 
 {% endblock %}
-<!-- {% block scripts %}
+{% block scripts %}
 <script>
+// function validar(){
+// 	var ok = 0;
+// 	var btn_payment = document.getElementById('btn-payment');
+// 	var ckbox = document.getElementsByName('terms');
+// 			if(ckbox.checked == true){
+// 			ok = 1;
+// 			btn_payment.disabled=true
+// 			console.log('DISABLED TRUE')
+// 		}
+// 		if(ok == 0){
+// 			btn_payment.disabled=true
+// 			console.log('DISABLED TRUE TRE')
+// 		document.getElementsByName('terms').style.color="#ff0000";
+// 		alert('indique al menos un mes');
+// 		return false;
+// 		}
+// 	}
+
 function validar(){
-var ok = 0;
-var ckbox = document.getElementsByName('terms');
-        if(ckbox.checked == true){
-        ok = 1;
-        }
-    if(ok == 0){
-	document.getElementsByName('terms').style.color="#ff0000";
-    alert('indique al menos un mes');
-    return false;
-    }
-}
- 
-</script> 
-{% endblock scripts %} -->
+
+	var btn_payment = document.getElementById('btn-payment');
+	var ckbox = document.getElementById('terms');
+			if(ckbox.checked == true){
+			btn_payment.disabled=false
+		}else{
+			btn_payment.disabled=true
+		}
+		
+		return false;
+		}
+
+function submit_order(){
+	const form = document.getElementById('submit-order-form');
+	var btn_payment = document.getElementById('btn-payment');
+	var label_terms = document.getElementById('label-terms');
+	var ckbox = document.getElementById('terms');
+			if(ckbox.checked == true){
+			btn_payment.submit()
+		
+		}else{
+			label_terms.style.color="red";			
+		}
+		
+		return false;
+		}
+
+	
+	</script> 
+{% endblock scripts %}

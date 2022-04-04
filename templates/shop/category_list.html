@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load static %}
 {% block content %}
 <div class="container">
   <div class="row">
@@ -18,7 +19,11 @@
                             <a href="{{cat.get_absolute_url}}" class="cta-btn">
                                 <div class="shop">
                                     <div class="shop-img">
-                                        <img src="{{cat.image.url}}" alt="" height="300">
+                                        {% if cat.image %}
+                                            <img src="{{cat.image.url}}" alt="" height="300">
+                                        {% else %}
+                                            <img src="{% static 'images/defaults/category_products.jpeg' %}" alt="" height="300">
+                                        {% endif %}
                                     </div>
                                     <div class="shop-body">
                                         <h3>{{cat.name}}</h3>

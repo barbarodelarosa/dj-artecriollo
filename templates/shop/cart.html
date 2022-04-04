@@ -39,10 +39,14 @@
                             {% for item in order.items.all %}
                             <tr>
                                 <td class="product-thumbnail">
-                                    <img src="{{ item.product.image.url }}" style="height: 10rem" class="img-fluid">
+                                    <a href="{{item.product.get_absolute_url}}">
+                                        <img src="{{ item.product.image.url }}" style="height: 10rem" class="img-fluid">
+                                    </a>
                                 </td>
                                 <td class="product-name">
-                                    <h2 class="h5 text-black">{{ item.product.title }}</h2>
+                                    <a href="{{item.product.get_absolute_url}}">
+                                        <h2 class="h5 text-black">{{ item.product.title }}</h2>
+                                    </a>
                                     <!-- <small><strong>Size:</strong> {{ item.size.name }}</small> -->
                                     <br>
                                     <!-- <small><strong>Colour:</strong> {{ item.colour.name }}</small> -->
