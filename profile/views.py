@@ -349,14 +349,9 @@ def affiliateApplication(request):
 class OrderDetailView(LoginRequiredMixin, generic.DetailView):
 	template_name='order.html'
 	queryset=Order.objects.all()
-	# context_objects_name='order'
-	# pk_url_kwarg='pk'
-
-	# def get_object(self, queryset=None):
-    #      obj = super(OrderDetailView, self).get_object(queryset=queryset)
-    #      if obj.user != obj.user:
-    #         raise Http404()
-    #      return obj
+	#****************************************************************************************************
+	# La funcion establece que si el usuario no es el propietario da error 404 (no encuentra la pagina) #
+	#****************************************************************************************************
 
 	def get_queryset(self):
          queryset = super(OrderDetailView, self).get_queryset()
