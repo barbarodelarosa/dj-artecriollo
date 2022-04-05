@@ -524,7 +524,7 @@ class CheckoutView(LoginRequiredMixin, generic.FormView):
         order.last_name = form.cleaned_data.get('last_name')
         order.phone = form.cleaned_data.get('phone')
         order.email = form.cleaned_data.get('email')
-
+        order.status = 'EN PREPARACIÓN'
         order.note = form.cleaned_data.get('note')
         order.save()
 
