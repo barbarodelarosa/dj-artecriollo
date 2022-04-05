@@ -28,18 +28,16 @@ def shortener(request):
             long_url = request.POST.get('long_url')
             product_id = request.POST.get('product_id')
             product = Product.objects.get(id=product_id)
-            print("long_url")
-            print(long_url)
+   
             new_long_url = f'profile-user/ref-code/{user.profile.code}/?next_url={long_url}'
-            print("new_long_url")
-            print(new_long_url)
+    
             shortener.long_url = new_long_url
             shortener.user = user
             shortener.product = product
             shortener.save()
             return HttpResponseRedirect(reverse('affiliate:links'))
         else:
-            print(form.errors)
+            form = ShortenerForm()
     else:
         form=ShortenerForm()
 

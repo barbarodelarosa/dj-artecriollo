@@ -1,3 +1,4 @@
+from affiliate.models import Shortener
 from dbm.ndbm import library
 from email.policy import default
 from itertools import product
@@ -54,9 +55,10 @@ class Profile(models.Model):
 	code = models.CharField(max_length=20, blank=True, unique=True)
 	recommended_by = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True, related_name="recommended")
 	updated = models.DateTimeField(auto_now=True)
-	created = models.DateTimeField(auto_now_add=True)
+	# created = models.DateTimeField(auto_now_add=True)
 	gender = models.CharField(max_length=6, choices=GENDER_CHOICE, blank=True, null=True)
 	affiliated=models.BooleanField(default=False, blank=True, null=True)#Solo se aprueba desde el administrador cuando cumpla los requisitos verificables
+	affiliated_url=models.CharField(max_length=30, blank=True, null=True)#Segenera cuando sea aprovada la solicitud de afiliado
 	recommended_products=models.ManyToManyField(Order, blank=True)
 	recommended_digital_products=models.ManyToManyField(Product, blank=True)
 	# favorites = models.ManyToManyField(Post)
@@ -148,6 +150,9 @@ class AffiliateApplication(models.Model):
 	
 
 def post_save_affiliate_application_riceiver(sender, instance, created, **kwargs):
-	profile =  Profile.objects.filter(user=instance.profile.user).update(affiliated=instance.aprovated)
-	print("PROFILE",profile)
+	shorttener = Shortener.objects.create(user=instance.profile.user, long_url=f'profile-user/ref-code/{instance.profile.code}/?next_url=/')
+	
+	profile =  Profile.objects.filter(user=instance.profile.user).update(affiliated=instance.aprovated, affiliated_url=shorttener.short_url)
+	
+
 post_save.connect(post_save_affiliate_application_riceiver, sender=AffiliateApplication)

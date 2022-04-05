@@ -331,8 +331,8 @@ def referedCode(request, *args, **kwargs):
 		pass
 	
 	url = request.build_absolute_uri()
-	print("URL REFER")
-	print(next_url)
+	# print("URL REFER")
+	# print(next_url)
 	return HttpResponseRedirect(next_url)
 
 

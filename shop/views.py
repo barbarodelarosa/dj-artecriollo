@@ -802,6 +802,7 @@ class ConfirmOrderView(LoginRequiredMixin, generic.View): #Confirma el pago real
                 profile = Profile.objects.get(id=ref_profile)
                 profile.recommended_products.add(order)
                 profile.save()
+                del request.session['ref_profile'] #Elimina la referencia de usuario
             except:
                 pass
 
