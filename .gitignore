@@ -18,3 +18,4 @@ artecriollo/.env
 media/*
 Docs/*
 */__pycache__
+*/*/__pycache__
