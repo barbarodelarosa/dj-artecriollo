@@ -1,6 +1,7 @@
 # from authy.models import PeopleList
 from django.urls import path, re_path
-from profile.views import EditProfile, UpdateProfileView, addOrRemoveToWhishList, addToList, PeopleListView, ListPeopleDelete, affiliateApplication, product_file_view, ProductDownloadURL, referedCode
+from profile.views import(EditProfile, UpdateProfileView, addOrRemoveToWhishList, OrderDetailView,
+ addToList, PeopleListView, ListPeopleDelete, affiliateApplication, product_file_view, ProductDownloadURL, referedCode)
 # ShowList, 
 
 from django.contrib.auth import views as authViews 
@@ -14,6 +15,7 @@ urlpatterns = [
     path('solicitar-afiliado/', affiliateApplication, name='solicitar-afiliado'),
     path('profile/addtolist', addToList, name='add-to-list'),
     path('ref-code/<str:ref_code>/', referedCode, name='ref-code'), #Enviar en la solicitud el codigo de usuario y la url a la que sera redirigido
+    path('order/<pk>', OrderDetailView.as_view(), name='order-detail'),
 
    	path('mylists/<list_id>', PeopleListView, name='people-list'),
    	path('mylists/<list_id>/delete', ListPeopleDelete, name='list-people-delete'),

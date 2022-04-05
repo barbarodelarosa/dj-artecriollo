@@ -532,7 +532,7 @@ class CheckoutView(LoginRequiredMixin, generic.FormView):
         
         # print(order_object)
         messages.info(
-            self.request, "You have successfully added your addresses")
+            self.request, "Se ha agregado la dirección")
         # return super(CheckoutView, self).form_valid(form)
 
         # next = self.request.META.get('HTTP_REFERER', None) or '/'  #Obtiene la url actual
