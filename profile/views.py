@@ -1,5 +1,5 @@
 from profile.forms import AffiliateApplicationForm
-from shop.models import WhishList, Product
+from shop.models import Order, WhishList, Product
 from django.shortcuts import render, redirect, get_object_or_404
 # from profile.forms import NewListForm, EditProfileForm
 from django.contrib.auth.models import User
@@ -8,14 +8,15 @@ from django.views.generic import CreateView, UpdateView
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash
-
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views import generic
 from profile.models import AffiliateApplication, PeopleList, Profile
 # , PeopleList
 # from profile.forms import NewListForm
 # from post.models import Post, Follow, Stream
 from django.db import transaction
 from django.template import loader
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 
 from django.core.paginator import Paginator
 
@@ -344,3 +345,14 @@ def affiliateApplication(request):
 	else:
 		messages.error(request, "Antes de solicitar la cuenta de afilidado, debe editar su perfil y agregar su numero de telefono y CI")
 		return HttpResponseRedirect(reverse('profile'))
+
+class OrderDetailView(LoginRequiredMixin, generic.DetailView):
+	template_name='order.html'
+	queryset=Order.objects.all()
+	#****************************************************************************************************
+	# La funcion establece que si el usuario no es el propietario da error 404 (no encuentra la pagina) #
+	#****************************************************************************************************
+
+	def get_queryset(self):
+         queryset = super(OrderDetailView, self).get_queryset()
+         return queryset.filter(user=self.request.user)
