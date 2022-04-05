@@ -17,3 +17,4 @@ artecriollo/.env
 #Directories
 media/*
 Docs/*
+*/__pycache__
