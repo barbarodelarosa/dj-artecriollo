@@ -1,4 +1,5 @@
-{% extends 'base.html' %}
+ {% extends 'base.html' %}
+{% comment %}
 
 {% block content %}
     <div class="site-sectino">
@@ -6,7 +7,7 @@
             <div class="row justify-content-center">
                 <div class="col-m-12">
                     <h2 class="text-black">
-                        Your Profile
+                       Detalles de la orden
                     </h2>
                     <div class="card">
                         <div class="card-body">
@@ -58,4 +59,132 @@
 
         </div>
     </div>
-{% endblock%}
+{% endblock%} {% endcomment %}
+
+
+
+
+
+
+
+
+
+
+
+{% comment %} {% extends 'base.html' %} {% endcomment %}
+{% load static %}
+{% load price_format_tags %}
+{% block content %}
+
+    {% comment %} <div class="bg-light py-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 mb-0">
+                    <a href="{% url 'home' %}">Home</a>
+                    <span class="mx-2 mb-0" >/</span>
+                    <strong class="text-block">ENZONA Payment</strong>
+                </div>
+            </div>
+        </div>
+    </div> {% endcomment %}
+    
+    <div class="container">
+        <div class="row justify-content-center">
+            
+            <div class="col-md-12">
+            
+                 
+ 
+                <div class="panel panel-default">
+                    <!-- Default panel contents -->
+                    <div class="panel-heading">
+                        <strong>ORDEN:</strong> #{{order.id}} <br> 
+                        <strong>FECHA:</strong> {{order.ordered_date|date:"F j, Y - h:m"}}<br>
+                        <strong>MÉTODO DE PAGO:</strong> {{order.payment_method}}<br>
+                        <strong>ESTADO DE LA ORDEN:</strong> {{order.status}}
+                    </div>
+                    <div class="panel-body">
+                      <p>
+                          <strong>NOMBRES:</strong> {{order.first_name}} <br>
+                          <strong>APELLIDOS:</strong> {{order.last_name}} <br>
+                          <strong>CORREO:</strong>{{order.email}}<br>
+                          <strong>TELÉFONO:</strong>{{order.phone}} <br>
+                          {% comment %} , {{order.billing_address.municipio}}, {{order.billing_address.provincia}}, {{order.billing_address.pais}}  {% endcomment %}
+                          <strong>DIRECCIÓN:</strong>{{order.billing_address.address_line_1}}, {{order.billing_address.numero}}, {{order.billing_address.apt}}, {{order.billing_address.address_line_2}}, {{order.billing_address.localidad}}<br>
+                          <strong>NOTA:</strong> {{order.note}}
+                      </p>
+                    </div>
+                </div>
+                
+                    <!-- Table -->
+                     
+                <div class="table-responsive">
+                    <table class="table table-hover table-condensed">
+
+                       <thead>
+                           <tr>
+                               <th>#</th>
+                           <th>IMAGEN</th>
+                           <th>PRODUCTO</th>
+                           <th>CATIDAD</th>
+                           <th>PRECIO</th>
+                           <th>TOTAL</th>
+                        </tr>
+                       </thead>
+
+                       <tbody>
+                        {% for item in order.items.all %}
+                               <th>{{forloop.counter}}</th>
+                               <td><img src="{{item.product.image.url}}" alt="" width="50"></td>
+                               <td>{{item.product.title}}</td>
+                               <td>{{item.quantity}}</td>
+                               <td>{{item.product.price|price_format_cup}}</td>
+                               <td>${{item.get_total_item_price}} CUP</td>
+                           </tr>
+                          
+                       {% endfor %}
+                       </tbody>
+                       
+                    </table>
+             </div>
+            </div>
+            <div class="row">
+               <div class="col-md-3">
+                   <h4>
+                       Envio: {{order.get_total_shipping}} 
+                   </h4>
+               </div>
+               <div class="col-md-3">
+                <h4>
+                    Descuento: {{order.get_raw_total_discount}}
+                </h4>
+               </div>
+               <div class="col-md-3">
+                <h4>
+                    Subtotal: {{order.get_subtotal}}
+                </h4>
+               </div>
+               <div class="col-md-3">
+                <h4>
+                    Total: {{order.get_total}}
+                </h4>
+               </div>
+            </div>
+            </div>
+           
+            <div class="row">
+                <div class="col-md-12 mb-0">
+
+                    <div class="pull-right">     
+                        {% comment %} <a href="{% url 'profile:print' order.pk%}" class="primary-btn order-submit btn-lg">
+                            Exportar
+                        </a> {% endcomment %}
+                              
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

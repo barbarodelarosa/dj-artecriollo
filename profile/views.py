@@ -6,6 +6,11 @@ from django.contrib.auth.models import User
 from django.views.generic import CreateView, UpdateView
 
 
+
+from django.http import HttpResponse
+from django.template.loader import render_to_string
+
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import update_session_auth_hash
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -25,8 +30,16 @@ from django.urls import resolve, reverse
 from django_downloadview import ObjectDownloadView
 from django_downloadview import HTTPDownloadView
 
+# ******************
 
+# import functools
 
+# from django.conf import settings
+# from django.views.generic import DetailView
+
+# from django_weasyprint import WeasyTemplateResponseMixin
+# from django_weasyprint.views import WeasyTemplateResponse
+# ********************
 
 
 # from tier.models import Subscription, Tier
@@ -356,3 +369,34 @@ class OrderDetailView(LoginRequiredMixin, generic.DetailView):
 	def get_queryset(self):
          queryset = super(OrderDetailView, self).get_queryset()
          return queryset.filter(user=self.request.user)
+		 
+
+# class CustomWeasyTemplateResponse(WeasyTemplateResponse):
+#     # customized response class to change the default URL fetcher
+#     def get_url_fetcher(self):
+#         # disable host and certificate check
+#         context = ssl.create_default_context()
+#         context.check_hostname = False
+#         context.verify_mode = ssl.CERT_NONE
+#         return functools.partial(django_url_fetcher, ssl_context=context)
+
+# class PrintView(WeasyTemplateResponseMixin, OrderDetailView):
+#     # output of MyDetailView rendered as PDF with hardcoded CSS
+#     pdf_stylesheets = [
+#         settings.STATIC_ROOT + 'new/css/bootstrap.css',
+#     ]
+#     # show pdf in-line (default: True, show download dialog)
+#     pdf_attachment = False
+#     # custom response class to configure url-fetcher
+#     response_class = CustomWeasyTemplateResponse
+
+# class DownloadView(WeasyTemplateResponseMixin, OrderDetailView):
+#     # suggested filename (is required for attachment/download!)
+#     pdf_filename = 'foo.pdf'
+
+# class DynamicNameView(WeasyTemplateResponseMixin, MyDetailView):
+#     # dynamically generate filename
+#     def get_pdf_filename(self):
+#         return 'foo-{at}.pdf'.format(
+#             at=timezone.now().strftime('%Y%m%d-%H%M'),
+#         )

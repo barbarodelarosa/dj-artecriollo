@@ -69,6 +69,7 @@ INSTALLED_APPS = [
     #OTHERS
     'crispy_forms',
     'ckeditor',
+    
  
    
 
