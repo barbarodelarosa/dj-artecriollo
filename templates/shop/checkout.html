@@ -169,7 +169,7 @@
 							</div> -->
 						</div>
 						<div class="input-checkbox">
-							<input type="checkbox" id="terms" onclick="validar()">
+							<input type="checkbox" id="terms" onclick="validar()" required>
 							<label for="terms" id="label-terms" >
 								<span></span>
 								He leído y acepto los <a href="{% url 'terms' %}" target="_blank" rel="noopener noreferrer">términos y condiciones</a>
@@ -232,8 +232,11 @@ function submit_order(){
 			if(ckbox.checked == true){
 			btn_payment.submit()
 		
+		
 		}else{
-			label_terms.style.color="red";			
+			alert("Debe aceptar los términos y condiciones")
+			return label_terms.style.color="red";			
+			
 		}
 		
 		return false;
