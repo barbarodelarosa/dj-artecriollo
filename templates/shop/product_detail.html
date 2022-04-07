@@ -107,15 +107,34 @@
 									</div>
 								</form>
 							{% else %}
+{% comment %} ***************** COMPRUEBA SI EL PRODUCTO DIGITAL YA ESTA AGREGADO A LALIBRERIA DEL USAUARIO ***************** {% endcomment %}
+								{% if product in request.user.library.products.all %}
 						
-								<form action="{% url 'shop:payment-enzona-digital-product' product.pk%}"  class="product-details" method="POST">
-									{% csrf_token %}
-									
-									<input type="hidden" name="title" value="{{product.title}}">
-									<input type="hidden" name="description" value="{{product.description}}">
-									<input type="hidden" name="price" value="{{product.price}}">
-									<button type="submit" class="btn-pay-product-digital"><i class="fa fa-credit-card"></i> pagar</button>
-								</form>
+									<br>
+									{% if product.content_url %}
+										<a  style="margin: 10px;"  href="{{product.content_url}}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+											Ir a enlace
+										</a>
+									{% endif %}
+													
+									<br>
+									{% if product.content_file %}
+										<a style="margin: 10px;" href="{% url 'profile:product_file_view' product.pk %}" class="btn btn-primary">
+											Descargar archivo
+										</a>
+									{% endif %}
+
+								{% else %}
+									<form action="{% url 'shop:payment-enzona-digital-product' product.pk%}"  class="product-details" method="POST">
+										{% csrf_token %}
+										
+										<input type="hidden" name="title" value="{{product.title}}">
+										<input type="hidden" name="description" value="{{product.description}}">
+										<input type="hidden" name="price" value="{{product.price}}">
+										<button type="submit" class="btn-pay-product-digital"><i class="fa fa-credit-card"></i> pagar</button>
+									</form>
+								{% endif %}
+								
 							
 							{% endif %}
 

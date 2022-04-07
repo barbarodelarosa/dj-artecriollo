@@ -375,6 +375,7 @@ class ProductDetailView(generic.FormView):
         context = super(ProductDetailView, self).get_context_data(**kwargs)
         context['product'] = self.get_object()
         
+        
         return context
 
 
