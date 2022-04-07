@@ -22,7 +22,7 @@ from shop.models import Category, Order, Product
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.core.paginator import Paginator
-from profile.models import Profile
+from profile.models import Profile, UserLibrary
 from auction.models import Auction
 from django.contrib.auth.models import User
 
@@ -61,7 +61,8 @@ class ProfileView(LoginRequiredMixin, generic.TemplateView):
         context.update({
             'orders': Order.objects.filter(user=self.request.user, ordered=True),
             'recommended': Profile.objects.filter(recommended_by=self.request.user),
-            'recommended_order': Order.objects.filter(user_recommended=self.request.user)
+            'recommended_order': Order.objects.filter(user_recommended=self.request.user),
+            'library': UserLibrary.objects.get(user=self.request.user)
         })
         return context
 

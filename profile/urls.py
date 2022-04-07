@@ -1,7 +1,7 @@
 # from authy.models import PeopleList
 from django.urls import path, re_path
 from profile.views import(EditProfile, UpdateProfileView, addOrRemoveToWhishList, OrderDetailView,
- addToList, PeopleListView, ListPeopleDelete, affiliateApplication, product_file_view, ProductDownloadURL, referedCode)
+ addToList, PeopleListView, ListPeopleDelete, affiliateApplication, product_file_view, referedCode)
 # ShowList, 
 
 from django.contrib.auth import views as authViews 
@@ -21,8 +21,7 @@ urlpatterns = [
    	path('mylists/<list_id>/delete', ListPeopleDelete, name='list-people-delete'),
    	path('addorremovetowhishlist/<product>', addOrRemoveToWhishList, name='addorremovetowhishlist'),
 	re_path(r"^download-file/(?P<pk>[a-zA-Z0-9_-]+)/$", product_file_view, name="product_file_view",),
-	re_path(r"^download-file-url/(?P<pk>[a-zA-Z0-9_-]+)/$", ProductDownloadURL.as_view(), name="product_download_url",),
-
+	# re_path(r"^download-file-url/(?P<pk>[a-zA-Z0-9_-]+)/$", ProductDownloadURL.as_view(), name="product_download_url",),
 	
    	
        

@@ -808,6 +808,9 @@ class ConfirmOrderView(LoginRequiredMixin, generic.View): #Confirma el pago real
 
     
         else:
+            #*******************************************************
+            # Logica para agregar el producto digital a la libreria#
+            #*******************************************************
             user_library = UserLibrary.objects.get(user=request.user)
             product = Product.objects.get(id=digital_product)
             user_library.products.add(product)

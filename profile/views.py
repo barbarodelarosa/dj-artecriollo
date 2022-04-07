@@ -3,11 +3,11 @@ from shop.models import Order, WhishList, Product
 from django.shortcuts import render, redirect, get_object_or_404
 # from profile.forms import NewListForm, EditProfileForm
 from django.contrib.auth.models import User
-from django.views.generic import CreateView, UpdateView
+from django.views.generic import CreateView, UpdateView, View
 
 
 
-from django.http import HttpResponse
+from django.http import FileResponse, HttpResponse
 from django.template.loader import render_to_string
 
 
@@ -309,11 +309,17 @@ def addOrRemoveToWhishList(request, product):
 
 
 product_file_view = ObjectDownloadView.as_view(model=Product, file_field="content_file")
-class ProductDownloadURL(HTTPDownloadView):
-	def get_url(self):
-		return "https://cdn3.mindmeister.com/assets/meisterlabs/products/mindmeister/icon-72e579b5f4d1fb05fd77cdf6ea74f3c2d39cf956a8b3266b43d1d0ed2cbf6027.png"
 
-
+#SOLO FUNCIONA PARA DESCARGAR IMAGEN
+# class ProductDownloadURL(LoginRequiredMixin, HTTPDownloadView):
+#     #PENSE QUE NO RESOLVERIA ESTE PROBLEMA TAN SENCILLO
+# 	def get_url(self):
+	
+# 		pk =self.kwargs.get('pk')
+# 		product = Product.objects.get(pk=pk)
+	
+# 		self.url = product.content_url
+# 		return self.url
 
 
 

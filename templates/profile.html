@@ -12,7 +12,7 @@
 <ul class="nav nav-tabs" role="tablist">
     <li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Perfil</a></li>
     <li role="presentation"><a href="#shopping" aria-controls="shopping" role="tab" data-toggle="tab">Compras</a></li>
-    <li role="presentation"><a href="#market" aria-controls="market" role="tab" data-toggle="tab">Mercado</a></li>
+    <!-- <li role="presentation"><a href="#market" aria-controls="market" role="tab" data-toggle="tab">Mercado</a></li> -->
     <li role="presentation"><a href="#downloads" aria-controls="downloads" role="tab" data-toggle="tab">Descargas</a></li>
     <li role="presentation"><a href="#referer" aria-controls="referer" role="tab" data-toggle="tab">Referidos</a></li>
 </ul>
@@ -140,18 +140,72 @@
     <div role="tabpanel" class="tab-pane" id="market">
         <h5>Aún no tienes ninguna tienda creada, si desea vender productos, solicite habilitar su cuenta como vendedor y si ya tiene cuenta de venddor, cree su tienda para publicar sus productos</h5>
     </div>
+
+
+    {% comment %} **************************** DESCARGAS **************************** {% endcomment %}
     <div role="tabpanel" class="tab-pane" id="downloads">
-        <h5>Aún no tienes productos para descargar</h5>
+    {{library}}
+        {% if library.products %}
+             <div class="site-blocks-table">
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Imagen</th>
+                                    <th>Producto</th>
+                                    <th>precio</th>
+                                    <th>Descargar</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for product in library.products.all %}
+                                <tr>
+                                    <td>{{forloop.counter}}</td>
+                                    <td>
+                                        <a href="{{product.get_absolute_url}}">
+                                            <img src=" {{product.image.url}}" height="50" width="50">
+                                        </a>
+                                    </td>
+                                    <td>
+                                        <a href="{{product.get_absolute_url}}">
+                                            {{product.title}}
+                                        </a>
+                                    </td>
+                                    <td>{{product.price}}</td>
+                                    <td>
+                                        <a href="{% url 'profile:product_file_view' product.pk %}" class="btn btn-primary">
+                                            Descargar archivo
+                                        </a>
+
+                                       <a href="{{product.content_url}}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                                            Descargar Desde url
+                                        </a>
+                                 
+
+                                
+                                    </td>
+
+                                    
+                                    
+                                   
+                                </tr>
+                              
+                                {% endfor %}
+                            </tbody>
+
+                        </table>             
+                    </div>
+            
+        {% else %}
+            <h5>Aún no tienes productos para descargar</h5>
+        {% endif %}
     </div>
+    {% comment %} **************************** FIN DESCARGAS **************************** {% endcomment %}
 
 
 {% comment %} **************************************************************************************** {% endcomment %}
     <div role="tabpanel" class="tab-pane" id="referer">
-            <div class="row">
-                <div class="col-md-3 col-md-offset-9">
-                    <a href="{% url 'affiliate:links' %}" class="btn btn-success">Enlaces de afiliado</a>
-                </div>
-            </div>
         {% if not request.user.profile.affiliated %}
             <h5 style="color:red">Aún no tienes cuenta como afiliado, si desea afiliarse a nuestra tienda acceda enviarnos su solicitud</h5>
             <form action="{% url 'profile:solicitar-afiliado' %}" method="post">
@@ -159,6 +213,11 @@
                 <button type="submit" class="btn btn-primary" href="{% url 'profile:solicitar-afiliado' %}"> <small class="float-right" >Solicitar cuenta de afiliado</small></button>                        
             </form>
         {% else %}
+            <div class="row">
+                <div class="col-md-3 col-md-offset-9">
+                    <a href="{% url 'affiliate:links' %}" class="btn btn-success">Enlaces de afiliado</a>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-md-3">
                     <h4>Usuarios registrados:</h4>
