@@ -42,7 +42,8 @@
 												{% if auction.purchused%}
 													<span class="new">VENDIDO</span>													
 												{% else %}
-													<span class="sale" style="color: green; border-color: green;">{{auction.date_finish|date:"M d, Y H:m"}}</span>
+													{% comment %} <span class="sale" style="color: green; border-color: green;">{{auction.date_finish|date:"M d, Y H:m"}}</span> {% endcomment %}
+													<span class="sale" style="color: green; border-color: green;">{{auction.date_finish|timeuntil}}</span>
 												{% endif %}
 											</div>
 										</div>

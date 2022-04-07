@@ -213,7 +213,7 @@ class Brand(models.Model):
 
 
 class Product(models.Model, ResizeImageMixin):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     category = models.ManyToManyField(Category)
     brand = models.ForeignKey(Brand, on_delete=models.CASCADE, blank=True, null=True)
     merchant=models.ForeignKey(Merchant, on_delete=models.CASCADE, blank=True, null=True)
@@ -222,7 +222,7 @@ class Product(models.Model, ResizeImageMixin):
     product_images = models.ManyToManyField(ProductImagesContent, blank=True, related_name='images_product')
     slug = models.SlugField(unique=True, blank=True)
     url_short = models.URLField(blank=True)
-    image = models.ImageField(upload_to=user_directory_path)
+    image = models.ImageField(upload_to=user_directory_path, blank=True, null=True)
     price = models.IntegerField(default=0)
     old_price = models.IntegerField(default=0, blank=True, null=True)
     description = models.TextField()
