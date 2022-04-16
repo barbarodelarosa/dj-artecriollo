@@ -43,7 +43,7 @@
 													<span class="new">VENDIDO</span>													
 												{% else %}
 													{% comment %} <span class="sale" style="color: green; border-color: green;">{{auction.date_finish|date:"M d, Y H:m"}}</span> {% endcomment %}
-													<span class="sale" style="color: green; border-color: green;">{{auction.date_finish|timeuntil}}</span>
+													<span class="sale" style="color: green; border-color: green;">{{auction.date_finish|timeuntil}} para cerrar</span>
 												{% endif %}
 											</div>
 										</div>
