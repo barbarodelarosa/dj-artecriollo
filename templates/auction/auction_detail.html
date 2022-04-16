@@ -73,9 +73,10 @@
 							</div>
 							<p>{{object.product.description|truncatewords:15}}</p>
 							{% if object.purchused %}
-                            	<div id="event-box" ><strong style="color: red;" >SUBASTA CERRADA: </strong> {{object.date_finish|date:"M d, Y H:i:s"}}</div>
+                            	{% comment %} <div id="event-box" ><strong style="color: red;" >SUBASTA CERRADA: </strong> {{object.date_finish|date:"M d, Y H:i:s"}}</div> {% endcomment %}
+                            	<div id="event-box" ><strong style="color: red;" >SUBASTA CERRADA: </strong> {{object.date_finish}}</div>
 							{% else %}
-                            	<div id="event-box" ><strong style="color: green;" >SUBASTA ABIERTA HASTA: </strong> {{object.date_finish|date:"M d, Y H:i:s"}}</div>
+                            	<div id="event-box" ><strong style="color: green;" >SUBASTA ABIERTA HASTA: </strong> {{object.date_finish}}</div>
                             
 
 								<form method="POST" action="{% url 'auction:user-bid-amount' auction.pk %}" class="product-details">
@@ -91,6 +92,8 @@
 									<div class="add-to-cart">
 									{% if request.user.is_authenticated %}
 										<button type='submit' class="add-to-cart-btn"><i class="fa fa-hand-o-up" aria-hidden="true"></i>Pujar monto</button>
+
+										{% comment %} SI LA SUBASTA ESTA CERRADA EL USUARIO GANADOR DEBE HACER EL PAGO A  TRAVES DE LA PLATAFORMA Y DESPUES EL VENDEDOR DEBE CONFIRMAR EL PAGO {% endcomment %}
 									{% endif %}
 								
 									</div>

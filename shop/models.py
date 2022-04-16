@@ -86,6 +86,7 @@ class Category(models.Model, ResizeImageMixin):
     image = models.ImageField(upload_to="image/category", blank=True, null=True) 
     name  = models.CharField(max_length=100)
     slug  = models.SlugField(unique=True, blank=True, null=True)
+    short_name = models.CharField(max_length=12, blank=True, null=True)
     active= models.BooleanField(default=True)
 
 
