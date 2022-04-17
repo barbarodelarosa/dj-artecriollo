@@ -40,6 +40,14 @@ class Page(models.Model):
         return self.name
 
 
+class Contact(models.Model):
+    name = models.CharField(max_length=15)
+    email = models.EmailField(max_length=25)
+    message = models.TextField()
+
+    def __str__(self):
+        return f'{self.name} - {self.email}'
+
 def pre_safe_page_receiver(sender, instance, *args, **kwargs):
     if not instance.slug:
         instance.slug = slugify(instance.name)

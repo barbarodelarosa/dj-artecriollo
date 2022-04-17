@@ -183,6 +183,8 @@
 												<i class="fa fa-star"></i>
 											</div> {% endcomment %}
 											<div class="product-btns">
+											{% if not product.digital %}
+										
 												{% if product in user.profile.whishlist.all%}
 													<a href="{% url 'profile:addorremovetowhishlist' product.id %}" class="add-to-wishlist" style="color: #D10024;"><i class="fa fa-heart"></i>
 													{% comment %} <span class="tooltipp"> Eliminar de lista</span> {% endcomment %}
@@ -192,17 +194,29 @@
 													{% comment %} <span class="tooltipp">Agregar a lista</span> {% endcomment %}
 													</a>
 												{%endif%}
+											{% endif %}
 												{% comment %} <form action="{% url 'profile:addorremovetowhishlist' product.id %}"> {% endcomment %}
 												{% comment %} </form> {% endcomment %}
 												<!-- <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button> -->
 												<br>
 												{% if request.user.is_authenticated %}
-													<form action="{%url 'shop:add-to-cart' product.id %}" method="POST" >{% csrf_token %}
-													<input type="hidden" name="quantity" value="1">
-													
-													<button type="submit" class="btn btn-success quick-view"><i class="fa fa-shopping-cart" style="font-size: large;"></i><span class="tooltipp"> Comprar</span></button>
-													
+													{% if product.digital %}
+														<form action="{% url 'shop:payment-enzona-digital-product' product.pk%}"  method="POST">
+														{% csrf_token %}
+														
+														<input type="hidden" name="title" value="{{product.title}}">
+														<input type="hidden" name="description" value="{{product.description}}">
+														<input type="hidden" name="price" value="{{product.price}}">
+														<button type="submit" class="btn btn-warning quick-view"><i class="fa fa-credit-card"></i> COMPRAR</button>
 													</form>
+													{% else %}
+														<form action="{%url 'shop:add-to-cart' product.id %}" method="POST" >{% csrf_token %}
+														<input type="hidden" name="quantity" value="1">
+														
+														<button type="submit" class="btn btn-success quick-view"><i class="fa fa-shopping-cart" style="font-size: large;"></i><span class="tooltipp"> Comprar</span></button>
+														
+														</form>
+													{% endif %}
 												{% else %}
 													{% comment %} <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Open modal for @mdo</button> {% endcomment %}
 
