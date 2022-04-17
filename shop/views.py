@@ -817,10 +817,15 @@ class ConfirmOrderView(LoginRequiredMixin, generic.View): #Confirma el pago real
             user_library.products.add(product)
             user_library.save()
             del request.session['digital_product']
-            ref_profile = request.session['ref_profile'] #Recibir referencia y agregarla a la cuenta del usuario
-            profile = Profile.objects.get(id=ref_profile)
-            profile.recommended_digital_products.add(product)
-            profile.save() 
+            try: 
+                ref_profile = request.session['ref_profile'] #Recibir referencia y agregarla a la cuenta del usuario
+                profile = Profile.objects.get(id=ref_profile)
+                profile.recommended_digital_products.add(product)
+                profile.save() 
+                del request.session['ref_profile'] #Elimina la referencia de usuario
+            except:
+                pass
+
             messages.info(request, message="Se ha realizado Correctamente el pago y el producto se ha agregado a su libreria de descargas")
             # UserLibrary
            

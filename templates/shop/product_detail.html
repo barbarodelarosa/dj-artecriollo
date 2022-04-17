@@ -94,7 +94,7 @@
 								{% endif %}
 							</div>
 							<p>{{product.description|truncatewords:15}}</p>
-							{{product.slug}}
+
 							{% if not product.digital %}
 								<form method="POST" class="product-details">
 									{% csrf_token %}
@@ -113,7 +113,7 @@
 									<br>
 									{% if product.content_url %}
 										<a  style="margin: 10px;"  href="{{product.content_url}}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
-											Ir a enlace
+											Acceder a enlace
 										</a>
 									{% endif %}
 													
@@ -131,7 +131,13 @@
 										<input type="hidden" name="title" value="{{product.title}}">
 										<input type="hidden" name="description" value="{{product.description}}">
 										<input type="hidden" name="price" value="{{product.price}}">
-										<button type="submit" class="btn-pay-product-digital"><i class="fa fa-credit-card"></i> pagar</button>
+										<div class="add-to-cart">								
+											{% if not request.user.is_authenticated %}
+												<button data-toggle="modal" data-target="#exampleModal" type="button" class="add-to-cart-btn"><i class="fa fa-fa-credit-card"></i> COMPRAR</button>
+											{% else %}
+												<button type="submit"  class="add-to-cart-btn"><i class="fa fa-credit-card"></i> COMPRAR</button>
+											{% endif %}
+										</div>
 									</form>
 								{% endif %}
 								
