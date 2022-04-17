@@ -257,9 +257,9 @@ EMAIL_USE_SSL = False
 DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
 # EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 #************************************************************
 
 
