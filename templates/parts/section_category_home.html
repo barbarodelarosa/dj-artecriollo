@@ -1,3 +1,4 @@
+{% load static %}
 <div class="section">
 			<!-- container -->
 			<div class="container">
@@ -9,7 +10,11 @@
                             <a href="{{cat.get_absolute_url}}" class="cta-btn">
 							<div class="shop">
                                 <div class="shop-img">
-                                    <img src="{{cat.image}}" alt="" height="300">
+									{% if not cat.image %}
+                                    	<img src="{% static 'images/no-image.png'%}" height="300">
+									{% else %}
+                                    	<img src="{{cat.image}}" alt="" height="300">
+									{% endif %}
                                 </div>
                                 <div class="shop-body">
                                     <h3>{{cat.name}}</h3>

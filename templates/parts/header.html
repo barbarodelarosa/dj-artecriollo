@@ -14,9 +14,9 @@
 				<div class="container">
 					<ul class="header-links pull-left">
                         {% site_info as info %}
-						<li><a href="#"><i class="fa fa-phone"></i> {{info.phone}}</a></li>
+						<li><a href="tel:+5351183924"><i class="fa fa-phone"></i> {{info.phone}}</a></li>
 						<li><a href="mailto:artecriollo@gmail.com"><i class="fa fa-envelope-o"></i> {{info.email}}</a></li>
-						<li><a href="tel:+5351183924"><i class="fa fa-map-marker"></i> {{info.address}}</a></li>
+						{% comment %} <li><a href="tel:+5351183924"><i class="fa fa-map-marker"></i> {{info.address}}</a></li> {% endcomment %}
                        
                     </ul>
 					<ul class="header-links pull-right">
@@ -48,7 +48,7 @@
 									<img src="./img/logo.png" alt="">
 								</a> {% endcomment %}
                                  <a href="{% url 'home' %}">
-                                    <img class="img-fluid" src="{% static 'images/logo.png' %}" style="max-width: 150px;"/>
+                                    <img class="img-fluid" src="{% static 'images/imagen-inicio.png' %}" height="40px" style="margin-top: 10px; max-width: 150px;"/>
                                 </a>
 							</div>
 						</div>

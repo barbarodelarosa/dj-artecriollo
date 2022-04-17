@@ -7,10 +7,31 @@
 						<div class="col-md-12 text-center">
 							<ul class="footer-payments">
 								<!-- <li><a href="#"><i class="fa fa-cc-visa"></i> -->
-									<thumbnail>
-										<a href="https://www.enzona.net/inicio" target="_blank" > <img src="{% static 'images/enzona/logo.png' %}" height="50"/></a>
+									{% comment %} <thumbnail>
+										<a href="https://www.enzona.net/inicio" rel="noopener noreferrer" target="_blank" > <img src="{% static 'images/enzona/logo.png' %}" height="50"/></a>
 									</thumbnail>
-								</a></li>
+								</a></li> {% endcomment %}
+								<li>
+									<a href="https://www.bc.gob.cu/institucion/bancaria/20" rel="noopener noreferrer" target="_blank" > 
+										<thumbnail>
+											<img src="{% static 'images/tarjetas/tarjeta-banco-metropolitano.jpg' %}" height="50"/></a>
+										</thumbnail>
+									</a>
+								</li>
+								<li>
+									<a href="https://www.bc.gob.cu/institucion/bancaria/22" rel="noopener noreferrer" target="_blank" > 
+										<thumbnail>
+											<img src="{% static 'images/tarjetas/tarjeta-bpa.jpg' %}" height="50"/></a>
+										</thumbnail>
+									</a>
+								</li>
+								<li>
+									<a href="https://www.bc.gob.cu/institucion/bancaria/17" rel="noopener noreferrer" target="_blank" > 
+										<thumbnail>
+											<img src="{% static 'images/tarjetas/tarjeta-bandec.jpg' %}" height="50"/></a>
+										</thumbnail>
+									</a>
+								</li>
 								{% comment %} <li><a href="#"><i class="fa fa-credit-card"></i></a></li>
 								<li><a href="#"><i class="fa fa-cc-paypal"></i></a></li>
 								<li><a href="#"><i class="fa fa-cc-mastercard"></i></a></li>
