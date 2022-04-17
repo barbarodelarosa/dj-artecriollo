@@ -15,6 +15,7 @@ venv.bak/
 artecriollo/.env
 
 #Directories
+static_root/*
 media/*
 Docs/*
 */__pycache__
