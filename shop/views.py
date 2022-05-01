@@ -616,18 +616,23 @@ class ConfirmEnzonaPaymentView(LoginRequiredMixin, generic.TemplateView):
         print(items)
         print("amount")
         print(amount)
- 
+      
  ###################### BLOQUE DE CONSULTA A ENZONA #######################
+        cancel_url=f'http://{self.request.get_host()}/shop/checkout/'
+        return_url=f'http://{self.request.get_host()}/shop/confirm-order/'
+        print(cancel_url)
+        print(return_url)
         resp_enzona = enzona.post_payments(
-            description="Probando agregar al diccionario",
+            description=f'Orden de pago - {order.id}',
             currency="CUP",
             amount=amount,
             items=items,
-            cancel_url="http://127.0.0.1:8000/shop/",
-            return_url="http://127.0.0.1:8000/shop/confirm-order/"
+            cancel_url=f'{cancel_url}',
+            return_url=f'{return_url}'
             )
         print("resp_enzona.json()")
-        print(resp_enzona.json())
+        # print(resp_enzona.json())
+        
         if resp_enzona.status_code == 200:
       
             resp_content = resp_enzona.json()
@@ -949,7 +954,14 @@ def addToCart(request,product_id):
 
 class EnzonaPaymentDigitalProductView(LoginRequiredMixin, generic.TemplateView):
 
-    template_name = 'shop/confirm_enzona_payment.html'
+    # template_name = 'shop/confirm_enzona_payment.html'
+    def get(self, request, *args, **kwargs):
+        digital_product=request.session["digital_product"]
+        product = Product.objects.get(pk=digital_product)
+        return HttpResponseRedirect(reverse('shop:product-detail', kwargs={'category':product.category.first().slug, 'slug':product.slug}) )
+
+
+
     def post(self, request, *args, **kwargs):
         if request.method=="POST":
             form = PaymentDigitalProductForm(request.POST)
@@ -987,12 +999,15 @@ class EnzonaPaymentDigitalProductView(LoginRequiredMixin, generic.TemplateView):
                 request.session["digital_product"]=kwargs['pk']
             
  ###################### BLOQUE DE CONSULTA A ENZONA #######################
+                print("dlfgldfgmldfgdfg")
+                print(f'{request.build_absolute_uri()}')
                 resp_enzona = enzona.post_payments(
                     description="description",
                     currency="CUP",
                     amount=amount,
                     items=items,
-                    cancel_url=f'http://{request.get_host()}/shop/', #OK
+                    # cancel_url=f'http://{request.get_host()}/shop/', #OK
+                    cancel_url=f'{request.build_absolute_uri()}', #OK
                     return_url=f'http://{request.get_host()}/shop/confirm-order/' #OK
                     )
                 print("resp_enzona.json()")

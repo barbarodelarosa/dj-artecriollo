@@ -46,17 +46,10 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    # 'django.contrib.auth',
-    # 'django.contrib.messages',
-    'django.contrib.sites',
-
-    'allauth',
-    'allauth.account',
-    'allauth.socialaccount',
-    
-
-
-    #My APPS
+    'django.contrib.sites', 
+]
+#MY APPS
+INSTALLED_APPS += [
     'core',
     'shop',
     'auction',
@@ -65,16 +58,17 @@ INSTALLED_APPS = [
     'newsletters',
     'blog',
     'affiliate',
-
-    #OTHERS
+]
+# OTHER APPS
+INSTALLED_APPS += [
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+  
+    'djcelery_email',
     'crispy_forms',
     'ckeditor',
-    
- 
-   
-
 ]
-INSTALLED_APPS += ("djcelery_email", )
 
 
 MIDDLEWARE = [
@@ -85,6 +79,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
 ]
 
 ROOT_URLCONF = 'artecriollo.urls'

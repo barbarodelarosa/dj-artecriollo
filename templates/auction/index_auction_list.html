@@ -42,8 +42,14 @@
 												{% if auction.purchused%}
 													<span class="new">VENDIDO</span>													
 												{% else %}
+																
 													{% comment %} <span class="sale" style="color: green; border-color: green;">{{auction.date_finish|date:"M d, Y H:m"}}</span> {% endcomment %}
-													<span class="sale" style="color: green; border-color: green;">{{auction.date_finish|timeuntil}} para cerrar</span>
+													{% if auction.date_finish|timesince >= "1 min" %}
+														<span class="sale" style="color: red; border-color: red;">Cerrada</span><br>
+														<span class="sale" style="color: red; border-color: red;">{{auction.date_finish}}</span>
+													{% else %}
+														<span class="sale" style="color: green; border-color: green;">{{auction.date_finish|timeuntil}} para cerrar</span>
+													{% endif %}
 												{% endif %}
 											</div>
 										</div>

@@ -3,6 +3,7 @@ import json
 from os import access, name
 from artecriollo import settings
 import requests
+from django.contrib import messages
 
 import urllib3
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
@@ -28,9 +29,10 @@ def test_connect():
         print(response)
         return response
     except:
-        return "Error al conectarse con ENZONA"
+        return "Existe un error al conectarse con la plataforma enzona, por favor verifique su conexión a internet :("
 
 def get_header_bearer_token():
+    
     connect = test_connect()
    
     if connect.status_code == 200:
@@ -42,6 +44,8 @@ def get_header_bearer_token():
             'Authorization': 'Bearer %s' %(access_token),
         }
         return headers
+    
+
 
 def payment_orders(description="", currency="CUP", amount=0, merchant_op_id=0000000000):
     """Function for create pay order"""

@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load price_format_tags %}
+{% load discount_tags%}
 
 <div class="container">
   <div class="row">
@@ -10,53 +11,102 @@
      
 
      
-      {% for product in object_list %}
-      <div class="col-md-4 col-xs-6">
-        <div class="product">
-          <div class="product-img">
-            <img src="{{product.image.url}}" alt="">
-            <div class="product-label">
-              <span class="sale">-30%</span>
-              <span class="new">NEW</span>
-            </div>
-          </div>
-          <div class="product-body">
-                                {% for pro_cat in product.category.all  %}
-                <p class="product-category"> {{pro_cat.name}} </p>                                        
-                                {% endfor %}
-            <h3 class="product-name"><a href="{{product.get_absolute_url}}">{{product.title}}</a></h3>
-            
-            <h4 class="product-price">{{product.price|price_format_cup}} <del class="product-old-price">{{product.old_price|price_format_cup}}</del></h4>
-            {% comment %} <div class="product-rating">
-              <i class="fa fa-star"></i>
-              <i class="fa fa-star"></i>
-              <i class="fa fa-star"></i>
-              <i class="fa fa-star"></i>
-              <i class="fa fa-star"></i>
-            </div> {% endcomment %}
-            {% comment %} <div class="product-btns">
-              <button class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">add to wishlist</span></button>
-              <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button>
-              <button class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp">quick view</span></button>
-            </div> {% endcomment %}
-          </div>
-          <div class="add-to-cart">
-                            <form action="{{product.get_absolute_url}}">
-            <button class="add-to-cart-btn"><i class="fa fa-eye"></i> Ver producto</button>
-                            </form>
-            {% if request.user.is_authenticated %}
-              <button data-product="{{product.id}}" data-action="add" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-            
-            {% else %}
-              <button data-toggle="modal" data-target="#exampleModal" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-							{% comment %} <button type="button" class="quick-view" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-shopping-cart" style="font-size: xx-large;"></i><span class="tooltipp">Agregar a carrito</span></button> {% endcomment %}
+      {% for product in object_list  %}
+                            
+								<div class="col-md-4 col-xs-6">
+									<div class="product">
+										<a href="{{product.get_absolute_url}}">
+										<div class="product-img">
+											<img src="{{product.image.url}}" height="200" width="200" alt="">
+											<div class="product-label">
+												{% if product.old_price > 0 %}
+													<span class="sale">{% discount product.old_price product.price%}</span>
+												{% endif %}
+												{% if  product.new %}
+													<span class="new">NUEVO</span>													
+												{% endif %}
+											</div>
+										</div>
+										</a>
+										<div class="product-body">
+											<p class="product-category">
+												{% for product_cat in product.category.all   %}
+													<a href="{{product_cat.get_absolute_url}}"> [{{product_cat}}] </a>
+												{% endfor %}
+											</p>
+											<a href="{{product.get_absolute_url}}">
+												<h3 class="product-name">{{product.title}}</h3>
+											
+												<h4 class="product-price">{{product.price|price_format_cup}} 
+													{% if product.old_price > 0 %}
+														<del class="product-old-price">{{product.old_price|price_format_cup}}</del>
+													{% endif %} 
+												</h4>
+												
+											</a>
+											{% comment %} <div class="product-rating">
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+												<i class="fa fa-star"></i>
+											</div> {% endcomment %}
+											<div class="product-btns">
+											{% if not product.digital %}
+										
+												{% if product in user.profile.whishlist.all%}
+													<a href="{% url 'profile:addorremovetowhishlist' product.id %}" class="add-to-wishlist" style="color: #D10024;"><i class="fa fa-heart"></i>
+													{% comment %} <span class="tooltipp"> Eliminar de lista</span> {% endcomment %}
+													</a>
+												{%else%}
+													<a href="{% url 'profile:addorremovetowhishlist' product.id %}" class="add-to-wishlist"><i class="fa fa-heart-o"></i>
+													{% comment %} <span class="tooltipp">Agregar a lista</span> {% endcomment %}
+													</a>
+												{%endif%}
+											{% endif %}
+												{% comment %} <form action="{% url 'profile:addorremovetowhishlist' product.id %}"> {% endcomment %}
+												{% comment %} </form> {% endcomment %}
+												<!-- <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button> -->
+												<br>
+												{% if request.user.is_authenticated %}
+													{% if product.digital %}
+														<form action="{% url 'shop:payment-enzona-digital-product' product.pk%}"  method="POST">
+														{% csrf_token %}
+														
+														<input type="hidden" name="title" value="{{product.title}}">
+														<input type="hidden" name="description" value="{{product.description}}">
+														<input type="hidden" name="price" value="{{product.price}}">
+														<button type="submit" class="btn btn-warning quick-view"><i class="fa fa-credit-card"></i> COMPRAR</button>
+													</form>
+													{% else %}
+														<form action="{%url 'shop:add-to-cart' product.id %}" method="POST" >{% csrf_token %}
+														<input type="hidden" name="quantity" value="1">
+														
+														<button type="submit" class="btn btn-success quick-view"><i class="fa fa-shopping-cart" style="font-size: large;"></i><span class="tooltipp"> Agregar a carrito</span></button>
+														
+														</form>
+													{% endif %}
+												{% else %}
+													{% comment %} <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Open modal for @mdo</button> {% endcomment %}
 
-            {% endif %}                  
-                                
-          </div>
-        </div>
-      </div>
-      {% endfor %}
+													<button type="button" class="quick-view" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-shopping-cart" style="font-size: x-large;"></i><span class="tooltipp">Agregar a carrito</span></button>
+												{% endif %}
+											</div>
+										</div>
+										{% comment %} <div class="add-to-cart">
+										<form action="{{product.get_absolute_url}}">
+											<button class="add-to-cart-btn"><i class="fa fa-eye"></i> Ver producto</button>
+										</form>
+										<form action="{% url 'shop:add-to-cart' product.id %}" method="post">
+											
+											{% csrf_token %}
+											<button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+										</form>
+											 
+										</div> {% endcomment %}
+									</div>
+								</div>
+                            {% endfor %}
         
     </div>
   </div>
