@@ -1,9 +1,11 @@
 from email.policy import default
 from django.db import models
 from ckeditor.fields import RichTextField
+from django.forms import DateTimeField
 from django.utils.text import slugify
 from django.shortcuts import reverse
 from django.db.models.signals import pre_save
+from django.contrib.auth.models import User
 
 
 
@@ -52,3 +54,24 @@ def pre_safe_page_receiver(sender, instance, *args, **kwargs):
     if not instance.slug:
         instance.slug = slugify(instance.name)
 pre_save.connect(pre_safe_page_receiver, sender=Page)
+
+
+
+
+class NotificationUser(models.Model):
+    TYPE_NOTIFICATION_CHOICE={
+        ('ONE_USER','ONE_USER'),
+        ('GROUP_USER','GROUP_USER'),
+        ('ALL_USER','ALL_USER'),
+        ('ALL_USER_AUTHENTICATED','ALL_USER_AUTHENTICATED'),
+    }
+    type=models.CharField(max_length=22, choices=TYPE_NOTIFICATION_CHOICE)
+    message = models.CharField(max_length=160)
+    created_at=models.DateTimeField(auto_now_add=True)
+    updated_at=models.DateTimeField(auto_now=True)
+    readed_at=models.DateTimeField(blank=True, null=True)
+    readed_for=models.ManyToManyField(User, blank=True)
+    readed=models.BooleanField(default=False)
+    active=models.BooleanField(default=False)
+    def __st__(self):
+        return self.message
