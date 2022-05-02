@@ -488,3 +488,10 @@ def pre_safe_category_receiver(sender, instance, *args, **kwargs):
     if instance.pk is None:
         instance.resize(instance.image, (400, 400))
 pre_save.connect(pre_safe_category_receiver, sender=Category)
+
+
+
+
+
+
+# pjpp pj oi oi oijoijoij

@@ -1,0 +1,263 @@
+[33mcommit 6c6d0e428be70d0a2e6fe63eca44f26bd5982dce[m[33m ([m[1;36mHEAD -> [m[1;32mwork[m[33m)[m
+Author: Barbaro de la Rosa <barbarodelarosa@gmail.com>
+Date:   Sat Apr 30 21:49:58 2022 -0400
+
+    Ajuste al cancelar el pago
+
+[33mcommit 963cf51d528f4e038474dbf60f47abd90abdd143[m[33m ([m[1;31morigin1/tests[m[33m, [m[1;32mtests[m[33m)[m
+Author: Barbaro de la Rosa <barbarodelarosa@gmail.com>
+Date:   Sun Apr 17 17:05:55 2022 -0400
+
+    Add static_files
+
+[33mcommit e639946cd28605c9c456f8ccd3cb325fca3e7f6b[m
+Author: Barbaro de la Rosa <barbarodelarosa@gmail.com>
+Date:   Sun Apr 17 14:39:35 2022 -0400
+
+    Cambio de email backend
+
+[33mcommit da8dcf8cf1434f64d9a7fda643e1a614831ce2a7[m
+Author: Barbaro de la Rosa <barbarodelarosa@gmail.com>
+Date:   Sun Apr 17 10:29:34 2022 -0400
+
+    IMagenes de Tarjetas agregadas
+
+[33mcommit d8b24aee1e38d748cbd8c75b16cd631bc9fa8b4c[m
+Author: Barbaro de la Rosa <barbarodelarosa@gmail.com>
+Date:   Sat Apr 16 21:17:57 2022 -0400
+
+    Model contatcto y rectificacion de errores
+
+[33mcommit 5e8c84689e2732b60338bcaa078fb9626723150f[m
+Author: Barbaro de la Rosa <barbarodelarosa@gmail.com>
+Date:   Sat Apr 16 20:08:05 2022 -0400
+
+    Arreglos a pago de producto digital
+
+[33mcommit a815f8b7e16fa6fb22615974d3045e495dd7fc27[m
+Author: Barbaro de la Rosa <barbarodelarosa@gmail.com>
+Date:   Sat Apr 16 19:28:44 2022 -0400
+
+    Idioma de login y correos
+
+[33mcommit 1139bae2efba58502585e4ecdfc6a3642487bedc[m
+Author: Barbaro de la Rosa <barbarodelarosa@gmail.com>
+Date:   Sat Apr 16 16:25:49 2022 -0400
+
+    Add icon
+
+[33mcommit 319ba8bf049402984f124f23b0f0a09330c67241[m
+Author: Barbaro de la Rosa <barbarodelarosa@gmail.com>
+Date:   Sat Apr 16 15:28:48 2022 -0400
+
+    Arreglo de fecha para subasta
+
+[33mcommit 87a17ed3f358f2bbe2165721ef63fa78985dacc1[m
+Author: Barbaro de la Rosa <barbarodelarosa@gmail.com>
+Date:   Thu Apr 7 18:22:34 2022 -0400
+
+    Zona horaria
+
+[33mcommit 593ac1cd758c81f2a4dba0e00a27356ac9d0aafb[m
+Author: Barbaro de la Rosa <barbarodelarosa@gmail.com>
+Date:   Thu Apr 7 16:36:09 2022 -0500
+
+    Validacion de terminos y condiciones para pago
+
+[33mcommit 50430efc7846a27167f2f810cf6739aea1c235da[m
+Author: Barbaro de la Rosa <barbarodelarosa@gmail.com>
+Date:   Thu Apr 7 11:57:24 2022 -0500
+
+    Mostrar botones en el detalle del producto digital
+
+[33mcommit a14a813e8dc669aeb32cce6dc31067ab33fd0ace[m
+Author: Barbaro de la Rosa <barbarodelarosa@gmail.com>
+Date:   Thu Apr 7 10:47:27 2022 -0500
+
+    Opciones de la pagina del usuario
+
+[33mcommit 89a3d5303be2c7388413d42e59b6724f954364b6[m
+Author: Barbaro de la Rosa <barbarodelarosa@gmail.com>
+Date:   Tue Apr 5 18:51:15 2022 -0500
+
+    Eliminacion __pycache
+
+[33mcommit 5a6eb20fe819791b5232f8183cd7c0151dac2ded[m
+Author: Barbaro de la Rosa <barbarodelarosa@gmail.com>
+Date:   Tue Apr 5 18:32:53 2022 -0500
+
+    Mejoras a enlaces de referidos
+
+[33mcommit b6921961d46239d7d3749e9baab093b47f8f71e1[m
+Author: Barbaro de la Rosa <barbarodelarosa@gmail.com>
+Date:   Tue Apr 5 15:23:27 2022 -0500
+
+    Intento de descargar PDF
+
+[33mcommit d768ea3641e7808bd14ce894b192aa227fad4a12[m
+Author: Barbaro de la Rosa <barbarodelarosa@gmail.com>
+Date:   Tue Apr 5 15:22:24 2022 -0500
+
+    Intento de descargar PDF
+
+[33mcommit 9cf53a53a485d868d2b5fcad95590e48cda124a8[m
+Merge: 44cec61 06fadd5
+Author: Barbaro de la Rosa <barbarodelarosa@gmail.com>
+Date:   Tue Apr 5 13:20:32 2022 -0500
+
+    Merge branch 'work'
+
+[33mcommit 06fadd5c9098f5b06b4a71c88a3dc0724f0d1bc6[m
+Author: Barbaro de la Rosa <barbarodelarosa@gmail.com>
+Date:   Tue Apr 5 13:19:41 2022 -0500
+
+    Errores con git
+
+[33mcommit 998da8ade25e7c97ed4fa1be01d01d33680958e0[m
+Author: Barbaro de la Rosa <barbarodelarosa@gmail.com>
+Date:   Tue Apr 5 13:17:35 2022 -0500
+
+    rm __pychache__
+
+[33mcommit 44cec6123cace65ea0018ff11d2b61d0d9ed9b84[m
+Merge: 3803e2c 250ffdb
+Author: Barbaro de la Rosa <barbarodelarosa@gmail.com>
+Date:   Tue Apr 5 13:12:16 2022 -0500
+
+    rm problemas git con pycache
+
+[33mcommit 3803e2c2dc910a4038fe5953968525e453d86d7e[m
+Author: Barbaro de la Rosa <barbarodelarosa@gmail.com>
+Date:   Tue Apr 5 13:03:32 2022 -0500
+
+    Archivos de git
+
+[33mcommit 250ffdb3ae2023eb81ce082d9976b53de4fe0fcf[m
+Author: Barbaro de la Rosa <barbarodelarosa@gmail.com>
+Date:   Tue Apr 5 13:01:07 2022 -0500
+
+    Detalle de la vista de las ordenes del usuario, solo el propietatio ve la orden
+
+[33mcommit e6d3aad5e951cc2a684f4d7a1503b1024b84fa19[m
+Merge: 92d9f14 0ad6999
+Author: Barbaro de la Rosa <barbarodelarosa@gmail.com>
+Date:   Tue Apr 5 11:52:58 2022 -0500
+
+    Merge branch 'work'
+
+[33mcommit 92d9f140e03a66308c35f069b5b0bc4b395177dc[m
+Author: Barbaro de la Rosa <barbarodelarosa@gmail.com>
+Date:   Tue Apr 5 11:50:20 2022 -0500
+
+    un error con git
+
+[33mcommit 0ad6999b5c44fb2c4a7e6c8b1b7b3e7748cda10e[m
+Author: Barbaro de la Rosa <barbarodelarosa@gmail.com>
+Date:   Tue Apr 5 11:46:09 2022 -0500
+
+    Ajustes a order
+
+[33mcommit 373604f9bebcbaef8e8149e4ebee192878831bb7[m
+Author: Barbaro de la Rosa <barbarodelarosa@gmail.com>
+Date:   Tue Apr 5 11:19:41 2022 -0500
+
+    Idioma de la direccion
+
+[33mcommit 3bc4ea070299374d6bbda24bcfb7c34fdf20a14f[m
+Author: Barbaro de la Rosa <barbarodelarosa@gmail.com>
+Date:   Tue Apr 5 11:06:13 2022 -0500
+
+    Firts name and Last name in page user
+
+[33mcommit 41ce0568f9fa4a89899ac22b24300155215d6199[m
+Author: Barbaro de la Rosa <barbarodelarosa@gmail.com>
+Date:   Mon Apr 4 19:19:25 2022 -0500
+
+    Modificacion a estructura de la pagina de usuario
+
+[33mcommit e41cfa2a2dad7fbdb75c40e7e14cf1be0deee12f[m
+Author: Barbaro de la Rosa <barbarodelarosa@gmail.com>
+Date:   Mon Apr 4 13:21:36 2022 -0500
+
+    Ajustes de imagenes por defecto y validacion de check termino y condiciones para pagar
+
+[33mcommit 313adc287a626bd766e23c64d73cde35c707d9ed[m
+Author: Barbaro de la Rosa <barbarodelarosa@gmail.com>
+Date:   Sun Apr 3 18:04:13 2022 -0500
+
+    Retoques: idioma a correos
+
+[33mcommit 75c8790ddcf0bce3a61d955feec89dd1cdf75026[m
+Author: Barbaro de la Rosa <barbarodelarosa@gmail.com>
+Date:   Sun Apr 3 08:58:51 2022 -0500
+
+    Pago de productos digitales
+
+[33mcommit d7cf59969ed7af59fe5ba3fa7a38c2adc762695c[m
+Author: Barbaro de la Rosa <barbarodelarosa@gmail.com>
+Date:   Thu Mar 31 20:30:49 2022 -0500
+
+    Habilitacion del email provicionalmente
+
+[33mcommit aa9d393bfaf60b63010584449bf7d2c5e5d36912[m
+Author: Barbaro de la Rosa <barbarodelarosa@gmail.com>
+Date:   Thu Mar 31 19:00:52 2022 -0500
+
+    Add icon
+
+[33mcommit ee6700047dd35787eee6cc95f1b537c7edd8895e[m
+Author: Barbaro de la Rosa <barbarodelarosa@gmail.com>
+Date:   Wed Mar 30 22:09:18 2022 -0500
+
+    Retoques a subasta
+
+[33mcommit 74a2b564bea79c1847cf6248a6a191b552256ad3[m
+Author: Barbaro de la Rosa <barbarodelarosa@gmail.com>
+Date:   Wed Mar 30 11:13:30 2022 -0500
+
+    Resize de imagenes
+
+[33mcommit d754703a37b182ba6a4bdb20a0c7c0eb4e27bf2c[m[33m ([m[1;33mtag: v0.1.0-alpha[m[33m)[m
+Author: Barbaro de la Rosa <barbarodelarosa@gmail.com>
+Date:   Tue Mar 29 12:37:35 2022 -0500
+
+    Shortener
+
+[33mcommit 55a11c0e9af183c5a955a21127d5b59ca2e03d45[m
+Author: Barbaro de la Rosa <barbarodelarosa@gmail.com>
+Date:   Tue Mar 29 12:36:40 2022 -0500
+
+    Shortener
+
+[33mcommit 7cf3917aa95b381f4c4d43bbc27d45de19dd6591[m
+Author: Barbaro de la Rosa <barbarodelarosa@gmail.com>
+Date:   Thu Mar 24 12:06:46 2022 -0500
+
+    Crear merchant, products, auction
+
+[33mcommit 3b4233721dcfe6e5ebaca3c937d9624d2b53845c[m
+Author: Barbaro de la Rosa <barbarodelarosa@gmail.com>
+Date:   Sat Mar 19 22:49:56 2022 -0500
+
+    Agregado todo lo necesario para download
+
+[33mcommit ed119e9b26062ce5c3305afc95a5e18cec1b6224[m
+Author: Barbaro de la Rosa <barbarodelarosa@gmail.com>
+Date:   Fri Mar 18 19:03:36 2022 -0500
+
+    Agregada subasta
+
+[33mcommit 1c221fab760484b5a17e50cec267bfa341633516[m
+Author: Barbaro de la Rosa <barbarodelarosa@gmail.com>
+Date:   Wed Mar 16 22:39:22 2022 -0500
+
+    Countdown
+
+[33mcommit 225781cb4e48617dc6bd6205edda9f28d82de5ab[m
+Author: Barbaro de la Rosa <barbarodelarosa@gmail.com>
+Date:   Mon Mar 14 22:09:06 2022 -0500
+
+    Login con modal
+
+[33mcommit 8784c6813e9d36fc797a0c081bcc86cc547413f6[m
+Author: Barbaro de 
