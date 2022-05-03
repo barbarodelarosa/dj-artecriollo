@@ -19,6 +19,19 @@
 
 <script type="text/javascript">
 
+
+	window.addEventListener('load', function(){
+			const loader = document.querySelector('.loader');
+			console.log(loader);
+			loader.className += " hidden";
+		});
+	function activeLoading() {
+		loader = $('.loader').removeClass('hidden');
+		console.log("loader");
+		console.log(loader);
+	}
+
+
 	$('.select2').select2({
 		language: "es"
 	})
@@ -70,6 +83,25 @@
 			document.cookie ='cart=' + JSON.stringify(cart) + ";domain=;path=/"
 		}
 		console.log('Cart:', cart)
+
+
+	$(document).ready(function() { 
+		$('.button').on('click', function(){
+        //Añadimos la imagen de carga en el contenedor
+			{% comment %} $('#content').html('<div class="loading"><img src="images/loader.gif" alt="loading" /><br/>Un momento, por favor...</div>'); {% endcomment %}
+			$('#modalLoading').modal('show');
+			$.ajax({
+				type: "POST",
+				url: "ajax.php",
+				success: function(data) {
+					//Cargamos finalmente el contenido deseado
+					{% comment %} $('#content').fadeIn(1000).html(data); {% endcomment %}
+					$('#modalLoading').modal('hide');
+				}
+			});
+			return false;
+    	});   
+	});      
 	
 </script>
 <script type="text/javascript" src="/admin/jsi18n/"></script>
