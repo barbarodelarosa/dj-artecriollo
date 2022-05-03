@@ -7,6 +7,7 @@ from django.urls.conf import include
 from core import views
 
 from django.views import i18n
+from django.conf.urls import handler404, handler500
                     
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -43,3 +44,6 @@ if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
+
+# handler404 = views.pag_404_not_found
+# handler500 = views.pag_500_error_server

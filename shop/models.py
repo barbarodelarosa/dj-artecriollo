@@ -490,8 +490,3 @@ def pre_safe_category_receiver(sender, instance, *args, **kwargs):
 pre_save.connect(pre_safe_category_receiver, sender=Category)
 
 
-
-
-
-
-# pjpp pj oi oi oijoijoij

@@ -30,7 +30,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = env('DEBUG')
+# DEBUG = env('DEBUG')
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -179,31 +180,31 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 
-if DEBUG is False:
+# if DEBUG is False:
 
-    SESSION_COOKIE_SECURE = True
-    SECURE_BROWSER_XSS_FILTER = True
-    SECURE_CONTENT_TYPE_NOSNIFF = True
-    SECURE_HSTS_INCLUDE_SUBDOMAINS = True
-    SECURE_HSTS_SECONDS = 31536000
-    SECURE_REDIRECT_EXEMPT = []
-    SECURE_SSL_REDIRECT = True
-    SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https') 
+#     SESSION_COOKIE_SECURE = True
+#     SECURE_BROWSER_XSS_FILTER = True
+#     SECURE_CONTENT_TYPE_NOSNIFF = True
+#     SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+#     SECURE_HSTS_SECONDS = 31536000
+#     SECURE_REDIRECT_EXEMPT = []
+#     SECURE_SSL_REDIRECT = True
+#     SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https') 
 
-    # EMAIL_BACKEND = 'django.core.mail.smtp.EmailBackend'
+#     # EMAIL_BACKEND = 'django.core.mail.smtp.EmailBackend'
 
-    ALLOWED_HOSTS = ["https://artecriollo.nat.cu", "https://artecriollo.pythonanywhere.com"]
+#     ALLOWED_HOSTS = ["https://artecriollo.nat.cu", "https://artecriollo.pythonanywhere.com"]
 
-    DATABASES = {
-        'default':{
-            'ENGINE': 'django.db.backends.mysql',
-             'NAME': '',
-             'USER': '',
-             'PASSWORD': '',
-             'HOST': '',
-             'PORT': '',
-         }
-    }
+#     DATABASES = {
+#         'default':{
+#             'ENGINE': 'django.db.backends.mysql',
+#              'NAME': '',
+#              'USER': '',
+#              'PASSWORD': '',
+#              'HOST': '',
+#              'PORT': '',
+#          }
+#     }
 
 
 #ENZONA
