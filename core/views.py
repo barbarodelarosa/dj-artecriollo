@@ -25,6 +25,7 @@ from django.core.paginator import Paginator
 from profile.models import Profile, UserLibrary
 from auction.models import Auction
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 
 
 
@@ -223,7 +224,7 @@ class PageDetailView(generic.DetailView):
     template_name="pages/page_detail.html"
 
 
-
+@login_required()
 def downloadFile(request):
     # user=request.user
     # auction = get_object_or_404(Auction, pk=pk)
@@ -273,15 +274,12 @@ def redirect_url_view(request, shortened_part):
 
 
 
-# #...
-# #404: página no encontrada
-# def pag_404_not_found(request, exception, template_name="error/404.html"):
-# 	response = render("error/404.html")
-# 	response.status_code=404
-# 	return response
+def pag_404_not_found(request, exception):
+    return render(request, '404.html')
 
-# #500: error en el servidor
-# def pag_500_error_server(request, exception,template_name="error/500.html"):
-# 	response = render("error/500.html")
-# 	response.status_code=500
-# 	return response
+def pag_500_error_server(request):
+    return render(request, '500.html')
+
+
+def pag_403_forbidden(request, exception):
+    return render(request, '403.html')

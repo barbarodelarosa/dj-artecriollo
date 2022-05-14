@@ -1,0 +1,47 @@
+{%load static%}
+
+
+<div class="modal fade" id="exampleModalAuction-{{lottery.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        {% comment %} <h4 class="modal-title" id="exampleModalLabel">New message</h4> {% endcomment %}
+        <a href="#" class="thumbnail">
+            <img src="{{lottery.product.image.url}}" alt="">
+          </a>
+           
+      </div>
+      <div class="modal-body">
+{% comment %}       
+Esto es para mostrar El conteo regresivo
+        <div id="event-box" style="display: none;">{{lottery.date_finish|date:"M d, Y H:m:s"}}</div>
+            <!-- <div>TIME LEFT:</div> -->
+            <div id="countdown-box" class="text-center mt-3 h1" style="background: green; color: honeydew;"></div> 
+{% endcomment %}
+
+<div class="row">
+      <div class="col-md-6 col-md-offset-3">
+      
+         <form action="{% url 'lottery:add-participant-lottery' lottery.pk %}"method="post">
+          {% csrf_token %}
+        
+              <div class="input-group">
+                <span class="input-group-addon">$</span>
+                <input type="text" name="bid_amount" placeholder="Monto a pujar" required maxlength="7" class="form-control" aria-label="Amount (to the nearest dollar)">
+                <span class="input-group-addon">.00</span>
+              </div>
+              <hr>
+              <button type="submit" class="btn btn-success btn-block quick-view"><i class="fa fa-hand-o-up"></i><span class="tooltipp"> Pujar monto</span></button>
+          </form>        
+</div>
+      </div>
+
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+      
+      </div>
+    </div>
+  </div>
+</div>

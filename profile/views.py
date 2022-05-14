@@ -60,6 +60,7 @@ from django_downloadview import HTTPDownloadView
 # 		return{"nav_profile": nav_profile, "fans":fans, "follows":follows}
 
 # Create your views here.
+@login_required()
 def UserProfile(request, username):
 	user = get_object_or_404(User, username=username)
 	profile = Profile.objects.get(user=user)
@@ -193,7 +194,7 @@ def EditProfile(request):
 	return render(request, 'account/edit_profile.html', context)
 
 
-class UpdateProfileView(UpdateView):
+class UpdateProfileView(LoginRequiredMixin, UpdateView):
 	model = Profile
 	fields=['first_name','last_name','profile_info','phone','ci','gender']
 	success_url='/profile/'
@@ -225,7 +226,7 @@ class UpdateProfileView(UpdateView):
 # 		return HttpResponseRedirect(reverse('profile', args=[username]))
 
 
-
+@login_required()
 def addToList(request):
 	user = request.user
 
@@ -244,6 +245,8 @@ def addToList(request):
 			raise e
 
 
+
+@login_required()
 def RemoveFromList(request, username):
 	person = get_object_or_404(User, username=username)
 	list_id = PeopleList.objects.get(user=request.user, people=person)
@@ -253,6 +256,7 @@ def RemoveFromList(request, username):
 	except Exception as e:
 		raise e
 
+@login_required()
 def ShowList(request):
 	user_lists = PeopleList.objects.filter(user=request.user)
 
@@ -276,6 +280,7 @@ def ShowList(request):
 
 
 
+@login_required()
 def PeopleListView(request, list_id):		
 	user_list = get_object_or_404(PeopleList, id=list_id)
 
@@ -285,6 +290,9 @@ def PeopleListView(request, list_id):
 
 	return render(request, 'people_list.html', context)
 
+
+
+@login_required()
 def ListPeopleDelete(request, list_id):
 	PeopleList.objects.filter(id=list_id).delete()
 	return HttpResponseRedirect(reverse('profile', args=[request.user.username]))
@@ -292,7 +300,7 @@ def ListPeopleDelete(request, list_id):
 
 
 
-@login_required
+@login_required()
 def addOrRemoveToWhishList(request, product):
 	user = request.user
 	profile = get_object_or_404(Profile, user=user)
@@ -343,7 +351,7 @@ def referedCode(request, *args, **kwargs):
 
 
 
-
+@login_required()
 def affiliateApplication(request):
 	profile = Profile.objects.get(user=request.user)
 	if profile.phone and profile.ci:

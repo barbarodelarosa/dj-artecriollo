@@ -4,10 +4,12 @@ from django.http import Http404, HttpResponseRedirect
 from django.urls import reverse
 from affiliate.models import Shortener
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
 
+@login_required()
 def affiliateLinks(request):
     context ={
         'links':Shortener.objects.filter(user=request.user)
@@ -16,7 +18,7 @@ def affiliateLinks(request):
 
 
 
-
+login_required()
 def shortener(request):
     #Debo agregar el refercode + la url del producto
     user = request.user

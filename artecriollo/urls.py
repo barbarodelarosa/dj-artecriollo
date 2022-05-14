@@ -7,13 +7,14 @@ from django.urls.conf import include
 from core import views
 
 from django.views import i18n
-from django.conf.urls import handler404, handler500
+from django.conf.urls import handler404, handler500, handler403
                     
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
     path('affiliate/', include('affiliate.urls')),
     path('subasta/', include('auction.urls')),
+    path('lottery/', include('lottery.urls')),
     path('', views.HomeView.as_view(), name='home'),
     path('contacto/', views.ContactView.as_view(), name='contact'),
     path('acerca-de/', views.AboutView.as_view(), name='about'),
@@ -45,5 +46,6 @@ if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 
-# handler404 = views.pag_404_not_found
-# handler500 = views.pag_500_error_server
+handler404 = views.pag_404_not_found
+handler500 = views.pag_500_error_server
+handler403 = views.pag_403_forbidden

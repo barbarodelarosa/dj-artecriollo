@@ -388,7 +388,7 @@ class CartView(generic.TemplateView):
         return context
 
 
-class IncreaseQuantityView(generic.View):
+class IncreaseQuantityView(LoginRequiredMixin, generic.View):
     def get(self, request, *args, **kwargs):
         order_item = get_object_or_404(OrderItem, id=kwargs['pk'])
         # product = get_object_or_404(Product, orderitem=order_item)
@@ -412,7 +412,7 @@ class IncreaseQuantityView(generic.View):
         return redirect("shop:summary")
 
 
-class DecreaseQuantityView(generic.View):
+class DecreaseQuantityView(LoginRequiredMixin, generic.View):
     def get(self, request, *args, **kwargs):
         order_item = get_object_or_404(OrderItem, id=kwargs['pk'])
         # product = get_object_or_404(Product, orderitem=order_item)
@@ -434,7 +434,7 @@ class DecreaseQuantityView(generic.View):
         return redirect("shop:summary")
 
 
-class RemoveFromCartView(generic.View):
+class RemoveFromCartView(LoginRequiredMixin, generic.View):
     def get(self, request, *args, **kwargs):
         order_item = get_object_or_404(OrderItem, id=kwargs['pk'])
         print("order_item.product.stock")
@@ -860,7 +860,7 @@ class ThankYouView(LoginRequiredMixin, generic.TemplateView):
 
 
 
-class WhishlistView(generic.TemplateView):
+class WhishlistView(LoginRequiredMixin, generic.TemplateView):
     template_name = 'shop/whishlist_list.html'
 
     def get_context_data(self, *args, **kwargs):

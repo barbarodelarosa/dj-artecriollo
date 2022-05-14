@@ -241,6 +241,7 @@ class Product(models.Model, ResizeImageMixin):
     content_url = models.URLField(blank=True, null=True)
     content_file = models.FileField(upload_to='products/content-files/', blank=True, null=True)
     for_auction = models.BooleanField(default=False)
+    for_lottery = models.BooleanField(default=False)
     close_auction = models.DateTimeField(auto_now=True)
     selling_date = models.DateTimeField(auto_now=True)
     related_products = models.ManyToManyField('self', blank=True)

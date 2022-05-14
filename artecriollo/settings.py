@@ -32,6 +32,7 @@ SECRET_KEY = env('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = env('DEBUG')
 DEBUG = True
+# TEMPLATE_DEBUG = DEBUG
 
 ALLOWED_HOSTS = ['*']
 
@@ -40,6 +41,7 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -60,6 +62,7 @@ INSTALLED_APPS += [
     'blog',
     'affiliate',
     'notifications',
+    'lottery',
 ]
 # OTHER APPS
 INSTALLED_APPS += [
@@ -70,6 +73,9 @@ INSTALLED_APPS += [
     'djcelery_email',
     'crispy_forms',
     'ckeditor',
+
+    'django_crontab',
+  
 ]
 
 
@@ -278,3 +284,6 @@ EMAIL_USE_TLS=True # SI SE DESHABILITA DA PROBLEMA EN EL SERVIDOR
 # EMAIL_USE_SSL=False
 
 
+CRONJOBS = [
+    ('*/1 * * * *', 'lottery.cron.my_scheduled_job')
+]
