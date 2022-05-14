@@ -1,12 +1,14 @@
-from lottery.models import Lottery, Participant
+from auction.models import Auction, UserBid
 from datetime import datetime
 import random
 
 def my_scheduled_job():
-    lotteries = Lottery.objects.filter(aprobated=True, active=True, finished=False)
+    auctions = Auction.objects.filter(aprobated=True, active=True, purchused=False)
     now = datetime.now().timestamp()
-    for lottery in lotteries:
-        if lottery.date_finish.timestamp() <= now:
+    for auction in auctions:
+        if auction.date_finish.timestamp() <= now:
+            winner = auction.userbid_set.all().order_by("-bid_amount").first()
+            auction.purchused_by = winner.user
             total_winners=lottery.total_winners
             participants = Participant.objects.filter(lottery=lottery)
             winners = random.sample(list(participants), total_winners)
