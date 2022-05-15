@@ -138,7 +138,10 @@
 									  <li ><a class="button-paginate"href="?page=1">&laquo; primera página</a></li> 
 									  <li><a class="button-paginate"href="?page={{ page_obj.previous_page_number }}">anterior</a></li> 
 									{% endif %}
-									Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+									{% comment %} Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}. {% endcomment %}
+									{% if page_obj.has_previous or  page_obj.has_next%}									
+										Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}.
+									{% endif %}
 									{% if page_obj.has_next %}
 										<li><a class="button-paginate"href="?page={{ page_obj.next_page_number }}">siquiente</a></li>
 										<li><a class="button-paginate"href="?page={{ page_obj.paginator.num_pages }}">última página &raquo;</a></li>

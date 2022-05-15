@@ -64,6 +64,12 @@
 														 <del class="product-old-price">{{product.old_price|price_format_cup}}</del>
 														{% endif %}</h4>
 													</a>
+													{% if not product.digital %}
+														<div style="color: blue;">{{product.stock}} en stock</div>
+													{% else %}
+														<div> </div>
+													{% endif %}
+
 													<div class="product-rating">
 														{% comment %} <i class="fa fa-star"></i>
 														<i class="fa fa-star"></i>

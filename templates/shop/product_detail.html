@@ -7,6 +7,7 @@
 
 
 {% block content %}
+
 <style>
 
 .btn-pay-product-digital {
@@ -89,9 +90,8 @@
 												
 								<br>
 								{% if not product.digital %}
-									<span class="badge" style="background: #00BB2e;">{{product.stock}}</span><span class="product-available">Producto{{product.stock|pluralize}} disponible{{product.stock|pluralize}}</span>
-								{% comment %} {%else%} {% endcomment %}
-									{% comment %} boton para descargas de contenido si el usuario ha pagado el producto								 {% endcomment %}
+									<div style="color: blue; font-size: large;">{{product.stock}} en stock</div>
+							
 								{% endif %}
 							</div>
 							<p>{{product.description|truncatewords:15}}</p>
@@ -147,7 +147,9 @@
 
  								<div class="add-to-cart">								
 									{% if not request.user.is_authenticated %}
-										<button data-toggle="modal" data-target="#exampleModal"  class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> agregar a carrito</button>
+										{% if not product.digital %}
+											<button data-toggle="modal" data-target="#exampleModal"  class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> agregar a carrito</button>
+										{% endif %}
 									{% endif %}
                                 </div>
  	
@@ -537,8 +539,10 @@
 												
 												{% else %}
 													{% comment %} <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">Open modal for @mdo</button> {% endcomment %}
-
-													<button type="button" class="quick-view" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-shopping-cart" style="font-size: x-large;"></i><span class="tooltipp">Agregar a carrito</span></button>
+													{% if not product.digital %}
+														<button type="button" class="quick-view" data-toggle="modal" data-target="#exampleModal"><i class="fa fa-shopping-cart" style="font-size: x-large;"></i><span class="tooltipp">Agregar a carrito</span></button>
+													
+													{% endif %}
 												{% endif %}
 												{% comment %} <a href="#" class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp"> Ver lista</span></a> {% endcomment %}
 											</div>

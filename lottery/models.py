@@ -41,6 +41,7 @@ class Participant(models.Model):
     amount = models.FloatField(default=0.00)
     lottery = models.ForeignKey(Lottery, on_delete=models.CASCADE)
     winner = models.BooleanField(default=False)
+    participant_number = models.IntegerField(blank=True)
 
     def __str__(self):
         return f'{self.user}'
@@ -54,3 +55,14 @@ def pre_safe_lottery_receiver(sender, instance, *args, **kwargs):
     product.for_lottery = True
     product.save()
 pre_save.connect(pre_safe_lottery_receiver, sender=Lottery)
+
+def pre_safe_participant_receiver(sender, instance, *args, **kwargs):
+    lottery_id = instance.lottery.id
+ 
+    total_participants = instance.lottery.participant_set.count()
+    print('total_participants',total_participants)
+    if not instance.participant_number:
+        instance.participant_number = total_participants + 1
+ 
+
+pre_save.connect(pre_safe_participant_receiver, sender=Participant)

@@ -21,10 +21,10 @@ def my_scheduled_job():
             from_email=settings.EMAIL_HOST_USER
             html_template='newsletters/email_templates/welcome.html'
             html_message_user=render_to_string(html_template)
-            
+            to_mail_user=[]
             for userbid in usersbid:
-                to_mail_user=[userbid.user.email]       
-                message_user=EmailMessage(subject,html_message_user,from_email, to_mail_user)
-                message_user.content_subtype='html'
-                message_user.send()
-    
+                to_mail_user.append(userbid.user.email)       
+            message_user=EmailMessage(subject,html_message_user,from_email, to_mail_user)
+            message_user.content_subtype='html'
+            message_user.send()
+

@@ -175,13 +175,18 @@
 												</h4>
 												
 											</a>
-											{% comment %} <div class="product-rating">
+												{% if not product.digital %}
+													<div style="color: blue;">{{product.stock}} en stock</div>
+											
+												{% endif %}
+											<div class="product-rating">
+											{% comment %} 
 												<i class="fa fa-star"></i>
 												<i class="fa fa-star"></i>
 												<i class="fa fa-star"></i>
 												<i class="fa fa-star"></i>
-												<i class="fa fa-star"></i>
-											</div> {% endcomment %}
+												<i class="fa fa-star"></i>{% endcomment %}
+											</div> 
 											<div class="product-btns">
 											{% if not product.digital %}
 										
@@ -267,7 +272,7 @@
 									  <li ><a class="button-paginate"href="?{{parametros.urlencode}}&page=1">&laquo; primera página</a></li> 
 									  <li><a class="button-paginate"href="?{{parametros.urlencode}}&page={{ object_list.previous_page_number }}">anterior</a></li> 
 									{% endif %}
-									{% if object_list and object_list.has_previous or  object_list.has_next%}									
+									{% if object_list.has_previous or  object_list.has_next%}									
 										Página {{ object_list.number }} de {{ object_list.paginator.num_pages }}.
 									{% endif %}
 									{% if object_list.has_next %}

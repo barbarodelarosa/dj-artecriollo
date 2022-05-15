@@ -922,13 +922,16 @@ def addToCart(request,product_id):
             # colour=form.cleaned_data['colour'],
             # size=form.cleaned_data['size']
             )
+            quantity=int(form.cleaned_data['quantity'])
+
             if item_filter.exists():
                 if product.stock > 0:
                     item = item_filter.first()
-                    item.quantity += int(form.cleaned_data['quantity'])
+                    item.quantity += quantity
                     item.save()
                     product.stock -= 1
                     product.save()
+                    messages.success(request, f'{quantity} Producto{"s" if quantity>1 else ""} agregado al carrito')
                 else:
                     messages.info(request, "No quedan productos disponibles")
             else:
@@ -939,6 +942,7 @@ def addToCart(request,product_id):
                     new_item.product = product
                     new_item.order = order
                     new_item.save()
+                    messages.success(request, f'{quantity} Producto{"s" if quantity>1 else ""} agregado al carrito')
                 else:
                     messages.info(request, "No quedan productos disponibles")
         
