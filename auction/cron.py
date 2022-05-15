@@ -9,15 +9,7 @@ def my_scheduled_job():
         if auction.date_finish.timestamp() <= now:
             winner = auction.userbid_set.all().order_by("-bid_amount").first()
             auction.purchused_by = winner.user
-            total_winners=lottery.total_winners
-            participants = Participant.objects.filter(lottery=lottery)
-            winners = random.sample(list(participants), total_winners)
-            
-            for winner in winners:
-                participant = winner
-                participant.winner = True
-                participant.save()
-                lottery.winners.add(participant.user)
-           
-            lottery.finished = True
-            lottery.save()
+            auction.purchused=True
+            auction.save()
+            #Funcion enviar correos o notificaciones a los usuarios registrado y al admin
+  
