@@ -287,4 +287,5 @@ EMAIL_USE_TLS=True # SI SE DESHABILITA DA PROBLEMA EN EL SERVIDOR
 CRONJOBS = [
     ('*/1 * * * *', 'lottery.cron.my_scheduled_job'),
     ('*/1 * * * *', 'auction.cron.my_scheduled_job'),
+    ('*/1 * * * *', 'core.cron.my_scheduled_job_save_db'),
 ]

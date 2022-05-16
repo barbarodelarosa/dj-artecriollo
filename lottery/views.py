@@ -22,7 +22,7 @@ class LotteryDetailView(generic.DetailView):
     model = Lottery
     template_name='lottery/lottery_detail.html'
 
-# Create your views here.
+# Create your views here. 
 # @login_required()
 def addToParticipantLottery(request,pk):
     # user=request.user

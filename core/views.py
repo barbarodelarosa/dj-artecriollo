@@ -1,3 +1,4 @@
+from lottery.models import Lottery, Participant
 from affiliate.models import Shortener
 from logging import FileHandler
 import os
@@ -23,7 +24,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.db.models import Q
 from django.core.paginator import Paginator
 from profile.models import Profile, UserLibrary
-from auction.models import Auction
+from auction.models import Auction, UserBid
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 
@@ -63,7 +64,9 @@ class ProfileView(LoginRequiredMixin, generic.TemplateView):
             'orders': Order.objects.filter(user=self.request.user, ordered=True),
             'recommended': Profile.objects.filter(recommended_by=self.request.user),
             'recommended_order': Order.objects.filter(user_recommended=self.request.user),
-            'library': UserLibrary.objects.get(user=self.request.user)
+            'library': UserLibrary.objects.get(user=self.request.user),
+            'participations': Participant.objects.filter(user=self.request.user),
+            'userbids': UserBid.objects.filter(user=self.request.user)
         })
         return context
 

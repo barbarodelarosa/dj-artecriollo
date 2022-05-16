@@ -302,6 +302,43 @@
             {% endif %}
         {% endif %}
     </div>
+
+
+
+<div role="tabpanel" class="tab-pane" id="my-auctions">
+    <h4>SUBASTAS</h4>
+    {{participant.count}}
+    {% regroup userbids by auction as auction_list %}
+
+    <ul>
+    {% for auction in auction_list %}
+        <li>{{ auction.grouper }}</li>
+       <ul>
+            {% for userbid in auction.list %}
+            <li>Participacion</li>
+            {% endfor %}
+        </ul> 
+        </li>
+    {% endfor %}
+    </ul>
+  </div>
+
+
+<div role="tabpanel" class="tab-pane" id="my-lotteries">
+    <h4>LOTERIAS</h4>
+    {% regroup participations by lottery as lottery_list %}
+
+    <ul>
+    {% for lottery in lottery_list %}
+        <li>{{ lottery.grouper }}</li>
+       <ul>
+            {% for participant in lottery.list %}
+            <li>Participacion</li>
+            {% endfor %}
+        </ul> 
+        </li>
+    {% endfor %}
+    </ul>
   </div>
 
 </div>

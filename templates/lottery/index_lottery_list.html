@@ -31,16 +31,16 @@
 										<div class="product-img">
 											<img src="{{lottery.product.image.url}}" height="200" width="200" alt="">
 											<div class="product-label">
-												{% if lottery.purchused%}
-													<span class="new">VENDIDO</span>													
+												{% if lottery.finished%}
+													<span class="new">FINALIZDO</span>													
 												{% else %}
 																
 													{% comment %} <span class="sale" style="color: green; border-color: green;">{{lottery.date_finish|date:"M d, Y H:m"}}</span> {% endcomment %}
 													{% if lottery.date_finish|timesince >= "1 min" %}
-														<span class="sale" style="color: red; border-color: red;">Cerrada</span><br>
+														<span class="sale" style="color: red; border-color: red;">Finalizado</span><br>
 														<span class="sale" style="color: red; border-color: red;">{{lottery.date_finish}}</span>
 													{% else %}
-														<span class="sale" style="color: green; border-color: green;">{{lottery.date_finish|timeuntil}} para cerrar</span>
+														<span class="sale" style="color: green; border-color: green;">{{lottery.date_finish|timeuntil}} para finalizar</span>
 													{% endif %}
 												{% endif %}
 											</div>
@@ -66,41 +66,26 @@
 											</div> {% endcomment %}
 											<div class="product-btns">
 
-												{% comment %} {% if product in user.profile.whishlist.all%}
-													<a href="{% url 'profile:addorremovetowhishlist' product.id %}" class="add-to-wishlist" style="color: #D10024;"><i class="fa fa-heart"></i><span class="tooltipp"> Eliminar de lista</span></a>
-												{%else%}
-													<a href="{% url 'profile:addorremovetowhishlist' auc.id %}" class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">Agregar a lista</span></a>
-												{%endif%} {% endcomment %}
-												{% comment %} <form action="{% url 'profile:addorremovetowhishlist' product.id %}"> {% endcomment %}
-												{% comment %} </form> {% endcomment %}
-												<!-- <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button> -->
-												<br>
-												{% if not lottery.purchused %}
+												{% if not lottery.finished %}
 												
 													{% if user.is_authenticated %}
-														<button data-toggle="modal" data-target="#exampleModalLottery-{{lottery.id}}" class="quick-view"><i class="fa fa-hand-o-up"></i><span class="tooltipp"> Pujar monto M</span></button>
+														<form action="{% url 'lottery:add-participant-lottery' lottery.id %}" method="POST">
+															{% csrf_token %}
+															<input type="hidden" value="0.00" name="amount">
+															<button type="submit" class="btn btn-success" onclick="activeLoading()" ><i class="fa fa-hand-o-up"></i><span class="tooltipp"> Participar</span></button>
+														</form> 
 													{%else%}
-														<button data-toggle="modal" data-target="#exampleModal" class="quick-view"><i class="fa fa-hand-o-up"></i><span class="tooltipp"> Pujar monto</span></button>
+														<button data-toggle="modal" data-target="#exampleModal" class="quick-view"><i class="fa fa-hand-o-up"></i><span class="tooltipp"> Participar</span></button>
 													{% endif %}
 												{% else %}
-													<a  href="{% url 'lottery:lottery-detail' lottery.pk %}" class="btn btn-warning"> Subasta cerrada</a>
+													<a  href="{% url 'lottery:lottery-detail' lottery.pk %}" class="btn btn-warning"> Sorteo finalizado</a>
 												{% endif %}
 													
 												
 											
 											</div>
 										</div>
-										{% comment %} <div class="add-to-cart">
-										<form action="{{product.get_absolute_url}}">
-											<button class="add-to-cart-btn"><i class="fa fa-eye"></i> Ver producto</button>
-										</form>
-										<form action="{% url 'shop:add-to-cart' product.id %}" method="post">
-											
-											{% csrf_token %}
-											<button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-										</form>
-											 
-										</div> {% endcomment %}
+									
 									</div>
 								</div>
                             {% endfor %}

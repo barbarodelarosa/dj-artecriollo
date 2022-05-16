@@ -46,7 +46,7 @@ class Participant(models.Model):
     def __str__(self):
         return f'{self.user}'
 
-
+ 
 
 
 def pre_safe_lottery_receiver(sender, instance, *args, **kwargs):
