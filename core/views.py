@@ -65,8 +65,8 @@ class ProfileView(LoginRequiredMixin, generic.TemplateView):
             'recommended': Profile.objects.filter(recommended_by=self.request.user),
             'recommended_order': Order.objects.filter(user_recommended=self.request.user),
             'library': UserLibrary.objects.get(user=self.request.user),
-            'participations': Participant.objects.filter(user=self.request.user),
-            'userbids': UserBid.objects.filter(user=self.request.user)
+            'participations': Participant.objects.filter(user=self.request.user).order_by('-created_at'),
+            'userbids': UserBid.objects.filter(user=self.request.user).order_by('-created_at')
         })
         return context
 

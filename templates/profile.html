@@ -306,39 +306,128 @@
 
 
 <div role="tabpanel" class="tab-pane" id="my-auctions">
-    <h4>SUBASTAS</h4>
-    {{participant.count}}
-    {% regroup userbids by auction as auction_list %}
+ 
+    {% if not userbids %}
+            <p style="color:red">Aún no tienes participacion en ninguna de las subastas, puedes encontrar alguna activa para participar en el apartado <a href="{% url 'auction:auction-index' %}"><strong>Subasta</strong></a></p>
+            
+    {% else %}
+         
+            <div class="row">
+                <div class="col-md-3">
+                    <h4>Mis Pujas:</h4>
+                </div>
+            </div>
+            
+        {% regroup userbids by auction as auction_list %}
+      
+            <!-- Table -->
 
-    <ul>
-    {% for auction in auction_list %}
-        <li>{{ auction.grouper }}</li>
-       <ul>
-            {% for userbid in auction.list %}
-            <li>Participacion</li>
-            {% endfor %}
-        </ul> 
-        </li>
-    {% endfor %}
-    </ul>
-  </div>
+            <div class="site-blocks-table">
+                <div class="panel panel-default">
+                    <!-- Default panel contents -->
+                    {% for auct in auction_list %}
+                        <div class="panel-heading"><strong>Subasta:</strong> {{ auct.grouper }} <br><strong>Abierto hasta:</strong> {{ auct.grouper.date_finish }}</div>
+              
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Fecha</th>
+                                        <th>Monto</th>
+                                        <th>Ganador</th>
+                                                                                
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for userbid in auct.list %}
+
+                                        <tr>
+                                            <td>{{forloop.revcounter}}</td>
+                                            <td>{{userbid.created_at}}</td>
+                                            <td>{{userbid.bid_amount}}</td>
+                                            <td>{{userbid.winner}}</td>
+                                            
+                                        
+                                        </tr>
+                                
+                                    {% endfor %}
+                                </tbody>
+
+                            </table>
+                  
+                 
+             
+                </div>
+        
+            </div>
+        {% endfor %}
+                    
+      
+    {% endif %}
+
+</div>
 
 
 <div role="tabpanel" class="tab-pane" id="my-lotteries">
-    <h4>LOTERIAS</h4>
-    {% regroup participations by lottery as lottery_list %}
+    {% if not participations %}
+            <p style="color:red">Aún no tienes participacion en ninguno de los sorteos, puedes encontrar alguna activo, para participar debes acceder al apartado <a href="{% url 'lottery:lottery-index' %}"><strong>Subasta</strong></a></p>
+            
+    {% else %}
+         
+            <div class="row">
+                <div class="col-md-3">
+                    <h4>Mis Sorteos:</h4>
+                </div>
+            </div>
+            
+           {% regroup participations by lottery as lottery_list %}
+  
+            <!-- Table -->
 
-    <ul>
-    {% for lottery in lottery_list %}
-        <li>{{ lottery.grouper }}</li>
-       <ul>
-            {% for participant in lottery.list %}
-            <li>Participacion</li>
-            {% endfor %}
-        </ul> 
-        </li>
-    {% endfor %}
-    </ul>
+        {% for parti in lottery_list %}
+            <div class="site-blocks-table">
+                <div class="panel panel-default">
+                    <!-- Default panel contents -->
+                        <div class="panel-heading"><strong>Sorteo:</strong> {{ parti.grouper }} <br><strong>Abierto hasta:</strong> {{ parti.grouper.date_finish }}</div>
+              
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Fecha</th>
+                                        <th>No. de inscripcion</th>
+                                        <th>Monto</th>
+                                        <th>Ganador</th>
+                                                                             
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for participant in parti.list %}
+
+                                        <tr>
+                                            <td>{{forloop.revcounter}}</td>
+                                            <td>{{participant.created_at}}</td>
+                                            <td>{{participant.participant_number}}</td>
+                                            <td>{{participant.amount}}</td>
+                                            <td>{{userbid.winner}}</td>
+                                            
+                                        
+                                        </tr>
+                                
+                                    {% endfor %}
+                                </tbody>
+
+                            </table>
+                    </div>
+                  
+            </div>
+        {% endfor %}
+                    
+      
+    {% endif %}
+
+
+   
   </div>
 
 </div>

@@ -39,6 +39,7 @@ class UserBid(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     bid_amount = models.FloatField(default=0.00)
     auction = models.ForeignKey(Auction, on_delete=models.CASCADE)
+    winner = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.user}'
