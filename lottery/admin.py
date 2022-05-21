@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Lottery, Participant
+from .models import Lottery, Participant, ParticipantPayment
 
 
 class LotteryAdmin(admin.ModelAdmin):
@@ -9,5 +9,6 @@ class ParticipantAdmin(admin.ModelAdmin):
 
 admin.site.register(Lottery, LotteryAdmin)
 admin.site.register(Participant, ParticipantAdmin)
+admin.site.register(ParticipantPayment)
 
 # Register your models here.

@@ -15,7 +15,7 @@ class Lottery(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     date_finish = models.DateTimeField()
-    price_lottery = models.FloatField(verbose_name="Monto de inscripción", default=0.00) #Establece el valor que hay que pagar para inscribirse
+    price_lottery = models.IntegerField(verbose_name="Monto de inscripción", default=0) #Establece el valor que hay que pagar para inscribirse
     value_product_lottery = models.FloatField(verbose_name="Valor del producto en el mercado(info)", default=0.00) #Establece el del produto en el mercado(esto es solo informacion)
     related_lottery = models.ManyToManyField('self', blank=True)
     note = models.TextField(blank=True, null=True)
@@ -34,12 +34,20 @@ class Lottery(models.Model):
     def get_absolute_url(self):
         return reverse("lottery:lottery-detail", kwargs={'pk':self.pk})
 
-
+class ParticipantPayment(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    amount = models.FloatField(default=0.00)
+    purchused=models.BooleanField(default=False)
+    transaction_uuid=models.CharField(max_length=32, blank=True, null=True)
+    user_uuid=models.CharField(max_length=32, blank=True, null=True)
+    
 class Participant(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     amount = models.FloatField(default=0.00)
     lottery = models.ForeignKey(Lottery, on_delete=models.CASCADE)
+    payment = models.OneToOneField(ParticipantPayment, on_delete=models.CASCADE)
     winner = models.BooleanField(default=False)
     participant_number = models.IntegerField(blank=True)
 

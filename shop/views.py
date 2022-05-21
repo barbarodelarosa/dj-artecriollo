@@ -667,6 +667,7 @@ class ConfirmEnzonaPaymentView(LoginRequiredMixin, generic.TemplateView):
 
 
 
+
 class ConfirmCashPaymentView(LoginRequiredMixin, generic.TemplateView):
 
     template_name = 'shop/confirm_cash_payment.html'

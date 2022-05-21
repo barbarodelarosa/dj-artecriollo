@@ -67,7 +67,7 @@
 								<a class="review-link" href="#">10 Review(s) | Add your review</a>
 							</div> {% endcomment %}
 							<div>
-								<h3 class="product-price">{{object.product.price|price_format_cup}} </h3>
+								<h3 class="product-price">{{object.price_lottery|price_format_cup}} </h3>
 							{% if object.finished %}
 								<br><span class="product-available">Unidades entregadas: </span><span class="badge" style="background: #00BB2e;">{{object.product.stock}}</span>
 							{% else %}
@@ -80,18 +80,25 @@
                             	<div id="event-box" ><strong style="color: red;" >SORTEO FINALIZADO: </strong> {{object.date_finish}}</div>
 							{% else %}
                             	<div id="event-box" ><strong style="color: green;" >SORTEO ABIERTO HASTA: </strong> {{object.date_finish}}</div>
-                            
-								<form method="POST" action="{% url 'lottery:add-participant-lottery' lottery.pk %}" class="product-details">
+                           
+								{% comment %} <form method="POST" action="{% url 'lottery:add-participant-lottery' lottery.pk %}" class="product-details"> {% endcomment %}
+								{% comment %} <form method="POST" action="{% url 'lottery:pay-lottery' %}" class="product-details"> {% endcomment %}
+								<form method="POST"  class="product-details">
 								
 									{% csrf_token %}
 										
-										<input type="hidden" value="{{object.amount|add:'0'}}" name="amount" required>
-								
+										<input type="hidden" value="{{object.product.title}}" name="title" required>
+										<input type="hidden" value="{{object.product.description}}" name="description" required>
+										<input type="hidden" value="{{object.price_lottery|add:'0'}}" name="price" required>
+										<input type="hidden" value="{{object.pk}}" name="lottery_id" required>
+										{% comment %} <input type="hidden" value="{{object.amount|add:'0'}}" name="amount" required> {% endcomment %}
+
 								
 									{% comment %} <button type='submit' class="btn btn-sm btn-primary buy-now" >Add to cart</button> {% endcomment %}
 									<div class="add-to-cart">
 									{% if request.user.is_authenticated %}
-										<button type='submit' class="add-to-cart-btn" onclick="activeLoading()" ><i class="fa fa-hand-o-up" aria-hidden="true"></i>PARTICIPAR</button>
+										{% comment %} <button type='submit' class="add-to-cart-btn" onclick="activeLoading()" ><i class="fa fa-hand-o-up" aria-hidden="true"></i>PARTICIPAR</button> {% endcomment %}
+										<button type='submit' class="add-to-cart-btn" ><i class="fa fa-hand-o-up" aria-hidden="true" onclick="activeLoading()" ></i>PARTICIPAR</button>
 
 										{% comment %} SI LA SUBASTA ESTA CERRADA EL USUARIO GANADOR DEBE HACER EL PAGO A  TRAVES DE LA PLATAFORMA Y DESPUES EL VENDEDOR DEBE CONFIRMAR EL PAGO {% endcomment %}
 									{% endif %}
@@ -164,7 +171,7 @@
 						<div id="product-tab">
 							<!-- product tab nav -->
 							<ul class="tab-nav">
-								<li class="active"><a data-toggle="tab" href="#tab0">Pujas</a></li>
+								<li class="active"><a data-toggle="tab" href="#tab0">Participantes</a></li>
 								<li><a data-toggle="tab" href="#tab1">Descripción</a></li>
 								<li><a data-toggle="tab" href="#tab2">Detalles</a></li>
 								{% comment %} <li><a data-toggle="tab" href="#tab3">Reviews (3)</a></li> {% endcomment %}
