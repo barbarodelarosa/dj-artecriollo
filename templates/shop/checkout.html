@@ -120,53 +120,32 @@
 						<div class="payment-method">
 							<p>Seleccionar método de pago</p>
 							<div class="input-radio">
-								<input type="radio" checked name="payment" id="payment-1">
+								<input type="radio" checked name="payment" value="enzona" id="payment-1">
 								<label for="payment-1">
 									<span></span>
-									PAGO ENZONA
+									PAGO CON ENZONA
 								</label>
 								<div class="caption">
 									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
 								</div>
-
-						
-
 								
 							</div>
-							<!-- <div class="input-radio">
+
+							<div class="input-radio">
 							
 
-								<input type="radio" name="payment" id="payment-2">
+								<input type="radio" name="payment" value="efectivo" id="payment-2">
 								<label for="payment-2">
 									<span></span>
-									PAGO EFECTIVO
+									PAGO CON EFECTIVO
 								</label>
 								<div class="caption">
 									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
 								</div>
 
 								
-							</div> -->
-							<!-- <div class="input-radio">
-								<input type="radio" name="payment" id="payment-2">
-								<label for="payment-2">
-									<span></span>
-									Cheque Payment
-								</label>
-								<div class="caption">
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-								</div>
 							</div>
-							<div class="input-radio">
-								<input type="radio" name="payment" id="payment-3">
-								<label for="payment-3">
-									<span></span>
-									Paypal System
-								</label>
-								<div class="caption">
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-								</div>
-							</div> -->
+					
 						</div>
 						<div class="input-checkbox">
 							<input type="checkbox" id="terms" onclick="validar()" required>
@@ -178,7 +157,8 @@
 
 						<!-- <button type="submit" id="btn-payment" class="primary-btn order-submit btn-lg btn-block">Realizar pedido</button> -->
 						<!-- <a href="{%url 'shop:payment-cash'%}" class="primary-btn order-submit btn-lg btn-block">Realizar en efectivo</a> -->
-						<button id="btn-payment" onclick="submit_order()" class="primary-btn order-submit btn-lg btn-block">Realizar pedido</button>
+						
+						<button id="btn-payment" onclick="activeLoading()"  onclick="submit_order()" class="primary-btn order-submit btn-lg btn-block">Realizar pedido</button>
 					</div>
 					
 				</form>
@@ -231,6 +211,7 @@ function submit_order(){
 	var ckbox = document.getElementById('terms');
 			if(ckbox.checked == true){
 			btn_payment.submit()
+			
 		
 		
 		}else{
@@ -238,10 +219,13 @@ function submit_order(){
 			return label_terms.style.color="red";			
 			
 		}
-		
+	
 		return false;
 		}
+{% comment %} 
+	let element1 = document.getElementById('btn-payment');
 
-	
+	element1.addEventListener('click', submit_order());
+	element1.addEventListener('click', activeLoading());	 {% endcomment %}
 	</script> 
 {% endblock scripts %}

@@ -28,11 +28,19 @@
 					<div class="col-md-5 col-md-push-2">
 					
 						<div id="product-main-img">
-                            {% for product_image in object.product.product_images.all  %}
-                                <div class="product-preview">
-                                    <img src="{{product_image.file.url}}" alt="">
-                                </div>
-                            {% endfor %}
+							{% if object.product.product_images.count == 0 %}
+									<div class="product-preview">
+                                    	<img src="{% static 'images/no-image.png' %}" alt="">
+									</div>
+									
+							{% else %}
+								{% for product_image in object.product.product_images.all  %}
+									<div class="product-preview">
+										<img src="{{product_image.file.url}}" alt="">
+									</div>
+								{% endfor %}
+							{% endif %}
+                      
 						</div>
 					</div>
 					<!-- /Product main img -->

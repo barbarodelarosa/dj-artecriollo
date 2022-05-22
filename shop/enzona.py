@@ -29,7 +29,11 @@ def test_connect():
         print(response)
         return response
     except:
-        return "Existe un error al conectarse con la plataforma enzona, por favor verifique su conexión a internet :("
+        error = {
+            'error':True,
+            'message':"Existe un error al conectarse con la plataforma enzona, por favor verifique su conexión a internet :("
+        }
+        return error
 
 def get_header_bearer_token():
     

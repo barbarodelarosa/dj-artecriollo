@@ -113,9 +113,9 @@
                         <a href=" {{url_confirm.href}}" class="primary-btn order-submit btn-lg">
                             Confirmar
                         </a> -->
-                        <form action="{{url_confirm.href}}">
+                        <form action="{% url 'shop:confirm-order' %}">
 
-                            <button disabled class="disabled primary-btn order-submit btn-lg">
+                            <button class="primary-btn order-submit btn-lg">
                                 Confirmar
                             </button>             
                         </form>             

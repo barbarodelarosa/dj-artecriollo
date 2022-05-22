@@ -103,7 +103,7 @@
 									{% comment %} <button type='submit' class="btn btn-sm btn-primary buy-now" >Add to cart</button> {% endcomment %}
 									<div class="add-to-cart">
 									{% if request.user.is_authenticated %}
-										<button type='submit' class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> agregar a carrito</button>
+										<button type='submit' class="add-to-cart-btn" onclick="activeLoading()"><i class="fa fa-shopping-cart"></i> agregar a carrito</button>
 									{% endif %}
 									</div>
 								</form>
@@ -136,7 +136,7 @@
 											{% if not request.user.is_authenticated %}
 												<button data-toggle="modal" data-target="#exampleModal" type="button" class="add-to-cart-btn"><i class="fa fa-fa-credit-card"></i> COMPRAR</button>
 											{% else %}
-												<button type="submit"  class="add-to-cart-btn"><i class="fa fa-credit-card"></i> COMPRAR</button>
+												<button type="submit"  class="add-to-cart-btn" onclick="activeLoading()"><i class="fa fa-credit-card"></i> COMPRAR</button>
 											{% endif %}
 										</div>
 									</form>
@@ -160,7 +160,7 @@
 									{% csrf_token %}
 									<input type="hidden" name="long_url" value="{{product.get_absolute_url}}">
 									<input type="hidden" name="product_id" value="{{product.id}}">
-									<button type="submit" class="btn btn-success">Referir producto <i class="fa fa-share"></i></button>
+									<button type="submit" class="btn btn-success" onclick="activeLoading()">Referir producto <i class="fa fa-share"></i></button>
 								</form>
 
 							{% endif %}
@@ -532,7 +532,7 @@
 													<form action="{%url 'shop:add-to-cart' product.id %}" method="POST" >{% csrf_token %}
 													<input type="hidden" name="quantity" value="1">
 													
-													<button type="submit" class="btn btn-success quick-view"><i class="fa fa-shopping-cart" style="font-size: large;"></i><span class="tooltipp"> Agregar</span></button>
+													<button type="submit" class="btn btn-success quick-view" onclick="activeLoading()"><i class="fa fa-shopping-cart" style="font-size: large;"></i><span class="tooltipp"> Agregar</span></button>
 													
 													</form>
 												

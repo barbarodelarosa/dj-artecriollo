@@ -455,7 +455,14 @@ class CheckoutView(LoginRequiredMixin, generic.FormView):
     form_class = AddressForm
 
     def get_success_url(self):
-        return reverse("shop:payment-enzona")
+        payment_method = self.request.POST.get('payment')
+       
+        self.request.session['payment_method']=payment_method
+        print(payment_method)
+        if payment_method == "efectivo":
+            return reverse("shop:payment-cash")
+        elif payment_method=="enzona":
+            return reverse("shop:payment-enzona")
 
         # next = self.request.META.get('HTTP_REFERER', None) or '/'  #Obtiene la url actual
 
@@ -463,6 +470,14 @@ class CheckoutView(LoginRequiredMixin, generic.FormView):
 
     def form_valid(self, form):
         order = get_or_set_order_session(self.request)
+        connect = enzona.test_connect()
+        try:
+            error = connect.get('error')
+            if error:
+                messages.error(self.request, "No se detecta conexión con ENZONA :( , por favor intente nuevamente, de continuar la situación seleccione la opción de PAGO CON EFECTIVO o contactar con el administrador")
+                return HttpResponseRedirect(redirect_to=f'{self.request.build_absolute_uri()}')
+        except:
+            pass
         # selected_shipping_address = form.cleaned_data.get('selected_shipping_address')
         # selected_billing_address = form.cleaned_data.get('selected_billing_address')
 
@@ -494,6 +509,9 @@ class CheckoutView(LoginRequiredMixin, generic.FormView):
         # address_exist = Address.objects.get(user=self.request.user).exist()
         # if Address.objects.filter(user=self.request.user).exist():
         #     Address.objects.get(user=self.request.user).delete()
+        
+
+
         from django.core.exceptions import ObjectDoesNotExist
         try:
             address_exist = Address.objects.get(user=self.request.user)
@@ -532,6 +550,7 @@ class CheckoutView(LoginRequiredMixin, generic.FormView):
         # order_object = Order.objects.get(user=self.request.user)
         
         # print(order_object)
+        print("ORDERRRRRR",order)
         messages.info(
             self.request, "Se ha agregado la dirección")
         # return super(CheckoutView, self).form_valid(form)
@@ -690,52 +709,13 @@ class ConfirmCashPaymentView(LoginRequiredMixin, generic.TemplateView):
             # temp_item['price']=f'{item.get_total_item_price()}'
             items.append(temp_item)
 
-        amount = {
-            "total": "2.00",
-            "details": {
-            "shipping": "0.00",
-            "tax": "0.00",
-            "discount": "0.00",
-            "tip": "0.00"
-            }
-        }
-        
-        amount['total']=f'{order.get_total()}' #OK
-        amount['details']['shipping']=f'{order.get_total_shipping()}'
-        amount['details']['tax']=f'{order.get_total_tax()}'
-        amount['details']['discount']=f'{order.get_total_discount()}'
- 
-        resp_enzona = enzona.post_payments(
-            description="Probando agregar al diccionario",
-            currency="CUP",
-            amount=amount,
-            items=items,
-            cancel_url="http://127.0.0.1:8000/shop/",
-            return_url="http://127.0.0.1:8000/shop/confirm-order/"
-            )
-        print("resp_enzona.json()")
-        print(resp_enzona.json())
-        if resp_enzona.status_code == 200:
-            resp_content = resp_enzona.json()
-            links_resp = resp_content['links']
-            url_confirm = links_resp[0]
-            context['url_confirm'] = url_confirm
-            print(resp_content)
-            # return redirect(to=url_confirm['href'])
-        else:
-            print(resp_enzona.status_code)
-            
-     
-        context['resp_enzona'] = resp_enzona.json()
+
+
 
         order.payment_method='EFECTIVO'
         order.save()
         context['order'] = get_or_set_order_session(self.request)
-    
-        # print('=====================================')
-        # print(order.items.all())
-        # print('=====================================')
-    
+       
 
         context['CALLBACK_URL']= self.request.build_absolute_uri(reverse("shop:thankyou"))
         return context
@@ -770,30 +750,24 @@ class ConfirmCashPaymentView(LoginRequiredMixin, generic.TemplateView):
 class ConfirmOrderView(LoginRequiredMixin, generic.View): #Confirma el pago realizado por el usuario
     def get(self, request, *args, **kwargs):
         digital_product=None
+        
         try:
-            digital_product = request.session['digital_product']
-            print("product_digital")
-            print(digital_product)
+            payment_method = request.session['payment_method']
+           
         except:
             pass
-        transaction_uuid = request.GET['transaction_uuid']
-        user_uuid = request.GET['user_uuid']
-        if not digital_product:
+
+        if payment_method == 'efectivo':
             order = get_or_set_order_session(request)
-            print("user_uuid")
-            print(user_uuid)
-            print("transaction_uuid")
-            print(transaction_uuid)
-            # print(request.body)
-            # body = json.loads(request.body)
+            amount=order.get_total()
             payment = Payment.objects.create(
                 order=order,
                 successfull=True,
                 # raw_response = "Respuesta de prueba",
                 # raw_response = json.dumps(body),
                 # amount = float(body["purchase_units"][0]["amount"]["value"]),
-                amount = float(33.56),
-                payment_method='ENZONA'
+                amount = amount,
+                payment_method='EFECTIVO'
             )
             order.ordered = True
             order.ordered_date = datetime.datetime.now()
@@ -803,7 +777,7 @@ class ConfirmOrderView(LoginRequiredMixin, generic.View): #Confirma el pago real
                 item.product.save()
 
             order.save()
-            messages.info(request, message="Se ha realizado Correctamente el pago")
+            messages.info(request, message="Se ha realizado correctamente su pedido")
             try: 
                 ref_profile = request.session['ref_profile'] #Recibir referencia y agregarla a la cuenta del usuario
                 profile = Profile.objects.get(id=ref_profile)
@@ -812,36 +786,84 @@ class ConfirmOrderView(LoginRequiredMixin, generic.View): #Confirma el pago real
                 del request.session['ref_profile'] #Elimina la referencia de usuario
             except:
                 pass
-
+            
     
-        else:
-            #*******************************************************
-            # Logica para agregar el producto digital a la libreria#
-            #*******************************************************
-            user_library = UserLibrary.objects.get(user=request.user)
-            product = Product.objects.get(id=digital_product)
-            user_library.products.add(product)
-            user_library.save()
-            del request.session['digital_product']
-            try: 
-                ref_profile = request.session['ref_profile'] #Recibir referencia y agregarla a la cuenta del usuario
-                profile = Profile.objects.get(id=ref_profile)
-                profile.recommended_digital_products.add(product)
-                profile.save() 
-                del request.session['ref_profile'] #Elimina la referencia de usuario
+            del request.session['payment_method'] #Elimina el metodo de pago
+            return redirect(to="shop:thankyou")
+
+
+#************************ ENZONA**********************
+
+        if payment_method == 'enzona':
+        
+            try:
+                digital_product = request.session['digital_product']
+                        
             except:
                 pass
 
-            messages.info(request, message="Se ha realizado Correctamente el pago y el producto se ha agregado a su libreria de descargas")
-            # UserLibrary
-           
+            transaction_uuid = request.GET['transaction_uuid']
+            user_uuid = request.GET['user_uuid']
+
+            if not digital_product:
+                order = get_or_set_order_session(request)
+            
+                payment = Payment.objects.create(
+                    order=order,
+                    successfull=True,
+                    # raw_response = "Respuesta de prueba",
+                    # raw_response = json.dumps(body),
+                    # amount = float(body["purchase_units"][0]["amount"]["value"]),
+                    amount = float(33.56),
+                    payment_method='ENZONA'
+                )
+                order.ordered = True
+                order.ordered_date = datetime.datetime.now()
+
+                for item in order.items.all(): #Funcion para agregar al producto la fecha en que fue vendido   
+                    item.product.selling_date = datetime.datetime.now()
+                    item.product.save()
+
+                order.save()
+                messages.info(request, message="Se ha realizado Correctamente el pago")
+                try: 
+                    ref_profile = request.session['ref_profile'] #Recibir referencia y agregarla a la cuenta del usuario
+                    profile = Profile.objects.get(id=ref_profile)
+                    profile.recommended_products.add(order)
+                    profile.save()
+                    del request.session['ref_profile'] #Elimina la referencia de usuario
+                except:
+                    pass
+
+        
+            else:
+                #*******************************************************
+                # Logica para agregar el producto digital a la libreria#
+                #*******************************************************
+                user_library = UserLibrary.objects.get(user=request.user)
+                product = Product.objects.get(id=digital_product)
+                user_library.products.add(product)
+                user_library.save()
+                del request.session['digital_product']
+                try: 
+                    ref_profile = request.session['ref_profile'] #Recibir referencia y agregarla a la cuenta del usuario
+                    profile = Profile.objects.get(id=ref_profile)
+                    profile.recommended_digital_products.add(product)
+                    profile.save() 
+                    del request.session['ref_profile'] #Elimina la referencia de usuario
+                except:
+                    pass
+
+                messages.info(request, message="Se ha realizado Correctamente el pago y el producto se ha agregado a su libreria de descargas")
+                # UserLibrary
+            
 
 
 
-        confirm = enzona.confirm_payment_orders(transaction_uuid)
-        print("confirm")
-        print(confirm)
-        return redirect(to="shop:thankyou")
+            confirm = enzona.confirm_payment_orders(transaction_uuid)
+            print("confirm")
+            print(confirm)
+            return redirect(to="shop:thankyou")
 
 
 class ThankYouView(LoginRequiredMixin, generic.TemplateView):

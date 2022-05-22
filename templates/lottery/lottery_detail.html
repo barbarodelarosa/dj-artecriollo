@@ -11,7 +11,7 @@
     <div id="event-box" style="display: none;">{{object.date_finish|date:"m d, Y H:i:s"}}</div>
     <!-- <div>TIME LEFT:</div> -->
 	{% if object.finished %}
-    	<h2 class="text-center mt-3" style="background: red; color: honeydew;">SUBASTA CERRADA</h2>
+    	<h2 class="text-center mt-3" style="background: red; color: honeydew;">SORTEO CERRADO</h2>
 	{% else %}
     	<div id="countdown-box" class="text-center mt-3 h1" style="background: green; color: honeydew;"></div>
 	{% endif %}
@@ -28,23 +28,35 @@
 					<div class="col-md-5 col-md-push-2">
 					
 						<div id="product-main-img">
-                            {% for product_image in object.product.product_images.all  %}
-                                <div class="product-preview">
-                                    <img src="{{product_image.file.url}}" alt="">
-                                </div>
-                            {% endfor %}
+							{% if object.product.product_images.count == 0 %}
+                                    	<img src="{% static 'images/no-image.png' %}" alt="">
+									
+							{% else %}
+								{% for product_image in object.product.product_images.all  %}
+									<div class="product-preview">
+										<img src="{{product_image.file.url}}" alt="">
+									</div>
+								{% endfor %}
+							{% endif %}
+                      
 						</div>
 					</div>
 					<!-- /Product main img -->
 
 					<!-- Product thumb imgs -->
+		
 					<div class="col-md-2  col-md-pull-5">
 						<div id="product-imgs">
-                            {% for product_image in object.product.product_images.all  %}
-                                <div class="product-preview">
-                                    <img src="{{product_image.file.url}}" alt="">
-                                </div>
-                            {% endfor %}
+							{% if object.product.product_images.count == 0 %}
+                                    <img src="{% static 'images/no-image.png' %}" alt="">
+							{% else %}
+								{% for product_image in object.product.product_images.all  %}
+									
+										<img src="{{product_image.file.url}}" alt="">
+								
+								{% endfor %}
+							{% endif %}
+                      
 						</div>
 					</div>
 					<!-- /Product thumb imgs -->
@@ -68,10 +80,11 @@
 							</div> {% endcomment %}
 							<div>
 								<h3 class="product-price">{{object.price_lottery|price_format_cup}} </h3>
+								<br>
 							{% if object.finished %}
 								<br><span class="product-available">Unidades entregadas: </span><span class="badge" style="background: #00BB2e;">{{object.product.stock}}</span>
 							{% else %}
-								<br><span class="product-available">Unidades a entregar: </span><span class="badge" style="background: #00BB2e;">{{object.product.stock}}</span>
+								<span class="product-available">Unidades a entregar: </span><span class="badge" style="background: #00BB2e;">{{object.product.stock}}</span>
 							{% endif %}
 							</div>
 							<p>{{object.product.description|truncatewords:15}}</p>
@@ -465,7 +478,7 @@
 					<!-- section title -->
 					<div class="col-md-12">
 						<div class="section-title">
-							<h3 class="title">Subastas relacionadas</h3>
+							<h3 class="title">Sorteos relacionados</h3>
 							<div class="section-nav">
 								<ul class="section-tab-nav tab-nav">
 									<li class="active"><a data-toggle="tab" href="#tab1">Todos</a></li>

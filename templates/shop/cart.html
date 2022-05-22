@@ -56,7 +56,7 @@
                                 <td>
                                     <div class="input-group mb-3" style="max-width: 120px;">
                                         <div class="input-group-pretend">
-                                            <a href="{% url 'shop:increase-quantity' item.id %}" class="btn btn-outline-primary">
+                                            <a href="{% url 'shop:increase-quantity' item.id %}" class="btn btn-outline-primary" onclick="activeLoading()">
                                                 <i class="fa fa-plus-circle" style="font-size: x-large;"></i>
                                     
                                             </a>
@@ -66,7 +66,7 @@
                                         
                                          
                                         <div class="input-group-pretend">
-                                            <a href="{% url 'shop:decrease-quantity' item.id %}" class="btn btn-outline-primary">
+                                            <a href="{% url 'shop:decrease-quantity' item.id %}" class="btn btn-outline-primary" onclick="activeLoading()">
                                                 <i class="fa fa-minus-circle" style="font-size: x-large;"></i>
                                             </a>
                                         </div>
@@ -77,7 +77,7 @@
                                    ${{item.get_total_item_price}} 
                                 </td>
                                 <td>
-                                    <a href="{% url 'shop:remove-from-cart' item.id %}" class="btn btn-primary btn-sm">x</a>
+                                    <a href="{% url 'shop:remove-from-cart' item.id %}" onclick="activeLoading()" class="btn btn-primary btn-sm">x</a>
                                 </td>
                             </tr>
                             {% empty %}
