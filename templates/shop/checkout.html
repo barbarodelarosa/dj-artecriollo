@@ -1,29 +1,9 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+{% load static %}
 
 
 {% block content %}
-
-    {% comment %} <div class="bg-light py-3">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12 mb-0">
-                    <a href="{% url 'home' %}">Home</a>
-                    <span class="mx-2 mb-0" >/</span>
-                    <a href="{% url 'cart:summary' %}">Cart</a>
-                    <span class="mx-2 mb-0" >/</span>
-                    <strong class="text-block">Checkout</strong>
-                </div>
-            </div>
-        </div>
-    </div> {% endcomment %}
-
-
-
-
-
-
-
 
 
 
@@ -89,7 +69,7 @@
 						<div class="section-title text-center">
 							<h3 class="title">Tu Orden</h3>
 						</div>
-						<div class="order-summary">
+						<div class="order-summary resumen_order">
 							<div class="order-col">
 								<div><strong>PRODUCTO</strong></div>
 								<div><strong>TOTAL</strong></div>
@@ -110,7 +90,7 @@
 							</div>
 							<div class="order-col">
 								<div>ENVIO</div>
-								<div><strong>FREE</strong></div>
+								<div><strong>${{ order.get_total_shipping }}</strong></div>
 							</div>
 							<div class="order-col">
 								<div><strong>TOTAL</strong></div>
@@ -172,27 +152,87 @@
 
 {% endblock %}
 {% block scripts %}
+<script src="{% static 'new/js/jquery.min.js' %}"></script>
+
 <script>
-// function validar(){
-// 	var ok = 0;
-// 	var btn_payment = document.getElementById('btn-payment');
-// 	var ckbox = document.getElementsByName('terms');
-// 			if(ckbox.checked == true){
-// 			ok = 1;
-// 			btn_payment.disabled=true
-// 			console.log('DISABLED TRUE')
-// 		}
-// 		if(ok == 0){
-// 			btn_payment.disabled=true
-// 			console.log('DISABLED TRUE TRE')
-// 		document.getElementsByName('terms').style.color="#ff0000";
-// 		alert('indique al menos un mes');
-// 		return false;
-// 		}
-// 	}
+var $loading = $('.loader').hide();
+$(document)
+  .ajaxStart(function () {
+    $loading.show();
+	const loader = document.querySelector('.loader');
+	console.log(loader);
+	loader.className += " show";
+  })
+  .ajaxStop(function () {
+    $loading.hide();
+	const loader = document.querySelector('.loader');
+	console.log(loader);
+	loader.className += " hidden";
+  });
 
+var link ="cambioOpcionesSelcet()"
+
+var preview = document.getElementById("id_municipio"); //getElementById instead of querySelectorAll
+preview.setAttribute("onchange", link);
+
+var delivery_method = document.getElementById("id_delivery_method"); //getElementById instead of querySelectorAll
+delivery_method.setAttribute("onchange", link);
+
+function cambioOpcionesSelcet(){
+	const loader = document.querySelector('.loader');
+	loader.className = "loader show";
+ 
+
+
+
+	municipio = $("#id_municipio option:selected").text()
+	delivery_method = $("#id_delivery_method option:selected").text()
+
+	const Url = "{% url 'shop:actualizar_costo_mensajeria' %}"
+	
+	const payload={
+		municipio:municipio,
+		delivery_method:delivery_method 
+	};
+	
+	$.ajax({
+		url: Url,
+		type: "POST",
+		headers: {
+			"X-Requested-With": "XMLHttpRequest",
+			'X-CSRFToken': csrftoken
+		},
+		data: JSON.stringify({ payload: payload}),
+  		contentType: "application/json",
+		success:function(){
+
+			$('.resumen_order').load(location.href + " .resumen_order");
+		
+					
+			const loader = document.querySelector('.loader');
+			const resumen_order = document.querySelector('.resumen_order');
+			console.log(resumen_order)
+			
+			loader.className = "loader hidden";
+
+		},
+		error:function(){
+		
+			console.log("ERRRORR")
+		}
+	})
+
+	}
+
+
+
+var payment = document.getElementsByName('payment');
+console.log("PAYMENT");
+console.log(payment);
 function validar(){
-
+	var payment = document.getElementsByName('payment');
+	console.log("PAYMENT");
+	console.log(payment.value);
 	var btn_payment = document.getElementById('btn-payment');
 	var ckbox = document.getElementById('terms');
 			if(ckbox.checked == true){
@@ -207,6 +247,7 @@ function validar(){
 function submit_order(){
 	const form = document.getElementById('submit-order-form');
 	var btn_payment = document.getElementById('btn-payment');
+
 	var label_terms = document.getElementById('label-terms');
 	var ckbox = document.getElementById('terms');
 			if(ckbox.checked == true){
@@ -222,10 +263,10 @@ function submit_order(){
 	
 		return false;
 		}
-{% comment %} 
-	let element1 = document.getElementById('btn-payment');
 
-	element1.addEventListener('click', submit_order());
-	element1.addEventListener('click', activeLoading());	 {% endcomment %}
+
+
+	// municipio
+
 	</script> 
 {% endblock scripts %}

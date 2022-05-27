@@ -4,6 +4,7 @@ from django.contrib import admin
 
 class AddressAdmin(admin.ModelAdmin):
     list_display = [
+        
         'address_type',
         'address_line_1',
         'address_line_2',

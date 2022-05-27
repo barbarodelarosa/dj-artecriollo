@@ -2,6 +2,7 @@
 from email.policy import default
 from itertools import product
 import os
+from utils.utils import costo_envio
 from django.conf import settings
 from django.db import models
 from ckeditor.fields import RichTextField
@@ -134,15 +135,16 @@ class Provincia(models.Model):
     name=models.CharField(max_length=15)
     
     def __str__(self):
-        return f'{self.name} | {self.pais}'
+        return f'{self.name}'
 
 class Municipio(models.Model):
     pais = models.ForeignKey(Pais, on_delete=models.CASCADE)
     provincia = models.ForeignKey(Provincia, on_delete=models.CASCADE)
     name=models.CharField(max_length=15)
+    shipping = models.IntegerField(default=0, blank=True)
     
     def __str__(self):
-        return f'{self.name} | {self.provincia}'
+        return f'{self.name}'
 
 
 
@@ -153,27 +155,27 @@ class Address(models.Model):
     #     ('S', 'Shipping'),
     # )
     ADDRESS_CHOICES = (
-        ('P', 'Particular'),
-        ('E', 'Envio'),
+        ('P', 'PARTICULAR'),
+        ('E', 'ENVIO'),
     )
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
     pais = models.ForeignKey(Pais, on_delete=models.CASCADE, blank=True, null=True)
     provincia = models.ForeignKey(Provincia, on_delete=models.CASCADE, blank=True, null=True)
     municipio = models.ForeignKey(Municipio, on_delete=models.CASCADE, blank=True, null=True)
     localidad = models.CharField(max_length=25, blank=True, null=True)
-    address_line_1 = models.CharField(max_length=150)
-    address_line_2 = models.CharField(max_length=150)
-    numero = models.CharField(max_length=8)
-    apt = models.CharField(max_length=5)
-    city = models.CharField(max_length=150)
+    address_line_1 = models.CharField(max_length=150, blank=True, null=True)
+    address_line_2 = models.CharField(max_length=150, blank=True, null=True)
+    numero = models.CharField(max_length=8, blank=True, null=True)
+    apt = models.CharField(max_length=5, blank=True, null=True)
+    city = models.CharField(max_length=150, blank=True, null=True)
     # zip_code = models.CharField(max_length=10, blank=True, null=True)
-    address_type = models.CharField(max_length=1, choices=ADDRESS_CHOICES)
+    address_type = models.CharField(max_length=1, choices=ADDRESS_CHOICES, blank=True, null=True)
     default = models.BooleanField(default=False)
   
 
     def __str__(self):
-        return f"{self.provincia} | {self.municipio} | {self.localidad} | {self.address_line_1} | {self.address_line_2}"
+        return f"{self.user} | {self.provincia} | {self.municipio} | {self.localidad} | {self.address_line_1} | {self.address_line_2}"
 
     class Meta:
         verbose_name_plural = 'Addresses'
@@ -353,6 +355,11 @@ class Order(models.Model):
         (ENZONA, 'ENZONA'),
         (TRANSFERMOVIL, 'TRANSFERMOVIL'),
     )
+    DELIVERY_METHOD_CHOICES = (
+        (1, 'DOMICILIO'),
+        (2, 'RECOGIDA_LOCAL'),
+    )
+
     user = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     start_date = models.DateTimeField(auto_now_add=True)
     ordered_date = models.DateTimeField(blank=True, null=True)
@@ -366,13 +373,15 @@ class Order(models.Model):
     last_name = models.CharField(max_length=25, blank=True, null=True)
     phone = models.CharField(max_length=12, blank=True, null=True)
     email = models.EmailField(max_length=25, blank=True, null=True)
-    payment_method = models.CharField(max_length=25, choices=PAYMENT_METHOD_CHOICES, default=EFECTIVO)
+    payment_method = models.CharField(max_length=13, choices=PAYMENT_METHOD_CHOICES, default=EFECTIVO)
+    delivery_method = models.CharField(max_length=20, choices=DELIVERY_METHOD_CHOICES, default=1)
     user_recommended=models.ForeignKey(User, blank=True, null=True, related_name='user_recommended', on_delete=models.CASCADE)
+
     
 
-    billing_address = models.ForeignKey(
-        Address, related_name='billing_address', blank=True, null=True, on_delete=models.SET_NULL
-    )
+    # billing_address = models.ForeignKey(
+    #     Address, related_name='billing_address', blank=True, null=True, on_delete=models.SET_NULL
+    # )
     shipping_address = models.ForeignKey(
         Address, related_name='shipping_address', blank=True, null=True, on_delete=models.SET_NULL
     )
@@ -406,8 +415,20 @@ class Order(models.Model):
         total_tax = self.get_raw_total_tax()
         return "{0:.2f}".format(total_tax / 100)
 
+    def get_raw_total_shipping(self):
+        print("Delivery",self.delivery_method)
+        print("Shipping",self.shipping)
+
+        if self.delivery_method == "1":
+            return self.shipping
+        else:
+            return 0
+
     def get_total_shipping(self):
-        return "{0:.2f}".format(self.shipping / 100)
+        shipping = self.get_raw_total_shipping()
+        return "{0:.2f}".format(shipping / 100)
+
+
 
     def get_raw_total_discount(self):
         total = 0
@@ -431,10 +452,11 @@ class Order(models.Model):
         #total = subtotal - discount + tax + delivery
         tax = self.get_raw_total_tax()
         discount = self.get_raw_total_discount()
+        shipping = self.get_raw_total_shipping()
         discount = discount + self.discount
         print('discount')
         print(discount)
-        subtotal = subtotal + tax + self.shipping - discount
+        subtotal = subtotal + tax + shipping - discount
         return subtotal
 
     def get_total(self):
@@ -490,5 +512,4 @@ def pre_safe_category_receiver(sender, instance, *args, **kwargs):
     if instance.pk is None:
         instance.resize(instance.image, (400, 400))
 pre_save.connect(pre_safe_category_receiver, sender=Category)
-
 

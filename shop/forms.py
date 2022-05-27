@@ -23,6 +23,7 @@ from .models import (
     Provincia,
     SizeVariation,
     Tag,
+    Order,
     
 )
 
@@ -74,19 +75,22 @@ class AddressForm(forms.Form):
     municipio = forms.ModelChoiceField(
         queryset= Municipio.objects.none(), widget=Select(attrs={'class':'select2'}), required=False
     )
+    delivery_method = forms.ChoiceField(widget = forms.Select(), 
+        choices = Order.DELIVERY_METHOD_CHOICES, initial=1, required = True,label="Entrega", help_text="Modifique el valor si desea recoger la orden en nuestro local",)
+    
     address_line_1 = forms.CharField(label="Dirección de envio calle 1", help_text='Calle principal', required=False)
     address_line_2 = forms.CharField(label="Dirección de envio calle 2", help_text='Entre calles de la dirección',required=False)
     localidad = forms.CharField(label="Localidad (barrio)", help_text="agregar localidad en que se ubica la dirección", required=False, error_messages="")
     numero = forms.CharField(label="Número de la casa", help_text="agregar el número de la casa (pasillo o edi.)", required=False, error_messages="")
     apt = forms.CharField(label="Número de apartamento", help_text="Solo en caso de Edif o pasillo", required=False, error_messages="")
-
+    # delivery_method = forms.CharField(label="Entrega", help_text="Modifique el valor si desea recoger la orden en nuestro local", error_messages="")
     note=forms.CharField(required=False, help_text="Agregar información de interés para su pedido",widget=Textarea())
 
     # note=forms.CharField()
 
     class Meta:
         model = Address
-        fields = ['first_name','last_name','phone','email','pais','provincia','municipio','address_line_1','address_line_2','localidad','numero','apt','note']
+        fields = ['first_name','last_name','phone','email','pais','provincia','municipio','delivery_method','address_line_1','address_line_2','localidad','numero','apt','note']
 
     def __init__(self, *args, **kwargs):
         user_id = kwargs.pop('user_id')
@@ -101,6 +105,7 @@ class AddressForm(forms.Form):
         self.fields['last_name'].initial = user.profile.last_name
         self.fields['phone'].initial = user.profile.phone
         self.fields['email'].initial = user.email
+        self.fields['delivery_method'].initial = user.email
         try: 
             address_user = Address.objects.get(user=user)
        
@@ -111,7 +116,7 @@ class AddressForm(forms.Form):
             self.fields['address_line_2'].initial = address_user.address_line_2
             self.fields['localidad'].initial = address_user.localidad
             self.fields['numero'].initial = address_user.numero
-            self.fields['apt'].initial = address_user.apt
+         
         except ObjectDoesNotExist:
             print("No existe direccion del")
 

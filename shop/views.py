@@ -1,6 +1,8 @@
 import datetime
 from itertools import product
 import json
+from utils.utils import costo_envio
+from utils.enviar_emails import nueva_orden
 from profile.models import Profile, UserLibrary
 from django import template
 from django.views import generic
@@ -9,17 +11,19 @@ from requests import request
 
 import shop
 from .utils import get_or_set_order_session, get_whishlist_session
-from .models import Merchant, Product, OrderItem, Address, Payment, Order, Category, ProductImagesContent, WhishList
+from .models import Merchant, Municipio, Product, OrderItem, Address, Payment, Order, Category, ProductImagesContent, WhishList
 from .forms import AddDigitalProductForm, AddMerchanForm, AddProductBasicForm, AddToCartForm, AddressForm, PaymentDigitalProductForm
 from django.shortcuts import get_object_or_404, reverse, redirect
 from django.contrib import messages
 from django.conf import settings
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect
 from shop import enzona
 from django.urls import reverse
 from django.core.paginator import Paginator
+from django.core.mail import send_mail, EmailMessage
+
 
 
 from shop import models
@@ -471,13 +475,17 @@ class CheckoutView(LoginRequiredMixin, generic.FormView):
     def form_valid(self, form):
         order = get_or_set_order_session(self.request)
         connect = enzona.test_connect()
-        try:
-            error = connect.get('error')
-            if error:
-                messages.error(self.request, "No se detecta conexión con ENZONA :( , por favor intente nuevamente, de continuar la situación seleccione la opción de PAGO CON EFECTIVO o contactar con el administrador")
-                return HttpResponseRedirect(redirect_to=f'{self.request.build_absolute_uri()}')
-        except:
-            pass
+        payment_method = self.request.POST.get('payment')
+       
+        if payment_method=="enzona":
+
+            try:
+                error = connect.get('error')
+                if error:
+                    messages.error(self.request, "No se detecta conexión con ENZONA :( , por favor intente nuevamente, de continuar la situación seleccione la opción de PAGO CON EFECTIVO o contactar con el administrador")
+                    return HttpResponseRedirect(redirect_to=f'{self.request.build_absolute_uri()}')
+            except:
+                pass
         # selected_shipping_address = form.cleaned_data.get('selected_shipping_address')
         # selected_billing_address = form.cleaned_data.get('selected_billing_address')
 
@@ -537,7 +545,7 @@ class CheckoutView(LoginRequiredMixin, generic.FormView):
         
             
             )
-        order.billing_address = address
+        # order.billing_address = address
         order.shipping_address = address
         order.first_name = form.cleaned_data.get('first_name')       
         order.last_name = form.cleaned_data.get('last_name')
@@ -572,6 +580,44 @@ class CheckoutView(LoginRequiredMixin, generic.FormView):
         return context
 
 
+
+def actualizar_costo_mensajeria(request):
+    is_ajax = request.headers.get('X-Requested-With') == 'XMLHttpRequest'
+    order = get_or_set_order_session(request)
+    if is_ajax:
+        if request.method=="POST":
+            data = json.load(request)
+            payload = data.get('payload')
+            municipio = payload['municipio']
+            delivery_method  = payload['delivery_method']
+            
+            address, created = Address.objects.get_or_create(user=request.user)
+            municipio_get = Municipio.objects.get(name=municipio)
+            print("MUNICIPIO",municipio)
+            if created:
+                address = Address.objects.get(user=request.user)
+            address.municipio = municipio_get
+            address.save()
+            # if delivery_method:
+            if delivery_method == "DOMICILIO":
+                print("DELIVERY",delivery_method)
+                order.shipping = municipio_get.shipping
+                print("DELIVERY",order.shipping)
+            else:
+                print("MUNICIPIO",municipio)
+
+                order.shipping = 0
+                print("MUNICIPIO",order.shipping)
+
+            order.save()
+        
+            next = request.META.get('HTTP_REFERER', None) or '/'  #Obtiene la url actual
+            return redirect(next)
+    else:
+        return HttpResponseBadRequest('Invalid request')
+    
+
+    # order.shipping_address = address
 class PaymentView(LoginRequiredMixin, generic.TemplateView):
     template_name = 'shop/payment.html'
 
@@ -673,6 +719,9 @@ class ConfirmEnzonaPaymentView(LoginRequiredMixin, generic.TemplateView):
         order.payment_method='ENZONA'
         order.save()
         context['order'] = get_or_set_order_session(self.request)
+
+
+
         # print('=====================================')
         # print(order.items.all())
         # print('=====================================')
@@ -778,6 +827,7 @@ class ConfirmOrderView(LoginRequiredMixin, generic.View): #Confirma el pago real
 
             order.save()
             messages.info(request, message="Se ha realizado correctamente su pedido")
+            nueva_orden(request, order.pk, request.user.email, 'PRODUCTO FÍSICO')
             try: 
                 ref_profile = request.session['ref_profile'] #Recibir referencia y agregarla a la cuenta del usuario
                 profile = Profile.objects.get(id=ref_profile)
@@ -826,6 +876,7 @@ class ConfirmOrderView(LoginRequiredMixin, generic.View): #Confirma el pago real
 
                 order.save()
                 messages.info(request, message="Se ha realizado Correctamente el pago")
+
                 try: 
                     ref_profile = request.session['ref_profile'] #Recibir referencia y agregarla a la cuenta del usuario
                     profile = Profile.objects.get(id=ref_profile)
@@ -855,14 +906,14 @@ class ConfirmOrderView(LoginRequiredMixin, generic.View): #Confirma el pago real
                     pass
 
                 messages.info(request, message="Se ha realizado Correctamente el pago y el producto se ha agregado a su libreria de descargas")
+                nueva_orden(request, product.id, request.user.email, 'PRODUCTO DIGITAL')
                 # UserLibrary
             
 
 
 
             confirm = enzona.confirm_payment_orders(transaction_uuid)
-            print("confirm")
-            print(confirm)
+
             return redirect(to="shop:thankyou")
 
 

@@ -1,4 +1,5 @@
 from datetime import datetime
+from utils.enviar_emails import inscripcion_sorteo
 from shop import enzona
 
 from django.http import HttpResponse, HttpResponseRedirect
@@ -66,6 +67,7 @@ class LotteryDetailView(generic.DetailView):
                 payment = payment
             )
             messages.info(request, message=f"Se ha registrado exitosamente en el sorteo {lottery} por un monto de {price} cup")
+            inscripcion_sorteo(request, lottery_id, request.user.email)
             return HttpResponseRedirect(f'{request.build_absolute_uri()}')
         print("*********************price*****************")
         print(price)
@@ -198,6 +200,7 @@ class ConfirmPayLotteryView(LoginRequiredMixin, generic.View): #Confirma el pago
       
 
         messages.info(request, message=f"Se ha registrado en el sorteo {lottery} por un monto de {amount} cup")
+        inscripcion_sorteo(request, lottery.id, request.user.email)
         # UserLibrary
         
 

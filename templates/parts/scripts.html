@@ -25,13 +25,21 @@
 			console.log(loader);
 			loader.className += " hidden";
 		});
+
+
 	function activeLoading() {
 		loader = $('.loader').removeClass('hidden');
 		console.log("loader");
 		console.log(loader);
 	}
 
-
+	function deActiveLoading() {
+			window.addEventListener('load', function(){
+			const loader = document.querySelector('.loader');
+			console.log(loader);
+			loader.className += " hidden";
+		});
+	}
 	$('.select2').select2({
 		language: "es"
 	})

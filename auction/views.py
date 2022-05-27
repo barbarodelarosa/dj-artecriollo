@@ -1,4 +1,5 @@
 from datetime import datetime
+from utils.enviar_emails import inscripcion_subasta
 
 from django.http import HttpResponse, HttpResponseRedirect
 from auction.forms import AddAuctionForm, AddToUserBidForm
@@ -40,6 +41,7 @@ def addToUserBid(request,pk):
             user_bid.save()
             
             messages.info(request, "Usted ha pujado por un monto de {}".format(user_bid.bid_amount))
+            inscripcion_subasta(request, pk, request.user.email)
             
     next = request.META.get('HTTP_REFERER', None) or '/'  #Obtiene la url actual
     return redirect(next)

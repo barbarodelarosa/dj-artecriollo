@@ -29,6 +29,8 @@ urlpatterns = [
     # path('orders/<pk>', views.OrderDetailView.as_view(), name='order-detail'),
     path('<slug>/', views.ProductListView.as_view(), name='product-list'),
     path('<category>/<slug>/', views.ProductDetailView.as_view(), name='product-detail'),
+    path('actualizar_costo_mensajeria', views.actualizar_costo_mensajeria, name='actualizar_costo_mensajeria'), #CAMBIAR URL EN CHECKOUT (PETICION AJAX)
+
 
 
 
