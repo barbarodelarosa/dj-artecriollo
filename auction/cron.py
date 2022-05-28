@@ -1,3 +1,4 @@
+import math
 from django.template.loader import render_to_string
 from django.core.mail import EmailMessage
 from django.conf import settings
@@ -9,7 +10,10 @@ def my_scheduled_job():
     auctions = Auction.objects.filter(aprobated=True, active=True, purchused=False)
     now = datetime.now().timestamp()
     for auction in auctions:
-        if auction.date_finish.timestamp() <= now:
+        finish = auction.date_finish.timestamp()
+        dias_restantes = math.floor((finish / (1000 * 60 * 60 * 24) - (now / (1000 * 60 * 60 * 24))) * 1000)
+        horas_restantes = math.floor(((finish / (1000 * 60 * 60) - (now / (1000 * 60 * 60))) % 24) * 1000)
+        if finish <= now:
             usersbid = auction.userbid_set.all().order_by("-bid_amount")
             winner = usersbid.first()
             auction.purchused_by = winner.user

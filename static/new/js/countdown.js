@@ -1,4 +1,4 @@
-
+ 
 const eventBox = document.getElementById('event-box');
 const countdownBox = document.getElementById('countdown-box')
 

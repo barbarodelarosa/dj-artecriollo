@@ -2,8 +2,8 @@ from lottery.models import Lottery, Participant
 from affiliate.models import Shortener
 from logging import FileHandler
 import os
-
-import requests
+from utils.views import change_info
+# import requests
 from core.models import Page
 
 from django.http import Http404, HttpResponse, HttpResponseRedirect, request
@@ -76,6 +76,7 @@ class HomeView(generic.TemplateView):
    
     template_name = 'index.html'
     def get_context_data(self, **kwargs):
+        change_info(self.request)
         context = super(HomeView, self).get_context_data(**kwargs)
         if self.request.user.is_authenticated:
             context.update({

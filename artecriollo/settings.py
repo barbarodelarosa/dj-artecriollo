@@ -63,6 +63,7 @@ INSTALLED_APPS += [
     'affiliate',
     'notifications',
     'lottery',
+    'utils',
 ]
 # OTHER APPS
 INSTALLED_APPS += [
