@@ -3,8 +3,6 @@
 
   <h3 class="head text-center">referidos</h3>
 
-  <div class="container">
-    <div class="row">
       {% if not request.user.profile.affiliated %}
         <h5 style="color:red">Aún no tienes cuenta como afiliado, si desea afiliarse a nuestra tienda acceda enviarnos su solicitud</h5>
         <form action="{% url 'profile:solicitar-afiliado' %}" method="post">
@@ -100,6 +98,3 @@
         {% endif %}
       
     </div>
-  </div>
-</div>
-
