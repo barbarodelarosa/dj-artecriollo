@@ -5,8 +5,6 @@
   <h3 class="head text-center">subastas</h3>
 
 
-    <div class="container">
-      <div class="row">
 
         {% if not userbids %}
                 <p style="color:red">Aún no tienes participacion en ninguna de las subastas, puedes encontrar alguna activa para participar en el apartado <a href="{% url 'auction:auction-index' %}"><strong>Subasta</strong></a></p>
@@ -59,5 +57,3 @@
         {% endif %}
 
     </div>
-  </div>
-</div>

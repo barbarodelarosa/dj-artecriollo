@@ -5,10 +5,6 @@
 
   <h3 class="head text-center">sorteos</h3>
 
-
-    <div class="container">
-      <div class="row">
-
             {% if not participations %}
                     <p style="color:red">Aún no tienes participacion en ninguno de los sorteos, puedes encontrar alguna activo, para participar debes acceder al apartado <a href="{% url 'lottery:lottery-index' %}"><strong>Subasta</strong></a></p>
                     
@@ -60,5 +56,3 @@
             
             {% endif %}
     </div>
-  </div>
-</div>
