@@ -1,0 +1,63 @@
+
+
+<div class="tab-pane fade" id="auctions">
+
+  <h3 class="head text-center">subastas</h3>
+
+
+    <div class="container">
+      <div class="row">
+
+        {% if not userbids %}
+                <p style="color:red">Aún no tienes participacion en ninguna de las subastas, puedes encontrar alguna activa para participar en el apartado <a href="{% url 'auction:auction-index' %}"><strong>Subasta</strong></a></p>
+      
+        {% else %}
+         
+            
+            
+          {% regroup userbids by auction as auction_list %}
+        
+                <!-- Table -->
+
+                        <!-- Default panel contents -->
+                    {% for auct in auction_list %}
+                    <div class="panel panel-default">
+                            <div class="panel-heading"><strong>Subasta:</strong> {{ auct.grouper }} <br><strong>Abierto hasta:</strong> {{ auct.grouper.date_finish }}</div>
+                    <div class="table-responsive">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                            <th>No.</th>
+                            <th>Fecha</th>
+                            <th>Monto</th>
+                            <th>Ganador</th>
+                                                                    
+                        </tr>
+                      </thead>
+                        <tbody>
+                            {% for userbid in auct.list %}
+
+                                <tr>
+                                    <td>{{forloop.revcounter}}</td>
+                                    <td>{{userbid.created_at}}</td>
+                                    <td>{{userbid.bid_amount}}</td>
+                                    <td>{{userbid.winner}}</td>
+                                    
+                                
+                                </tr>
+                        
+                            {% endfor %}
+                        </tbody>
+
+                      </table>
+            
+                </div>
+                </div>
+            {% endfor %}
+                    
+      
+        {% endif %}
+
+    </div>
+  </div>
+</div>

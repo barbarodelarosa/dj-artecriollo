@@ -2,437 +2,84 @@
 {% load static %}
 
 {% block content %}
+    {% include "parts/profile/style_and_js.html" %}
 
+
+
+<section style="background:#efefe9;">
     <div class="container">
-     
+        <div class="row">
+            <div class="board">
+                <!-- <h2>Welcome to IGHALO!<sup>™</sup></h2>-->
+                <div class="board-inner">
+                    <ul class="nav nav-tabs" id="myTab">
+                        <div class="liner"></div>
+                        <li class="active">
+                            <a href="#profile" data-toggle="tab" title="welcome">
+                            <span class="round-tabs one">
+                                    <i class="glyphicon glyphicon-user"></i>
+                            </span> 
+                            </a>
+                        </li>
 
+                        <li>
+                            <a href="#shopping" data-toggle="tab" title="shopping">
+                            <span class="round-tabs two">
+                                <i class="glyphicon glyphicon-shopping-cart"></i>
+                            </span> 
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#downloads" data-toggle="tab" title="downloads">
+                            <span class="round-tabs three">
+                                <i class="glyphicon glyphicon-download"></i>
+                            </span> </a>
+                        </li>
 
-        <!-- Nav tabs -->
-        <ul class="nav nav-tabs" role="tablist">
-            <li role="presentation" class="active"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Perfil</a></li>
-            <li role="presentation"><a href="#shopping" aria-controls="shopping" role="tab" data-toggle="tab">Compras</a></li>
-            <!-- <li role="presentation"><a href="#market" aria-controls="market" role="tab" data-toggle="tab">Mercado</a></li> -->
-            <li role="presentation"><a href="#downloads" aria-controls="downloads" role="tab" data-toggle="tab">Descargas</a></li>
-            <li role="presentation"><a href="#referer" aria-controls="referer" role="tab" data-toggle="tab">Referidos</a></li>
+                        <li>
+                            <a href="#referer" data-toggle="tab" title="referer">
+                                <span class="round-tabs four">
+                                    <i class="glyphicon glyphicon-share"></i>
+                                </span> 
+                            </a>
+                        </li>
 
-            <li role="presentation"><a href="#my-auctions" aria-controls="my-auctions" role="tab" data-toggle="tab">Subastas</a></li>
-            <li role="presentation"><a href="#my-lotteries" aria-controls="my-lotteries" role="tab" data-toggle="tab">Sorteos</a></li>
-        </ul>
+                        <li>
+                            <a href="#auctions" data-toggle="tab" title="auctions">
+                            <span class="round-tabs five">
+                                <i class="glyphicon glyphicon-hand-up"></i>
+                            </span> </a>
+                        </li>
 
-
-    <!-- Tab panes -->
-        <div class="tab-content">
-            <div role="tabpanel" class="tab-pane active" id="profile">
-                <div class="row">
-                    <div class="col-md-3 col-md-offset-9">
-                        <a href="{% url 'profile:edit-profile' request.user.profile.id %}" class="btn btn-success">Editar cuenta</a>
-                        <a class="btn btn-danger" href="{% url 'account_logout' %}"> <small class="float-right" >Cerrar sesión</small></a>
-                    </div>
+                        <li>
+                            <a href="#lotteries" data-toggle="tab" title="lotteries">
+                            <span class="round-tabs six">
+                                <i class="glyphicon glyphicon-random"></i>
+                            </span> </a>
+                        </li>
+                 
+                    </ul>
                 </div>
 
-                <div class="row">
-                    <div class="col-m-12">
+                <div class="tab-content">
                     
-                        <div class="card">
-                            <div class="card-body">
-                                <p class="card-title">
-                                    <strong>Correo:</strong> {{request.user.email}}
-                                </p>
-                                <hr>
-                                <p class="card-title">
-                                    <strong>Teléfono:</strong> {{request.user.profile.phone}}
-                                </p>
-                                <hr>
-                                <p class="card-title">
-                                    <strong>Nombre(s):</strong> {{request.user.profile.first_name}}
-                                </p>
-                                <hr>
-                                <p class="card-title">
-                                    <strong>Apellido(s):</strong> {{request.user.profile.last_name}}
-                                </p>
-                                <hr>
-                                <p class="card-title">
-                                    <strong>DIRECCIONES</strong>
-                                    <br>
-                                    {% for address in request.user.address_set.all %}
-                                    <strong>Dirección de {% if address.address_type == 'B' %}
-                                        Facturación
-                                    {% else %}
-                                        Envío
-                                    {% endif %} :
-                                    </strong>
-                                    <p>Calle: {{address.address_line_1}} </p>
-                                    <p>Entre: {{address.address_line_2}} </p>
-                                    <p>Ciudad: {{address.city}} </p>
-                                    <p>{% if address.zip_code %}Codigo postal:                                 
-                                        {{address.zip_code}}
-                                    {% endif %}  </p>
-                                    
-                                    {% endfor %}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-      
-            <div role="tabpanel" class="tab-pane" id="shopping">
-                <h3 class="card-title">Compras</h3>
-
-
-                {% if orders.count > 0 %}
-                                
-                    <div class="site-blocks-table">
-
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Orden</th>
-                                    <th>Fecha</th>
-                                    <th>Monto</th>
-                                    <th>Pago</th>
-                                    <th>Estado del pedido</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for order in orders %}
-                                <tr>
-                                    <td><a href="{% url 'profile:order-detail' order.pk %}">#{{order.reference_number}}</a></td>
-                                    <td>{{order.ordered_date}}</td>
-                                    <td>{{order.get_total}}</td>
-                                    <td>
-                                        {% if order.ordered %}
-                                        Pagado
-                                        {% else %}
-                                        No pagado
-                                        {% endif %}
-                                    </td>
-                                    <td>{{order.status}}</td>
-                                </tr>
-                                {% empty %}
-                                <tr>
-                                    <td colspan="4">
-                                        You havent made any purchase
-                                    </td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-
-                        </table>             
-                    </div>
-                {% else %}
-                    <p>Aún no tienes pedidos, <a href="{% url 'shop:category-list'  %}">realiza tu primera ordén aquí</a> </p>
-                {% endif %}
-            </div>
-
-        <div role="tabpanel" class="tab-pane" id="market">
-            <h5>Aún no tienes ninguna tienda creada, si desea vender productos, solicite habilitar su cuenta como vendedor y si ya tiene cuenta de venddor, cree su tienda para publicar sus productos</h5>
-        </div>
-
-
-        {% comment %} **************************** DESCARGAS **************************** {% endcomment %}
-        <div role="tabpanel" class="tab-pane" id="downloads">
-            {{library}}
-            {% if library.products %}
-                <div class="site-blocks-table">
-
-                            <table class="table">
-                                <thead>
-                                    <tr>
-                                        <th>No.</th>
-                                        <th>Imagen</th>
-                                        <th>Producto</th>
-                                        <th>precio</th>
-                                        <th>Descargar</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    {% for product in library.products.all %}
-                                    <tr>
-                                        <td>{{forloop.counter}}</td>
-                                        <td>
-                                            <a href="{{product.get_absolute_url}}">
-                                                {% if product.image %}
-                                                    <img src=" {{product.image.url}}" height="50" width="50">
-                                                {% else %}
-                                                    <img src="{% static 'images/no-image.png' %}" alt="" height="50">
-                                                {% endif %}
-                                            </a>
-                                        </td>
-                                        <td>
-                                            <a href="{{product.get_absolute_url}}">
-                                                {{product.title}}
-                                            </a>
-                                        </td>
-                                        <td>{{product.price}}</td>
-                                        <td>
-                                            <a href="{% url 'profile:product_file_view' product.pk %}" class="btn btn-primary">
-                                                Descargar archivo
-                                            </a>
-
-                                        <a href="{{product.content_url}}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
-                                                Acceder a enlace
-                                            </a>
-                                    
-
-                                    
-                                        </td>
-
-                                        
-                                        
-                                    
-                                    </tr>
-                                
-                                    {% endfor %}
-                                </tbody>
-
-                            </table>             
-                        </div>
-                
-            {% else %}
-                <h5>Aún no tienes productos para descargar</h5>
-            {% endif %}
-        </div>
-        {% comment %} **************************** FIN DESCARGAS **************************** {% endcomment %}
-
-
-{% comment %} **************************************************************************************** {% endcomment %}
-        <div role="tabpanel" class="tab-pane" id="referer">
-        {% if not request.user.profile.affiliated %}
-            <h5 style="color:red">Aún no tienes cuenta como afiliado, si desea afiliarse a nuestra tienda acceda enviarnos su solicitud</h5>
-            <form action="{% url 'profile:solicitar-afiliado' %}" method="post">
-            {% csrf_token %}
-                <button type="submit" class="btn btn-primary" href="{% url 'profile:solicitar-afiliado' %}"> <small class="float-right" >Solicitar cuenta de afiliado</small></button>                        
-            </form>
-        {% else %}
-            <div class="row">
-                <div class="col-md-3 col-md-offset-9">
-                    <a href="{% url 'affiliate:links' %}" class="btn btn-success">Enlaces de afiliado</a>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-3">
-                    <h4>Usuarios registrados:</h4>
-                </div>
-            </div>
-            {% if recommended %}
-               
-                    <div class="site-blocks-table">
-
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>No.</th>
-                                    <th>Nombre</th>
-                                    <th>Appellidos</th>
-                                    <th>Se unió</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for recommend in recommended %}
-                                <tr>
-                                    <td>{{forloop.counter}}</td>
-                                    <td>{{recommend.first_name}}</td>
-                                    <td>{{recommend.last_name}}</td>
-                                    <td>{{recommend.created|date:"F j, Y"}}</td>
-                                   
-                                </tr>
-                              
-                                {% endfor %}
-                            </tbody>
-
-                        </table>             
-                    </div>
-                {% comment %} {% endfor %} {% endcomment %}
-            {% else %}
-            <h5 style="color:red">Aún no cunetas con usuario recomendados</h5>
-            {% endif %}
-
-            <div class="row">
-                <div class="col-md-3">
-                    <h4>Ordenes registradas:</h4>
-                </div>
-            </div>
-            
-            {% if request.user.profile.recommended_products %}
-               
-                    <div class="site-blocks-table">
-
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>No.</th>
-                                    <th>Orden</th>
-                                    <th>Monto</th>
-                                    <th>Fecha</th>
-                                    <th>Estado</th>
-                                    
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for recommended_product in request.user.profile.recommended_products.all %}
-                                <tr>
-                                    <td>{{forloop.counter}}</td>
-                                    <td>{{recommended_product.id}}</td>
-                                    <td>{{recommended_product.get_total}}</td>
-                                    <td>{{recommended_product.ordered_date|date:"F j, Y"}}</td>
-                                    <td>{{recommended_product.status}}</td>
-                                   
-                                </tr>
-                              
-                                {% endfor %}
-                            </tbody>
-
-                        </table>             
-                    </div>
-                {% comment %} {% endfor %} {% endcomment %}
-            {% else %}
-            <h5 style="color:red">Aún no cunetas con ordenes recomendadas</h5>
-            {% endif %}
-        {% endif %}
-        </div>
-
-
-
-        <div role="tabpanel" class="tab-pane" id="my-auctions">
- 
-        {% if not userbids %}
-                <p style="color:red">Aún no tienes participacion en ninguna de las subastas, puedes encontrar alguna activa para participar en el apartado <a href="{% url 'auction:auction-index' %}"><strong>Subasta</strong></a></p>
-                
-        {% else %}
-         
-            <div class="row">
-                <div class="col-md-3">
-                    <h4>Mis Pujas:</h4>
-                </div>
-            </div>
-            
-            {% regroup userbids by auction as auction_list %}
-        
-                <!-- Table -->
-
-                <div class="site-blocks-table">
-                    <div class="panel panel-default">
-                        <!-- Default panel contents -->
-                        {% for auct in auction_list %}
-                            <div class="panel-heading"><strong>Subasta:</strong> {{ auct.grouper }} <br><strong>Abierto hasta:</strong> {{ auct.grouper.date_finish }}</div>
-                
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>No.</th>
-                                            <th>Fecha</th>
-                                            <th>Monto</th>
-                                            <th>Ganador</th>
-                                                                                    
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for userbid in auct.list %}
-
-                                            <tr>
-                                                <td>{{forloop.revcounter}}</td>
-                                                <td>{{userbid.created_at}}</td>
-                                                <td>{{userbid.bid_amount}}</td>
-                                                <td>{{userbid.winner}}</td>
-                                                
-                                            
-                                            </tr>
-                                    
-                                        {% endfor %}
-                                    </tbody>
-
-                                </table>
-                    
-                    
-                
-                    </div>
-            
-                </div>
-            {% endfor %}
-                    
-      
-        {% endif %}
-
-    </div>
-
-
-        <div role="tabpanel" class="tab-pane" id="my-lotteries">
-            {% if not participations %}
-                    <p style="color:red">Aún no tienes participacion en ninguno de los sorteos, puedes encontrar alguna activo, para participar debes acceder al apartado <a href="{% url 'lottery:lottery-index' %}"><strong>Subasta</strong></a></p>
-                    
-            {% else %}
-                
-                    <div class="row">
-                        <div class="col-md-3">
-                            <h4>Mis Sorteos:</h4>
-                        </div>
-                    </div>
-                    
-                {% regroup participations by lottery as lottery_list %}
-        
-                    <!-- Table -->
-
-                {% for parti in lottery_list %}
-                    <div class="site-blocks-table">
-                        <div class="panel panel-default">
-                            <!-- Default panel contents -->
-                                <div class="panel-heading"><strong>Sorteo:</strong> {{ parti.grouper }} <br><strong>Abierto hasta:</strong> {{ parti.grouper.date_finish }}</div>
-                    
-                                    <table class="table">
-                                        <thead>
-                                            <tr>
-                                                <th>No.</th>
-                                                <th>Fecha</th>
-                                                <th>No. de inscripcion</th>
-                                                <th>Monto</th>
-                                                <th>Ganador</th>
-                                                                                    
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            {% for participant in parti.list %}
-
-                                                <tr>
-                                                    <td>{{forloop.revcounter}}</td>
-                                                    <td>{{participant.created_at}}</td>
-                                                    <td>{{participant.participant_number}}</td>
-                                                    <td>{{participant.amount}}</td>
-                                                    <td>{{userbid.winner}}</td>
-                                                    
-                                                
-                                                </tr>
-                                        
-                                            {% endfor %}
-                                        </tbody>
-
-                                    </table>
-                            </div>
-                        
-                    </div>
-                {% endfor %}
-                            
-            
-            {% endif %}
-        </div>
-
-    {% comment %} </div> {% endcomment %}
-
-
-
-
-
-
-
-
-
-
-
+                    {% include "parts/profile/tab_profile.html" %}
+                    {% include "parts/profile/tab_shopping.html" %}
+                    {% include "parts/profile/tab_downloads.html" %}
+                    {% include "parts/profile/tab_referer.html" %}
+                    {% include "parts/profile/tab_auctions.html" %}
+                    {% include "parts/profile/tab_lotteries.html" %}
 
               
-                
+              
+                <div class="clearfix"></div>
+                </div>
 
-            {% comment %} </div> {% endcomment %}
-
+            </div>
         </div>
+    </div>
+</section>
+
+
+
 {% endblock%}

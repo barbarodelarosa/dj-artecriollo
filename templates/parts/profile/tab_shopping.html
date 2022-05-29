@@ -1,0 +1,53 @@
+<div class="tab-pane fade" id="shopping">
+
+  <h3 class="head text-center">compras</h3>
+
+
+
+  <div class="container">
+    <div class="row">
+      <div class="table-responsive">
+        {% if orders.count > 0 %}
+
+          <table class="table">
+              <thead>
+                    <tr>
+                        <th>Orden</th>
+                        <th>Fecha</th>
+                        <th>Monto</th>
+                        <th>Pago</th>
+                        <th>Estado del pedido</th>
+                    </tr>
+                </thead>
+                  <tbody>
+                    {% for order in orders %}
+                    <tr>
+                        <td><a href="{% url 'profile:order-detail' order.pk %}">#{{order.reference_number}}</a></td>
+                        <td>{{order.ordered_date}}</td>
+                        <td>{{order.get_total}}</td>
+                        <td>
+                            {% if order.ordered %}
+                            Pagado
+                            {% else %}
+                            No pagado
+                            {% endif %}
+                        </td>
+                        <td>{{order.status}}</td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="4">
+                            You havent made any purchase
+                        </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+          </table>
+        {% else %}
+          <p>Aún no tienes pedidos, <a href="{% url 'shop:category-list'  %}">realiza tu primera ordén aquí</a> </p>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,172 @@
+
+<div class="tab-pane fade" id="referer">
+
+  <h3 class="head text-center">referidos</h3>
+
+  <div class="container">
+    <div class="row">
+      {% if not request.user.profile.affiliated %}
+        <h5 style="color:red">Aún no tienes cuenta como afiliado, si desea afiliarse a nuestra tienda acceda enviarnos su solicitud</h5>
+        <form action="{% url 'profile:solicitar-afiliado' %}" method="post">
+        {% csrf_token %}
+            <button type="submit" class="btn btn-primary" href="{% url 'profile:solicitar-afiliado' %}"> <small class="float-right" >Solicitar cuenta de afiliado</small></button>                        
+        </form>
+      {% else %}
+         <div class="row">
+              <div class="col-md-3 col-md-offset-9">
+                  <a href="{% url 'affiliate:links' %}" class="btn btn-success">Enlaces de afiliado</a>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-md-3">
+                  <h4>Usuarios registrados:</h4>
+              </div>
+          </div>
+
+          {% if recommended %}
+            <div class="table-responsive">
+              <table class="table">
+                  <thead>
+                      <tr>
+                          <th>No.</th>
+                          <th>Nombre</th>
+                          <th>Appellidos</th>
+                          <th>Se unió</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      {% for recommend in recommended %}
+                      <tr>
+                          <td>{{forloop.counter}}</td>
+                          <td>{{recommend.first_name}}</td>
+                          <td>{{recommend.last_name}}</td>
+                          <td>{{recommend.created|date:"F j, Y"}}</td>
+                          
+                      </tr>
+                    
+                      {% endfor %}
+                  </tbody>
+
+              </table>             
+            </div>
+                {% comment %} {% endfor %} {% endcomment %}
+            {% else %}
+            <h5 style="color:red">Aún no cunetas con usuario recomendados</h5>
+            {% endif %}
+
+
+
+            <div class="row">
+                <div class="col-md-3">
+                    <h4>Ordenes registradas:</h4>
+                </div>
+            </div>
+            {{request.user.profile.recommended_products.count}}
+            {% if request.user.profile.recommended_products.count == 0 %}
+               
+                    <div class="table-responsive">
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Orden</th>
+                                    <th>Monto</th>
+                                    <th>Fecha</th>
+                                    <th>Estado</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for recommended_product in request.user.profile.recommended_products.all %}
+                                <tr>
+                                    <td>{{forloop.counter}}</td>
+                                    <td>{{recommended_product.id}}</td>
+                                    <td>{{recommended_product.get_total}}</td>
+                                    <td>{{recommended_product.ordered_date|date:"F j, Y"}}</td>
+                                    <td>{{recommended_product.status}}</td>
+                                   
+                                </tr>
+                              
+                                {% endfor %}
+                            </tbody>
+
+                        </table>             
+                    </div>
+                {% comment %} {% endfor %} {% endcomment %}
+              {% else %}
+                <h5 style="color:red">Aún no cunetas con ordenes recomendadas</h5>
+              {% endif %}
+        {% endif %}
+      
+    </div>
+  </div>
+</div>
+
+
+
+{% comment %} 
+
+
+        {% if not request.user.profile.affiliated %}
+            <h5 style="color:red">Aún no tienes cuenta como afiliado, si desea afiliarse a nuestra tienda acceda enviarnos su solicitud</h5>
+            <form action="{% url 'profile:solicitar-afiliado' %}" method="post">
+            {% csrf_token %}
+                <button type="submit" class="btn btn-primary" href="{% url 'profile:solicitar-afiliado' %}"> <small class="float-right" >Solicitar cuenta de afiliado</small></button>                        
+            </form>
+        {% else %}
+            <div class="row">
+                <div class="col-md-3 col-md-offset-9">
+                    <a href="{% url 'affiliate:links' %}" class="btn btn-success">Enlaces de afiliado</a>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <h4>Usuarios registrados:</h4>
+                </div>
+            </div>
+            
+
+            <div class="row">
+                <div class="col-md-3">
+                    <h4>Ordenes registradas:</h4>
+                </div>
+            </div>
+            
+            {% if request.user.profile.recommended_products %}
+               
+                    <div class="site-blocks-table">
+
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>No.</th>
+                                    <th>Orden</th>
+                                    <th>Monto</th>
+                                    <th>Fecha</th>
+                                    <th>Estado</th>
+                                    
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for recommended_product in request.user.profile.recommended_products.all %}
+                                <tr>
+                                    <td>{{forloop.counter}}</td>
+                                    <td>{{recommended_product.id}}</td>
+                                    <td>{{recommended_product.get_total}}</td>
+                                    <td>{{recommended_product.ordered_date|date:"F j, Y"}}</td>
+                                    <td>{{recommended_product.status}}</td>
+                                   
+                                </tr>
+                              
+                                {% endfor %}
+                            </tbody>
+
+                        </table>             
+                    </div>
+                {% comment %} {% endfor %} {% endcomment %}
+            {% comment %} {% else %}
+            <h5 style="color:red">Aún no cunetas con ordenes recomendadas</h5>
+            {% endif %}
+        {% endif %}
+        </div> {% endcomment %}

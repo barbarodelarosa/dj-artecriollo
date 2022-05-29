@@ -1,0 +1,58 @@
+<div class="tab-pane fade in active" id="profile">
+  <h3 class="head text-center">Perfil</h3>
+  
+  <div class="container">
+ 
+                <div class="row">
+                    <div class="col-m-12">
+                    
+                        <div class="card">
+                            <div class="card-body">
+                                <p class="card-title">
+                                    <strong>Correo:</strong> {{request.user.email}}
+                                </p>
+                                <hr>
+                                <p class="card-title">
+                                    <strong>Teléfono:</strong> {{request.user.profile.phone}}
+                                </p>
+                                <hr>
+                                <p class="card-title">
+                                    <strong>Nombre(s):</strong> {{request.user.profile.first_name}}
+                                </p>
+                                <hr>
+                                <p class="card-title">
+                                    <strong>Apellido(s):</strong> {{request.user.profile.last_name}}
+                                </p>
+                                <hr>
+                                <p class="card-title">
+                                    <strong>DIRECCIONES</strong>
+                                    <br>
+                                    {% for address in request.user.address_set.all %}
+                                    <strong>Dirección de {% if address.address_type == 'B' %}
+                                        Facturación
+                                    {% else %}
+                                        Envío
+                                    {% endif %} :
+                                    </strong>
+                                    <p>Calle: {{address.address_line_1}} </p>
+                                    <p>Entre: {{address.address_line_2}} </p>
+                                    <p>Ciudad: {{address.city}} </p>
+                                    <p>{% if address.zip_code %}Codigo postal:                                 
+                                        {{address.zip_code}}
+                                    {% endif %}  </p>
+                                    
+                                    {% endfor %}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+  </div>
+
+
+  <p class="text-center">
+    <a href="{% url 'profile:edit-profile' request.user.profile.id %}" class="btn btn-success btn-outline-rounded btn-success">Editar cuenta</a>
+    <a class="btn btn-danger btn-outline-rounded" href="{% url 'account_logout' %}"> <small class="float-right" >Cerrar sesión</small></a>                        
+  </p>
+</div>

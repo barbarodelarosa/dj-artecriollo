@@ -1,0 +1,64 @@
+
+
+
+<div class="tab-pane fade" id="lotteries">
+
+  <h3 class="head text-center">sorteos</h3>
+
+
+    <div class="container">
+      <div class="row">
+
+            {% if not participations %}
+                    <p style="color:red">Aún no tienes participacion en ninguno de los sorteos, puedes encontrar alguna activo, para participar debes acceder al apartado <a href="{% url 'lottery:lottery-index' %}"><strong>Subasta</strong></a></p>
+                    
+            {% else %}
+                                 
+                {% regroup participations by lottery as lottery_list %}
+        
+                    <!-- Table -->
+
+                {% for parti in lottery_list %}
+                            <!-- Default panel contents -->
+                        <div class="panel panel-default">
+                                <div class="panel-heading"><strong>Sorteo:</strong> {{ parti.grouper }} <br><strong>Abierto hasta:</strong> {{ parti.grouper.date_finish }}</div>
+                        {% comment %} </div> {% endcomment %}
+                        <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>No.</th>
+                                                <th>Fecha</th>
+                                                <th>No. de inscripcion</th>
+                                                <th>Monto</th>
+                                                <th>Ganador</th>
+                                                                                    
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for participant in parti.list %}
+
+                                                <tr>
+                                                    <td>{{forloop.revcounter}}</td>
+                                                    <td>{{participant.created_at}}</td>
+                                                    <td>{{participant.participant_number}}</td>
+                                                    <td>{{participant.amount}}</td>
+                                                    <td>{{userbid.winner}}</td>
+                                                    
+                                                
+                                                </tr>
+                                        
+                                            {% endfor %}
+                                        </tbody>
+
+                                    </table>
+                            </div>
+                        
+                    </div>
+                {% endfor %}
+                            
+            
+            {% endif %}
+    </div>
+  </div>
+</div>

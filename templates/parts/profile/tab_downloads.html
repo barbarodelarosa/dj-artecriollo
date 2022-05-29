@@ -1,0 +1,74 @@
+{% load static %}
+
+
+
+
+<div class="tab-pane fade" id="downloads">
+
+  <h3 class="head text-center">descargas</h3>
+
+
+
+  <div class="container">
+    <div class="row">
+      <div class="table-responsive">
+        {% if library.products %}
+
+
+          <table class="table">
+            <thead>
+              <tr>
+                <th>No.</th>
+                <th>Imagen</th>
+                <th>Producto</th>
+                <th>precio</th>
+                <th>Descargar</th>
+              </tr>
+            </thead>
+                  <tbody>
+                                    {% for product in library.products.all %}
+                                    <tr>
+                                        <td>{{forloop.counter}}</td>
+                                        <td>
+                                            <a href="{{product.get_absolute_url}}">
+                                                {% if product.image %}
+                                                    <img src=" {{product.image.url}}" height="50" width="50">
+                                                {% else %}
+                                                    <img src="{% static 'images/no-image.png' %}" alt="" height="50">
+                                                {% endif %}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="{{product.get_absolute_url}}">
+                                                {{product.title}}
+                                            </a>
+                                        </td>
+                                        <td>{{product.price}}</td>
+                                        <td>
+                                            <a href="{% url 'profile:product_file_view' product.pk %}" class="btn btn-primary">
+                                                Descargar archivo
+                                            </a>
+
+                                        <a href="{{product.content_url}}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+                                                Acceder a enlace
+                                            </a>
+                                    
+
+                                    
+                                        </td>
+
+                                        
+                                        
+                                    
+                                    </tr>
+                                
+                                    {% endfor %}
+                                </tbody>
+          </table>
+       {% else %}
+                <h5>Aún no tienes productos para descargar</h5>
+            {% endif %}
+      </div>
+    </div>
+  </div>
+</div>
