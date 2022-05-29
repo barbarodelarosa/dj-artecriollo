@@ -77,7 +77,7 @@
 															<input type="hidden" value="{{lottery.product.description}}" name="description" required>
 															<input type="hidden" value="{{lottery.price_lottery|add:'0'}}" name="price" required>
 															<input type="hidden" value="{{lottery.pk}}" name="lottery_id" required>
-															<button type="submit" class="btn btn-success" onclick="activeLoading()" ><i class="fa fa-hand-o-up"></i><span class="tooltipp"> Participar</span></button>
+															<button type="submit" class="btn btn-success" onclick="showLoader()" ><i class="fa fa-hand-o-up"></i><span class="tooltipp"> Participar</span></button>
 														</form> 
 													{%else%}
 														<button data-toggle="modal" data-target="#exampleModal" class="quick-view"><i class="fa fa-hand-o-up"></i><span class="tooltipp"> Participar</span></button>

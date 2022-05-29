@@ -2,6 +2,7 @@
 {% block content %}
 {% load price_format_tags %}
 {% load discount_tags%}
+{% load static %}
 
 <div class="container">
   <div class="row">
@@ -17,7 +18,11 @@
 									<div class="product">
 										<a href="{{product.get_absolute_url}}">
 										<div class="product-img">
-											<img src="{{product.image.url}}" height="200" width="200" alt="">
+											 {% if product.image %}
+												<img src="{{product.image.url}}" height="200" width="200" alt="">
+											{% else %}
+												<img src="{% static 'images/no-image.png' %}" alt="" height="300">
+											{% endif %}
 											<div class="product-label">
 												{% if product.old_price > 0 %}
 													<span class="sale">{% discount product.old_price product.price%}</span>

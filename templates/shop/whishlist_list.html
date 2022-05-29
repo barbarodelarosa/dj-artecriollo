@@ -24,7 +24,11 @@
                             {% for product in whishlist %}
                             <tr>
                                 <td class="product-thumbnail" >
-                                    <img src="{{ product.image.url }}" style="height: 25rem" class="img-fluid">
+                                    {% if product.image %}
+                                        <img src="{{ product.image.url }}" style="height: 25rem" class="img-fluid">
+                                    {% else %}
+                                        <img src="{% static 'images/no-image.png' %}" style="height: 25rem" class="img-fluid">
+                                    {% endif %}
                                 </td>
                                 <td class="product-name">
                                     <h2 class="h5 text-black">{{ product.title }}</h2>

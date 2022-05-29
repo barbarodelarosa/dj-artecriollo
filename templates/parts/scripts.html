@@ -20,26 +20,8 @@
 <script type="text/javascript">
 
 
-	window.addEventListener('load', function(){
-			const loader = document.querySelector('.loader');
-			console.log(loader);
-			loader.className += " hidden";
-		});
 
 
-	function activeLoading() {
-		loader = $('.loader').removeClass('hidden');
-		console.log("loader");
-		console.log(loader);
-	}
-
-	function deActiveLoading() {
-			window.addEventListener('load', function(){
-			const loader = document.querySelector('.loader');
-			console.log(loader);
-			loader.className += " hidden";
-		});
-	}
 	$('.select2').select2({
 		language: "es"
 	})
@@ -110,7 +92,20 @@
 			return false;
     	});   
 	});      
-	
+
+
+	//////////////LOADING////////////
+
+function hideLoader() {
+    $('#loading').hide();
+}
+function showLoader() {
+    $('#loading').show();
+}
+$(window).ready(hideLoader);
+setTimeout(hideLoader, 20 * 1000);
+
+
 </script>
 <script type="text/javascript" src="/admin/jsi18n/"></script>
 <script type="text/javascript" src="/media/admin/js/core.js"></script>

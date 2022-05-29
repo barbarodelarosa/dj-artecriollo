@@ -57,32 +57,25 @@
 {% comment %} <link rel="icon" sizes="32x32" href="http://127.0.0.1:8000/media/images/icon.png"> {% endcomment %}
 
 <style media="screen">
-	.loader{
-		position: fixed;
-		z-index: 9999;
-		top: 0;
-		left: 0;
-		width: 100%;
-		height: 100%;
-		display: flex;
-		justify-content: center;
-		align-items: center;
-		background: rgba(0, 0, 0, 0.5);
-		
-	}
-	.loader > img {
-		width: 100px;
+
+	#loading {
+    background: url("{% static 'images/loading/loading.gif' %}") no-repeat center center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 9999999;
+	background-color: rgba(16, 15, 15, 0.618);
 	}
 
 </style>
 </head>
 	<body>
-		<div class="loader">
-			<img src="{% static 'images/loading/loading.gif' %}" alt="Cargando...">
-		</div>
+		<div id="loading"></div>
 	
 		<marquee behavior="Scroll" direction="Left" style="background: green; position: static;" >
-			<p style="color: aliceblue; font-size: medium;"> Este sitio es funcinal aunque aún se encuenta en fase beta por lo que pedimos disculpas por cualquier error que se prensente. De ocurrir algún error, por favor no dude en <a href="{% url 'contact' %}"> <strong style="color: honeydew;">contactar </strong></a> con nosostros, Muchas gracias</p>
+			<p style="color: aliceblue; font-size: medium;"> Este sitio es funcinal aunque aún se encuentra en fase beta por lo que pedimos disculpas por cualquier error que se prensente. De ocurrir algún error, por favor no dude en <a href="{% url 'contact' %}"> <strong style="color: honeydew;">contactar </strong></a> con nosostros, Muchas gracias</p>
 		</marquee>
 	 
 

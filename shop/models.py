@@ -39,6 +39,8 @@ def user_directory_path(instance, filename):
     # print(response)
     # return response
     # This file will be uploaded to MEDIA_ROOT/the user{id}/thefile
+    if not filename:
+        return None
     img_path = 'user_{0}/product_{1}'.format(instance.user.username, filename)
     full_path = os.path.join(settings.MEDIA_ROOT, img_path)
     if os.path.exists(full_path):
@@ -499,7 +501,8 @@ def pre_save_product_receiver(sender, instance, *args, **kwargs):
     if not instance.slug:
         instance.slug = slugify(instance.title)
     if instance.pk is None:
-        instance.resize(instance.image, (380, 304))
+        if instance.image:
+            instance.resize(instance.image, (380, 304))
 pre_save.connect(pre_save_product_receiver, sender=Product)
 
 # def pre_save_product_short_url_receiver(sender, instance, *args, **kwargs):

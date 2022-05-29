@@ -138,7 +138,7 @@
 						<!-- <button type="submit" id="btn-payment" class="primary-btn order-submit btn-lg btn-block">Realizar pedido</button> -->
 						<!-- <a href="{%url 'shop:payment-cash'%}" class="primary-btn order-submit btn-lg btn-block">Realizar en efectivo</a> -->
 						
-						<button id="btn-payment" onclick="activeLoading()"  onclick="submit_order()" class="primary-btn order-submit btn-lg btn-block">Realizar pedido</button>
+						<button id="btn-payment" onclick="submit_order()" class="primary-btn order-submit btn-lg btn-block">Realizar pedido</button>
 					</div>
 					
 				</form>
@@ -155,19 +155,13 @@
 <script src="{% static 'new/js/jquery.min.js' %}"></script>
 
 <script>
-var $loading = $('.loader').hide();
+
 $(document)
   .ajaxStart(function () {
-    $loading.show();
-	const loader = document.querySelector('.loader');
-	console.log(loader);
-	loader.className += " show";
+ 	showLoader()
   })
   .ajaxStop(function () {
-    $loading.hide();
-	const loader = document.querySelector('.loader');
-	console.log(loader);
-	loader.className += " hidden";
+   	hideLoader()
   });
 
 var link ="cambioOpcionesSelcet()"
@@ -179,10 +173,6 @@ var delivery_method = document.getElementById("id_delivery_method"); //getElemen
 delivery_method.setAttribute("onchange", link);
 
 function cambioOpcionesSelcet(){
-	const loader = document.querySelector('.loader');
-	loader.className = "loader show";
- 
-
 
 
 	municipio = $("#id_municipio option:selected").text()
@@ -207,17 +197,14 @@ function cambioOpcionesSelcet(){
 		success:function(){
 
 			$('.resumen_order').load(location.href + " .resumen_order");
+			const resumen_order = document.querySelector('.resumen_order');
 		
 					
-			const loader = document.querySelector('.loader');
-			const resumen_order = document.querySelector('.resumen_order');
-			console.log(resumen_order)
-			
-			loader.className = "loader hidden";
+			hideLoader()
 
 		},
 		error:function(){
-		
+			hideLoader()
 			console.log("ERRRORR")
 		}
 	})
@@ -227,22 +214,25 @@ function cambioOpcionesSelcet(){
 
 
 var payment = document.getElementsByName('payment');
-console.log("PAYMENT");
-console.log(payment);
+
 function validar(){
 	var payment = document.getElementsByName('payment');
-	console.log("PAYMENT");
-	console.log(payment.value);
 	var btn_payment = document.getElementById('btn-payment');
 	var ckbox = document.getElementById('terms');
-			if(ckbox.checked == true){
-			btn_payment.disabled=false
-		}else{
-			btn_payment.disabled=true
-		}
+
+	if(ckbox.checked == true){
+		btn_payment.disabled=false
+	
+	}else{
+		alert("Debe aceptar los términos y condiciones")
+		btn_payment.disabled=true
+
+	}
 		
-		return false;
-		}
+	return false;
+}
+
+
 
 function submit_order(){
 	const form = document.getElementById('submit-order-form');
@@ -250,19 +240,19 @@ function submit_order(){
 
 	var label_terms = document.getElementById('label-terms');
 	var ckbox = document.getElementById('terms');
-			if(ckbox.checked == true){
-			btn_payment.submit()
-			
-		
-		
-		}else{
-			alert("Debe aceptar los términos y condiciones")
-			return label_terms.style.color="red";			
-			
-		}
+
+	if(ckbox.checked == true){
 	
-		return false;
-		}
+		$('#loading').show();
+
+		btn_payment.submit()
+	}else{
+		alert("Debe aceptar los términos y condiciones")
+		return label_terms.style.color="red";			
+	}
+
+	return false;
+}
 
 
 

@@ -103,7 +103,7 @@
 									{% comment %} <button type='submit' class="btn btn-sm btn-primary buy-now" >Add to cart</button> {% endcomment %}
 									<div class="add-to-cart">
 									{% if request.user.is_authenticated %}
-										<button type='submit' class="add-to-cart-btn" onclick="activeLoading()"><i class="fa fa-hand-o-up" aria-hidden="true"></i>Pujar monto</button>
+										<button type='submit' class="add-to-cart-btn" onclick="showLoader()"><i class="fa fa-hand-o-up" aria-hidden="true"></i>Pujar monto</button>
 
 										{% comment %} SI LA SUBASTA ESTA CERRADA EL USUARIO GANADOR DEBE HACER EL PAGO A  TRAVES DE LA PLATAFORMA Y DESPUES EL VENDEDOR DEBE CONFIRMAR EL PAGO {% endcomment %}
 									{% endif %}

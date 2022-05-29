@@ -462,7 +462,8 @@ class CheckoutView(LoginRequiredMixin, generic.FormView):
         payment_method = self.request.POST.get('payment')
        
         self.request.session['payment_method']=payment_method
-        print(payment_method)
+        print("PAYMENT METHOD************************",payment_method)
+        request.session['payment_method'] = payment_method
         if payment_method == "efectivo":
             return reverse("shop:payment-cash")
         elif payment_method=="enzona":
@@ -704,7 +705,7 @@ class ConfirmEnzonaPaymentView(LoginRequiredMixin, generic.TemplateView):
             links_resp = resp_content['links']
             url_confirm = links_resp[0]
             context['url_confirm'] = url_confirm
-       
+            self.request.session['payment_method']='enzona'
             return redirect(to=url_confirm['href']) #Redirecciona a enzona para confirmar el pago
         else:
             print("resp_enzona.status_code")
@@ -763,6 +764,7 @@ class ConfirmCashPaymentView(LoginRequiredMixin, generic.TemplateView):
 
         order.payment_method='EFECTIVO'
         order.save()
+        self.request.session['payment_method']='efectivo'
         context['order'] = get_or_set_order_session(self.request)
        
 
@@ -799,7 +801,7 @@ class ConfirmCashPaymentView(LoginRequiredMixin, generic.TemplateView):
 class ConfirmOrderView(LoginRequiredMixin, generic.View): #Confirma el pago realizado por el usuario
     def get(self, request, *args, **kwargs):
         digital_product=None
-        
+        payment_method=None
         try:
             payment_method = request.session['payment_method']
            
@@ -845,7 +847,6 @@ class ConfirmOrderView(LoginRequiredMixin, generic.View): #Confirma el pago real
 #************************ ENZONA**********************
 
         if payment_method == 'enzona':
-        
             try:
                 digital_product = request.session['digital_product']
                         
@@ -895,7 +896,6 @@ class ConfirmOrderView(LoginRequiredMixin, generic.View): #Confirma el pago real
                 product = Product.objects.get(id=digital_product)
                 user_library.products.add(product)
                 user_library.save()
-                del request.session['digital_product']
                 try: 
                     ref_profile = request.session['ref_profile'] #Recibir referencia y agregarla a la cuenta del usuario
                     profile = Profile.objects.get(id=ref_profile)
@@ -919,18 +919,7 @@ class ConfirmOrderView(LoginRequiredMixin, generic.View): #Confirma el pago real
 
 class ThankYouView(LoginRequiredMixin, generic.TemplateView):
     template_name = 'shop/thanks.html'
-    
 
-
-# CartView
-# ProductListView
-# ProductDetailView
-# IncreaseQuantityView
-# DecreaseQuantityView
-# RemoveFromCartView
-# CheckoutView
-# PaymentView
-# ConfirmEnzonaPaymentView
 
 
 
@@ -1097,6 +1086,7 @@ class EnzonaPaymentDigitalProductView(LoginRequiredMixin, generic.TemplateView):
                     url_confirm = links_resp[0]
                     context['url_confirm'] = url_confirm
                     # guardar valores en session para desdupes de confirmado el pago utilizarlos y eliminarlos
+                    request.session['payment_method']='enzona'
                     return redirect(to=url_confirm['href']) #Redirecciona a enzona para confirmar el pago
                 else:
                     print("resp_enzona.status_code")
