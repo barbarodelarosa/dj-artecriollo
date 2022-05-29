@@ -16,17 +16,18 @@
                         {% site_info as info %}
 						<li><a href="tel:+5351183924"><i class="fa fa-phone"></i> {{info.phone}}</a></li>
 						<li><a href="mailto:artecriollo@gmail.com"><i class="fa fa-envelope-o"></i> {{info.email}}</a></li>
-						{% comment %} <li><a href="tel:+5351183924"><i class="fa fa-map-marker"></i> {{info.address}}</a></li> {% endcomment %}
                        
                     </ul>
 					<ul class="header-links pull-right">
-						<li><a href="https://es.wikipedia.org/wiki/Peso_cubano" target="_blank" rel="noopener noreferrer"><i class="fa fa-dollar"></i> CUP</a></li>
 						<li>
                             {% if request.user.is_authenticated %}
                                 <a href="{% url 'profile' %}"><span><i class="fa fa-user-o"></i>Mi cuenta</span></a>
                             {% else %}
                                 <a href="{% url 'account_login' %}"><span><i
-                                class="fa fa-sign-in"></i>Acceder</span></a>
+                                class="fa fa-sign-in"></i>Acceder |</span></a>
+								
+                                <a href="{% url 'account_signup' %}"><span><i
+                                class="fa fa-user"></i>Registrarse</span></a>
                             {% endif %}
                         {% comment %} <a href="#"><i class="fa fa-user-o"></i> My Account</a> {% endcomment %}
                         </li>
@@ -104,7 +105,8 @@
 										<span>Carrito</span>
 										<div class="qty">{{request|cart_item_count}}</div>
 									</a>
-									<div class="cart-dropdown">
+								
+									<div class="cart-dropdown" id="my-cart-dropdown">
 										<div class="cart-list">
 											{% for cart_item in request|cart_item_order %}
 												<div class="product-widget">

@@ -123,3 +123,16 @@
   color: #FFF;
   text-transform: uppercase;
 }
+
+/*PARA PROBLEMATICA DE MODAL DEL CARRITO*/
+@media screen and (max-width: 1400px) {
+  #my-cart-dropdown{
+    z-index: 999;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: auto;
+    width: 100%;
+  }
+
+}
