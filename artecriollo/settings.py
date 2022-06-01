@@ -290,3 +290,5 @@ CRONJOBS = [
     ('*/1 * * * *', 'auction.cron.my_scheduled_job'),
     ('*/1 * * * *', 'core.cron.my_scheduled_job_save_db'),
 ]
+
+GOOGLE_RECAPTCHA_SECRET_KEY='6Lcp5zQgAAAAALew8jCJfdKzX3lpdenqCyfnGX2O'

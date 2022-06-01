@@ -12,6 +12,10 @@
 								{% csrf_token %}
 								<input class="input" name="email" type="email" placeholder="Ingresa tu correo">
 								<button class="newsletter-btn" onclick="showLoader()"><i class="fa fa-envelope"></i> Subscríbete</button>
+								<form id="form_id" method="post" action="your_action.php">
+								<input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
+								<input type="hidden" name="action" value="validate_captcha">
+
 							</form>
 
 							<ul class="newsletter-follow">
