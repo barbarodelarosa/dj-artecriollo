@@ -287,3 +287,5 @@ def pag_500_error_server(request):
 
 def pag_403_forbidden(request, exception):
     return render(request, '403.html')
+
+
