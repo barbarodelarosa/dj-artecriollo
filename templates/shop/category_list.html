@@ -14,24 +14,28 @@
 				<div class="row">
 					<!-- shop -->
                     {% for cat in category_list %}
-                    
-                        <div class="animate__animated animate__fadeInUp col-md-4 col-xs-6">
-                            <a href="{{cat.get_absolute_url}}" class="cta-btn">
-                                <div class="shop">
-                                    <div class="shop-img">
-                                        {% if cat.image %}
-                                            <img src="{{cat.image.url}}" alt="" height="300">
-                                        {% else %}
-                                            <img src="{% static 'images/no-image.png' %}" alt="" height="300">
-                                        {% endif %}
+                        {% if cat.active %}
+                        
+                            <div class="animate__animated animate__fadeInUp col-md-4 col-xs-6">
+                                <a href="{{cat.get_absolute_url}}" class="cta-btn">
+                                    <div class="shop">
+                                        <div class="shop-img">
+                                            {% if cat.image %}
+                                                <img src="{{cat.image.url}}" alt="" height="300">
+                                            {% else %}
+                                                <img src="{% static 'images/no-image.png' %}" alt="" height="300">
+                                            {% endif %}
+                                        </div>
+                                        <div class="shop-body">
+                                            <h3>{{cat.name}}</h3>
+                                            <a href="{{cat.get_absolute_url}}" class="cta-btn">Comprar ahora <i class="fa fa-arrow-circle-right"></i></a>
+                                        </div>
                                     </div>
-                                    <div class="shop-body">
-                                        <h3>{{cat.name}}</h3>
-                                        <a href="{{cat.get_absolute_url}}" class="cta-btn">Comprar ahora <i class="fa fa-arrow-circle-right"></i></a>
-                                    </div>
-                                </div>
-                            </a>
-                        </div>
+                                </a>
+                            </div>
+                        {% endif %}
+                        
+
                     {% endfor %}
 					<!-- /shop -->
 

@@ -21,7 +21,7 @@
 								<h3 class="aside-title">Categorías</h3>
 								<div class="checkbox-filter">
 									{% for cat in categories  %}
-										{% if cat.product_set.count %}
+										{% if cat.product_set.count and cat.active %}
 											<div class="input-checkbox">
 												<a href="{% url 'shop:product-list' cat.slug %}">
 													{{cat.name}}
@@ -106,7 +106,7 @@
 											 {% if product.image %}
 												<img src="{{product.image.url}}" height="200" width="200" alt="">
 											{% else %}
-												<img src="{% static 'images/no-image.png' %}" alt="" height="300">
+												<img src="{% static 'images/no-image.png' %}" alt="" height="200" width="200">
 											{% endif %}
 											<div class="product-label">
 												{% if product.old_price > 0 %}
@@ -147,32 +147,45 @@
 												<i class="fa fa-star"></i>{% endcomment %}
 											</div> 
 											<div class="product-btns">
-											{% if not product.digital %}
+											{% comment %} {% if not product.digital %} FUNCIONA OK
 										
 												{% if product in user.profile.whishlist.all%}
 													<a href="{% url 'profile:addorremovetowhishlist' product.id %}" class="add-to-wishlist" style="color: #D10024;"><i class="fa fa-heart"></i>
-													{% comment %} <span class="tooltipp"> Eliminar de lista</span> {% endcomment %}
 													</a>
 												{%else%}
 													<a href="{% url 'profile:addorremovetowhishlist' product.id %}" class="add-to-wishlist"><i class="fa fa-heart-o"></i>
-													{% comment %} <span class="tooltipp">Agregar a lista</span> {% endcomment %}
 													</a>
 												{%endif%}
-											{% endif %}
+											{% endif %} {% endcomment %}
 												{% comment %} <form action="{% url 'profile:addorremovetowhishlist' product.id %}"> {% endcomment %}
 												{% comment %} </form> {% endcomment %}
 												<!-- <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button> -->
 												<br>
 												{% if request.user.is_authenticated %}
 													{% if product.digital %}
-														<form action="{% url 'shop:payment-enzona-digital-product' product.pk%}"  method="POST">
-														{% csrf_token %}
-														
-														<input type="hidden" name="title" value="{{product.title}}">
-														<input type="hidden" name="description" value="{{product.description}}">
-														<input type="hidden" name="price" value="{{product.price}}">
-														<button type="submit" class="btn btn-warning quick-view"><i class="fa fa-credit-card"></i> COMPRAR</button>
-													</form>
+														{% if product in request.user.library.products.all %}
+						
+															{% if product.content_url %}
+																<a  style="margin: 10px;"  href="{{product.content_url}}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+																	Acceder a enlace
+																</a>
+															{% endif %}
+																			
+															{% if product.content_file %}
+																<a style="margin: 10px;" href="{% url 'profile:product_file_view' product.pk %}" class="btn btn-primary">
+																	Descargar archivo
+																</a>
+															{% endif %}
+														{% else %}
+															<form action="{% url 'shop:payment-enzona-digital-product' product.pk%}"  method="POST">
+															{% csrf_token %}
+															
+															<input type="hidden" name="title" value="{{product.title}}">
+															<input type="hidden" name="description" value="{{product.description}}">
+															<input type="hidden" name="price" value="{{product.price}}">
+															<button type="submit" class="btn btn-warning quick-view"><i class="fa fa-credit-card"></i> COMPRAR</button>
+															</form>
+														{%endif%}
 													{% else %}
 														<form action="{%url 'shop:add-to-cart' product.id %}" method="POST" >{% csrf_token %}
 														<input type="hidden" name="quantity" value="1">

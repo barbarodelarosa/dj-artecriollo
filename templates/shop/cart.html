@@ -151,6 +151,14 @@
                                     <strong class="text-black">${{order.get_subtotal}}</strong>
                                 </div>
                             </div>
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <span class="text-black">Envio</span>
+                                </div>
+                                <div class="col-md-6 text-rigth">
+                                    <strong class="text-black">${{order.get_total_shipping}}</strong>
+                                </div>
+                            </div>
 
                             <div class="row mb-5">
                                 <div class="col-md-6">
@@ -163,7 +171,7 @@
 
                             <div class="row">
                                 <div class="col-md-12">
-                                    <a href="{% url 'shop:checkout' %}" class="btn btn-warning btn-lg py-3 btn-block">Chequear productos</a>
+                                    <a href="{% url 'shop:checkout' %}" class="btn btn-warning btn-lg py-3 btn-block" onclick="showLoader()">Chequear productos</a>
                                 </div>
                               
                             </div>

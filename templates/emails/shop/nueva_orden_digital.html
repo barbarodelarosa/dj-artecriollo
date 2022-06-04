@@ -1,0 +1,15 @@
+{% extends "emails/base_email.html" %}
+
+{% block content %}
+Este correo es la confirmacion de su pedido:
+Producto #{{product.name}}
+Total a pagar: {{product.get_total}}
+{% if product.content_file %}
+    descargar producto en:{{product.content_file}}	
+
+{% endif %}
+{% if product.content_url %}
+    descargar producto en:{{product.content_url}}	
+{% endif %}
+
+{% endblock content %}

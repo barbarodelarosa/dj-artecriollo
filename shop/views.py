@@ -11,9 +11,9 @@ from requests import request
 
 import shop
 from .utils import get_or_set_order_session, get_whishlist_session
-from .models import Merchant, Municipio, Product, OrderItem, Address, Payment, Order, Category, ProductImagesContent, WhishList
+from .models import Localidad, Merchant, Municipio, Product, OrderItem, Address, Payment, Order, Category, ProductImagesContent, WhishList
 from .forms import AddDigitalProductForm, AddMerchanForm, AddProductBasicForm, AddToCartForm, AddressForm, PaymentDigitalProductForm
-from django.shortcuts import get_object_or_404, reverse, redirect
+from django.shortcuts import get_object_or_404, redirect
 from django.contrib import messages
 from django.conf import settings
 from django.http import HttpResponse, HttpResponseBadRequest, JsonResponse
@@ -308,6 +308,15 @@ class ProductDetailView(generic.FormView):
     def form_valid(self, form):
       
         order = get_or_set_order_session(self.request)
+        if not order.shipping:
+            try:
+                shipping_address = Address.objects.get(user=self.request.user)
+                order = get_or_set_order_session(self.request)
+                order.shhiping = shipping_address.localidad.shipping
+                print("PRECIO SHIPPING",order.shhiping)
+                order.save()
+            except:
+                pass
         product = self.get_object()
 
         item_filter = order.items.filter(
@@ -459,24 +468,53 @@ class CheckoutView(LoginRequiredMixin, generic.FormView):
     form_class = AddressForm
 
     def get_success_url(self):
-        payment_method = self.request.POST.get('payment')
+        payment_method = self.request.POST.get('payment_method')
        
         self.request.session['payment_method']=payment_method
         print("PAYMENT METHOD************************",payment_method)
-        request.session['payment_method'] = payment_method
         if payment_method == "efectivo":
-            return reverse("shop:payment-cash")
+            print("REDIREC TO CASH")
+            return reverse("shop:confirm-order")
         elif payment_method=="enzona":
+            print("REDIREC TOENZONA")
             return reverse("shop:payment-enzona")
+        messages.error(request, "Hubo un error al procesa al metodo de pago")
+        next = self.request.META.get('HTTP_REFERER', None) or '/'  #Obtiene la url actual
 
-        # next = self.request.META.get('HTTP_REFERER', None) or '/'  #Obtiene la url actual
-
-        # return redirect(next)
+        return redirect(next)
 
     def form_valid(self, form):
         order = get_or_set_order_session(self.request)
         connect = enzona.test_connect()
         payment_method = self.request.POST.get('payment')
+
+
+        if payment_method == 'efectivo':
+            items = []
+            
+
+            for item in order.items.all():
+    
+                temp_item ={}
+
+                temp_item['name']=item.product.title
+                temp_item['description']=item.product.description
+                temp_item['quantity']=item.quantity
+                temp_item['tax']=f'{item.get_tax()}'
+                temp_item['price']=f'{item.product.get_price()}'
+                # temp_item['price']=f'{item.get_total_item_price()}'
+                items.append(temp_item)
+
+
+
+
+            order.payment_method='EFECTIVO'
+            order.save()
+            self.request.session['payment_method']='efectivo'
+        
+
+
+
        
         if payment_method=="enzona":
 
@@ -576,7 +614,7 @@ class CheckoutView(LoginRequiredMixin, generic.FormView):
 
     def get_context_data(self, **kwargs):
         context = super(CheckoutView, self).get_context_data(**kwargs)
-        
+       
         context['order'] = get_or_set_order_session(self.request)
         return context
 
@@ -589,23 +627,23 @@ def actualizar_costo_mensajeria(request):
         if request.method=="POST":
             data = json.load(request)
             payload = data.get('payload')
-            municipio = payload['municipio']
+            localidad = payload['localidad']
             delivery_method  = payload['delivery_method']
             
             address, created = Address.objects.get_or_create(user=request.user)
-            municipio_get = Municipio.objects.get(name=municipio)
-            print("MUNICIPIO",municipio)
+            localidad_get = Localidad.objects.get(name=localidad)
+            print("MUNICIPIO",localidad)
             if created:
                 address = Address.objects.get(user=request.user)
-            address.municipio = municipio_get
+            address.localidad = localidad_get
             address.save()
             # if delivery_method:
             if delivery_method == "DOMICILIO":
                 print("DELIVERY",delivery_method)
-                order.shipping = municipio_get.shipping
+                order.shipping = localidad_get.shipping
                 print("DELIVERY",order.shipping)
             else:
-                print("MUNICIPIO",municipio)
+                print("MUNICIPIO",localidad)
 
                 order.shipping = 0
                 print("MUNICIPIO",order.shipping)
@@ -737,49 +775,6 @@ class ConfirmEnzonaPaymentView(LoginRequiredMixin, generic.TemplateView):
 
 
 
-class ConfirmCashPaymentView(LoginRequiredMixin, generic.TemplateView):
-
-    template_name = 'shop/confirm_cash_payment.html'
-    # def get(self, request, *args, **kwargs):
-    def get_context_data(self, *args, **kwargs):
-        context = super(ConfirmCashPaymentView, self).get_context_data(**kwargs)
-        order = get_or_set_order_session(self.request)
-        items = []
-        
-
-        for item in order.items.all():
-   
-            temp_item ={}
-
-            temp_item['name']=item.product.title
-            temp_item['description']=item.product.description
-            temp_item['quantity']=item.quantity
-            temp_item['tax']=f'{item.get_tax()}'
-            temp_item['price']=f'{item.product.get_price()}'
-            # temp_item['price']=f'{item.get_total_item_price()}'
-            items.append(temp_item)
-
-
-
-
-        order.payment_method='EFECTIVO'
-        order.save()
-        self.request.session['payment_method']='efectivo'
-        context['order'] = get_or_set_order_session(self.request)
-       
-
-        context['CALLBACK_URL']= self.request.build_absolute_uri(reverse("shop:thankyou"))
-        return context
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -829,7 +824,7 @@ class ConfirmOrderView(LoginRequiredMixin, generic.View): #Confirma el pago real
 
             order.save()
             messages.info(request, message="Se ha realizado correctamente su pedido")
-            nueva_orden(request, order.pk, request.user.email, 'PRODUCTO FÍSICO')
+            nueva_orden(request, order, "PRODUCTO FISICO")
             try: 
                 ref_profile = request.session['ref_profile'] #Recibir referencia y agregarla a la cuenta del usuario
                 profile = Profile.objects.get(id=ref_profile)
@@ -855,7 +850,7 @@ class ConfirmOrderView(LoginRequiredMixin, generic.View): #Confirma el pago real
 
             transaction_uuid = request.GET['transaction_uuid']
             user_uuid = request.GET['user_uuid']
-
+            print("DIGITAL PRODUCT", digital_product)
             if not digital_product:
                 order = get_or_set_order_session(request)
             
@@ -877,6 +872,7 @@ class ConfirmOrderView(LoginRequiredMixin, generic.View): #Confirma el pago real
 
                 order.save()
                 messages.info(request, message="Se ha realizado Correctamente el pago")
+                nueva_orden(request, order, "PRODUCTO FISICO")
 
                 try: 
                     ref_profile = request.session['ref_profile'] #Recibir referencia y agregarla a la cuenta del usuario
@@ -904,9 +900,9 @@ class ConfirmOrderView(LoginRequiredMixin, generic.View): #Confirma el pago real
                     del request.session['ref_profile'] #Elimina la referencia de usuario
                 except:
                     pass
-
+                del  request.session['digital_product']
                 messages.info(request, message="Se ha realizado Correctamente el pago y el producto se ha agregado a su libreria de descargas")
-                nueva_orden(request, product.id, request.user.email, 'PRODUCTO DIGITAL')
+                nueva_orden(request, product,'PRODUCTO DIGITAL')
                 # UserLibrary
             
 
@@ -1108,4 +1104,73 @@ class EnzonaPaymentDigitalProductView(LoginRequiredMixin, generic.TemplateView):
 
         # context['CALLBACK_URL']= self.request.build_absolute_uri(reverse("shop:thank-you"))
         return context
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+"""
+****************************************************************************
+****************************************************************************
+****************************************************************************
+****************************************************************************
+****************************************************************************
+****************************************************************************
+****************************************************************************
+****************************************************************************
+****************************************************************************
+"""
+
+
+
+
+# class ConfirmCashPaymentView(LoginRequiredMixin, generic.TemplateView):
+
+#     template_name = 'shop/confirm_cash_payment.html'
+#     # def get(self, request, *args, **kwargs):
+#     def get_context_data(self, *args, **kwargs):
+#         context = super(ConfirmCashPaymentView, self).get_context_data(**kwargs)
+#         order = get_or_set_order_session(self.request)
+#         items = []
+        
+
+#         for item in order.items.all():
+   
+#             temp_item ={}
+
+#             temp_item['name']=item.product.title
+#             temp_item['description']=item.product.description
+#             temp_item['quantity']=item.quantity
+#             temp_item['tax']=f'{item.get_tax()}'
+#             temp_item['price']=f'{item.product.get_price()}'
+#             # temp_item['price']=f'{item.get_total_item_price()}'
+#             items.append(temp_item)
+
+
+
+
+#         order.payment_method='EFECTIVO'
+#         order.save()
+#         self.request.session['payment_method']='efectivo'
+#         context['order'] = get_or_set_order_session(self.request)
+       
+#         context['CALLBACK_URL']= self.request.build_absolute_uri(reverse("shop:thankyou"))
+#         return context
+
+
+
+
+
 

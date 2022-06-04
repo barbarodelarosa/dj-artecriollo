@@ -77,6 +77,8 @@ INSTALLED_APPS += [
 
     'django_crontab',
     'captcha',
+    'mapbox_location_field',
+
   
 ]
 
@@ -310,3 +312,8 @@ ACCOUNT_FORMS = {
     # 'disconnect': 'allauth.socialaccount.forms.DisconnectForm',
 }
 GOOGLE_RECAPTCHA_SECRET_KEY='6Lcp5zQgAAAAALew8jCJfdKzX3lpdenqCyfnGX2O'
+
+
+
+
+MAPBOX_KEY ="pk.eyJ1IjoiYXJ0ZWNyaW9sbG8iLCJhIjoiY2wzd2gyZHZyMDI1ZjNjbXkzNmduNmdydiJ9.eJ7_JqzaIEHZ4rGFBA0Ung"

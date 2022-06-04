@@ -140,7 +140,7 @@ class Provincia(models.Model):
         return f'{self.name}'
 
 class Municipio(models.Model):
-    pais = models.ForeignKey(Pais, on_delete=models.CASCADE)
+    # pais = models.ForeignKey(Pais, on_delete=models.CASCADE)
     provincia = models.ForeignKey(Provincia, on_delete=models.CASCADE)
     name=models.CharField(max_length=15)
     shipping = models.IntegerField(default=0, blank=True)
@@ -149,6 +149,13 @@ class Municipio(models.Model):
         return f'{self.name}'
 
 
+class Localidad(models.Model):
+    municipio = models.ForeignKey(Municipio, on_delete=models.CASCADE)
+    name=models.CharField(max_length=30)
+    shipping = models.IntegerField(default=0, blank=True)
+    
+    def __str__(self):
+        return f'{self.name}'
 
   
 class Address(models.Model):
@@ -165,7 +172,7 @@ class Address(models.Model):
     pais = models.ForeignKey(Pais, on_delete=models.CASCADE, blank=True, null=True)
     provincia = models.ForeignKey(Provincia, on_delete=models.CASCADE, blank=True, null=True)
     municipio = models.ForeignKey(Municipio, on_delete=models.CASCADE, blank=True, null=True)
-    localidad = models.CharField(max_length=25, blank=True, null=True)
+    localidad = models.ForeignKey(Localidad, on_delete=models.CASCADE, blank=True, null=True)
     address_line_1 = models.CharField(max_length=150, blank=True, null=True)
     address_line_2 = models.CharField(max_length=150, blank=True, null=True)
     numero = models.CharField(max_length=8, blank=True, null=True)
@@ -174,10 +181,14 @@ class Address(models.Model):
     # zip_code = models.CharField(max_length=10, blank=True, null=True)
     address_type = models.CharField(max_length=1, choices=ADDRESS_CHOICES, blank=True, null=True)
     default = models.BooleanField(default=False)
+    map_id = models.CharField(max_length=6, blank=True, null=True)
+    map_latitude = models.FloatField(blank=True, null=True)
+    map_langitude = models.FloatField(blank=True, null=True)
+    map_address = models.CharField(max_length=50, blank=True, null=True)
   
 
     def __str__(self):
-        return f"{self.user} | {self.provincia} | {self.municipio} | {self.localidad} | {self.address_line_1} | {self.address_line_2}"
+        return f"{self.user} | {self.provincia} | {self.municipio} | {self.address_line_1} | {self.address_line_2}"
 
     class Meta:
         verbose_name_plural = 'Addresses'
@@ -418,9 +429,6 @@ class Order(models.Model):
         return "{0:.2f}".format(total_tax / 100)
 
     def get_raw_total_shipping(self):
-        print("Delivery",self.delivery_method)
-        print("Shipping",self.shipping)
-
         if self.delivery_method == "1":
             return self.shipping
         else:
@@ -491,28 +499,27 @@ def pre_save_merchant_receiver(sender, instance, *args, **kwargs):
     if not instance.slug:
         instance.slug = slugify(instance.name)
     if instance.pk is None:
-        instance.resize(instance.image, (200, 200))
-        instance.resize(instance.banner, (700, 40))
-        instance.resize(instance.logo, (200, 200))
+        if instance.image:
+            instance.resize(instance.image, (200, 200))
+        if instance.banner:
+            instance.resize(instance.banner, (700, 40))
+        if instance.logo:
+            instance.resize(instance.logo, (200, 200))
 pre_save.connect(pre_save_merchant_receiver, sender=Merchant)
 
 
 def pre_save_product_receiver(sender, instance, *args, **kwargs):
     if not instance.slug:
         instance.slug = slugify(instance.title)
-    if instance.pk is None:
-        if instance.image:
-            instance.resize(instance.image, (380, 304))
+    if instance.pk is None and instance.image:
+        instance.resize(instance.image, (380, 304))
 pre_save.connect(pre_save_product_receiver, sender=Product)
 
-# def pre_save_product_short_url_receiver(sender, instance, *args, **kwargs):
-#     print("GUARDADO PRODUCT", kwargs )
-# pre_save.connect(pre_save_product_short_url_receiver, sender=Product)
 
 def pre_safe_category_receiver(sender, instance, *args, **kwargs):
     if not instance.slug:
         instance.slug = slugify(instance.name)
-    if instance.pk is None:
+    if instance.pk is None and instance.image:
         instance.resize(instance.image, (400, 400))
 pre_save.connect(pre_safe_category_receiver, sender=Category)
 
