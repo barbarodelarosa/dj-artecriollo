@@ -1,9 +1,11 @@
 from django.urls import path
+from django.views.generic.base import RedirectView
 
 from . import views
 
 app_name='shop'
 urlpatterns = [
+    path('', RedirectView.as_view(pattern_name='home', permanent=False)),
     path('create-product/', views.CreateProductView.as_view(), name='create-product'),
     path('create-digital-product/', views.CreateDigitalProductView.as_view(), name='create-digital-product'),
     path('create-merchant/', views.CreateMerchantView.as_view(), name='create-merchant'),

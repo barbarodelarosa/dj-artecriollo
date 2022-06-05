@@ -17,24 +17,30 @@
 								<input type="hidden" name="action" value="validate_captcha">
 
 							</form>
-
-							<ul class="newsletter-follow">
-							{% social_red as social_red_all %}
+							<div>
+								Síguenos en:
+							</div>
+							<ul class="newsletter-follow">	
+							{% comment %} {% social_red as social_red_all %}
 							{% for social in social_red_all  %}
 								<li>
 									<a href="{{social.url}}"><i class="fa fa-{{social.name}}"></i></a>
 								</li>
 						
-							{% endfor %}
-								{% comment %} <li>
-									<a href="#"><i class="fa fa-twitter"></i></a>
+							{% endfor %} {% endcomment %}
+								<li>
+									<a href="https://www.facebook.com/artecriollocuba" target="_blank" rel="noopener noreferrer"><i class="fa fa-facebook"></i></a>
 								</li>
 								<li>
-									<a href="#"><i class="fa fa-instagram"></i></a>
+									<a href="https://www.instagram.com/artecriollocuba/" target="_blank" rel="noopener noreferrer"><i class="fa fa-instagram"></i></a>
 								</li>
 								<li>
-									<a href="#"><i class="fa fa-pinterest"></i></a>
-								</li> {% endcomment %}
+									<a href="https://twitter.com/artecriollocuba" target="_blank" rel="noopener noreferrer"><i class="fa fa-twitter"></i></a>
+								</li>
+								<li>
+									<a href="https://www.pinterest.com/artecriollocuba/" target="_blank" rel="noopener noreferrer"><i class="fa fa-pinterest"></i></a>
+								</li>
+							
 							</ul>
 							
 						</div>

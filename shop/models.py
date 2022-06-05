@@ -493,7 +493,21 @@ class Payment(models.Model):
 
 
 
+class Cupon(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='cupons')
+    code = models.CharField(max_length=15)
+    discount= models.IntegerField(default=0)
+    discount_porcent= models.IntegerField(default=0)
+    details = models.TextField(blank=True, null=True)
+    created = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(auto_now=True)
+    finished= models.DateTimeField()
+    consumers=models.ManyToManyField(User, related_name='consumers', blank=True)
+    orders=models.ManyToManyField(Order, blank=True)
+    products=models.ManyToManyField(Product, blank=True)
 
+    def __str__(self):
+        return self.code
 
 def pre_save_merchant_receiver(sender, instance, *args, **kwargs):
     if not instance.slug:
