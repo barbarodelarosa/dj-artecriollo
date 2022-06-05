@@ -515,19 +515,15 @@
 														<i class="fa fa-star"></i> {% endcomment %}
 													</div>
 														<div class="product-btns">
-												{% if product in user.profile.whishlist.all%}
-													{% comment %} Eliminar de lista {% endcomment %}
+												{% comment %} {% if product in user.profile.whishlist.all%} FUNCIONA OK
 													<a href="{% url 'profile:addorremovetowhishlist' product.id %}" class="add-to-wishlist" style="color: #D10024;"><i class="fa fa-heart"></i><span class="tooltipp"> 
 													</span></a>
 												{%else%}
-													 {% comment %} Agregar a lista {% endcomment %}
 													<a href="{% url 'profile:addorremovetowhishlist' product.id %}" class="add-to-wishlist"><i class="fa fa-heart-o"></i><span class="tooltipp">
 													 </span></a>
 												{%endif%}
-												{% comment %} <form action="{% url 'profile:addorremovetowhishlist' product.id %}"> {% endcomment %}
-												{% comment %} </form> {% endcomment %}
-												<!-- <button class="add-to-compare"><i class="fa fa-exchange"></i><span class="tooltipp">add to compare</span></button> -->
-												<br>
+											
+												<br> {% endcomment %}
 												{% if request.user.is_authenticated %}
 													<form action="{%url 'shop:add-to-cart' product.id %}" method="POST" >{% csrf_token %}
 													<input type="hidden" name="quantity" value="1">

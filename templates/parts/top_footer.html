@@ -27,8 +27,9 @@
 								{%categories_list_for_footer as categories_tag%}
 								
 									{% for cat in  categories_tag %}
-								
-										<li><a href="{{cat.get_absolute_url}}">{{cat.name}}</a></li>
+										{% if cat.active and  cat.product_set.count %}
+											<li><a href="{{cat.get_absolute_url}}">{{cat.name}}</a></li>								
+										{% endif %}								
 									{% endfor %}
 									
 								</ul>
@@ -54,9 +55,14 @@
 							<div class="footer">
 								<h3 class="footer-title">Servicios</h3>
 								<ul class="footer-links">
-									<li><a href="{%url 'profile'%}">Mi cuenta</a></li>
+									{% if request.user.is_authenticated %}
+										<li><a href="{%url 'profile'%}">Mi cuenta</a></li>
+									{% else %}
+										<li><a href="{%url 'account_login'%}">Acceder</a></li>
+										<li><a href="{%url 'account_signup'%}">Registrarse</a></li>
+									{% endif %}
 									<li><a href="{%url 'shop:summary'%}">Ver carro</a></li>
-									<li><a href="{% url 'shop:whishlist' %}">Lista de deseo</a></li>
+									{% comment %} <li><a href="{% url 'shop:whishlist' %}">Lista de deseo</a></li> {% endcomment %}
 									{% comment %} <li><a href="#">Pedidos</a></li> {% endcomment %}
 									{% comment %} <li><a href="#">Help</a></li> {% endcomment %}
 								</ul>

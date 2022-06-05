@@ -1,7 +1,36 @@
 {% extends "emails/base_email.html" %}
+{% load price_format_tags %}
+
 
 {% block content %}
+<div>
+    Este correo es la confirmacion de su pedido:<br>
+</div>
+<div>
+    Orden #{{order.id}}<br>
+</div>
+<div>
+    Metodo de pago: {{order.payment_method}}<br>
+</div>
+<div>
+    Total a pagar: {{order.get_total}}<br>
+</div>
+<div>
+    Productos:<br>
+</div>
+{% for item in order.items.all  %}
+<div>
+    Nombre del producto: {{item.product.title}}<br>
+</div>
 
+<div>
+    cantidad de unidades: {{item.quantity}}<br>
+</div>
+<div>
+    precio del producto {{item.product.price|price_format_cup}}<br>
+</div>
+
+{% endfor %}
 						
 
 {% endblock content %}

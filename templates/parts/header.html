@@ -67,7 +67,10 @@
 										<option value="0">Categorias</option>
 										{%categories_list_tag as cat_list %}
                                         {% for cat in cat_list %}
-										<option  value="{{cat.id}}">{{cat.name}}</option>
+											{% if cat.active and cat.product_set.count %}
+												<option  value="{{cat.id}}">{{cat.name}}</option>
+											
+											{% endif %}
                                         {% endfor %}
 									</select>
 									<input name="q" class="input" id="search" placeholder="Buscar aquí">
@@ -82,7 +85,7 @@
 						<div class="col-md-3 clearfix">
 							<div class="header-ctn">
 								<!-- Wishlist -->
-								<div>
+								{% comment %} <div> FUNCIONA OK
 									<a href="{% url 'shop:whishlist' %}">
 										
 										{% if request.user.profile.whishlist %}
@@ -94,7 +97,7 @@
 										{% endif %}										
 										<div class="qty">{{request|whishlist_count}}</div>
 									</a>
-								</div>
+								</div> {% endcomment %}
 								<!-- /Wishlist -->
 
 								<!-- Cart -->

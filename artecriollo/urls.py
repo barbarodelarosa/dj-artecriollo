@@ -22,6 +22,7 @@ urlpatterns = [
     path('terminos-condiciones/', views.TermsView.as_view(), name='terms'),
     path('ayuda/', views.HelpView.as_view(), name='help'),
     path('shop/', include('shop.urls', namespace='shop')),
+    # path('utils/', include('utils.urls', namespace='utils')),
     # path('user/', include('authy.urls', namespace='user')),
     path('blog/', include('blog.urls', namespace='blog')),
     path('profile-user/', include('profile.urls', namespace='profile')),
@@ -34,6 +35,8 @@ urlpatterns = [
     path('download1/', views.GithubAvatarDownloadView.as_view(), name='download1'),
     path('jsi18n/', i18n.JavaScriptCatalog.as_view(), name='jsi18n'),
     path('u/<str:shortened_part>', views.redirect_url_view, name='redirect-url-short'),
+
+
 
     
 

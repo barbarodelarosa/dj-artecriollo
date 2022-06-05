@@ -1,5 +1,6 @@
 
 import datetime
+from utils.decorators import check_recaptcha
 from utils.enviar_emails import nueva_orden
 from django.conf import settings
 from django.contrib import messages
@@ -13,6 +14,7 @@ from django.core.mail import send_mail, EmailMessage
 from django.views import generic
 # Create your views here.
 
+@check_recaptcha
 def newsletter_signup(request):
     form = NewsletterUserSigUpForm(request.POST or None)
 

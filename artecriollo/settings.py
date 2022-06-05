@@ -76,6 +76,9 @@ INSTALLED_APPS += [
     'ckeditor',
 
     'django_crontab',
+    'captcha',
+    'mapbox_location_field',
+
   
 ]
 
@@ -290,3 +293,27 @@ CRONJOBS = [
     ('*/1 * * * *', 'auction.cron.my_scheduled_job'),
     ('*/1 * * * *', 'core.cron.my_scheduled_job_save_db'),
 ]
+
+RECAPTCHA_PUBLIC_KEY = '6Lcp5zQgAAAAABxMCgINkEovuLi0EACYhB3cVZZV'
+RECAPTCHA_PRIVATE_KEY = '6Lcp5zQgAAAAALew8jCJfdKzX3lpdenqCyfnGX2O'
+
+ACCOUNT_SIGNUP_FORM_CLASS = 'core.forms.AllAuthSignupForm'
+RECAPTCHA_REQUIRED_SCORE = 0.50
+
+
+ACCOUNT_FORMS = {
+    'login': 'core.forms.MyCustomLoginForm',
+    # 'signup': 'allauth.account.forms.SignupForm',
+    # 'add_email': 'allauth.account.forms.AddEmailForm',
+    # 'change_password': 'allauth.account.forms.ChangePasswordForm',
+    # 'set_password': 'allauth.account.forms.SetPasswordForm',
+    # 'reset_password': 'allauth.account.forms.ResetPasswordForm',
+    # 'reset_password_from_key': 'allauth.account.forms.ResetPasswordKeyForm',
+    # 'disconnect': 'allauth.socialaccount.forms.DisconnectForm',
+}
+GOOGLE_RECAPTCHA_SECRET_KEY='6Lcp5zQgAAAAALew8jCJfdKzX3lpdenqCyfnGX2O'
+
+
+
+
+MAPBOX_KEY ="pk.eyJ1IjoiYXJ0ZWNyaW9sbG8iLCJhIjoiY2wzd2gyZHZyMDI1ZjNjbXkzNmduNmdydiJ9.eJ7_JqzaIEHZ4rGFBA0Ung"

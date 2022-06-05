@@ -136,3 +136,13 @@
   }
 
 }
+
+/* .grecaptcha-badge { 
+  visibility: hidden;
+  display:none;
+}
+*/
+#div_id_captcha{
+  visibility: hidden;
+
+}

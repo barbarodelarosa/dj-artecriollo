@@ -32,118 +32,126 @@
                     </div>
                 </div>
             </div>
-            {% else %}
+				{% else %}
 
-			<div class="row">
-			<div class="col-md-6 mb-md-0">
-            <!-- <form method="POST" onsubmit="return validar();"> -->
-            <form method="POST" id="submit-order-form">
-                {% csrf_token %}
-                        <h2 class="h3 mb-3 text-black text-center">Detalles de facturación</h2>
-                        <hr />
-                      
-                        <div class="form-group">
-                            {{form|crispy}}
-                        </div>
-                 
-
-
-
-
-                            <!-- <div class="p-2 p-lg-2">
-                                {% comment %} {{ form|crispy }} {% endcomment %}
-                            {{form.pais}}
-                            <div class="order-notes">
-                                <textarea name="note" class="input" placeholder="Notas para la orden"></textarea>
-                            </div>
-                            </div> -->
-                        <!-- <div class="form-group">
-                            <button type="submit" class="btn btn-success btn-lg py-3 btn-block">
-                                Proceed to Payment
-                            </button>
-                        </div> -->
-                    </div>
-
-
-					<div class="col-md-5 order-details">
-						<div class="section-title text-center">
-							<h3 class="title">Tu Orden</h3>
-						</div>
-						<div class="order-summary resumen_order">
-							<div class="order-col">
-								<div><strong>PRODUCTO</strong></div>
-								<div><strong>TOTAL</strong></div>
-							</div>
-							<div class="order-products">
-								{% for item in order.items.all %}
-								<div class="order-col">
-									<div><strong class="mx-2">{{ item.quantity }} x </strong> {{ item.product.title }}</div>
-									<div>${{ item.get_total_item_price}}</div>
-								</div>
-																		
-                                {% endfor %}
-								
-							</div>
-							<div class="order-col">
-								<div>SUBTOTAL</div>
-								<div><strong>${{ order.get_subtotal }}</strong></div>
-							</div>
-							<div class="order-col">
-								<div>ENVIO</div>
-								<div><strong>${{ order.get_total_shipping }}</strong></div>
-							</div>
-							<div class="order-col">
-								<div><strong>TOTAL</strong></div>
-								<div><strong class="order-total">${{ order.get_total }}</strong></div>
-							</div>
-						</div>
-						<div class="payment-method">
-							<p>Seleccionar método de pago</p>
-							<div class="input-radio">
-								<input type="radio" checked name="payment" value="enzona" id="payment-1">
-								<label for="payment-1">
-									<span></span>
-									PAGO CON ENZONA
-								</label>
-								<div class="caption">
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-								</div>
-								
-							</div>
-
-							<div class="input-radio">
+                	{% if order.items.count > 0 %}
 							
 
-								<input type="radio" name="payment" value="efectivo" id="payment-2">
-								<label for="payment-2">
-									<span></span>
-									PAGO CON EFECTIVO
-								</label>
-								<div class="caption">
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-								</div>
-
+							<div class="row">
+							<div class="col-md-6 mb-md-0">
+							<!-- <form method="POST" onsubmit="return validar();"> -->
+							<form method="POST" id="submit-order-form">
+								{% csrf_token %}
+										<h2 class="h3 mb-3 text-black text-center">Detalles de facturación</h2>
+										<hr />
+									
+										<div class="form-group">
+											{{form|crispy}}
+										</div>
 								
-							</div>
+
+
+
+
+											<!-- <div class="p-2 p-lg-2">
+												{% comment %} {{ form|crispy }} {% endcomment %}
+											{{form.pais}}
+											<div class="order-notes">
+												<textarea name="note" class="input" placeholder="Notas para la orden"></textarea>
+											</div>
+											</div> -->
+										<!-- <div class="form-group">
+											<button type="submit" class="btn btn-success btn-lg py-3 btn-block">
+												Proceed to Payment
+											</button>
+										</div> -->
+									</div>
+
+
+									<div class="col-md-5 order-details">
+										<div class="section-title text-center">
+											<h3 class="title">Tu Orden</h3>
+										</div>
+										<div class="order-summary resumen_order">
+											<div class="order-col">
+												<div><strong>PRODUCTO</strong></div>
+												<div><strong>TOTAL</strong></div>
+											</div>
+											<div class="order-products">
+												{% for item in order.items.all %}
+												<div class="order-col">
+													<div><strong class="mx-2">{{ item.quantity }} x </strong> {{ item.product.title }}</div>
+													<div>${{ item.get_total_item_price}}</div>
+												</div>
+																						
+												{% endfor %}
+												
+											</div>
+											<div class="order-col">
+												<div>SUBTOTAL</div>
+												<div><strong>${{ order.get_subtotal }}</strong></div>
+											</div>
+											<div class="order-col">
+												<div>ENVIO</div>
+												<div><strong>${{ order.get_total_shipping }}</strong></div>
+											</div>
+											<div class="order-col">
+												<div><strong>TOTAL</strong></div>
+												<div><strong class="order-total">${{ order.get_total }}</strong></div>
+											</div>
+										</div>
+										<div class="payment-method">
+											<p>Seleccionar método de pago</p>
+											<div class="input-radio">
+												<input type="radio" checked name="payment_method" value="enzona" id="payment-1">
+												<label for="payment-1">
+													<span></span>
+													PAGO CON ENZONA
+												</label>
+												<div class="caption">
+													<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+												</div>
+												
+											</div>
+
+											<div class="input-radio">
+											
+
+												<input type="radio" name="payment_method" value="efectivo" id="payment-2">
+												<label for="payment-2">
+													<span></span>
+													PAGO CON EFECTIVO
+												</label>
+												<div class="caption">
+													<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+												</div>
+
+												
+											</div>
+									
+										</div>
+										<div class="input-checkbox">
+											<input type="checkbox" id="terms" onclick="validar()" required>
+											<label for="terms" id="label-terms" >
+												<span></span>
+												He leído y acepto los <a href="{% url 'terms' %}" target="_blank" rel="noopener noreferrer">términos y condiciones</a>
+											</label>
+										</div>
 					
-						</div>
-						<div class="input-checkbox">
-							<input type="checkbox" id="terms" onclick="validar()" required>
-							<label for="terms" id="label-terms" >
-								<span></span>
-								He leído y acepto los <a href="{% url 'terms' %}" target="_blank" rel="noopener noreferrer">términos y condiciones</a>
-							</label>
+										<button id="btn-payment" onclick="submit_order()" class="primary-btn order-submit btn-lg btn-block">Realizar pedido</button>
+									</div>
+									
+								</form>
+							</div>
 						</div>
 
-						<!-- <button type="submit" id="btn-payment" class="primary-btn order-submit btn-lg btn-block">Realizar pedido</button> -->
-						<!-- <a href="{%url 'shop:payment-cash'%}" class="primary-btn order-submit btn-lg btn-block">Realizar en efectivo</a> -->
-						
-						<button id="btn-payment" onclick="submit_order()" class="primary-btn order-submit btn-lg btn-block">Realizar pedido</button>
-					</div>
-					
-				</form>
-			</div>
-        </div>
+					{% else %}
+						<tr>
+							<td colspan="6">
+								Actualmente no tienes productos en el carrito, para Chequear <a href="{% url 'shop:category-list' %}"><strong> acceda a la tienda</strong></a>
+							</td>
+						</tr>
+					{% endif %}
 
             {% endif %}        
     </div>
@@ -166,7 +174,7 @@ $(document)
 
 var link ="cambioOpcionesSelcet()"
 
-var preview = document.getElementById("id_municipio"); //getElementById instead of querySelectorAll
+var preview = document.getElementById("id_localidad"); //getElementById instead of querySelectorAll
 preview.setAttribute("onchange", link);
 
 var delivery_method = document.getElementById("id_delivery_method"); //getElementById instead of querySelectorAll
@@ -175,13 +183,13 @@ delivery_method.setAttribute("onchange", link);
 function cambioOpcionesSelcet(){
 
 
-	municipio = $("#id_municipio option:selected").text()
+	localidad = $("#id_localidad option:selected").text()
 	delivery_method = $("#id_delivery_method option:selected").text()
 
 	const Url = "{% url 'shop:actualizar_costo_mensajeria' %}"
 	
 	const payload={
-		municipio:municipio,
+		localidad:localidad,
 		delivery_method:delivery_method 
 	};
 	
@@ -214,6 +222,7 @@ function cambioOpcionesSelcet(){
 
 
 var payment = document.getElementsByName('payment');
+
 
 function validar(){
 	var payment = document.getElementsByName('payment');

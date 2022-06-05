@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from django.views.generic import CreateView
+from .forms import *
 
 # Create your views here.
 
@@ -46,3 +48,9 @@ def change_info(request):       #Modificar información como visitas al sitio we
         temp.dayTime = date
         temp.count = 1
     temp.save()
+
+
+class SomeLocationModelView(CreateView):
+    form_class = LocationForm
+    template_name= "maps/index.html"
+    success_url='/utils/maps'

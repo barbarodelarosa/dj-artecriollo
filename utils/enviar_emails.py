@@ -5,17 +5,22 @@ from django.core.mail import send_mail, EmailMessage
 
 
         
-def nueva_orden(request, numero_de_orden,email_user, tipo_producto):
-        subject=f"ORDEN DE COMPRA #{numero_de_orden} - ARTECRIOLLO"
-        subject_admin=f"NUEVA ORDEN DE COMPRA ({numero_de_orden})"
+def nueva_orden(request, order,tipo_producto):
+        subject=f"ORDEN DE COMPRA #{order.id} - ARTECRIOLLO"
+        subject_admin=f"NUEVA ORDEN DE COMPRA ({order.id})"
         email_admin=settings.EMAIL_HOST_USER
         from_email=email_admin
-        to_mail_user=[email_user]
+        to_mail_user=[request.user.email]
         to_mail_admin=[from_email]
+        if tipo_producto == "PRODUCTO DIGITAL":
+                html_template='emails/shop/nueva_orden_digital.html'
+                html_message_user=render_to_string(html_template,{'product':order})
+                html_message_admin=f'TIPO DE PRODUCTO:{tipo_producto} Nueva orden de compra de producto ({order.id}) por el usuario {to_mail_user}'
+        else:
+                html_template='emails/shop/nueva_orden.html'
+                html_message_user=render_to_string(html_template,{'order':order})
+                html_message_admin=f'TIPO DE PRODUCTO:{tipo_producto} Nueva orden de compra ({order.id}) por el usuario {to_mail_user}'
 
-        html_template='emails/shop/nueva_orden.html'
-        html_message_user=render_to_string(html_template,{'prueba':'PRUEBA PERFECTA'})
-        html_message_admin=f'TIPO DE PRODUCTO:{tipo_producto} Nueva orden de compra ({numero_de_orden}) por el usuario {to_mail_user}'
         
         message_user=EmailMessage(subject,html_message_user,from_email, to_mail_user)
         message_admin=EmailMessage(subject_admin,html_message_admin,from_email, to_mail_admin)
