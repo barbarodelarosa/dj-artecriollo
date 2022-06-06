@@ -1,6 +1,7 @@
-from shop.models import Category
 from django import template
 from core.models import SiteInfo
+from auction.models import Auction
+from lottery.models import Lottery
 
 register = template.Library()
 
@@ -19,3 +20,13 @@ def site_info():
     }
     return data
 
+@register.simple_tag()
+def auction():
+    auction = Auction.objects.all()
+    return auction
+
+
+@register.simple_tag()
+def lottery():
+    lottery = Lottery.objects.all()
+    return lottery

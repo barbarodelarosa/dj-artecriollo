@@ -6,12 +6,12 @@
         <div class="col-md-12">
            <h1>GRACIAS</h1>
            <h3>POR SU COMPRA</h3>
-
+{% comment %} 
            {% if request.session.digital_product %}
                 <h5 style="color: red">Para descargar su producto acceda a su librería en la seccion "descarga" de su cuenta, a través del <a href="{% url 'profile' %}#downloads" style="color:red">ENLACE</a></h5>
            {% else %}
+           {% endif %} {% endcomment %}
                 <h5>Pronto nos pondremos en contacto con usted para coordinar y hacerle llegar su pedido!</h5>
-           {% endif %}
            <p>Nuestra plataforma se encuentra en constante perfeccionamiento, sería de gran ayuda para nosotros,
               que nos contactaras y nos diera tu valoración crítica sobre el sitio.
             Gracias nuevamente, su upinión es de gran valor para nosotros, buscamos cada día ofrecerle un mejor servicio</p>
