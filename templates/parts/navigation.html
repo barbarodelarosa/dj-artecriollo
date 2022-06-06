@@ -1,4 +1,4 @@
-
+{% load site_info_tags %}
 <nav id="navigation">
 			<!-- container -->
 			<div class="container">
@@ -9,8 +9,15 @@
 						<li class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}"><a href="{% url 'home' %}">Inicio</a></li>
 						<li class="{% if request.resolver_match.url_name == 'category-list' %}active{% endif %}"><a href="{% url 'shop:category-list' %}">Categorias</a></li>
 						{% comment %} <li class="{% if request.resolver_match.url_name == 'index-blog' %}active{% endif %}"><a href="{% url 'blog:posts' %}">Blog</a></li> {% endcomment %}
-						<li class="{% if request.resolver_match.url_name == 'auction-index' %}active{% endif %}"><a href="{% url 'auction:auction-index' %}">Subasta</a></li>
-						<li class="{% if request.resolver_match.url_name == 'lottery-index' %}active{% endif %}"><a href="{% url 'lottery:lottery-index' %}">Sorteo</a></li>
+						{% auction as auction %}
+						{% if auction %}
+							<li class="{% if request.resolver_match.url_name == 'auction-index' %}active{% endif %}"><a href="{% url 'auction:auction-index' %}">Subasta</a></li>		
+						{% endif %}
+						
+						{% lottery as lottery %}
+						{% if lottery %}
+							<li class="{% if request.resolver_match.url_name == 'lottery-index' %}active{% endif %}"><a href="{% url 'lottery:lottery-index' %}">Sorteo</a></li>
+						{% endif %}
 						<li class="{% if request.resolver_match.url_name == 'contact' %}active{% endif %}"><a href="{% url 'contact' %}">Contacto</a></li>
 						{% comment %} <li><a href="#">Hot Deals</a></li>
 						<li><a href="#">Categories</a></li>

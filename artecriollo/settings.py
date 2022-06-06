@@ -31,10 +31,10 @@ SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = env('DEBUG')
-DEBUG = True
+DEBUG = False
 # TEMPLATE_DEBUG = DEBUG
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['artecriollo.nat.cu','www.artecriollo.nat.cu','152.206.118.246']
 
 
 
@@ -117,11 +117,19 @@ WSGI_APPLICATION = 'artecriollo.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+print(env('NAME_DB'))
+print(env('USER_DB'))
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        # 'ENGINE': 'django.db.backends.sqlite3',
+        # 'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql', 
+        'NAME': env('NAME_DB'),
+        'USER': env('USER_DB'),
+        'PASSWORD': env('PASSWORD_DB'),
+        'HOST': env('HOST_DB'),
+        'PORT': env('PORT_DB'),
     }
 }
 
