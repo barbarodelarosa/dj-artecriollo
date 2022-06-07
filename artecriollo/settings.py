@@ -117,8 +117,7 @@ WSGI_APPLICATION = 'artecriollo.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-print(env('NAME_DB'))
-print(env('USER_DB'))
+
 
 DATABASES = {
     'default': {
