@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 import environ
 import os
-
+from socket import gethostname
 
 env = environ.Env()
 
@@ -35,7 +35,7 @@ DEBUG = False
 # TEMPLATE_DEBUG = DEBUG
 
 # ALLOWED_HOSTS = ['artecriollo.nat.cu','www.artecriollo.nat.cu','152.206.118.246']
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = [gethostname(),'artecriollo.nat.cu','www.artecriollo.nat.cu','152.206.118.246','localhost']
 
 
 
@@ -191,6 +191,9 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"),'/home/cloud/artecriollo/st
 # STATIC_URL = '/media/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static_root")
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+STATICFILES_FINDERS = [
+    "django.contrib.staticfiles.finders.AppDirectoriesFinder",
+]
 
 
 
