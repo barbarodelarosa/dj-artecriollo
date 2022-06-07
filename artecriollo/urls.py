@@ -49,16 +49,6 @@ urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 #Necesario para los statics del admin
-urlpatterns += [
-    re_path(
-        r'^static/(?P<path>.*)$',
-        'django.views.static.serve',
-        {
-            'document_root': settings.STATIC_ROOT,
-            'show_indexes': settings.DEBUG,
-        }
-    ),
-]
 
 
 handler404 = views.pag_404_not_found
