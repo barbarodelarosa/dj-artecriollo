@@ -188,7 +188,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [os.path.join(BASE_DIR, "static"),'/home/cloud/artecriollo/static/',]
-MEDIA_URL = '/media/'
+STARIC_URL = '/media/'
 STATIC_ROOT = os.path.join(BASE_DIR, "static_root")
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 STATICFILES_FINDERS = [
