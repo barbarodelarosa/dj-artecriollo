@@ -10,7 +10,7 @@ from django.views import i18n
 from django.conf.urls import handler404, handler500, handler403
                     
 urlpatterns = [
-    path('superadmin/', admin.site.urls),
+    path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
     path('affiliate/', include('affiliate.urls')),
     path('subasta/', include('auction.urls')),
