@@ -49,9 +49,8 @@ urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 #Necesario para los statics del admin
-from django.conf.urls import url
 urlpatterns += [
-    url(
+    re_path(
         r'^static/(?P<path>.*)$',
         'django.views.static.serve',
         {
