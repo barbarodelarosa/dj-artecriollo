@@ -1,11 +1,11 @@
 {% load static %}
 {% load cart_template_tags %}
-
+{% load pwa %}
 
 <!DOCTYPE html>
 <html lang="es">
 	<head>
-		{% load pwa %} 
+		{% pwa_meta_data %}
 	
 		{% progressive_web_app_meta %} 
 		<meta charset="utf-8">
@@ -146,5 +146,7 @@
 {% block scripts %}
 
 {% endblock scripts %}
+{% pwa_meta_script %}
+
 	</body>
 </html>
