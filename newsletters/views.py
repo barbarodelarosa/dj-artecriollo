@@ -95,9 +95,11 @@ def newsletter_signup(request):
             message_admin.send()
 
             messages.success(request, 'Hemos enviado un correo electrónico a su cuenta confirmando su inscripción')
+    messages.success(request, 'ANTESSSS')
     messages.success(request, 'Esta autenticado...')
     payload = {"head": "Welcome!", "body": "Hello World"}
     send_user_notification(user=request.user.id, payload=payload, ttl=1000)    
+    messages.success(request, 'DESPUESSS')
 
     messages.warning(request, 'ANTES DE REENVIAR')
 
