@@ -30,12 +30,15 @@ import json
 
 @check_recaptcha
 def newsletter_signup(request):
+    messages.warning(request, 'ANTES DEL FORM')
+
     form = NewsletterUserSigUpForm(request.POST or None)
 
 
    
     # print(request.POST.get('email'))
     if form.is_valid():
+        messages.warning(request, 'FORM VALIDO')
         instance=form.save(commit=False)
         if NewsletterUser.objects.filter(email=instance.email).exists():
             newsletter_user = NewsletterUser.objects.get(email=instance.email)
@@ -98,6 +101,7 @@ def newsletter_signup(request):
         payload = {'head': "DATA ENVIADA", 'body': "MENSAJE ENVIADO"}
         send_user_notification(user=user, payload="payload", ttl=1000)    
 
+    messages.warning(request, 'ANTES DE REENVIAR')
 
     next = request.META.get('HTTP_REFERER', None) or '/'  #Obtiene la url actual
 
