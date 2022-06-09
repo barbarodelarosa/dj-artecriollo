@@ -6,8 +6,10 @@
 <html lang="es">
 	<head>
 		{% pwa_meta_data %}
+		{% pwa_meta_script %}
+
 	
-		{% progressive_web_app_meta %} 
+		{% comment %} {% progressive_web_app_meta %}  {% endcomment %}
 		<meta charset="utf-8">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -146,7 +148,6 @@
 {% block scripts %}
 
 {% endblock scripts %}
-{% pwa_meta_script %}
 
 	</body>
 </html>
