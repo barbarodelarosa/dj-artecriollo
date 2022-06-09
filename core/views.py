@@ -30,6 +30,17 @@ from django.contrib.auth.decorators import login_required
 
 
 
+
+
+from django.http.response import JsonResponse, HttpResponse
+from django.views.decorators.http import require_GET, require_POST
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.models import User
+from django.views.decorators.csrf import csrf_exempt
+from webpush import send_user_notification
+import json
+
+
 # Create your views here.
 
 
@@ -76,6 +87,11 @@ class HomeView(generic.TemplateView):
    
     template_name = 'index.html'
     def get_context_data(self, **kwargs):
+        messages.success(request, 'ANTESSSS')
+        payload = {"head": "Welcome!", "body": "Hello World"}
+        user = get_object_or_404(User, id=request.user.id)
+        send_user_notification(user=user, payload=payload, ttl=1000)    
+        messages.success(request, 'DESPUESSS')
         change_info(self.request)
         context = super(HomeView, self).get_context_data(**kwargs)
         if self.request.user.is_authenticated:
@@ -140,6 +156,7 @@ class SearchResultsView(generic.ListView):
 
 
     def get_queryset(self):
+    
         query = self.request.GET.get('q', '')
         query_category = self.request.GET.get('q_category', '')
         # if not query:

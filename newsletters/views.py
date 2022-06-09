@@ -17,20 +17,11 @@ from django.views import generic
 
 
 
-from django.http.response import JsonResponse, HttpResponse
-from django.views.decorators.http import require_GET, require_POST
-from django.shortcuts import get_object_or_404
-from django.contrib.auth.models import User
-from django.views.decorators.csrf import csrf_exempt
-from webpush import send_user_notification
-import json
-
-
 
 
 @check_recaptcha
 def newsletter_signup(request):
-    messages.warning(request, 'ANTES DEL FORM')
+  
 
     form = NewsletterUserSigUpForm(request.POST or None)
 
@@ -38,7 +29,7 @@ def newsletter_signup(request):
    
     # print(request.POST.get('email'))
     if form.is_valid():
-        messages.warning(request, 'FORM VALIDO')
+  
         instance=form.save(commit=False)
         if NewsletterUser.objects.filter(email=instance.email).exists():
             newsletter_user = NewsletterUser.objects.get(email=instance.email)
@@ -95,14 +86,8 @@ def newsletter_signup(request):
             message_admin.send()
 
             messages.success(request, 'Hemos enviado un correo electrónico a su cuenta confirmando su inscripción')
-    messages.success(request, 'ANTESSSS')
-    messages.success(request, 'Esta autenticado...')
-    payload = {"head": "Welcome!", "body": "Hello World"}
-    user = get_object_or_404(User, id=request.user.id)
-    send_user_notification(user=user, payload=payload, ttl=1000)    
-    messages.success(request, 'DESPUESSS')
 
-    messages.warning(request, 'ANTES DE REENVIAR')
+
 
     next = request.META.get('HTTP_REFERER', None) or '/'  #Obtiene la url actual
 
