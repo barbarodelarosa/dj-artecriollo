@@ -98,7 +98,8 @@ def newsletter_signup(request):
     messages.success(request, 'ANTESSSS')
     messages.success(request, 'Esta autenticado...')
     payload = {"head": "Welcome!", "body": "Hello World"}
-    send_user_notification(user=request.user.id, payload=payload, ttl=1000)    
+    user = get_object_or_404(User, id=request.user.id)
+    send_user_notification(user=user, payload=payload, ttl=1000)    
     messages.success(request, 'DESPUESSS')
 
     messages.warning(request, 'ANTES DE REENVIAR')
