@@ -1,25 +1,27 @@
+// Base Service Worker implementation.  To use your own Service Worker, set the PWA_SERVICE_WORKER_PATH variable in settings.py
+
 var staticCacheName = "django-pwa-v" + new Date().getTime();
 var filesToCache = [
-    '/offline/',
-    '/static/css/django-pwa-app.css',
-    '/static/images/icons/icon-72x72.png',
-    '/static/images/icons/icon-96x96.png',
-    '/static/images/icons/icon-128x128.png',
-    '/static/images/icons/icon-144x144.png',
-    '/static/images/icons/icon-152x152.png',
-    '/static/images/icons/icon-192x192.png',
-    '/static/images/icons/icon-384x384.png',
-    '/static/images/icons/icon-512x512.png',
-    '/static/images/icons/splash-640x1136.png',
-    '/static/images/icons/splash-750x1334.png',
-    '/static/images/icons/splash-1242x2208.png',
-    '/static/images/icons/splash-1125x2436.png',
-    '/static/images/icons/splash-828x1792.png',
-    '/static/images/icons/splash-1242x2688.png',
-    '/static/images/icons/splash-1536x2048.png',
-    '/static/images/icons/splash-1668x2224.png',
-    '/static/images/icons/splash-1668x2388.png',
-    '/static/images/icons/splash-2048x2732.png'
+    '/offline',
+    '/css/django-pwa-app.css',
+    '/images/pwa/icons/72x72.png',
+    '/images/pwa/icons/96x96.png',
+    '/images/pwa/icons/128x128.png',
+    '/images/pwa/icons/144x144.png',
+    '/images/pwa/icons/152x152.png',
+    '/images/pwa/icons/192x192.png',
+    '/images/pwa/icons/384x384.png',
+    '/images/pwa/icons/512x512.png',
+    // '/static/images/icons/splash-640x1136.png',
+    // '/static/images/icons/splash-750x1334.png',
+    // '/static/images/icons/splash-1242x2208.png',
+    // '/static/images/icons/splash-1125x2436.png',
+    // '/static/images/icons/splash-828x1792.png',
+    // '/static/images/icons/splash-1242x2688.png',
+    // '/static/images/icons/splash-1536x2048.png',
+    // '/static/images/icons/splash-1668x2224.png',
+    // '/static/images/icons/splash-1668x2388.png',
+    // '/static/images/icons/splash-2048x2732.png'
 ];
 
 // Cache on install
@@ -55,7 +57,7 @@ self.addEventListener("fetch", event => {
                 return response || fetch(event.request);
             })
             .catch(() => {
-                return caches.match('/offline/');
+                return caches.match('offline');
             })
     )
 });
