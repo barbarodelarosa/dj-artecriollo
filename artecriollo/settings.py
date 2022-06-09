@@ -403,7 +403,7 @@ MAPBOX_KEY ="pk.eyJ1IjoiYXJ0ZWNyaW9sbG8iLCJhIjoiY2wzd2gyZHZyMDI1ZjNjbXkzNmduNmdy
 # PWA_SW = SW.read()
 # SW.close()
 
-PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/new/js', 'serviceworker.js')
+# PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/new/js', 'serviceworker.js')
 
 
 PWA_APP_NAME = 'artecriollo'
