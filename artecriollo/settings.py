@@ -398,7 +398,10 @@ PWA_CONFIG = {
         "author": "ARTECRIOLLO"
 }
 
-
+path_service_worker = os.path.join(BASE_DIR, '/static/new/js/servicesorker.js')
+SW = open(path_service_worker, "r")
+PWA_SW = SW.read()
+SW.close()
 # PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/new/js', 'serviceworker.js')
 
 
