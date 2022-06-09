@@ -39,7 +39,7 @@ urlpatterns = [
     path('u/<str:shortened_part>', views.redirect_url_view, name='redirect-url-short'),
     # path('', RedirectView.as_view(pattern_name='home'), name='redirect-register'),
     path('', include('pwa.urls')),
-    re_path(r'^webpush/', include('webpush.urls')),
+    
 
 
 

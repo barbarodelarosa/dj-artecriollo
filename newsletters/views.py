@@ -14,22 +14,14 @@ from django.core.mail import send_mail, EmailMessage
 from django.views import generic
 # Create your views here.
 
-
-
-
-
-
 @check_recaptcha
 def newsletter_signup(request):
-  
-
     form = NewsletterUserSigUpForm(request.POST or None)
 
 
    
     # print(request.POST.get('email'))
     if form.is_valid():
-  
         instance=form.save(commit=False)
         if NewsletterUser.objects.filter(email=instance.email).exists():
             newsletter_user = NewsletterUser.objects.get(email=instance.email)
@@ -84,9 +76,8 @@ def newsletter_signup(request):
             message_user.content_subtype='html'
             message_user.send()
             message_admin.send()
-
             messages.success(request, 'Hemos enviado un correo electrónico a su cuenta confirmando su inscripción')
-
+                
 
 
     next = request.META.get('HTTP_REFERER', None) or '/'  #Obtiene la url actual
