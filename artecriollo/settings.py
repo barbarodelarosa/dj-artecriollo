@@ -335,7 +335,7 @@ GOOGLE_RECAPTCHA_SECRET_KEY='6Lcp5zQgAAAAALew8jCJfdKzX3lpdenqCyfnGX2O'
 MAPBOX_KEY ="pk.eyJ1IjoiYXJ0ZWNyaW9sbG8iLCJhIjoiY2wzd2gyZHZyMDI1ZjNjbXkzNmduNmdydiJ9.eJ7_JqzaIEHZ4rGFBA0Ung"
 
 #PWA
-PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/js', 'serviceworker.js')
+PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/new/js', 'serviceworker.js')
 
 
 PWA_APP_NAME = 'artecriollo'
