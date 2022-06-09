@@ -1,5 +1,6 @@
 from django.contrib import admin
 from django.urls import path, re_path
+from django.conf.urls import url
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -38,7 +39,8 @@ urlpatterns = [
     path('jsi18n/', i18n.JavaScriptCatalog.as_view(), name='jsi18n'),
     path('u/<str:shortened_part>', views.redirect_url_view, name='redirect-url-short'),
     # path('', RedirectView.as_view(pattern_name='home'), name='redirect-register'),
-    path('', include('pwa.urls'))
+    path('', include('pwa.urls')),
+    url(r'^webpush/', include('webpush.urls')),
 
 
 

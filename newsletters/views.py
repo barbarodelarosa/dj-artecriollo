@@ -14,6 +14,20 @@ from django.core.mail import send_mail, EmailMessage
 from django.views import generic
 # Create your views here.
 
+
+
+
+from django.http.response import JsonResponse, HttpResponse
+from django.views.decorators.http import require_GET, require_POST
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.models import User
+from django.views.decorators.csrf import csrf_exempt
+from webpush import send_user_notification
+import json
+
+
+
+
 @check_recaptcha
 def newsletter_signup(request):
     form = NewsletterUserSigUpForm(request.POST or None)
@@ -76,8 +90,12 @@ def newsletter_signup(request):
             message_user.content_subtype='html'
             message_user.send()
             message_admin.send()
+
             messages.success(request, 'Hemos enviado un correo electrónico a su cuenta confirmando su inscripción')
-                
+            if request.user.is_authenticated:
+                user = get_object_or_404(User, pk=request.user.id)
+                payload = {'head': "DATA ENVIADA", 'body': "MENSAJE ENVIADO"}
+                send_user_notification(user=user, payload="payload", ttl=1000)    
 
 
     next = request.META.get('HTTP_REFERER', None) or '/'  #Obtiene la url actual

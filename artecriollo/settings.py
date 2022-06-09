@@ -80,6 +80,7 @@ INSTALLED_APPS += [
     'captcha',
     'mapbox_location_field',
     'pwa',
+    'webpush',
 
   
 ]
@@ -335,73 +336,7 @@ GOOGLE_RECAPTCHA_SECRET_KEY='6Lcp5zQgAAAAALew8jCJfdKzX3lpdenqCyfnGX2O'
 MAPBOX_KEY ="pk.eyJ1IjoiYXJ0ZWNyaW9sbG8iLCJhIjoiY2wzd2gyZHZyMDI1ZjNjbXkzNmduNmdydiJ9.eJ7_JqzaIEHZ4rGFBA0Ung"
 
 # #PWA
-# PWA_CONFIG = {
-#         "name": "ARTECRIOLLO",
-#         "short_name": "ARTECRIOLLO",
-#         "theme_color": "#333333",
-#         "background_color": "#fff",
-#         "display": "fullscreen",
-#         "orientation": "portrait",
-#         "scope": "/",
-#         "start_url": "/",
-#         "icons": [
-#                 {
-#                         "src": "/static/images/pwa/icons/72x72.png",
-#                         "type": "image/png",
-#                         "sizes": "72x72"
-#                 },
-#                 {
-#                         "src": "/static/images/pwa/icons/96x96.png",
-#                         "type": "image/png",
-#                         "sizes": "96x96"
-#                 },
-#                 {
-#                         "src": "/static/images/pwa/icons/128x128.png",
-#                         "type": "image/png",
-#                         "sizes": "128x128"
-#                 },
-#                 {
-#                         "src": "/static/images/pwa/icons/144x144.png",
-#                         "type": "image/png",
-#                         "sizes": "144x144"
-#                 },
-#                 {
-#                         "src": "/static/images/pwa/icons/152x152.png",
-#                         "type": "image/png",
-#                         "sizes": "152x152"
-#                 },
-#                 {
-#                         "src": "/static/images/pwa/icons/192x192.png",
-#                         "type": "image/png",
-#                         "sizes": "192x192"
-#                 },
-#                 {
-#                         "src": "/static/images/pwa/icons/384x384.png",
-#                         "type": "image/png",
-#                         "sizes": "384x384"
-#                 },
-#                 {
-#                         "src": "/static/images/pwa/icons/512x512.png",
-#                         "type": "image/png",
-#                         "sizes": "512x512"
-#                 }
-#                 ],
-#         "lang": "es-ES",
-#         "dir": "auto",
-#         "description": "Artecriollo tienda de comercio electrónico especializada en productos elaborados principalmente en Cuba. Contamos con el apoyo de diferentes productores y colaboradores enfocados en hacer cada vez más accesibles los productos a los cubanos",
-#         "version": "1.",
-#         "manifest_version": "1.0",
-#         "permissions": [
-#                 "notifications",
-#                 "webRequest"
-#         ],
-#         "author": "ARTECRIOLLO"
-# }
 
-# path_service_worker = os.path.join(BASE_DIR, 'static/new/js/serviceworker.js')
-# SW = open(path_service_worker, "r")
-# PWA_SW = SW.read()
-# SW.close()
 
 PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/new/js', 'serviceworker.js')
 PWA_APP_DEBUG_MODE = True
@@ -435,3 +370,15 @@ PWA_APP_SPLASH_SCREEN = [
 ]
 PWA_APP_DIR = 'ltr'
 PWA_APP_LANG = 'es-ES'
+
+
+
+
+AUTH_PASSWORD_VALIDATORS = [
+]
+
+WEBPUSH_SETTINGS = {
+   "VAPID_PUBLIC_KEY": "BKUSpfaXa0ubcihJhnxsf5brIp32hnYGJaVgSFoli4wnUAZECauhkwK8OgUOeqSOPM6Hp7RJX4dtnxLc3KX3eyo",
+   "VAPID_PRIVATE_KEY": "slqmJw6E7telX_EZENOGNa8asG008UQ0P7cDvbPvGNs",
+   "VAPID_ADMIN_EMAIL": "artecriollocuba@gmail.com"
+}
