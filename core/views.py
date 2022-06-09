@@ -88,14 +88,14 @@ class HomeView(generic.TemplateView):
    
     template_name = 'index.html'
     def get_context_data(self, **kwargs):
-        messages.success(self.request, 'ANTESSSS')
-        payload = {"head": "Welcome!", "body": "Hello World"}
-        user = get_object_or_404(User, id=self.request.user.id)
-        send_user_notification(user=user, payload=payload, ttl=1000)    
-        messages.success(self.request, 'DESPUESSS')
         change_info(self.request)
         context = super(HomeView, self).get_context_data(**kwargs)
         if self.request.user.is_authenticated:
+            messages.success(self.request, 'ANTESSSS')
+            payload = {"head": "Welcome!", "body": "Hello World"}
+            user = get_object_or_404(User, id=self.request.user.id)
+            send_user_notification(user=user, payload=payload, ttl=1000)    
+            messages.success(self.request, 'DESPUESSS')
             context.update({
                 'orders': Order.objects.filter(user=self.request.user, ordered=True),
                 'category_list': Category.objects.filter(active=True)[:6],
