@@ -8,6 +8,8 @@ from core import views
 
 from django.views import i18n
 from django.conf.urls import handler404, handler500, handler403
+from django.views.generic import RedirectView
+
                     
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -35,6 +37,7 @@ urlpatterns = [
     path('download1/', views.GithubAvatarDownloadView.as_view(), name='download1'),
     path('jsi18n/', i18n.JavaScriptCatalog.as_view(), name='jsi18n'),
     path('u/<str:shortened_part>', views.redirect_url_view, name='redirect-url-short'),
+    path('', RedirectView.as_view(pattern_name='home'), name='redirect-register'),
     path('', include('pwa.urls'))
 
 
