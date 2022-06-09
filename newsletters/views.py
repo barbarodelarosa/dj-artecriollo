@@ -92,10 +92,11 @@ def newsletter_signup(request):
             message_admin.send()
 
             messages.success(request, 'Hemos enviado un correo electrónico a su cuenta confirmando su inscripción')
-            if request.user.is_authenticated:
-                user = get_object_or_404(User, pk=request.user.id)
-                payload = {'head': "DATA ENVIADA", 'body': "MENSAJE ENVIADO"}
-                send_user_notification(user=user, payload="payload", ttl=1000)    
+    if request.user.is_authenticated:
+        messages.success(request, 'Esta autenticado...')
+        user = get_object_or_404(User, pk=request.user.id)
+        payload = {'head': "DATA ENVIADA", 'body': "MENSAJE ENVIADO"}
+        send_user_notification(user=user, payload="payload", ttl=1000)    
 
 
     next = request.META.get('HTTP_REFERER', None) or '/'  #Obtiene la url actual
