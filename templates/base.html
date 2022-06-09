@@ -5,9 +5,9 @@
 <!DOCTYPE html>
 <html lang="es">
 	<head>
-		{% pwa_meta_data %}
-		{% pwa_meta_script %}
-
+		{% comment %} {% pwa_meta_data %}
+		{% pwa_meta_script %} {% endcomment %}
+		{% progressive_web_app_meta %}
 	
 		{% comment %} {% progressive_web_app_meta %}  {% endcomment %}
 		<meta charset="utf-8">
