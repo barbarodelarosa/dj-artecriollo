@@ -17,7 +17,7 @@ urlpatterns = [
     path('affiliate/', include('affiliate.urls')),
     path('subasta/', include('auction.urls')),
     path('lottery/', include('lottery.urls')),
-    path('home/', views.HomeView.as_view(), name='home'),
+    path('', views.HomeView.as_view(), name='home'),
     path('contacto/', views.ContactView.as_view(), name='contact'),
     path('acerca-de/', views.AboutView.as_view(), name='about'),
     path('politica-privacidad/', views.PrivacyView.as_view(), name='privacy'),
@@ -37,7 +37,7 @@ urlpatterns = [
     path('download1/', views.GithubAvatarDownloadView.as_view(), name='download1'),
     path('jsi18n/', i18n.JavaScriptCatalog.as_view(), name='jsi18n'),
     path('u/<str:shortened_part>', views.redirect_url_view, name='redirect-url-short'),
-    path('', RedirectView.as_view(pattern_name='home'), name='redirect-register'),
+    # path('', RedirectView.as_view(pattern_name='home'), name='redirect-register'),
     path('', include('pwa.urls'))
 
 
