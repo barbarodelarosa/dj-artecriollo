@@ -403,10 +403,10 @@ MAPBOX_KEY ="pk.eyJ1IjoiYXJ0ZWNyaW9sbG8iLCJhIjoiY2wzd2gyZHZyMDI1ZjNjbXkzNmduNmdy
 # PWA_SW = SW.read()
 # SW.close()
 
-# PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/new/js', 'serviceworker.js')
+PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/new/js', 'serviceworker.js')
 
 
-PWA_APP_NAME = 'artecriollo'
+PWA_APP_NAME = 'ARTECRIOLLO'
 PWA_APP_DESCRIPTION = "Artecriollo tienda de comercio electrónico especializada en productos elaborados principalmente en Cuba. Contamos con el apoyo de diferentes productores y colaboradores enfocados en hacer cada vez más accesibles los productos a los cubanos"
 PWA_APP_THEME_COLOR = '#000000'
 PWA_APP_BACKGROUND_COLOR = '#ffffff'
