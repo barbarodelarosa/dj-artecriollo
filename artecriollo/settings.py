@@ -338,35 +338,35 @@ MAPBOX_KEY ="pk.eyJ1IjoiYXJ0ZWNyaW9sbG8iLCJhIjoiY2wzd2gyZHZyMDI1ZjNjbXkzNmduNmdy
 
 
 
-# PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/new/js', 'serviceworker.js')
+PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/new/js', 'serviceworker.js')
 
 
-# PWA_APP_NAME = 'artecriollo'
-# PWA_APP_DESCRIPTION = "Artecriollo tienda de comercio electrónico especializada en productos elaborados principalmente en Cuba. Contamos con el apoyo de diferentes productores y colaboradores enfocados en hacer cada vez más accesibles los productos a los cubanos"
-# PWA_APP_THEME_COLOR = '#000000'
-# PWA_APP_BACKGROUND_COLOR = '#ffffff'
-# PWA_APP_DISPLAY = 'standalone'
-# PWA_APP_SCOPE = '/'
-# PWA_APP_ORIENTATION = 'any'
-# PWA_APP_START_URL = '/'
-# PWA_APP_STATUS_BAR_COLOR = 'default'
-# PWA_APP_ICONS = [
-# 	{
-# 		'src': 'static/images/icon-pwa.png',
-# 		'sizes': '160x160'
-# 	}
-# ]
-# PWA_APP_ICONS_APPLE = [
-# 	{
-# 		'src': 'static/images/icon-pwa.png',
-# 		'sizes': '160x160'
-# 	}
-# ]
-# PWA_APP_SPLASH_SCREEN = [
-# 	{
-# 		'src': 'static/images/icon-pwa.png',
-# 		'media': '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)'
-# 	}
-# ]
-# PWA_APP_DIR = 'ltr'
-# PWA_APP_LANG = 'es-ES'
+PWA_APP_NAME = 'artecriollo'
+PWA_APP_DESCRIPTION = "Artecriollo tienda de comercio electrónico especializada en productos elaborados principalmente en Cuba. Contamos con el apoyo de diferentes productores y colaboradores enfocados en hacer cada vez más accesibles los productos a los cubanos"
+PWA_APP_THEME_COLOR = '#000000'
+PWA_APP_BACKGROUND_COLOR = '#ffffff'
+PWA_APP_DISPLAY = 'standalone'
+PWA_APP_SCOPE = '/static/'
+PWA_APP_ORIENTATION = 'any'
+PWA_APP_START_URL = '/'
+PWA_APP_STATUS_BAR_COLOR = 'default'
+PWA_APP_ICONS = [
+	{
+		'src': 'static/images/icon-pwa.png',
+		'sizes': '160x160'
+	}
+]
+PWA_APP_ICONS_APPLE = [
+	{
+		'src': 'static/images/icon-pwa.png',
+		'sizes': '160x160'
+	}
+]
+PWA_APP_SPLASH_SCREEN = [
+	{
+		'src': 'static/images/icon-pwa.png',
+		'media': '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)'
+	}
+]
+PWA_APP_DIR = 'ltr'
+PWA_APP_LANG = 'es-ES'
