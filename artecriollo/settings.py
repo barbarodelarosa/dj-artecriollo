@@ -79,8 +79,8 @@ INSTALLED_APPS += [
     'django_crontab',
     'captcha',
     'mapbox_location_field',
-    'pwa',
     'webpush',
+    'pwa',
 
   
 ]
