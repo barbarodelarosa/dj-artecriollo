@@ -70,7 +70,7 @@ self.addEventListener('activate', event => {
         caches.keys().then(cacheNames => {
             return Promise.all(
                 cacheNames
-                    .filter(cacheName => (cacheName.startsWith("artecriollo-pwa-")))
+                    .filter(cacheName => (cacheName.startsWith("artecriollo-pwa-v")))
                     .filter(cacheName => (cacheName !== staticCacheName))
                     .map(cacheName => caches.delete(cacheName))
             );
