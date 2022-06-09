@@ -82,6 +82,7 @@ class ProfileView(LoginRequiredMixin, generic.TemplateView):
         return context
 
 
+from django.contrib import messages
 
 class HomeView(generic.TemplateView):
    
