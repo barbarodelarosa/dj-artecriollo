@@ -96,9 +96,8 @@ def newsletter_signup(request):
 
             messages.success(request, 'Hemos enviado un correo electrónico a su cuenta confirmando su inscripción')
     messages.success(request, 'Esta autenticado...')
-    user = get_object_or_404(User, pk=request.user.id)
-    payload = {'head': "DATA ENVIADA", 'body': "MENSAJE ENVIADO"}
-    send_user_notification(user=user, payload="payload", ttl=1000)    
+    payload = {"head": "Welcome!", "body": "Hello World"}
+    send_user_notification(user=request.user.id, payload=payload, ttl=1000)    
 
     messages.warning(request, 'ANTES DE REENVIAR')
 
