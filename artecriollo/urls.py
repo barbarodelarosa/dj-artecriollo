@@ -15,7 +15,7 @@ urlpatterns = [
     path('affiliate/', include('affiliate.urls')),
     path('subasta/', include('auction.urls')),
     path('lottery/', include('lottery.urls')),
-    path('/', views.HomeView.as_view(), name='home'),
+    path('home/', views.HomeView.as_view(), name='home'),
     path('contacto/', views.ContactView.as_view(), name='contact'),
     path('acerca-de/', views.AboutView.as_view(), name='about'),
     path('politica-privacidad/', views.PrivacyView.as_view(), name='privacy'),
