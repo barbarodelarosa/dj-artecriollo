@@ -335,38 +335,99 @@ GOOGLE_RECAPTCHA_SECRET_KEY='6Lcp5zQgAAAAALew8jCJfdKzX3lpdenqCyfnGX2O'
 MAPBOX_KEY ="pk.eyJ1IjoiYXJ0ZWNyaW9sbG8iLCJhIjoiY2wzd2gyZHZyMDI1ZjNjbXkzNmduNmdydiJ9.eJ7_JqzaIEHZ4rGFBA0Ung"
 
 #PWA
+PWA_CONFIG = {
+        "name": "ARTECRIOLLO",
+        "short_name": "ARTECRIOLLO",
+        "theme_color": "#333333",
+        "background_color": "#fff",
+        "display": "fullscreen",
+        "orientation": "portrait",
+        "scope": "/",
+        "start_url": "/",
+        "icons": [
+                {
+                        "src": "/static/images/pwa/icons/72x72.png",
+                        "type": "image/png",
+                        "sizes": "72x72"
+                },
+                {
+                        "src": "/static/images/pwa/icons/96x96.png",
+                        "type": "image/png",
+                        "sizes": "96x96"
+                },
+                {
+                        "src": "/static/images/pwa/icons/128x128.png",
+                        "type": "image/png",
+                        "sizes": "128x128"
+                },
+                {
+                        "src": "/static/images/pwa/icons/144x144.png",
+                        "type": "image/png",
+                        "sizes": "144x144"
+                },
+                {
+                        "src": "/static/images/pwa/icons/152x152.png",
+                        "type": "image/png",
+                        "sizes": "152x152"
+                },
+                {
+                        "src": "/static/images/pwa/icons/192x192.png",
+                        "type": "image/png",
+                        "sizes": "192x192"
+                },
+                {
+                        "src": "/static/images/pwa/icons/384x384.png",
+                        "type": "image/png",
+                        "sizes": "384x384"
+                },
+                {
+                        "src": "/static/images/pwa/icons/512x512.png",
+                        "type": "image/png",
+                        "sizes": "512x512"
+                }
+                ],
+        "lang": "es-ES",
+        "dir": "auto",
+        "description": "Artecriollo tienda de comercio electrónico especializada en productos elaborados principalmente en Cuba. Contamos con el apoyo de diferentes productores y colaboradores enfocados en hacer cada vez más accesibles los productos a los cubanos",
+        "version": "1.",
+        "manifest_version": "1.0",
+        "permissions": [
+                "notifications",
+                "webRequest"
+        ],
+        "author": "ARTECRIOLLO"
+}
 
 
+# PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/new/js', 'serviceworker.js')
 
-PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'static/new/js', 'serviceworker.js')
 
-
-PWA_APP_NAME = 'artecriollo'
-PWA_APP_DESCRIPTION = "Artecriollo tienda de comercio electrónico especializada en productos elaborados principalmente en Cuba. Contamos con el apoyo de diferentes productores y colaboradores enfocados en hacer cada vez más accesibles los productos a los cubanos"
-PWA_APP_THEME_COLOR = '#000000'
-PWA_APP_BACKGROUND_COLOR = '#ffffff'
-PWA_APP_DISPLAY = 'standalone'
-PWA_APP_SCOPE = '/'
-PWA_APP_ORIENTATION = 'any'
-PWA_APP_START_URL = '/home'
-PWA_APP_STATUS_BAR_COLOR = 'default'
-PWA_APP_ICONS = [
-	{
-		'src': 'static/images/icon-pwa-160x160.png',
-		'sizes': '160x160'
-	}
-]
-PWA_APP_ICONS_APPLE = [
-	{
-		'src': 'static/images/icon-pwa-160x160.png',
-		'sizes': '160x160'
-	}
-]
-PWA_APP_SPLASH_SCREEN = [
-	{
-		'src': 'static/images/icon-pwa.png',
-		'media': '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)'
-	}
-]
-PWA_APP_DIR = 'ltr'
-PWA_APP_LANG = 'es-ES'
+# PWA_APP_NAME = 'artecriollo'
+# PWA_APP_DESCRIPTION = "Artecriollo tienda de comercio electrónico especializada en productos elaborados principalmente en Cuba. Contamos con el apoyo de diferentes productores y colaboradores enfocados en hacer cada vez más accesibles los productos a los cubanos"
+# PWA_APP_THEME_COLOR = '#000000'
+# PWA_APP_BACKGROUND_COLOR = '#ffffff'
+# PWA_APP_DISPLAY = 'standalone'
+# PWA_APP_SCOPE = '/'
+# PWA_APP_ORIENTATION = 'any'
+# PWA_APP_START_URL = '/home'
+# PWA_APP_STATUS_BAR_COLOR = 'default'
+# PWA_APP_ICONS = [
+# 	{
+# 		'src': 'static/images/icon-pwa-160x160.png',
+# 		'sizes': '160x160'
+# 	}
+# ]
+# PWA_APP_ICONS_APPLE = [
+# 	{
+# 		'src': 'static/images/icon-pwa-160x160.png',
+# 		'sizes': '160x160'
+# 	}
+# ]
+# PWA_APP_SPLASH_SCREEN = [
+# 	{
+# 		'src': 'static/images/icon-pwa.png',
+# 		'media': '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)'
+# 	}
+# ]
+# PWA_APP_DIR = 'ltr'
+# PWA_APP_LANG = 'es-ES'
