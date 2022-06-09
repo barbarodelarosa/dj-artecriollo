@@ -35,7 +35,7 @@ urlpatterns = [
     path('download1/', views.GithubAvatarDownloadView.as_view(), name='download1'),
     path('jsi18n/', i18n.JavaScriptCatalog.as_view(), name='jsi18n'),
     path('u/<str:shortened_part>', views.redirect_url_view, name='redirect-url-short'),
-    path('pwa', include('pwa.urls'))
+    path('', include('pwa.urls'))
 
 
 
