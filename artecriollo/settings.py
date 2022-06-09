@@ -346,19 +346,19 @@ PWA_APP_DESCRIPTION = "Artecriollo tienda de comercio electrónico especializada
 PWA_APP_THEME_COLOR = '#000000'
 PWA_APP_BACKGROUND_COLOR = '#ffffff'
 PWA_APP_DISPLAY = 'standalone'
-PWA_APP_SCOPE = '/static/'
+PWA_APP_SCOPE = '/'
 PWA_APP_ORIENTATION = 'any'
 PWA_APP_START_URL = '/'
 PWA_APP_STATUS_BAR_COLOR = 'default'
 PWA_APP_ICONS = [
 	{
-		'src': 'static/images/icon-pwa.png',
+		'src': 'static/images/icon-pwa-160x160.png',
 		'sizes': '160x160'
 	}
 ]
 PWA_APP_ICONS_APPLE = [
 	{
-		'src': 'static/images/icon-pwa.png',
+		'src': 'static/images/icon-pwa-160x160.png',
 		'sizes': '160x160'
 	}
 ]
