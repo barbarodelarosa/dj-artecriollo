@@ -12,17 +12,17 @@ var filesToCache = [
 	'/static/new/css/mystyle.css',
     '/static/new/css/ajax-loader.gif',
 
-	// '/static/new/js/bootstrap.min.js',
-	// '/static/new/js/cart.js',
-	// '/static/new/js/countdown.js',
-	// '/static/new/js/jquery.min.js',
-	// '/static/new/js/jquery.zoo.min.js',
-	// '/static/new/js/main.js',
-	// '/static/new/js/mycode.js',
+	'/static/new/js/bootstrap.min.js',
+	'/static/new/js/cart.js',
+	'/static/new/js/countdown.js',
+	'/static/new/js/jquery.min.js',
+	'/static/new/js/jquery.zoom.min.js',
+	'/static/new/js/main.js',
+	'/static/new/js/mycode.js',
 
-    // '/static/images/logo.png',
-    // '/static/images/no-image.png',
-    // '/static/images/icon.ico',
+    '/static/images/logo.png',
+    '/static/images/no-image.png',
+    '/static/images/icon.ico',
 
 ];
 
