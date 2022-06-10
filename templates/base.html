@@ -5,6 +5,8 @@
 <html lang="es">
 	<head>
 		{% load pwa %}
+		{% progressive_web_app_meta %}
+
 	
 		{% comment %} {% progressive_web_app_meta %}  {% endcomment %}
 		<meta charset="utf-8">
@@ -131,7 +133,6 @@
 {% block scripts %}
 
 {% endblock scripts %}
-		{% progressive_web_app_meta %}
 
 	</body>
 </html>
