@@ -73,6 +73,14 @@ self.addEventListener("fetch", event => {
     )
 });
 
+function updateIndicator() {
+    console.log(window.navigator.onLine);
+	alert(window.navigator.onLine)
+  }
+  window.addEventListener('online',  updateIndicator);
+  window.addEventListener('offline', updateIndicator);
+
+
 // SERVER FROM FULL CACHE
 // self.addEventListener("fetch", function(event){
 // 	event.respondWith(
