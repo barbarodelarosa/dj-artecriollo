@@ -8,7 +8,7 @@ var filesToCache = [
 	// '/static/new/css/slick-theme.css',
 	// '/static/new/css/nouislider.min.css',
 	// '/static/new/css/font-awesome.min.css',
-	// '/static/new/css/style.css',
+	'/static/new/css/style.css',
 	// '/static/new/css/mystyle.css',
     // '/static/new/css/ajax-loader.gif',
 
