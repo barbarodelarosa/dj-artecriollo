@@ -23,7 +23,7 @@
                                             {% if not cat.image %}
                                                 <img src="{% static 'images/no-image.png' %}" alt="" height="300">
                                             {% else %}
-                                                <img src="{{cat.image}}" alt="" height="300">
+                                                <img src="/{{cat.image}}" alt="" height="300">
                                             {% endif %}
                                         </div>
                                         <div class="shop-body">
