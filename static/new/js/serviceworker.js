@@ -4,6 +4,12 @@ var staticCacheName = "django-pwa-v" + new Date().getTime();
 var filesToCache = [
     '/offline/',
 	'/static/new/css/bootstrap.min.css',
+	'/static/new/css/slick.css',
+	'/static/new/css/slick-theme.css',
+	'/static/new/css/nouislider.min.css',
+	'/static/new/css/font-awesome.min.css',
+	'/static/new/css/style.css',
+	'/static/new/css/mystyle.css',
     '/css/django-pwa-app.css',
     '/images/pwa/icons/72x72.png',
     '/images/pwa/icons/96x96.png',
