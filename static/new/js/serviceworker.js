@@ -10,25 +10,19 @@ var filesToCache = [
 	'/new/css/font-awesome.min.css',
 	'/new/css/style.css',
 	'/new/css/mystyle.css',
-    '/css/django-pwa-app.css',
-    '/images/pwa/icons/72x72.png',
-    '/images/pwa/icons/96x96.png',
-    '/images/pwa/icons/128x128.png',
-    '/images/pwa/icons/144x144.png',
-    '/images/pwa/icons/152x152.png',
-    '/images/pwa/icons/192x192.png',
-    '/images/pwa/icons/384x384.png',
-    '/images/pwa/icons/512x512.png',
-    // '/static/images/icons/splash-640x1136.png',
-    // '/static/images/icons/splash-750x1334.png',
-    // '/static/images/icons/splash-1242x2208.png',
-    // '/static/images/icons/splash-1125x2436.png',
-    // '/static/images/icons/splash-828x1792.png',
-    // '/static/images/icons/splash-1242x2688.png',
-    // '/static/images/icons/splash-1536x2048.png',
-    // '/static/images/icons/splash-1668x2224.png',
-    // '/static/images/icons/splash-1668x2388.png',
-    // '/static/images/icons/splash-2048x2732.png'
+
+	'/new/js/bootstrap.min.js',
+	'/new/js/cart.js',
+	'/new/js/countdown.js',
+	'/new/js/jquery.min.js',
+	'/new/js/jquery.zoo.min.js',
+	'/new/js/main.js',
+
+    '/images/loading/loading.gif',
+    '/images/logo.png',
+    '/images/no-image.png',
+    '/images/icon.ico',
+
 ];
 
 // Cache on install
