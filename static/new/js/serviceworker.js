@@ -67,8 +67,8 @@ self.addEventListener("fetch", event => {
                 return response || fetch(event.request);
             })
             .catch(() => {
-                return caches.match('/offline/');
 				alert("No tienes conexion a internet :(")
+                return caches.match('/offline/');
             })
     )
 });
