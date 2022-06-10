@@ -25,4 +25,13 @@ $('#myModal').on('shown.bs.modal', function () {
   })
 
 
+  function updateIndicator() {
+    console.log(window.navigator.onLine);
+	  alert(window.navigator.onLine);
+  }
+  window.addEventListener('online',  updateIndicator);
+  window.addEventListener('offline', updateIndicator);
+
+
+
 
