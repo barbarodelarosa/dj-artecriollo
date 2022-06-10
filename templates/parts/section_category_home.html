@@ -7,8 +7,8 @@
 					<!-- shop -->
                     {% for cat in category_list %}
 						{% if cat.active %}
-						
-							<div class="animate__animated animate__fadeInUp col-md-4 col-xs-6">
+						{% comment %} animate__animated animate__fadeInUp  {% endcomment %}
+							<div class="col-md-4 col-xs-6">
 								<a href="{{cat.get_absolute_url}}" class="cta-btn">
 								<div class="shop">
 									<div class="shop-img">
@@ -29,35 +29,7 @@
 						{% endif %}
 
                     {% endfor %}
-					<!-- /shop -->
-
-					<!-- shop -->
-					{% comment %} <div class="col-md-4 col-xs-6">
-						<div class="shop">
-							<div class="shop-img">
-								<img src="./img/shop03.png" alt="">
-							</div>
-							<div class="shop-body">
-								<h3>Accessories<br>Collection</h3>
-								<a href="#" class="cta-btn">Shop now <i class="fa fa-arrow-circle-right"></i></a>
-							</div>
-						</div>
-					</div> {% endcomment %}
-					<!-- /shop -->
-
-					<!-- shop -->
-					{% comment %} <div class="col-md-4 col-xs-6">
-						<div class="shop">
-							<div class="shop-img">
-								<img src="./img/shop02.png" alt="">
-							</div>
-							<div class="shop-body">
-								<h3>Cameras<br>Collection</h3>
-								<a href="#" class="cta-btn">Shop now <i class="fa fa-arrow-circle-right"></i></a>
-							</div>
-						</div>
-					</div> {% endcomment %}
-					<!-- /shop -->
+				
 				</div>
 				<!-- /row -->
 			</div>
