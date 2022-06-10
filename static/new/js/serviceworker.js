@@ -3,25 +3,26 @@
 var staticCacheName = "django-pwa-v" + new Date().getTime();
 var filesToCache = [
     '/offline/',
-	'/static/new/css/bootstrap.min.css',
-	'/static/new/css/slick.css',
-	'/static/new/css/slick-theme.css',
-	'/static/new/css/nouislider.min.css',
-	'/static/new/css/font-awesome.min.css',
-	'/static/new/css/style.css',
-	'/static/new/css/mystyle.css',
+	// '/static/new/css/bootstrap.min.css',
+	// '/static/new/css/slick.css',
+	// '/static/new/css/slick-theme.css',
+	// '/static/new/css/nouislider.min.css',
+	// '/static/new/css/font-awesome.min.css',
+	// '/static/new/css/style.css',
+	// '/static/new/css/mystyle.css',
+    // '/static/new/css/ajax-loader.gif',
 
-	'/static/new/js/bootstrap.min.js',
-	'/static/new/js/cart.js',
-	'/static/new/js/countdown.js',
-	'/static/new/js/jquery.min.js',
-	'/static/new/js/jquery.zoo.min.js',
-	'/static/new/js/main.js',
+	// '/static/new/js/bootstrap.min.js',
+	// '/static/new/js/cart.js',
+	// '/static/new/js/countdown.js',
+	// '/static/new/js/jquery.min.js',
+	// '/static/new/js/jquery.zoo.min.js',
+	// '/static/new/js/main.js',
+	// '/static/new/js/mycode.js',
 
-    '/static/images/loading/loading.gif',
-    '/static/images/logo.png',
-    '/static/images/no-image.png',
-    '/static/images/icon.ico',
+    // '/static/images/logo.png',
+    // '/static/images/no-image.png',
+    // '/static/images/icon.ico',
 
 ];
 
