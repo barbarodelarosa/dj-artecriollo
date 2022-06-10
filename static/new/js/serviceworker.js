@@ -3,25 +3,25 @@
 var staticCacheName = "django-pwa-v" + new Date().getTime();
 var filesToCache = [
     '/offline/',
-	'/new/css/bootstrap.min.css',
-	'/new/css/slick.css',
-	'/new/css/slick-theme.css',
-	'/new/css/nouislider.min.css',
-	'/new/css/font-awesome.min.css',
-	'/new/css/style.css',
-	'/new/css/mystyle.css',
+	'/static/new/css/bootstrap.min.css',
+	'/static/new/css/slick.css',
+	'/static/new/css/slick-theme.css',
+	'/static/new/css/nouislider.min.css',
+	'/static/new/css/font-awesome.min.css',
+	'/static/new/css/style.css',
+	'/static/new/css/mystyle.css',
 
-	'/new/js/bootstrap.min.js',
-	'/new/js/cart.js',
-	'/new/js/countdown.js',
-	'/new/js/jquery.min.js',
-	'/new/js/jquery.zoo.min.js',
-	'/new/js/main.js',
+	'/static/new/js/bootstrap.min.js',
+	'/static/new/js/cart.js',
+	'/static/new/js/countdown.js',
+	'/static/new/js/jquery.min.js',
+	'/static/new/js/jquery.zoo.min.js',
+	'/static/new/js/main.js',
 
-    '/images/loading/loading.gif',
-    '/images/logo.png',
-    '/images/no-image.png',
-    '/images/icon.ico',
+    '/static/images/loading/loading.gif',
+    '/static/images/logo.png',
+    '/static/images/no-image.png',
+    '/static/images/icon.ico',
 
 ];
 
