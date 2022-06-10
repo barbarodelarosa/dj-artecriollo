@@ -20,10 +20,10 @@
                                 <a href="{{cat.get_absolute_url}}" class="cta-btn">
                                     <div class="shop">
                                         <div class="shop-img">
-                                            {% if cat.image %}
-                                                <img src="{{cat.image}}" alt="" height="300">
-                                            {% else %}
+                                            {% if not cat.image %}
                                                 <img src="{% static 'images/no-image.png' %}" alt="" height="300">
+                                            {% else %}
+                                                <img src="{{cat.image}}" alt="" height="300">
                                             {% endif %}
                                         </div>
                                         <div class="shop-body">
