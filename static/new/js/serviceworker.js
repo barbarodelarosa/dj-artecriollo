@@ -10,7 +10,7 @@ var filesToCache = [
 	// '/static/new/css/font-awesome.min.css',
 	'/static/new/css/style.css',
 	// '/static/new/css/mystyle.css',
-    // '/static/new/css/ajax-loader.gif',
+    '/static/new/css/ajax-loader.gif',
 
 	// '/static/new/js/bootstrap.min.js',
 	// '/static/new/js/cart.js',
