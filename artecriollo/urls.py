@@ -1,4 +1,4 @@
-from artecriollo.sitemaps import CategoryShopSitemap, StaticViewSitemap
+from artecriollo.sitemaps import AuctionSitemap, CategoryShopSitemap, LotterySitemap, ProductSitemap, StaticViewSitemap
 from django.contrib import admin
 from django.urls import path, re_path
 
@@ -16,6 +16,9 @@ from django.views.decorators.cache import cache_page
 sitemaps = {
     'static': StaticViewSitemap,
     'category-shop': CategoryShopSitemap,
+    'products':ProductSitemap,
+    'lotteries':LotterySitemap,
+    'auctions':AuctionSitemap,
 }
 
 urlpatterns = [
