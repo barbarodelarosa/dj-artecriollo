@@ -46,9 +46,7 @@ urlpatterns = [
     path('u/<str:shortened_part>', views.redirect_url_view, name='redirect-url-short'),
     # path('', RedirectView.as_view(pattern_name='home'), name='redirect-register'),
     path('', include('pwa.urls')),
-    # path('sitemap.xml', views_sitemap.sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
-    # path('sitemap.xml', cache_page(86400)(views_sitemap.index), {'sitemaps': sitemaps, 'sitemap_url_category_shop': 'category-shop'}),
-    # path('sitemap-category-shop.xml', cache_page(86400)(views_sitemap.sitemap), {'sitemaps': sitemaps}, name='category-shop'),
+  
     
     path('sitemap.xml', views_sitemap.index, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.index'),
     path('sitemap-<section>.xml', views_sitemap.sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
