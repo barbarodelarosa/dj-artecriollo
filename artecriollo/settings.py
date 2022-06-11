@@ -383,3 +383,11 @@ WEBPUSH_SETTINGS = {
    "VAPID_PRIVATE_KEY": "slqmJw6E7telX_EZENOGNa8asG008UQ0P7cDvbPvGNs",
    "VAPID_ADMIN_EMAIL": "artecriollocuba@gmail.com"
 }
+
+
+# Ckeditor
+CKEDITOR_CONFIGS = {
+    'default': {
+        'toolbar': None,
+    }
+}
