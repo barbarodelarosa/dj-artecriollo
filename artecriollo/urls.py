@@ -17,6 +17,9 @@ sitemaps = {
     'static': StaticViewSitemap,
     'category-shop': CategoryShopSitemap,
 }
+sitemaps_category = {
+    'category-shop': CategoryShopSitemap,
+}
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
@@ -49,15 +52,9 @@ urlpatterns = [
     # path('sitemap.xml', cache_page(86400)(views_sitemap.index), {'sitemaps': sitemaps, 'sitemap_url_category_shop': 'category-shop'}),
     # path('sitemap-category-shop.xml', cache_page(86400)(views_sitemap.sitemap), {'sitemaps': sitemaps}, name='category-shop'),
     
-    path('sitemap.xml',
-         cache_page(86400)(views_sitemap.index),
-         {'sitemaps': sitemaps, 'sitemap_url_name': 'sitemaps','sitemap_url_name': 'category-shop'}),
-    path('sitemap-<section>.xml',
-         cache_page(86400)(views_sitemap.sitemap),
-         {'sitemaps': sitemaps}, name='sitemaps'),
-    path('sitemap-<section>.xml',
-         cache_page(86400)(views_sitemap.sitemap),
-         {'sitemaps': sitemaps.category-shop}, name='category-shop'),
+    path('sitemap.xml', cache_page(86400)(views_sitemap.index),  {'sitemaps': sitemaps, 'sitemap_url_name': 'sitemaps','sitemap_url_name': 'sitemaps_category'}),
+    path('sitemap-<section>.xml',  cache_page(86400)(views_sitemap.sitemap),  {'sitemaps': sitemaps}, name='sitemaps'),
+    path('sitemap-category-shop.xml', cache_page(86400)(views_sitemap.sitemap), {'sitemaps': sitemaps_category}, name='sitemaps_category'),
 
 
     
