@@ -51,10 +51,13 @@ urlpatterns = [
     
     path('sitemap.xml',
          cache_page(86400)(views_sitemap.index),
-         {'sitemaps': sitemaps, 'sitemap_url_name': 'sitemaps'}),
+         {'sitemaps': sitemaps, 'sitemap_url_name': 'sitemaps','sitemap_url_name': 'category-shop'}),
     path('sitemap-<section>.xml',
          cache_page(86400)(views_sitemap.sitemap),
          {'sitemaps': sitemaps}, name='sitemaps'),
+    path('sitemap-<section>.xml',
+         cache_page(86400)(views_sitemap.sitemap),
+         {'sitemaps': sitemaps.category-shop}, name='category-shop'),
 
 
     
