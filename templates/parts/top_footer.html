@@ -42,11 +42,15 @@
 							<div class="footer">
 								<h3 class="footer-title">Información</h3>
 								<ul class="footer-links">
-									<li><a href="{% url 'about'%}">Acerca de</a></li>
+								{%pages as pages_tag%}
+								{% for page in pages_tag  %}
+									<li><a href="{{page.get_absolute_url}}">{{page.name}}</a></li>
+								{% endfor %}
+{% comment %} 
 									<li><a href="{%url 'contact'%}">Contacto</a></li>
 									<li><a href="{%url 'privacy'%}">Política de privacidad</a></li>
 									<li><a href="{%url 'terms'%}">Términos y condiciones</a></li>
-									<li><a href="{%url 'help'%}">Ayuda</a></li>
+									<li><a href="{%url 'help'%}">Ayuda</a></li> {% endcomment %}
 								</ul>
 							</div>
 						</div>

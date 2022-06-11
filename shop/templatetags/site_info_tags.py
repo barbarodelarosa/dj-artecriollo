@@ -1,5 +1,5 @@
 from django import template
-from core.models import SiteInfo
+from core.models import Page, SiteInfo
 from auction.models import Auction
 from lottery.models import Lottery
 
@@ -30,3 +30,9 @@ def auction():
 def lottery():
     lottery = Lottery.objects.all()
     return lottery
+
+
+@register.simple_tag()
+def pages():
+    pages = Page.objects.filter(active=True)
+    return pages

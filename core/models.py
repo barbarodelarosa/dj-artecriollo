@@ -35,11 +35,19 @@ class SocialRed(models.Model):
 
 class Page(models.Model):
     name = models.CharField(max_length=50)
-    slug = models.SlugField(max_length=50, blank=True, null=True)
+    slug = models.SlugField(max_length=50, blank=True, null=True, unique=True)
     content = RichTextField()
+    active = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
+    
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super(Page, self).save(*args, **kwargs)
+
+    def get_absolute_url(self):       
+        return reverse("page-detail", kwargs={'slug': self.slug})
 
 
 class Contact(models.Model):
