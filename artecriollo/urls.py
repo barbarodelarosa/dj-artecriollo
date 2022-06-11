@@ -1,3 +1,4 @@
+from artecriollo.sitemaps import StaticViewSitemap
 from django.contrib import admin
 from django.urls import path, re_path
 
@@ -9,8 +10,11 @@ from core import views
 from django.views import i18n
 from django.conf.urls import handler404, handler500, handler403
 from django.views.generic import RedirectView
+from django.contrib.sitemaps.views import sitemap
 
-                    
+sitemaps = {
+    'static': StaticViewSitemap,
+}
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('accounts/', include('allauth.urls')),
@@ -39,6 +43,7 @@ urlpatterns = [
     path('u/<str:shortened_part>', views.redirect_url_view, name='redirect-url-short'),
     # path('', RedirectView.as_view(pattern_name='home'), name='redirect-register'),
     path('', include('pwa.urls')),
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap')
     
 
 
