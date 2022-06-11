@@ -14,12 +14,10 @@ class StaticViewSitemap(Sitemap):
         return reverse(item)
 
 
-# class CategorySitemap(Sitemap):
-#     changefreq = 'weekly'
-#     priority = 0.5
+class CategoryShopSitemap(Sitemap):
+    changefreq = 'weekly'
+    priority = 0.5
 
-#     def items(self):
-#         return Category.objects.filter(active=True)
+    def items(self):
+        return Category.objects.filter(active=True)
 
-#     def lastmod(self, obj):
-#         return obj.cre

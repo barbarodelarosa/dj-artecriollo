@@ -1,4 +1,4 @@
-from artecriollo.sitemaps import StaticViewSitemap
+from artecriollo.sitemaps import CategoryShopSitemap, StaticViewSitemap
 from django.contrib import admin
 from django.urls import path, re_path
 
@@ -10,10 +10,12 @@ from core import views
 from django.views import i18n
 from django.conf.urls import handler404, handler500, handler403
 from django.views.generic import RedirectView
-from django.contrib.sitemaps.views import sitemap
+from django.contrib.sitemaps import views as views_sitemap
+from django.views.decorators.cache import cache_page
 
 sitemaps = {
     'static': StaticViewSitemap,
+    'category-shop': CategoryShopSitemap,
 }
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -43,7 +45,9 @@ urlpatterns = [
     path('u/<str:shortened_part>', views.redirect_url_view, name='redirect-url-short'),
     # path('', RedirectView.as_view(pattern_name='home'), name='redirect-register'),
     path('', include('pwa.urls')),
-    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap')
+    # path('sitemap.xml', views_sitemap.sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
+    path('sitemap.xml', cache_page(86400)(views_sitemap.index), {'sitemaps': sitemaps, 'sitemap_url_category_shop': 'sitemaps_category_shop'}),
+    path('sitemap-category-shop.xml', cache_page(86400)(views_sitemap.sitemap), {'sitemaps': sitemaps}, name='sitemaps_category_shop'),
     
 
 
