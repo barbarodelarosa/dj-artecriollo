@@ -15,7 +15,7 @@ from django.views.decorators.cache import cache_page
 
 sitemaps = {
     'static': StaticViewSitemap,
-    'category-shop': CategoryShopSitemap,
+    # 'category-shop': CategoryShopSitemap,
 }
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -45,9 +45,9 @@ urlpatterns = [
     path('u/<str:shortened_part>', views.redirect_url_view, name='redirect-url-short'),
     # path('', RedirectView.as_view(pattern_name='home'), name='redirect-register'),
     path('', include('pwa.urls')),
-    # path('sitemap.xml', views_sitemap.sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
-    path('sitemap.xml', cache_page(86400)(views_sitemap.index), {'sitemaps': sitemaps, 'sitemap_url_category_shop': 'sitemaps_category_shop'}),
-    path('sitemap-category-shop.xml', cache_page(86400)(views_sitemap.sitemap), {'sitemaps': sitemaps}, name='sitemaps_category_shop'),
+    path('sitemap.xml', views_sitemap.sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
+    # path('sitemap.xml', cache_page(86400)(views_sitemap.index), {'sitemaps': sitemaps, 'sitemap_url_category_shop': 'sitemaps_category_shop'}),
+    # path('sitemap-category-shop.xml', cache_page(86400)(views_sitemap.sitemap), {'sitemaps': sitemaps}, name='sitemaps_category_shop'),
     
 
 
