@@ -15,7 +15,7 @@ from django.views.decorators.cache import cache_page
 
 sitemaps = {
     'static': StaticViewSitemap,
-    # 'category-shop': CategoryShopSitemap,
+    'category-shop': CategoryShopSitemap,
 }
 urlpatterns = [
     path('admin/', admin.site.urls),
