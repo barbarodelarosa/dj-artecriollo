@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'django.contrib.sites', 
+    # 'django.contrib.sites', 
      'django.contrib.sitemaps',
 ]
 #MY APPS
@@ -246,6 +246,7 @@ URL_API_ENZONA=env('URL_API_ENZONA')
 
 
 SITE_ID = 1
+
 ACCOUNT_AUTHENTICATON_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = False
