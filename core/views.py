@@ -207,20 +207,6 @@ class SearchResultsView(generic.ListView):
 
 
     
-class AboutView(generic.TemplateView):
-    template_name = 'pages/about.html'
-
-    
-class PrivacyView(generic.TemplateView):
-    template_name = 'pages/privacy.html'
-
-
-class TermsView(generic.TemplateView):
-    template_name = 'pages/terms.html'
-
-
-class HelpView(generic.TemplateView):
-    template_name = 'pages/help.html'
 
 
 class PageDetailView(generic.DetailView):

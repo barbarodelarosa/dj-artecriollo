@@ -1,4 +1,5 @@
 from email.policy import default
+from statistics import mode
 from django.db import models
 from ckeditor.fields import RichTextField
 from django.forms import DateTimeField
@@ -34,6 +35,7 @@ class SocialRed(models.Model):
 
 
 class Page(models.Model):
+    image=models.ImageField(upload_to="pages", blank=True, null=True)
     name = models.CharField(max_length=50)
     slug = models.SlugField(max_length=50, blank=True, null=True, unique=True)
     content = RichTextField()
@@ -41,7 +43,7 @@ class Page(models.Model):
 
     def __str__(self):
         return self.name
-        
+
     
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)

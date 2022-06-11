@@ -50,6 +50,9 @@ urlpatterns = [
     path('sitemap.xml', views_sitemap.index, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.index'),
     path('sitemap-<section>.xml', views_sitemap.sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
 
+    path("robots.txt", views.TemplateView.as_view(template_name="robots.txt", content_type="text/plain"),
+    ),
+
 
     
 
