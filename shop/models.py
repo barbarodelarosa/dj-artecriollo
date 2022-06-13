@@ -127,14 +127,14 @@ class Tag(models.Model):
 
 
 class Pais(models.Model):
-    name=models.CharField(max_length=15, default="Cuba")
+    name=models.CharField(max_length=50, default="CUBA")
     
     def __str__(self):
         return f'{self.name}'
 
 class Provincia(models.Model):
     pais = models.ForeignKey(Pais, on_delete=models.CASCADE)
-    name=models.CharField(max_length=15)
+    name=models.CharField(max_length=50)
     
     def __str__(self):
         return f'{self.name}'
@@ -142,7 +142,7 @@ class Provincia(models.Model):
 class Municipio(models.Model):
     # pais = models.ForeignKey(Pais, on_delete=models.CASCADE)
     provincia = models.ForeignKey(Provincia, on_delete=models.CASCADE)
-    name=models.CharField(max_length=15)
+    name=models.CharField(max_length=50)
     shipping = models.IntegerField(default=0, blank=True)
     
     def __str__(self):
@@ -151,7 +151,7 @@ class Municipio(models.Model):
 
 class Localidad(models.Model):
     municipio = models.ForeignKey(Municipio, on_delete=models.CASCADE)
-    name=models.CharField(max_length=30)
+    name=models.CharField(max_length=50)
     shipping = models.IntegerField(default=0, blank=True)
     
     def __str__(self):
