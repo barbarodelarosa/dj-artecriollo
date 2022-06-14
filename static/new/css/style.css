@@ -120,7 +120,7 @@ ul, ol {
   padding: 0px 15px;
   border: 1px solid #E4E7ED;
   background-color: #FFF;
-  width: 100%;
+  /* width: 100%; */
 }
 
 textarea.input {
