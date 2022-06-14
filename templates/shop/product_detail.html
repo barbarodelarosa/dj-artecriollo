@@ -40,7 +40,7 @@
 							{% else %}
 								{% for product_image in product.product_images.all  %}
 									<div class="product-preview">
-										<img src="{{product_image.file.url}}" height="500" width="auto" alt="">
+										<img src="{{product_image.file.url}}" height="500" style="width: auto;" alt="">
 									</div>
 								{% endfor %}
 							{% endif %}
