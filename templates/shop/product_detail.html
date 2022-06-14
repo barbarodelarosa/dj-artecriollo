@@ -32,8 +32,7 @@
 				<!-- row -->
 				<div class="row">
 					<!-- Product main img -->
-					<div class="col-md-5 col-md-push-2" >
-					
+					<div class="col-md-5 col-md-push-2" >					
 						<div id="product-main-img"  >
                           	{% if product.product_images.count == 0 %}
                                     <img src="{% static 'images/no-image.png' %}" height="500" alt="no-image-artecriollo-cuba">									
@@ -450,7 +449,7 @@
 						<div class="section-title">
 							{% if product.related_products %}
 								{% if product.related_products.firts != product.id %}
-									<h3 class="title">Productos relacionados</h3>
+									<h3 class="title">También te puede interesar</h3>
 									<div class="section-nav">
 										<ul class="section-tab-nav tab-nav">
 											<li class="active"><a data-toggle="tab" href="#tab1">Todos</a></li>

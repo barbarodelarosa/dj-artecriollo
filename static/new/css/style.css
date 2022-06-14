@@ -187,7 +187,7 @@ textarea.input {
   background: #FFF;
   border: 1px solid #E4E7ED;
   height: 40px;
-  width: 400px;
+  width: auto;
 }
 
 /*-- checkbox & radio input --*/
@@ -1413,13 +1413,13 @@ textarea.input {
   transition: 0.2s all;
 }
 
-#product-main-img:hover .slick-prev, #product-main-img:hover .slick-next {
+/* #product-main-img:hover .slick-prev, #product-main-img:hover .slick-next {
   -webkit-transform: translateX(0%);
   -ms-transform: translateX(0%);
   transform: translateX(0%);
   opacity: 1;
   visibility: visible;
-}
+} */
 
 #product-main-img .zoomImg {
   background-color: #FFF;
