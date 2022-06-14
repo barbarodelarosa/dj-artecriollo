@@ -187,6 +187,7 @@ textarea.input {
   background: #FFF;
   border: 1px solid #E4E7ED;
   height: 40px;
+  width: 200px;
 }
 
 /*-- checkbox & radio input --*/

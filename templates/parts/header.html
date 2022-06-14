@@ -60,10 +60,7 @@
 							<div class="header-search">
 
 								<form action="{% url 'search_results' %}" method="GET">
-									{% comment %} {% csrf_token %} {% endcomment %}
-									<select name="q_category" id="select_search" class="input-select">
-										{% comment %} <option value="1">Category 01</option> {% endcomment %}
-										{% comment %} <option value="1">Category 02</option> {% endcomment %}
+									<select name="q_category" id="select_search" class="input-select">								
 										<option value="0">Categorias</option>
 										{%categories_list_tag as cat_list %}
                                         {% for cat in cat_list %}
@@ -76,7 +73,6 @@
 									<input name="q" class="input" id="search" placeholder="Buscar aquí">
 									<button class="search-btn">Buscar</button>
 								</form>
-
 							</div>
 						</div>
 						<!-- /SEARCH BAR -->
