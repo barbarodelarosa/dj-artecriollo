@@ -60,7 +60,8 @@
 							<div class="header-search">
 
 								<form action="{% url 'search_results' %}" method="GET" class="form-search">
-									<select name="q_category" id="select_search" class="input-select">								
+								
+									<select name="q_category" id="select_search" style="width:33%; display:inline-block; border:solid;" class="input-select">								
 										<option value="0">Categorias</option>
 										{%categories_list_tag as cat_list %}
                                         {% for cat in cat_list %}
@@ -70,8 +71,8 @@
 											{% endif %}
                                         {% endfor %}
 									</select>
-									<input name="q" class="input" id="search" placeholder="Buscar aquí">
-									<button class="search-btn">Buscar</button>
+									<input name="q" class="input" id="search" style="width:33%; display:inline-block; border:solid;" placeholder="Buscar aquí">
+									<button class="search-btn" style="width:33%; display:inline-block; border:solid;">Buscar</button>
 								</form>
 							</div>
 						</div>
