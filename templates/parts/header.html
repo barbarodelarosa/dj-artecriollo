@@ -59,7 +59,7 @@
 						<div class="col-md-7">
 							<div class="header-search">
 
-								<form action="{% url 'search_results' %}" method="GET">
+								<form action="{% url 'search_results' %}" method="GET" class="form-search">
 									<select name="q_category" id="select_search" class="input-select">								
 										<option value="0">Categorias</option>
 										{%categories_list_tag as cat_list %}
