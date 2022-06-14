@@ -36,11 +36,11 @@
 					
 						<div id="product-main-img">
                           	{% if product.product_images.count == 0 %}
-                                    <img src="{% static 'images/no-image.png' %}" height="500" alt="">									
+                                    <img src="{% static 'images/no-image.png' %}" height="500" width="auto" alt="">									
 							{% else %}
 								{% for product_image in product.product_images.all  %}
 									<div class="product-preview">
-										<img src="{{product_image.file.url}}" height="500" alt="">
+										<img src="{{product_image.file.url}}" height="500" width="auto" alt="">
 									</div>
 								{% endfor %}
 							{% endif %}
