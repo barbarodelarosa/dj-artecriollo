@@ -32,15 +32,15 @@
 				<!-- row -->
 				<div class="row">
 					<!-- Product main img -->
-					<div class="col-md-5 col-md-push-2">
+					<div class="col-md-5 col-md-push-2" style="height: 400px;" >
 					
-						<div id="product-main-img" style="height: 400px;" >
+						<div id="product-main-img"  >
                           	{% if product.product_images.count == 0 %}
                                     <img src="{% static 'images/no-image.png' %}" height="300" alt="">									
 							{% else %}
 								{% for product_image in product.product_images.all  %}
 									<div class="product-preview">
-										<img src="{{product_image.file.url}}" alt="">
+										<img src="{{product_image.file.url}}" height="300" alt="">
 									</div>
 								{% endfor %}
 							{% endif %}
