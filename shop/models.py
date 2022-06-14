@@ -41,7 +41,7 @@ def user_directory_path(instance, filename):
     # This file will be uploaded to MEDIA_ROOT/the user{id}/thefile
     if not filename:
         return None
-    img_path = 'user_{0}/product_{1}'.format(instance.user.username, filename)
+    img_path = 'images_products/product_{0}'.format(filename)
     full_path = os.path.join(settings.MEDIA_ROOT, img_path)
     if os.path.exists(full_path):
         os.remove(full_path)
