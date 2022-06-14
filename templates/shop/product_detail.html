@@ -52,11 +52,11 @@
 					<div class="col-md-2  col-md-pull-5">
 						<div id="product-imgs">
 							{% if product.product_images.count == 0 %}
-                                    <img src="/{% static 'images/no-image.png' %}" alt="">
+                                    <img src="{% static 'images/no-image.png' %}" alt="">
 							{% else %}
 								{% for product_image in product.product_images.all  %}
 									<div class="product-preview">
-										<img src="/{{product_image.file.url}}" alt="">
+										<img src="{{product_image.file.url}}" alt="">
 									</div>
 								{% endfor %}
 							{% endif %}
@@ -480,9 +480,9 @@
 											<div class="product">
 												<div class="product-img">
 													{% if not related_product.image %}
-                                            			<img src="/{% static 'images/no-image.png' %}" height="200">
+                                            			<img src="{% static 'images/no-image.png' %}" height="200">
 													{% else %}
-														<img src="/{{related_product.image.url}}" height="200">
+														<img src="{{related_product.image.url}}" height="200">
 													{% endif %}
 													<div class="product-label">
 														{% if related_product.old_price > 0 %}
