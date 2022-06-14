@@ -36,7 +36,7 @@
 					
 						<div id="product-main-img" style="height: 400px;" >
                           	{% if product.product_images.count == 0 %}
-                                    <img src="{% static 'images/no-image.png' %}" alt="">									
+                                    <img src="{% static 'images/no-image.png' %}" height="300" alt="">									
 							{% else %}
 								{% for product_image in product.product_images.all  %}
 									<div class="product-preview">
