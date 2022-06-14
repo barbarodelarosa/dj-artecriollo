@@ -198,9 +198,8 @@
 							<ul class="product-links">
 								<li>Categorias:</li>
                                 {% for product_cat in product.category.all   %}
-								    <li><a href="#">{{product_cat}}</a></li>
+								    <li><a href="{{product_cat.get_absolute_url}}">{{product_cat}}</a></li>
                                 {% endfor %}
-								{% comment %} <li><a href="#">Accessories</a></li> {% endcomment %}
 							</ul>
 
 							{% comment %} <ul class="product-links">

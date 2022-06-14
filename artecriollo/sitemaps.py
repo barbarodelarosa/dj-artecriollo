@@ -2,18 +2,19 @@ from auction.models import Auction
 from lottery.models import Lottery
 from django.contrib.sitemaps import Sitemap # Importamos la clase Sitemap
 from shop.models import Category, Product # Importamos nuestro modelo
-
+from core.models import Page
 from django.urls import reverse
 
 class StaticViewSitemap(Sitemap):
     priority = 0.5
     changefreq = 'daily'
 
-    def items(self):
-        return ['home','contact', 'about', 'privacy','terms','help']
 
-    def location(self, item):
-        return reverse(item)
+    def items(self):
+        return Page.objects.filter(active=True)
+
+    # def location(self, item):
+    #     return reverse(item)
 
 
 class CategoryShopSitemap(Sitemap):
