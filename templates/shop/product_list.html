@@ -104,9 +104,9 @@
 										<a href="{{product.get_absolute_url}}">
 										<div class="product-img">
 											 {% if product.image %}
-												<img src="{{product.image.url}}" height="200" width="200" alt="">
+												<img src="/{{product.image.url}}" height="200" width="200" alt="">
 											{% else %}
-												<img src="{% static 'images/no-image.png' %}" alt="" height="200" width="200">
+												<img src="/{% static 'images/no-image.png' %}" alt="" height="200" width="200">
 											{% endif %}
 											<div class="product-label">
 												{% if product.old_price > 0 %}

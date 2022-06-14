@@ -13,6 +13,7 @@ from django.views.generic import RedirectView, TemplateView
 from django.contrib.sitemaps import views as views_sitemap
 from django.views.decorators.cache import cache_page
 
+
 sitemaps = {
     'static': StaticViewSitemap,
     'category-shop': CategoryShopSitemap,
