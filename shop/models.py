@@ -151,7 +151,7 @@ class Municipio(models.Model):
 
 class Localidad(models.Model):
     municipio = models.ForeignKey(Municipio, on_delete=models.CASCADE)
-    name=models.CharField(max_length=50)
+    name=models.CharField(max_length=80)
     shipping = models.IntegerField(default=0, blank=True)
     
     def __str__(self):
