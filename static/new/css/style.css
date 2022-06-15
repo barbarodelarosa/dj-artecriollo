@@ -1413,13 +1413,13 @@ textarea.input {
   transition: 0.2s all;
 }
 
-/* #product-main-img:hover .slick-prev, #product-main-img:hover .slick-next {
+#product-main-img:hover .slick-prev, #product-main-img:hover .slick-next {
   -webkit-transform: translateX(0%);
   -ms-transform: translateX(0%);
   transform: translateX(0%);
   opacity: 1;
   visibility: visible;
-} */
+}
 
 #product-main-img .zoomImg {
   background-color: #FFF;
