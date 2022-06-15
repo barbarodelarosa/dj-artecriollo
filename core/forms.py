@@ -5,16 +5,28 @@ from django import forms
 
 from captcha.fields import ReCaptchaField
 from captcha.widgets import ReCaptchaV3, ReCaptcha
+from captcha.widgets import ReCaptchaV2Checkbox
 
 class AllAuthSignupForm(forms.Form):
 
+    # captcha = ReCaptchaField(
+    #     widget=ReCaptcha(
+    #     attrs={
+    #         'required_score':0.90,
+    #     }
+    # )
+    # )
+
     captcha = ReCaptchaField(
-        widget=ReCaptcha(
+    public_key='6LdkqmogAAAAACD3SkRCdKIVBsT7bwkefz-XWv8b',
+    private_key='6LdkqmogAAAAAONNCcBDzyEftTPe5z4LFtg5xKDI',
+    widget=ReCaptchaV2Checkbox(
         attrs={
-            'required_score':0.90,
+            'data-theme': 'dark',
+            'data-size': 'compact',
         }
     )
-    )
+)
     field_order = ['email', 'password1', 'password2', 'captcha']
     # def save(self, request, user):
     def save(self, request):
