@@ -15,6 +15,7 @@ def nueva_orden(request, order,tipo_producto):
         if tipo_producto == "PRODUCTO DIGITAL":
                 html_template='emails/shop/nueva_orden_digital.html'
                 html_message_user=render_to_string(html_template,{'product':order})
+                print("HASTA AQUI TODO BIEN CON EL CORRO DEL PRODUCTO DIGITAL")
                 html_message_admin=f'TIPO DE PRODUCTO:{tipo_producto} Nueva orden de compra de producto ({order}) por el usuario {to_mail_user}'
         else:
                 html_template='emails/shop/nueva_orden.html'
@@ -26,7 +27,9 @@ def nueva_orden(request, order,tipo_producto):
         message_admin=EmailMessage(subject_admin,html_message_admin,from_email, to_mail_admin)
         
         message_user.content_subtype='html'
+        print("ANTES DE ENVIAR")
         message_user.send()
+        print("DESPUES DE ENVIAR")
         message_admin.send()        
         messages.success(request, 'Hemos enviado un correo electrónico a su cuenta confirmando su pedido :)')
 
