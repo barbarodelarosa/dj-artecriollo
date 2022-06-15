@@ -29,9 +29,11 @@ class AllAuthSignupForm(forms.Form):
 )
     field_order = ['email', 'password1', 'password2', 'captcha']
     # def save(self, request, user):
-    def save(self, request, user):
-        user = super(AllAuthSignupForm, self).save(request)
-        return user
+    # def save(self, request, user):
+    #     user = super(AllAuthSignupForm, self).save(request)
+    #     return user
+    def signup(self, request, user):
+        user.save()
 
 from allauth.account.forms import LoginForm
 # class MyCustomLoginForm(LoginForm):
