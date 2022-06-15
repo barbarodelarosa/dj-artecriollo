@@ -11,12 +11,13 @@ class AllAuthSignupForm(forms.Form):
     captcha = ReCaptchaField(
         widget=ReCaptchaV3(
         attrs={
-            'required_score':0.50,
+            'required_score':0.90,
         }
     )
     )
-
-    def save(self, request, user):
+    field_order = ['email', 'password1', 'password1', 'captcha']
+    # def save(self, request, user):
+    def save(self, request):
         user = super(AllAuthSignupForm, self).save(request)
         return user
 
@@ -25,7 +26,7 @@ class MyCustomLoginForm(LoginForm):
     captcha = ReCaptchaField(
         widget=ReCaptchaV3(
         attrs={
-            'required_score':0.50,
+            'required_score':0.90,
         }
 
     )

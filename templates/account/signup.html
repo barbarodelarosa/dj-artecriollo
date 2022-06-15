@@ -14,8 +14,8 @@
   <p>¿Ya tienes una cuenta? Entonces <a href="{{ login_url }}"><b>inicia sesión</b></a>.</p>
 
   <form class="signup" id="signup_form" method="post" action="{% url 'account_signup' %}">
-  {% comment %} {{ form.captcha.errors }}
-  {{ form.captcha }} {% endcomment %}
+  {{ form.captcha.errors }}
+  {{ form.captcha }}
     {% csrf_token %}
     {{ form|crispy }}
     {% if redirect_field_value %}
