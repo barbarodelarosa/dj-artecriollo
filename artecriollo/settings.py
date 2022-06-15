@@ -31,7 +31,7 @@ SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = env('DEBUG')
-DEBUG = False
+DEBUG = env('DEBUG')
 # TEMPLATE_DEBUG = DEBUG
 
 # ALLOWED_HOSTS = ['artecriollo.nat.cu','www.artecriollo.nat.cu','152.206.118.246']
@@ -267,6 +267,7 @@ MESSAGE_TAGS = {
 #*********************************************
 #EMAIL CONFIG
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_FROM = env('EMAIL_FROM')
 EMAIL_BCC = env('EMAIL_BCC')
 
@@ -280,7 +281,6 @@ EMAIL_USE_SSL = False
 DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
 # EMAIL_BACKEND = 'djcelery_email.backends.CeleryEmailBackend'
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 # EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 #************************************************************
@@ -290,17 +290,17 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 # EMAIL_HOST_USER='mail@mail.com'
 
 
-DEFAULT_FROM_EMAIL=env('DEFAULT_FROM_EMAIL')
-NOTIFY_EMAIL= env('NOTIFY_EMAIL')
-EMAIL_FROM=env('EMAIL_FROM')
-EMAIL_BCC=env('EMAIL_BCC')
-EMAIL_HOST=env('EMAIL_HOST')
-EMAIL_PORT=587
-EMAIL_HOST_USER=env('EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD=env('EMAIL_HOST_PASSWORD')
-# EMAIL_USE_SSL=False
-EMAIL_USE_TLS=True # SI SE DESHABILITA DA PROBLEMA EN EL SERVIDOR
-# EMAIL_USE_SSL=False
+# DEFAULT_FROM_EMAIL=env('DEFAULT_FROM_EMAIL')
+# NOTIFY_EMAIL= env('NOTIFY_EMAIL')
+# EMAIL_FROM=env('EMAIL_FROM')
+# EMAIL_BCC=env('EMAIL_BCC')
+# EMAIL_HOST=env('EMAIL_HOST')
+# EMAIL_PORT=587
+# EMAIL_HOST_USER=env('EMAIL_HOST_USER')
+# EMAIL_HOST_PASSWORD=env('EMAIL_HOST_PASSWORD')
+# # EMAIL_USE_SSL=False
+# EMAIL_USE_TLS=True # SI SE DESHABILITA DA PROBLEMA EN EL SERVIDOR
+# # EMAIL_USE_SSL=False
 
 
 CRONJOBS = [
