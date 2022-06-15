@@ -15,7 +15,7 @@ def nueva_orden(request, order,tipo_producto):
         if tipo_producto == "PRODUCTO DIGITAL":
                 html_template='emails/shop/nueva_orden_digital.html'
                 html_message_user=render_to_string(html_template,{'product':order})
-                html_message_admin=f'TIPO DE PRODUCTO:{tipo_producto} Nueva orden de compra de producto ({order.id}) por el usuario {to_mail_user}'
+                html_message_admin=f'TIPO DE PRODUCTO:{tipo_producto} Nueva orden de compra de producto ({order}) por el usuario {to_mail_user}'
         else:
                 html_template='emails/shop/nueva_orden.html'
                 html_message_user=render_to_string(html_template,{'order':order})
