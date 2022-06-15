@@ -850,7 +850,7 @@ class ConfirmOrderView(LoginRequiredMixin, generic.View): #Confirma el pago real
 
             transaction_uuid = request.GET['transaction_uuid']
             user_uuid = request.GET['user_uuid']
-            print("DIGITAL PRODUCT", digital_product)
+            print("DIGITAL PRODUCT EN CONFIRM ORDER", digital_product)
             if not digital_product:
                 order = get_or_set_order_session(request)
             
@@ -903,6 +903,8 @@ class ConfirmOrderView(LoginRequiredMixin, generic.View): #Confirma el pago real
                 del  request.session['digital_product']
                 messages.info(request, message="Se ha realizado Correctamente el pago y el producto se ha agregado a su libreria de descargas")
                 nueva_orden(request, product,'PRODUCTO DIGITAL')
+                return redirect(to="shop:thankyou")
+
                 # UserLibrary
             
 
@@ -1073,8 +1075,7 @@ class EnzonaPaymentDigitalProductView(LoginRequiredMixin, generic.TemplateView):
                     cancel_url=f'{request.build_absolute_uri()}', #OK
                     return_url=f'http://{request.get_host()}/shop/confirm-order/' #OK
                     )
-                print("resp_enzona.json()")
-                print(resp_enzona.json())
+            
                 if resp_enzona.status_code == 200:
                    
                     resp_content = resp_enzona.json()
@@ -1085,10 +1086,7 @@ class EnzonaPaymentDigitalProductView(LoginRequiredMixin, generic.TemplateView):
                     request.session['payment_method']='enzona'
                     return redirect(to=url_confirm['href']) #Redirecciona a enzona para confirmar el pago
                 else:
-                    print("resp_enzona.status_code")
-                    print(resp_enzona.status_code)
-                    print(resp_enzona.status_code)
-                    
+                    pass
             
                 context['resp_enzona'] = resp_enzona.json()
 
