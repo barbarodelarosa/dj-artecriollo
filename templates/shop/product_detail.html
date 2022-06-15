@@ -479,9 +479,9 @@
 												<div class="product-img">
 													<a onclick="showLoader()" href="{{ related_product.get_absolute_url }}">
 														{% if not related_product.image %}
-															<img src="{% static 'images/no-image.png' %}" height="200">
+															<img src="{% static 'images/no-image.png' %}" height="200" width="200">
 														{% else %}
-															<img src="{{related_product.image.url}}" height="200">
+															<img src="{{related_product.image.url}}" height="200" width="200">
 														{% endif %}
 														<div class="product-label">
 															{% if related_product.old_price > 0 %}
