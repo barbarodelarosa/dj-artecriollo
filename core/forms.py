@@ -15,7 +15,7 @@ class AllAuthSignupForm(forms.Form):
         }
     )
     )
-    field_order = ['email', 'password1', 'password1', 'captcha']
+    field_order = ['email', 'password1', 'password2', 'captcha']
     # def save(self, request, user):
     def save(self, request):
         user = super(AllAuthSignupForm, self).save(request)
