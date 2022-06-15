@@ -1064,8 +1064,7 @@ class EnzonaPaymentDigitalProductView(LoginRequiredMixin, generic.TemplateView):
                 request.session["digital_product"]=kwargs['pk']
             
  ###################### BLOQUE DE CONSULTA A ENZONA #######################
-                print("dlfgldfgmldfgdfg")
-                print(f'{request.build_absolute_uri()}')
+             
                 resp_enzona = enzona.post_payments(
                     description="description",
                     currency="CUP",
