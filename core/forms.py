@@ -34,15 +34,15 @@ class AllAuthSignupForm(forms.Form):
         return user
 
 from allauth.account.forms import LoginForm
-class MyCustomLoginForm(LoginForm):
-    captcha = ReCaptchaField(
-        widget=ReCaptchaV3(
-        attrs={
-            'required_score':0.90,
-        }
+# class MyCustomLoginForm(LoginForm):
+#     captcha = ReCaptchaField(
+#         widget=ReCaptchaV3(
+#         attrs={
+#             'required_score':0.90,
+#         }
 
-    )
-    )
+#     )
+#     )
 
 
     # def login(self, *args, **kwargs):
