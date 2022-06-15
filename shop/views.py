@@ -900,8 +900,7 @@ class ConfirmOrderView(LoginRequiredMixin, generic.View): #Confirma el pago real
                     del request.session['ref_profile'] #Elimina la referencia de usuario
                 except:
                     pass
-                del  request.session['digital_product']
-                messages.info(request, message="Se ha realizado Correctamente el pago y el producto se ha agregado a su libreria de descargas")
+                
                 nueva_orden(request, product,'PRODUCTO DIGITAL')
                 # return redirect(to="shop:thankyou")
 
@@ -918,6 +917,16 @@ class ConfirmOrderView(LoginRequiredMixin, generic.View): #Confirma el pago real
 class ThankYouView(LoginRequiredMixin, generic.TemplateView):
     template_name = 'shop/thanks.html'
 
+    def get_context_data(self, *args, **kwargs):
+        context = super(ThankYouView, self).get_context_data(**kwargs)
+        context["prueba"] = "Prueba"
+        try:
+            request.session['digital_product']
+            messages.info(request, message="Se ha realizado Correctamente el pago y el producto se ha agregado a su libreria de descargas")
+            del  request.session['digital_product']
+        except:
+            pass
+        return context
 
 
 
