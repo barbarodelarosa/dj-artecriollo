@@ -903,7 +903,7 @@ class ConfirmOrderView(LoginRequiredMixin, generic.View): #Confirma el pago real
                 del  request.session['digital_product']
                 messages.info(request, message="Se ha realizado Correctamente el pago y el producto se ha agregado a su libreria de descargas")
                 nueva_orden(request, product,'PRODUCTO DIGITAL')
-                return redirect(to="shop:thankyou")
+                # return redirect(to="shop:thankyou")
 
                 # UserLibrary
             
