@@ -4,12 +4,12 @@ from django import forms
 
 
 from captcha.fields import ReCaptchaField
-from captcha.widgets import ReCaptchaV3
+from captcha.widgets import ReCaptchaV3, ReCaptcha
 
 class AllAuthSignupForm(forms.Form):
 
     captcha = ReCaptchaField(
-        widget=ReCaptchaV3(
+        widget=ReCaptcha(
         attrs={
             'required_score':0.90,
         }
