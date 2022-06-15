@@ -4,7 +4,7 @@ from django import forms
 
 
 from captcha.fields import ReCaptchaField
-from captcha.widgets import ReCaptchaV3, ReCaptcha
+# from captcha.widgets import ReCaptchaV3
 from captcha.widgets import ReCaptchaV2Checkbox
 
 class AllAuthSignupForm(forms.Form):
