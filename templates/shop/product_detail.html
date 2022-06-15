@@ -111,14 +111,14 @@
 						
 									<br>
 									{% if product.content_url %}
-										<a  style="margin: 10px;"  href="{{product.content_url}}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+										<a  onclick="showLoader()" style="margin: 10px;"  href="{{product.content_url}}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
 											Acceder a enlace
 										</a>
 									{% endif %}
 													
 									<br>
 									{% if product.content_file %}
-										<a style="margin: 10px;" href="{% url 'profile:product_file_view' product.pk %}" class="btn btn-primary">
+										<a onclick="showLoader()" style="margin: 10px;" href="{% url 'profile:product_file_view' product.pk %}" class="btn btn-primary">
 											Descargar archivo
 										</a>
 									{% endif %}
@@ -197,7 +197,7 @@
 							<ul class="product-links">
 								<li>Categorias:</li>
                                 {% for product_cat in product.category.all   %}
-								    <li><a href="{{product_cat.get_absolute_url}}">{{product_cat}}</a></li>
+								    <li><a  onclick="showLoader()" href="{{product_cat.get_absolute_url}}">{{product_cat}}</a></li>
                                 {% endfor %}
 							</ul>
 
@@ -477,7 +477,7 @@
 										
 											<div class="product">
 												<div class="product-img">
-													<a href="{{ related_product.get_absolute_url }}">
+													<a onclick="showLoader()" href="{{ related_product.get_absolute_url }}">
 														{% if not related_product.image %}
 															<img src="{% static 'images/no-image.png' %}" height="200">
 														{% else %}
@@ -496,10 +496,10 @@
 												<div class="product-body">
 													<p class="product-category">
 													 	{% for product_cat in related_product.category.all   %}
-								    						<a href="{{product_cat.get_absolute_url}}"> [{{product_cat}}] </a>
+								    						<a onclick="showLoader()" href="{{product_cat.get_absolute_url}}"> [{{product_cat}}] </a>
                                 						{% endfor %}
 													</p>
-													<a href="{{ related_product.get_absolute_url }}">
+													<a onclick="showLoader()" href="{{ related_product.get_absolute_url }}">
 														<h3 class="product-name">{{related_product.title}}</h3>
 														<h4 class="product-price">{{related_product.price|price_format_cup}} 
 														{% if related_product.old_price > 0 %}
@@ -525,34 +525,34 @@
 												<br> {% endcomment %}
 											{% if request.user.is_authenticated %}
 													{% if related_product.digital %}
-														{% if product_user in request.user.library.products.all %}
+														{% if related_product in request.user.library.products.all %}
 						
 															{% if related_product.content_url %}
-																<a  style="margin: 10px;"  href="{{product_user.content_url}}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
+																<a  onclick="showLoader()" style="margin: 10px;"  href="{{related_product.content_url}}" target="_blank" rel="noopener noreferrer" class="btn btn-primary">
 																	Acceder a enlace
 																</a>
 															{% endif %}
 																			
 															{% if related_product.content_file %}
-																<a style="margin: 10px;" href="{% url 'profile:product_file_view' related_product.pk %}" class="btn btn-primary">
+																<a onclick="showLoader()" style="margin: 10px;" href="{% url 'profile:product_file_view' related_product.pk %}" class="btn btn-primary">
 																	Descargar archivo
 																</a>
 															{% endif %}
 														{% else %}
-															<form action="{% url 'shop:payment-enzona-digital-product' product.pk%}"  method="POST">
+															<form action="{% url 'shop:payment-enzona-digital-product' related_product.pk%}"  method="POST">
 															{% csrf_token %}
 															
 															<input type="hidden" name="title" value="{{related_product.title}}">
 															<input type="hidden" name="description" value="{{related_product.description}}">
 															<input type="hidden" name="price" value="{{related_product.price}}">
-															<button type="submit" class="btn btn-warning quick-view"><i class="fa fa-credit-card"></i> COMPRAR</button>
+															<button onclick="showLoader()" type="submit" class="btn btn-warning quick-view"><i class="fa fa-credit-card"></i> COMPRAR</button>
 															</form>
 														{%endif%}
 													{% else %}
 														<form action="{%url 'shop:add-to-cart' related_product.id %}" method="POST" >{% csrf_token %}
 														<input type="hidden" name="quantity" value="1">
 														
-														<button type="submit" class="btn btn-success quick-view"><i class="fa fa-shopping-cart" style="font-size: large;"></i><span class="tooltipp"> Comprar</span></button>
+														<button onclick="showLoader()" type="submit" class="btn btn-success quick-view"><i class="fa fa-shopping-cart" style="font-size: large;"></i><span class="tooltipp"> Comprar</span></button>
 														
 														</form>
 													{% endif %}
