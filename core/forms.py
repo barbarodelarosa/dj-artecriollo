@@ -22,8 +22,8 @@ class AllAuthSignupForm(forms.Form):
     private_key='6LdkqmogAAAAAONNCcBDzyEftTPe5z4LFtg5xKDI',
     widget=ReCaptchaV2Checkbox(
         attrs={
-            'data-theme': 'dark',
-            'data-size': 'compact',
+            # 'data-theme': 'dark',
+            # 'data-size': 'compact',
         }
     )
 )
