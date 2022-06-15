@@ -4,7 +4,7 @@ from django import forms
 
 
 from captcha.fields import ReCaptchaField
-# from captcha.widgets import ReCaptchaV3
+from captcha.widgets import ReCaptchaV3
 from captcha.widgets import ReCaptchaV2Checkbox
 
 class AllAuthSignupForm(forms.Form):
@@ -36,15 +36,15 @@ class AllAuthSignupForm(forms.Form):
         user.save()
 
 from allauth.account.forms import LoginForm
-# class MyCustomLoginForm(LoginForm):
-#     captcha = ReCaptchaField(
-#         widget=ReCaptchaV3(
-#         attrs={
-#             'required_score':0.90,
-#         }
+class MyCustomLoginForm(LoginForm):
+    captcha = ReCaptchaField(
+        widget=ReCaptchaV3(
+        attrs={
+            'required_score':0.90,
+        }
 
-#     )
-#     )
+    )
+    )
 
 
     # def login(self, *args, **kwargs):
