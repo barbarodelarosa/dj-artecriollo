@@ -14,12 +14,12 @@ def nueva_orden(request, order,tipo_producto):
         to_mail_admin=[from_email]
         if tipo_producto == "PRODUCTO DIGITAL":
                 html_template='emails/shop/nueva_orden_digital.html'
-                html_message_user=render_to_string(html_template,{'product':order})
+                html_message_user=render_to_string(html_template,{'product':order, 'usuario_email':request.user.username})
                 print("HASTA AQUI TODO BIEN CON EL CORRO DEL PRODUCTO DIGITAL")
                 html_message_admin=f'TIPO DE PRODUCTO:{tipo_producto} Nueva orden de compra de producto ({order}) por el usuario {to_mail_user}'
         else:
                 html_template='emails/shop/nueva_orden.html'
-                html_message_user=render_to_string(html_template,{'order':order})
+                html_message_user=render_to_string(html_template,{'order':order, 'usuario_email':request.user.username})
                 html_message_admin=f'TIPO DE PRODUCTO:{tipo_producto} Nueva orden de compra ({order.id}) por el usuario {to_mail_user}'
 
         
@@ -45,7 +45,7 @@ def inscripcion_subasta(request, numero_subasta, email_user):
         to_mail_admin=[from_email]
 
         html_template='emails/subasta/inscripcion_subasta.html'
-        html_message_user=render_to_string(html_template,{'prueba':'PRUEBA PERFECTA'})
+        html_message_user=render_to_string(html_template,{'usuario_email':request.user.username})
         html_message_admin=f'Nueva orden de compra ({numero_subasta}) por el usuario {to_mail_user}'
         
         message_user=EmailMessage(subject,html_message_user,from_email, to_mail_user)
