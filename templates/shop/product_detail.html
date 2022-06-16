@@ -13,7 +13,7 @@
 {% block open_graph %}
 		<meta property="og:url" content="{{ request.build_absolute_uri }}"/>
 		<meta property="og:title" content="{{product.name}} | ArteCriollo"/>
-		<meta property="og:image" content="{{request.build_absolute_uri| product.image.url}}" xmlns:og="http://opengraphprotocol.org/schema/"/>
+		<meta property="og:image" content="https://{{request.get_host}}{{product.image.url}}" xmlns:og="http://opengraphprotocol.org/schema/"/>
 		<meta property="og:description" content="{{product.description}}" xmlns:og="http://opengraphprotocol.org/schema/"/>
 {% endblock open_graph %}
 
