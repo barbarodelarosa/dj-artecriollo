@@ -892,6 +892,7 @@ class ConfirmOrderView(LoginRequiredMixin, generic.View): #Confirma el pago real
                 product = Product.objects.get(id=digital_product)
                 user_library.products.add(product)
                 user_library.save()
+                messages.success(self.request, "Se ha agregado el producto a su librería para descarga")
                 try: 
                     ref_profile = request.session['ref_profile'] #Recibir referencia y agregarla a la cuenta del usuario
                     profile = Profile.objects.get(id=ref_profile)

@@ -20,9 +20,7 @@ def check_recaptcha(view_func):
             if result['success']:
                 request.recaptcha_is_valid = True
 
-                messages.success(request, 'Valid reCAPTCHA. All Ok.')
             else:
                 request.recaptcha_is_valid = False
-                messages.error(request, 'Invalid reCAPTCHA. Please try again.')
         return view_func(request, *args, **kwargs)
     return _wrapped_view
