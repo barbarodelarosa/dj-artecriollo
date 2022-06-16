@@ -1,6 +1,20 @@
 {% extends "base.html" %}
 {% load crispy_forms_tags %}
 
+
+{% block meta_tags %}
+		<meta name="title" content="Contacto - ArteCriollo Cuba" />
+		<meta name="keywords" content="Contacto de tienda artecriollo, Artecriollo cuba, Tienda online en Cuba, Tienda de Artesanía"/>
+		<meta name="description" content="Pagina de contacto de ArteCriollo Cuba - Contacta con nosotros para cualquier inquietud sobre artecriollo y sus servicios. Será un placer atenderle"/>
+{% endblock meta_tags %}
+
+{% block open_graph %}
+		<meta property="og:url" content="https://artecriollo.nat.cu/contacto"/>
+		<meta property="og:title" content="Página de contacto | ArteCriollo"/>
+		<meta property="og:image" content="https://artecriollo.nat.cu/static/images/icon_share.jpg" xmlns:og="http://opengraphprotocol.org/schema/"/>
+		<meta property="og:description" content="Contacta con nosotros para cualquier inquietud sobre artecriollo y sus servicios. Será un placer atenderle🤗​" xmlns:og="http://opengraphprotocol.org/schema/"/>
+{% endblock open_graph %}
+
 {% block content %}
 
 <div class="section">

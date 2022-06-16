@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
+from distutils.log import debug
 from pathlib import Path
 import environ
 import os
@@ -31,7 +32,10 @@ SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = env('DEBUG')
-DEBUG =True
+DEBUG=True
+
+#SI ESTA CORREINDO LOCAL EL PROYECTO
+LOCAL_RUN=True
 # TEMPLATE_DEBUG = DEBUG
 
 # ALLOWED_HOSTS = ['artecriollo.nat.cu','www.artecriollo.nat.cu','152.206.118.246']
@@ -123,18 +127,33 @@ WSGI_APPLICATION = 'artecriollo.wsgi.application'
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
 
-DATABASES = {
-    'default': {
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': BASE_DIR / 'db.sqlite3',
-        'ENGINE': 'django.db.backends.mysql', 
-        'NAME': env('NAME_DB'),
-        'USER': env('USER_DB'),
-        'PASSWORD': env('PASSWORD_DB'),
-        'HOST': env('HOST_DB'),
-        'PORT': env('PORT_DB'),
+if LOCAL_RUN == True:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+            # 'ENGINE': 'django.db.backends.mysql', 
+            # 'NAME': env('NAME_DB'),
+            # 'USER': env('USER_DB'),
+            # 'PASSWORD': env('PASSWORD_DB'),
+            # 'HOST': env('HOST_DB'),
+            # 'PORT': env('PORT_DB'),
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            # 'ENGINE': 'django.db.backends.sqlite3',
+            # 'NAME': BASE_DIR / 'db.sqlite3',
+            'ENGINE': 'django.db.backends.mysql', 
+            'NAME': env('NAME_DB'),
+            'USER': env('USER_DB'),
+            'PASSWORD': env('PASSWORD_DB'),
+            'HOST': env('HOST_DB'),
+            'PORT': env('PORT_DB'),
+        }
+    }
+
 
 
 # Password validation

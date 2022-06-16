@@ -1,5 +1,18 @@
 {% extends "base.html" %}
 
+{% block meta_tags %}
+		<meta name="title" content="{{object.name}} - ArteCriollo Cuba" />
+		<meta name="keywords" content="Artecriollo cuba, Tienda artecriollo en Cuba, Tienda de Artesanía"/>
+		<meta name="description" content="{{object.name}"/>
+{% endblock meta_tags %}
+
+{% block open_graph %}
+		<meta property="og:url" content="{{object.get_absolute_url}}"/>
+		<meta property="og:title" content="{{object.name}} | ArteCriollo"/>
+		<meta property="og:image" content="{{object.image.url}}" xmlns:og="http://opengraphprotocol.org/schema/"/>
+		<meta property="og:description" content="Contacta con nosotros para cualquier inquietud sobre artecriollo y sus servicios. Será un placer atenderle🤗​" xmlns:og="http://opengraphprotocol.org/schema/"/>
+{% endblock open_graph %}
+
 {% block content %}
 <div class="container">
     <div class="row">
