@@ -7,13 +7,13 @@
 {% block meta_tags %}
 		<meta name="title" content="{{product.title}} - ArteCriollo Cuba" />
 		<meta name="keywords" content="{{product.title}}Artecriollo cuba, Tienda artecriollo en Cuba, Tienda de Artesanía"/>
-		<meta name="description" content="{{product.description}"/>
+		<meta name="description" content="{{product.description}}"/>
 {% endblock meta_tags %}
 
 {% block open_graph %}
-		<meta property="og:url" content="{{product.get_absolute_url}}"/>
-		<meta property="og:title" content="{{object.name}} | ArteCriollo"/>
-		<meta property="og:image" content="{{product.image.url}}" xmlns:og="http://opengraphprotocol.org/schema/"/>
+		<meta property="og:url" content="{{ request.get_full_path }}"/>
+		<meta property="og:title" content="{{product.name}} | ArteCriollo"/>
+		<meta property="og:image" content="{{request.get_host}}{{product.image.url}}" xmlns:og="http://opengraphprotocol.org/schema/"/>
 		<meta property="og:description" content="{{product.description}}" xmlns:og="http://opengraphprotocol.org/schema/"/>
 {% endblock open_graph %}
 
