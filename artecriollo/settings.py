@@ -35,7 +35,7 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG=True
 
 #SI ESTA CORREINDO LOCAL EL PROYECTO
-LOCAL_RUN=True
+LOCAL_RUN=False
 # TEMPLATE_DEBUG = DEBUG
 
 # ALLOWED_HOSTS = ['artecriollo.nat.cu','www.artecriollo.nat.cu','152.206.118.246']
