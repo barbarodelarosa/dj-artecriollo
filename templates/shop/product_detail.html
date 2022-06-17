@@ -50,11 +50,11 @@
 					<div class="col-md-5 col-md-push-2" >					
 						<div id="product-main-img"  >
                           	{% if product.product_images.count == 0 %}
-                                    <img src="{% static 'images/no-image.png' %}" height="500" alt="no-image-artecriollo-cuba">									
+                                    <img src="{% static 'images/no-image.png' %}" height="500" width="400" alt="no-image-artecriollo-cuba">									
 							{% else %}
 								{% for product_image in product.product_images.all  %}
 									<div class="product-preview">
-										<img src="{{product_image.file.url}}" height="500" alt="{{product.image.file.filename}}">
+										<img src="{{product_image.file.url}}" height="500" width="400" alt="{{product.image.file.filename}}">
 									</div>
 								{% endfor %}
 							{% endif %}
@@ -70,7 +70,7 @@
 							{% else %}
 								{% for product_image in product.product_images.all  %}
 									<div class="product-preview">
-										<img src="{{product_image.file.url}}" height="150" alt="">
+										<img src="{{product_image.file.url}}" height="150" width="120" alt="">
 									</div>
 								{% endfor %}
 							{% endif %}

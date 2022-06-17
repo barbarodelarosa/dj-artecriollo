@@ -51,12 +51,16 @@ class ProductImagesContent(models.Model, ResizeImageMixin):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='content_owner', blank=True, null=True)
     file = models.FileField(upload_to= user_directory_path)
     posted = models.DateTimeField(auto_now_add=True)
+    title = models.CharField(max_length=125, blank=True, null=True)
 
     def save(self, *args, **kwargs):
         if self.pk is None:
             self.resize(self.file, (350, 350))
 
         super().save(*args, **kwargs)
+    
+    def __str__(self):
+        return f"{self.id}-{self.user.username}-{self.title}"
 
 User = get_user_model()
 
