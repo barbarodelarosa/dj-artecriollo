@@ -50,11 +50,12 @@
 					<div class="col-md-5 col-md-push-2" >					
 						<div id="product-main-img"  >
                           	{% if product.product_images.count == 0 %}
-                                    <img src="{% static 'images/no-image.png' %}" height="400" width="500" alt="no-image-artecriollo-cuba">									
+                                    <img src="{% static 'images/no-image.png' %}" height="400" width="500" class="img-responsive" alt="no-image-artecriollo-cuba">									
 							{% else %}
 								{% for product_image in product.product_images.all  %}
-									<div class="product-preview">
-										<img src="{{product_image.file.url}}" height="400" width="500" alt="{{product.image.file.filename}}">
+									{% comment %} <div class="product-preview"> {% endcomment %}
+									<div>
+										<img src="{{product_image.file.url}}" height="400" width="500" class="img-responsive" alt="{{product.image.file.filename}}">
 									</div>
 								{% endfor %}
 							{% endif %}
@@ -66,11 +67,11 @@
 					<div class="col-md-2  col-md-pull-5">
 						<div id="product-imgs">
 							{% if product.product_images.count == 0 %}
-                                    <img src="{% static 'images/no-image.png' %}" alt="">
+                                    <img src="{% static 'images/no-image.png' %}" class="img-responsive" alt="">
 							{% else %}
 								{% for product_image in product.product_images.all  %}
 									<div class="product-preview">
-										<img src="{{product_image.file.url}}" height="120" width="150" alt="">
+										<img src="{{product_image.file.url}}" height="120" width="150" class="img-responsive" alt="{{product.image.file.filename}}">
 									</div>
 								{% endfor %}
 							{% endif %}
