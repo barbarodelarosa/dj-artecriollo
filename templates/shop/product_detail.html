@@ -634,7 +634,7 @@
 				  <h4 class="modal-title" id="myModalLabel">Modal title</h4>
 				</div>
 				<div class="modal-body">
-				  Cargando ...
+				  
 				</div>
 				<div class="modal-footer">
 				  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -652,10 +652,10 @@ var modal = document.getElementById('myModal');
 var img = document.getElementById('imgProduct');
 var modalImg = document.getElementById("img01");
 var captionText = document.getElementById("caption");
-// img.onclick = function(){
-// 	// $('#imgProduct').modal('show')
-// 	console.log("MODALLLL")
-// }
+img.onclick = function(){
+	console.log("MODALLLL")
+	console.log(img.src)
+}
 
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
