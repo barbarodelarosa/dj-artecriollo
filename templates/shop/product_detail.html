@@ -50,12 +50,14 @@
 					<div class="col-md-5 col-md-push-2" >					
 						<div id="product-main-img"  >
                           	{% if product.product_images.count == 0 %}
-                                    <img src="{% static 'images/no-image.png' %}" height="400" width="500" class="img-responsive" alt="no-image-artecriollo-cuba" id="imgProduct">									
+                                    <img src="{% static 'images/no-image.png' %}" height="400" width="500" class="img-responsive" alt="no-image-artecriollo-cuba" >									
 							{% else %}
 								{% for product_image in product.product_images.all  %}
 									{% comment %} <div class="product-preview"> {% endcomment %}
 									<div>
-										<img src="{{product_image.file.url}}" height="400" width="500" class="img-responsive" alt="{{product.image.file.filename}}" id="imgProduct">
+										<a data-toggle="modal" href="#imgProduct">
+											<img src="{{product_image.file.url}}" height="400" width="500" class="img-responsive" alt="{{product.image.file.filename}}">
+										</a>
 									</div>
 								{% endfor %}
 							{% endif %}
@@ -624,6 +626,24 @@
 
 
 
+		<div class="modal fade" id="imgProduct" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+			<div class="modal-dialog" role="document">
+			  <div class="modal-content">
+				<div class="modal-header">
+				  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				  <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+				</div>
+				<div class="modal-body">
+				  Cargando ...
+				</div>
+				<div class="modal-footer">
+				  <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				  <button type="button" class="btn btn-primary">Save changes</button>
+				</div>
+			  </div>
+			</div>
+		  </div>
+
 <script>
 	// Get the modal
 var modal = document.getElementById('myModal');
@@ -632,10 +652,10 @@ var modal = document.getElementById('myModal');
 var img = document.getElementById('imgProduct');
 var modalImg = document.getElementById("img01");
 var captionText = document.getElementById("caption");
-img.onclick = function(){
-	$('#imgProduct').modal('show')
-	console.log("MODALLLL")
-}
+// img.onclick = function(){
+// 	// $('#imgProduct').modal('show')
+// 	console.log("MODALLLL")
+// }
 
 // Get the <span> element that closes the modal
 var span = document.getElementsByClassName("close")[0];
