@@ -635,9 +635,16 @@
 				<div class="modal-body" style="padding: 0px; margin: 0px;">
 
 					
-					
+					{% for product_image in product.product_images.all  %}
+									{% comment %} <div class="product-preview"> {% endcomment %}
+									<div>
+										<a data-toggle="modal" href="#imgProduct">
+											<img src="{{product_image.file.url}}" height="400" width="500" class="img-responsive" alt="{{product.image.file.filename}}" id="imgMainProduct">
+										</a>
+									</div>
+									{% endfor %}
+									<img src="#" style="width: 100%; height: 100%;" class="img-responsive" id="imgModalProduc">
 				
-				<img src="#" style="width: 100%; height: 100%;" class="img-responsive" id="imgModalProduc">
 				
 					
 				
@@ -648,9 +655,13 @@
 			</div>
 		  </div>
 	<script>
+		var src_image='';
+		function img_main_product() {
+			src_image = this.src;
+			elemento.src = src_image;
+			var elemento = document.getElementById("imgModalProduc");
+		}
 		var imagen = document.getElementById('imgMainProduct').src;
-		var elemento = document.getElementById("imgModalProduc");
-    	elemento.src = imagen;
 	</script>
 
 
