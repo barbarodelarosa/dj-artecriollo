@@ -50,12 +50,12 @@
 					<div class="col-md-5 col-md-push-2" >					
 						<div id="product-main-img"  >
                           	{% if product.product_images.count == 0 %}
-                                    <img src="{% static 'images/no-image.png' %}" height="400" width="500" class="img-responsive" alt="no-image-artecriollo-cuba">									
+                                    <img src="{% static 'images/no-image.png' %}" height="400" width="500" class="img-responsive" alt="no-image-artecriollo-cuba" id="imgProduct">									
 							{% else %}
 								{% for product_image in product.product_images.all  %}
 									{% comment %} <div class="product-preview"> {% endcomment %}
 									<div>
-										<img src="{{product_image.file.url}}" height="400" width="500" class="img-responsive" alt="{{product.image.file.filename}}">
+										<img src="{{product_image.file.url}}" height="400" width="500" class="img-responsive" alt="{{product.image.file.filename}}" id="imgProduct">
 									</div>
 								{% endfor %}
 							{% endif %}
@@ -622,4 +622,28 @@
 		</div>
 
 
+
+
+<script>
+	// Get the modal
+var modal = document.getElementById('myModal');
+
+// Get the image and insert it inside the modal - use its "alt" text as a caption
+var img = document.getElementById('imgProduct');
+var modalImg = document.getElementById("img01");
+var captionText = document.getElementById("caption");
+img.onclick = function(){
+    modal.style.display = "block";
+    modalImg.src = this.src;
+    captionText.innerHTML = this.alt;
+}
+
+// Get the <span> element that closes the modal
+var span = document.getElementsByClassName("close")[0];
+
+// When the user clicks on <span> (x), close the modal
+span.onclick = function() { 
+    modal.style.display = "none";
+}
+</script>
 {% endblock %}
