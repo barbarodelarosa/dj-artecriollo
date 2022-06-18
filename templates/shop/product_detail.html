@@ -56,7 +56,7 @@
 									{% comment %} <div class="product-preview"> {% endcomment %}
 									<div>
 										<a data-toggle="modal" href="#imgProduct">
-											<img src="{{product_image.file.url}}" height="400" width="500" class="img-responsive" alt="{{product.image.file.filename}}" id="imgMainProduct">
+											<img src="{{product_image.file.url}}" height="400" width="500" class="img-responsive" onclick="img_main_product()" alt="{{product.image.file.filename}}" id="imgMainProduct">
 										</a>
 									</div>
 								{% endfor %}
