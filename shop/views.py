@@ -642,12 +642,14 @@ def actualizar_costo_mensajeria(request):
                 print("DELIVERY",delivery_method)
                 order.shipping = localidad_get.shipping
                 print("DELIVERY",order.shipping)
+                costo_envio_en_cup = "{:.2f}".format(order.shipping / 100)
+                messages.info(request, f"Usted a seleccionado la localidad de: {address.localidad} y tendra un costo por envio de: {costo_envio_en_cup} cup")
             else:
                 print("MUNICIPIO",localidad)
 
                 order.shipping = 0
                 print("MUNICIPIO",order.shipping)
-
+                messages.info(request, "Usted a seleccionado recogida local para su pedido y no tendrá costo adicional por envio. ")
             order.save()
         
             next = request.META.get('HTTP_REFERER', None) or '/'  #Obtiene la url actual
