@@ -3,34 +3,68 @@
 
 
 {% block content %}
-<div>
-    Este correo es la confirmacion de su pedido:<br>
-</div>
-<div>
-    Orden #{{order.id}}<br>
-</div>
-<div>
-    Metodo de pago: {{order.payment_method}}<br>
-</div>
-<div>
-    Total a pagar: {{order.get_total}}<br>
-</div>
-<div>
-    Productos:<br>
-</div>
-{% for item in order.items.all  %}
-<div>
-    Nombre del producto: {{item.product.title}}<br>
-</div>
+<table>
+    <tr>
+        <td>
+            Este es un correo de confirmacion de la order emitida al usuario {{order.user.username}}<br>
+        </td>
+    </tr>
 
-<div>
-    cantidad de unidades: {{item.quantity}}<br>
-</div>
-<div>
-    precio del producto {{item.product.price|price_format_cup}}<br>
-</div>
+    <tr>
+        <td>
+            Fecha: 
+        </td>
+        <td>
+            {% now "jS F Y H:i" %}
+        </td>
+    </tr>
 
-{% endfor %}
+    <tr>
+        <td>
+            Orden 
+        </td>
+        <td>
+            #{{order.id}}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Metodo de pago: 
+        </td>
+        <td>
+            {{order.payment_method}}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Total a pagar: 
+        </td>
+        <td>
+            {{order.get_total}}
+        </td>
+    </tr>
+    <tr>
+        <td>
+            Productos:
+        </td>
+        <td>
+            {% for item in order.items.all  %}
+            <div>
+                Nombre del producto: {{item.product.title}}<br>
+            </div>
+
+            <div>
+                cantidad de unidades: {{item.quantity}}<br>
+            </div>
+            <div>
+                precio del producto {{item.product.price|price_format_cup}}<br>
+            </div>
+
+            {% endfor %}
+        </td>
+    </tr>
+</table>
+
 						
 
 {% endblock content %}
