@@ -4,20 +4,20 @@
 <div align="left">
 
    <h4 align="center">
-       Este es un correo de confirmacion de la order emitida al usuario <strong> {{order.user.username}}</strong>
+       Este es un correo de confirmacion de la order emitida al usuario <strong> {{usuario_email}}</strong>
    </h4>
    <div>
-       <strong>Producto:</strong> {{product.name}}
+       <strong>Producto:</strong> {{product.title}}
    </div>
    <div>
        <strong>Fecha:</strong> {% now "jS F Y H:i" %}
    </div>
    <div>
-       <strong>Total a pagar:</strong>{{product.get_total}}
+       <strong>Total a pagar:</strong>{{product.get_price}}
    </div>
    <div>
-       <strong>Para descargar el archivo de acceder al apartado de descargar en su cuenta de usuario</strong>
-       <a href="{% url 'profile' %}"  class="btn btn-primary">Mi cuenta</a>
+       <strong>Para descargar el archivo debe acceder al apartado de descargar en su cuenta de usuario</strong>
+       <a href="https://artecriollo.nat.cu/profile/" >Mi cuenta</a>
    </div>
 
 </div>
