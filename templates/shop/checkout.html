@@ -193,6 +193,7 @@ function cambioOpcionesSelcet(){
 		delivery_method:delivery_method 
 	};
 	
+
 	$.ajax({
 		url: Url,
 		type: "POST",
@@ -209,6 +210,7 @@ function cambioOpcionesSelcet(){
 		
 					
 			hideLoader()
+			$("#message").load(location.href + " #message");
 
 		},
 		error:function(){
