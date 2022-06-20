@@ -9,7 +9,12 @@
 {% block open_graph %}
 		<meta property="og:url" content="{{object.get_absolute_url}}"/>
 		<meta property="og:title" content="{{object.name}} | ArteCriollo"/>
-		<meta property="og:image" content="{{object.image.url}}" xmlns:og="http://opengraphprotocol.org/schema/"/>
+		{% if objectc.image %}
+            <meta property="og:image" content="{{object.image.url}}" xmlns:og="http://opengraphprotocol.org/schema/"/>
+        {% else %}
+    		<meta property="og:image" content="https://artecriollo.nat.cu/static/images/icon_share.jpg" xmlns:og="http://opengraphprotocol.org/schema/"/>
+
+        {% endif %}
 		<meta property="og:description" content="Contacta con nosotros para cualquier inquietud sobre artecriollo y sus servicios. Será un placer atenderle🤗​" xmlns:og="http://opengraphprotocol.org/schema/"/>
 {% endblock open_graph %}
 

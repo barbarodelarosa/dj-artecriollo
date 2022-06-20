@@ -13,7 +13,12 @@
 {% block open_graph %}
 		<meta property="og:url" content="{{ request.build_absolute_uri }}"/>
 		<meta property="og:title" content="{{product.title}} | ArteCriollo"/>
-		<meta property="og:image" content="https://{{request.get_host}}{{product.image.url}}" xmlns:og="http://opengraphprotocol.org/schema/"/>
+		{% if product.image %}
+			<meta property="og:image" content="https://{{request.get_host}}{{product.image.url}}" xmlns:og="http://opengraphprotocol.org/schema/"/>
+		{% else %}
+			<meta property="og:image" content="https://artecriollo.nat.cu/static/images/icon_share.jpg" xmlns:og="http://opengraphprotocol.org/schema/"/>
+		{% endif %}
+
 		<meta property="og:description" content="{{product.description}}" xmlns:og="http://opengraphprotocol.org/schema/"/>
 {% endblock open_graph %}
 
@@ -56,7 +61,7 @@
 									{% comment %} <div class="product-preview"> {% endcomment %}
 									<div>
 										<a data-toggle="modal" href="#imgProduct">
-											<img src="{{product_image.file.url}}" height="400" width="500" class="img-responsive imgModalProduc" onclick="img_main_product()" alt="{{product.image.file.filename}}">
+											<img src="{{product_image.file.url}}" height="400" width="500" class="img-responsive" alt="{{product.image.file.filename}}">
 										</a>
 									</div>
 								{% endfor %}
@@ -625,44 +630,6 @@
 
 
 
-		<div class="modal fade" id="imgProduct" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-			<div class="modal-dialog" role="document">
-			  <div class="modal-content">
-				<div class="modal-header">
-				  <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-				  <h4 class="modal-title" id="myModalLabel">{{product.title}}</h4>
-				</div>
-				<div class="modal-body" style="padding: 0px; margin: 0px;">
-
-					
-					{% for product_image in product.product_images.all  %}
-									{% comment %} <div class="product-preview"> {% endcomment %}
-									<div>
-										<a data-toggle="modal" href="#imgProduct">
-											<img src="{{product_image.file.url}}" height="400" width="500" class="img-responsive" alt="{{product.image.file.filename}}" id="imgMainProduct">
-										</a>
-									</div>
-									{% endfor %}
-									<img src="#" style="width: 100%; height: 100%;" class="img-responsive" id="imgModalProduc">
-				
-				
-					
-				
-				  
-				</div>
-
-			  </div>
-			</div>
-		  </div>
-	<script>
-		var src_image='';
-		function img_main_product() {
-			src_image = this.src;
-		}
-		var elemento = document.getElementsByClassName("imgModalProduc");
-		elemento.src = src_image;
-		// var imagen = document.getElementById('imgMainProduct').src;
-	</script>
 
 
 {% endblock %}
