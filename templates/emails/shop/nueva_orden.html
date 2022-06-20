@@ -3,68 +3,46 @@
 
 
 {% block content %}
-<table>
-    <tr>
-        <td>
-            Este es un correo de confirmacion de la order emitida al usuario {{order.user.username}}<br>
-        </td>
-    </tr>
+<style>
+    .content-email{
+        display: flex;   
+    }
+    .content-email > div{
+        margin-left: 5px;
+    }
+</style>
+<div class="content-email">
 
-    <tr>
-        <td>
-            Fecha: 
-        </td>
-        <td>
-            {% now "jS F Y H:i" %}
-        </td>
-    </tr>
+    <h4>
+        Este es un correo de confirmacion de la order emitida al usuario <strong> {{order.user.username}}</strong>
+    </h4>
+    <div>
+        <strong> Orden:</strong> #{{order.id}}<br>
+    </div>
+    <div>
+    <strong> Metodo de pago:</strong> {{order.payment_method}}<br>
+    </div>
+    <div>
+        <strong> Total a pagar: </strong> {{order.get_total}}<br>
+    </div>
+    <div>
+        <strong> Productos:</strong><br>
+    </div>
+    {% for item in order.items.all  %}
+    <div>
+        <strong> Producto:</strong> {{item.product.title}}<br>
+    </div>
 
-    <tr>
-        <td>
-            Orden 
-        </td>
-        <td>
-            #{{order.id}}
-        </td>
-    </tr>
-    <tr>
-        <td>
-            Metodo de pago: 
-        </td>
-        <td>
-            {{order.payment_method}}
-        </td>
-    </tr>
-    <tr>
-        <td>
-            Total a pagar: 
-        </td>
-        <td>
-            {{order.get_total}}
-        </td>
-    </tr>
-    <tr>
-        <td>
-            Productos:
-        </td>
-        <td>
-            {% for item in order.items.all  %}
-            <div>
-                Nombre del producto: {{item.product.title}}<br>
-            </div>
+    <div>
+        <strong> Unidades</strong> {{item.quantity}}<br>
+    </div>
+    <div>
+        precio del producto {{item.product.price|price_format_cup}}<br>
+    </div>
 
-            <div>
-                cantidad de unidades: {{item.quantity}}<br>
-            </div>
-            <div>
-                precio del producto {{item.product.price|price_format_cup}}<br>
-            </div>
+</div>
 
-            {% endfor %}
-        </td>
-    </tr>
-</table>
-
+{% endfor %}
 						
 
 {% endblock content %}
