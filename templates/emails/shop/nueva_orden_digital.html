@@ -1,7 +1,9 @@
 {% extends "emails/base_email.html" %}
 
 {% block content %}
-   <h4>
+<div align="left">
+
+   <h4 align="center">
        Este es un correo de confirmacion de la order emitida al usuario <strong> {{order.user.username}}</strong>
    </h4>
    <div>
@@ -15,7 +17,10 @@
    </div>
    <div>
        <strong>Para descargar el archivo de acceder al apartado de descargar en su cuenta de usuario</strong>
-       <a href="{% url 'profile' %}">Mi cuenta</a>
+       <a href="{% url 'profile' %}"  class="btn btn-primary">Mi cuenta</a>
    </div>
+
+</div>
+
 
 {% endblock content %}

@@ -3,14 +3,6 @@
 
 
 {% block content %}
-<style>
-    .content-email{
-        display: flex;   
-    }
-    .content-email > div{
-        margin-left: 5px;
-    }
-</style>
 <div align="left">
 
     <h4 align="center">
@@ -30,14 +22,15 @@
     </div>
     {% for item in order.items.all  %}
     <div>
+        <hr>
         <strong> Producto:</strong> {{item.product.title}}<br>
     </div>
 
     <div>
-        <strong> Unidades</strong> {{item.quantity}}<br>
+        <strong> Unidades:</strong> {{item.quantity}}<br>
     </div>
     <div>
-        precio del producto {{item.product.price|price_format_cup}}<br>
+        <strong> Precio:<strong>  {{item.product.price|price_format_cup}}<br>
     </div>
 
 </div>

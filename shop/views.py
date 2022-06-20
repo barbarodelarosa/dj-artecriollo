@@ -724,8 +724,8 @@ class ConfirmEnzonaPaymentView(LoginRequiredMixin, generic.TemplateView):
         print(amount)
       
  ###################### BLOQUE DE CONSULTA A ENZONA #######################
-        cancel_url=f'http://{self.request.get_host()}/shop/checkout/'
-        return_url=f'http://{self.request.get_host()}/shop/confirm-order/'
+        cancel_url=f'https://{self.request.get_host()}/shop/checkout/'
+        return_url=f'https://{self.request.get_host()}/shop/confirm-order/'
         print(cancel_url)
         print(return_url)
         resp_enzona = enzona.post_payments(
@@ -1084,7 +1084,7 @@ class EnzonaPaymentDigitalProductView(LoginRequiredMixin, generic.TemplateView):
                     items=items,
                     # cancel_url=f'http://{request.get_host()}/shop/', #OK
                     cancel_url=f'{request.build_absolute_uri()}', #OK
-                    return_url=f'http://{request.get_host()}/shop/confirm-order/' #OK
+                    return_url=f'https://{request.get_host()}/shop/confirm-order/' #OK
                     )
             
                 if resp_enzona.status_code == 200:
