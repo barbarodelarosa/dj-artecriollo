@@ -1,79 +1,21 @@
 {% extends "emails/base_email.html" %}
 
 {% block content %}
-{% comment %} Este correo es la confirmacion de su pedido:
-Producto #{{product.name}}
-Total a pagar: {{product.get_total}}
-{% if product.content_file %}
-    descargar producto en:{{product.content_file}}	
-
-{% endif %}
-{% if product.content_url %}
-    descargar producto en:{{product.content_url}}	
-{% endif %}
-
-
-{% extends "emails/base_email.html" %}
-{% load price_format_tags %} {% endcomment %}
-
-
-<table>
-    <tr>
-        <td>
-            Este es un correo de confirmacion de la order emitida al usuario {{order.user.username}}<br>
-        </td>
-    </tr>
-
-    <tr>
-        <td>
-            Fecha: 
-        </td>
-        <td>
-            {% now "jS F Y H:i" %}
-        </td>
-    </tr>
-
-    <tr>
-        <td>
-            Producto 
-        </td>
-        <td>
-            {{product.name}}
-        </td>
-    </tr>
-    <tr>
-        <td>
-            Metodo de pago: 
-        </td>
-        <td>
-            {{order.payment_method}}
-        </td>
-    </tr>
-    <tr>
-        <td>
-            Total a pagar: 
-        </td>
-        <td>
-            {{product.get_total}}
-        </td>
-    </tr>
-    <tr>
-        <td>
-            Productos:
-        </td>
-        <td>
-         {% if product.content_file %}
-            Acceder al producto: <a href="{{product.content_file}}">{{product.name}}</a>	
-        {% endif %}
-        {% if product.content_url %}
-            Acceder al producto: <a href="{{product.content_url}}">{{product.name}}</a>	
-        {% endif %}
-
-        </td>
-    </tr>
-</table>
-
-						
+   <h4>
+       Este es un correo de confirmacion de la order emitida al usuario {{order.user.username}}
+   </h4>
+   <div>
+       <strong>Producto:</strong> {{product.name}}
+   </div>
+   <div>
+       <strong>Fecha:</strong> {% now "jS F Y H:i" %}
+   </div>
+   <div>
+       <strong>Total a pagar:</strong>{{product.get_total}}
+   </div>
+   <div>
+       <strong>Para descargar el archivo de acceder al apartado de descargar en su cuenta de usuario</strong>
+       <a href="{% url 'profile' %}">Mi cuenta</a>
+   </div>
 
 {% endblock content %}
-
