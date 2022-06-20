@@ -63,7 +63,7 @@ class AddToCartForm(forms.ModelForm):
 class AddressForm(forms.Form):
     first_name=forms.CharField(label="Nombres", help_text="Agregar nombres")
     last_name=forms.CharField(label="Apellidos", help_text="Agregar apellidos")
-    phone=forms.CharField(label="Teléfonos", help_text="Separar por ; si desea agregar más de un número")
+    phone=forms.CharField(label="Teléfonos", max_length=11, help_text="Separar por ; si desea agregar más de un número")
     email=forms.CharField(label="Correo", help_text="Agregar correo electrónico válido")
 
     pais = forms.ModelChoiceField(
