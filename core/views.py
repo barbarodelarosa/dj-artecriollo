@@ -190,14 +190,14 @@ class SearchResultsView(generic.ListView):
     
     def results_query_object_list(self, query, query_category):
         if query_category == '0':
-            object_list = Product.objects.filter(for_auction=False).filter(Q(title__contains=query)|Q(description__contains=query)).order_by(
+            object_list = Product.objects.filter(for_auction=False).filter(for_lottery=False).filter(Q(title__icontains=query)|Q(description__icontains=query)).order_by(
                 "updated",
                 "created",
                 "title",
             )
         else:       
-            object_list = Product.objects.filter(for_auction=False).filter(
-            Q(category=query_category)).filter(Q(title__contains=query)|Q(description__contains=query)).order_by(
+            object_list = Product.objects.filter(for_auction=False).filter(for_lottery=False).filter(
+            Q(category=query_category)).filter(Q(title__icontains=query)|Q(description__icontains=query)).order_by(
                 "updated",
                 "created",
                 "title",
