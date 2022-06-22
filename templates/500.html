@@ -3,9 +3,20 @@
 500
 {% endblock title %}
 {% block content %}
+<div class="container">
+    <div class="row">
+        <h1 class="text-center" style="font-size: 10rem">500</h1>
+    </div>
+    <div class="row">
+        <h3 class="text-center">Ups...</h3>
+        <p class="text-center">Ha ocurrido un error en el servidor</p>
+    </div>
+    <div class="row text-center" >
+        <a href="{% url 'home' %}" class="text-center btn btn-primary">Accedera la tienda</a>
+        <a href="{% url 'contact' %}" class="text-center btn btn-primary">Contacta con nosotros</a>
+    </div>
 
-<h1>500</h1>
-500 son errores desde la parte del servidor. 
+</div>
 {% endblock content %}
 
 
