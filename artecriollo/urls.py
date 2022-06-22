@@ -22,15 +22,12 @@ sitemaps = {
     'auctions':AuctionSitemap,
 }
 
-from core.views import home_webpush, send_push
 
 urlpatterns = [
 
 
-    path('home_webpush', home_webpush),
-    path('send_push', send_push),
-    path('webpush/', include('webpush.urls')),
-    path('sw.js', TemplateView.as_view(template_name='sw.js', content_type='application/x-javascript')),
+    re_path(r'^webpush/', include('webpush.urls')),
+ 
 
 
 
