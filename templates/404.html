@@ -3,6 +3,17 @@
 404
 {% endblock title %}
 {% block content %}
-<h1>404</h1>
-<p>recusos no disponible</p>
+<div class="container">
+    <div class="row">
+        <h1>404</h1>
+    </div>
+    <div class="row">
+        <h3>Ups...</h3>
+        <h5>Pagina no encontrada</h5>
+    </div>
+    <div class="row">
+        <a href="{% url 'home' %}" class="btn btn-primary">Accedera la tienda</a>
+    </div>
+
+</div>
 {% endblock content %}
