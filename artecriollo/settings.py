@@ -32,14 +32,14 @@ SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = env('DEBUG')
-DEBUG=False
+DEBUG=True
 
 #SI ESTA CORREINDO LOCAL EL PROYECTO
 LOCAL_RUN=False
 # TEMPLATE_DEBUG = DEBUG
 
 # ALLOWED_HOSTS = ['artecriollo.nat.cu','www.artecriollo.nat.cu','152.206.118.246']
-ALLOWED_HOSTS = [gethostname(),'artecriollo.nat.cu','www.artecriollo.nat.cu','152.206.118.246','localhost']
+ALLOWED_HOSTS = [gethostname(),'artecriollo.nat.cu','www.artecriollo.nat.cu','152.206.118.246','localhost','127.0.0.1']
 
 
 
@@ -84,6 +84,8 @@ INSTALLED_APPS += [
     'captcha',
     'mapbox_location_field',
     'pwa',
+
+     'webpush',
 
   
 ]
@@ -397,8 +399,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 WEBPUSH_SETTINGS = {
-   "VAPID_PUBLIC_KEY": "BKUSpfaXa0ubcihJhnxsf5brIp32hnYGJaVgSFoli4wnUAZECauhkwK8OgUOeqSOPM6Hp7RJX4dtnxLc3KX3eyo",
-   "VAPID_PRIVATE_KEY": "slqmJw6E7telX_EZENOGNa8asG008UQ0P7cDvbPvGNs",
+   "VAPID_PUBLIC_KEY": "BB8kytJZC4oPtWrBrpJlNI7ogY7lQE4D45izwFMP51hhEUHcDb5hP-b7E65TbjABL21BNk6wLOwryD7miiqKk4c",
+   "VAPID_PRIVATE_KEY": "39xmxdHr0R3dI9OJ4lA8OKb-cczb03-wQguJDbFt-30",
    "VAPID_ADMIN_EMAIL": "artecriollocuba@gmail.com"
 }
 
