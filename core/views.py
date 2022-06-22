@@ -163,7 +163,7 @@ class SearchResultsView(generic.ListView):
         object_list = self.results_query_object_list(query, query_category)
         # object_list.filter(Q(title__contains=query)|Q(description__contains=query))
         # self.count_result_object_list(object_list)
-        paginator = Paginator(object_list, 10)
+        paginator = Paginator(object_list, 12)
         # object_list = object.page(page).object_list
         page_number = self.request.GET.get('page')
         page_obj = paginator.get_page(page_number)
