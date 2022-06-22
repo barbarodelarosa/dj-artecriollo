@@ -69,16 +69,12 @@ class ProfileView(LoginRequiredMixin, generic.TemplateView):
         return context
 
 
-from webpush import send_user_notification
-
 
 class HomeView(generic.TemplateView):
    
     template_name = 'index.html'
     def get_context_data(self, **kwargs):
-        payload = {"head": "Welcome!", "body": "Hello World"}
-
-        send_user_notification(user=self.request.user, payload=payload, ttl=1000)
+        
         change_info(self.request)
         context = super(HomeView, self).get_context_data(**kwargs)
         if self.request.user.is_authenticated:
