@@ -77,6 +77,7 @@ class HomeView(generic.TemplateView):
         
         change_info(self.request)
         context = super(HomeView, self).get_context_data(**kwargs)
+        webpush = {"group": "superadmins" }
         if self.request.user.is_authenticated:
             context.update({
                 'orders': Order.objects.filter(user=self.request.user, ordered=True),
@@ -85,6 +86,7 @@ class HomeView(generic.TemplateView):
                 'top_selling': Product.objects.filter(aprobated=True).filter(for_auction=False).filter(active=True, selling=True).order_by('created', 'selling_date', 'updated')[:6],
                 'new_auction': Auction.objects.filter(aprobated=True, active=True).order_by('purchused','-date_finish')[:6],
                 'nav_active':'active',
+                "webpush":webpush
             })
         else:
             context.update({
