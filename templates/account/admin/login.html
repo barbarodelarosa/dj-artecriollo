@@ -45,27 +45,6 @@
 {% endif %}
 
 <form action="{{ app_path }}" method="post" id="login-form">{% csrf_token %}
-  {% comment %} <div class="form-row">
-    {{ form.username.errors }}
-    {{ form.username.label_tag }} {{ form.username }}
-  </div>
-  <div class="form-row">
-    {{ form.password.errors }}
-    {{ form.password.label_tag }} {{ form.password }}
-    <input type="hidden" name="next" value="{{ next }}">
-  </div>
-  {% url 'admin_password_reset' as password_reset_url %}
-  {% if password_reset_url %}
-  <div class="password-reset-link">
-    <a href="{{ password_reset_url }}">{% translate 'Forgotten your password or username?' %}</a>
-  </div>
-  {% endif %}
-
-  {% include "captcha/includes/js_v2_checkbox.html" %}
-    <div class="g-recaptcha"
-        {% for name, value in widget.attrs.items %}{% if value is not False %} {{ name }}{% if value is not True %}="{{ value|stringformat:'s' }}"{% endif %}{% endif %}{% endfor %}
-    >
-    </div> {% endcomment %}
      {{ form|crispy }}
     {% if redirect_field_value %}
     <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
