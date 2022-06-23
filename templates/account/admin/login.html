@@ -65,7 +65,10 @@
         {% for name, value in widget.attrs.items %}{% if value is not False %} {{ name }}{% if value is not True %}="{{ value|stringformat:'s' }}"{% endif %}{% endif %}{% endfor %}
     >
     </div> {% endcomment %}
-    {{form}}
+    {% comment %} {{form}} {% endcomment %}
+    {{fomr.username}}
+    {{fomr.password}}
+    {{fomr.captcha}}
   <div class="submit-row">
     <input type="submit" value="{% translate 'Log in' %}">
   </div>
