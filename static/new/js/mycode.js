@@ -33,12 +33,3 @@ $('#myModal').on('shown.bs.modal', function () {
   window.addEventListener('offline', updateIndicator);
 
 
-//   function load() {
-//     var el = document.getElementById("t");
-//     el.addEventListener("click", modifyText, false);
-//   }
-
-  all_a = document.getElementsByTagName("a")
-  all_button = document.getElementsByTagName("button")
-  all_a.addEventListener("click", this.showLoader, false);
-  all_button.addEventListener("click", this.showLoader, false);

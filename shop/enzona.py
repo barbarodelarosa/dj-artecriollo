@@ -131,8 +131,8 @@ def post_payments(description="",  currency="CUP", amount={}, merchant_op_id=123
             }],
         "merchant_op_id": 123456789123,
         "invoice_number": 1212,
-        "return_url": "http://127.0.0.1:8000/",
-        "cancel_url": "http://127.0.0.1:8000/",
+        "return_url": "https://artecriollo.nat.cu/",
+        "cancel_url": "https://artecriollo.nat.cu/",
         "terminal_id": 12121,
         "buyer_identity_code": ""
         }
