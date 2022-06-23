@@ -1,3 +1,4 @@
+from core.forms import AuthAdminForm
 from artecriollo.sitemaps import AuctionSitemap, CategoryShopSitemap, LotterySitemap, ProductSitemap, StaticViewSitemap
 from django.contrib import admin
 from django.urls import path, re_path
@@ -21,12 +22,12 @@ sitemaps = {
     'lotteries':LotterySitemap,
     'auctions':AuctionSitemap,
 }
-
+admin.autodiscover()
+admin.site.login_form = AuthAdminForm
+admin.site.login_template = 'account/admin/login.html'
 
 urlpatterns = [
 
-
-    re_path(r'^webpush/', include('webpush.urls')),
  
 
 

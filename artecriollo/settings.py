@@ -85,7 +85,7 @@ INSTALLED_APPS += [
     'mapbox_location_field',
     'pwa',
 
-    'captcha_admin',
+
 
   
 ]
