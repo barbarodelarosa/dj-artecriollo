@@ -58,15 +58,25 @@ from django.conf import settings
 from django.contrib.auth.forms import AuthenticationForm
 class AuthAdminForm(AuthenticationForm):
 
-    if not settings.DEBUG:
-        captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox(
-            attrs={
-                'data-theme': 'light',
-                'data-size': 'normal',
-                # 'style': ('transform:scale(1.057);-webkit-transform:scale(1.057);'
-                #           'transform-origin:0 0;-webkit-transform-origin:0 0;')
-            }
-        ))
+    # if not settings.DEBUG:
+    #     captcha = ReCaptchaField(widget=ReCaptchaV2Checkbox(
+    #         attrs={
+    #             'data-theme': 'light',
+    #             'data-size': 'normal',
+    #             # 'style': ('transform:scale(1.057);-webkit-transform:scale(1.057);'
+    #             #           'transform-origin:0 0;-webkit-transform-origin:0 0;')
+    #         }
+    #     ))
+    captcha = ReCaptchaField(
+    public_key='6LdkqmogAAAAACD3SkRCdKIVBsT7bwkefz-XWv8b',
+    private_key='6LdkqmogAAAAAONNCcBDzyEftTPe5z4LFtg5xKDI',
+    widget=ReCaptchaV2Checkbox(
+        attrs={
+            # 'data-theme': 'dark',
+            # 'data-size': 'compact',
+        }
+    )
+    )
 class ContactForm(forms.Form):
     
     name = forms.CharField(max_length=100, label='Nombre', widget=forms.TextInput(attrs={
