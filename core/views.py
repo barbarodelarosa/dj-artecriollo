@@ -82,7 +82,7 @@ class HomeView(generic.TemplateView):
             context.update({
                 'orders': Order.objects.filter(user=self.request.user, ordered=True),
                 'category_list': Category.objects.filter(active=True)[:6],
-                'new_products': Product.objects.filter(aprobated=True).filter(for_auction=False).filter(active=True).order_by('created','updated')[:6],
+                'new_products': Product.objects.filter(aprobated=True).filter(for_auction=False).filter(active=True).order_by('-updated','-created')[:6],
                 'top_selling': Product.objects.filter(aprobated=True).filter(for_auction=False).filter(active=True, selling=True).order_by('created', 'selling_date', 'updated')[:6],
                 'new_auction': Auction.objects.filter(aprobated=True, active=True).order_by('purchused','-date_finish')[:6],
                 'nav_active':'active',
@@ -92,7 +92,7 @@ class HomeView(generic.TemplateView):
             context.update({
                 'orders': [],
                 'category_list': Category.objects.filter(active=True)[:6],
-                'new_products': Product.objects.filter(aprobated=True).filter(for_auction=False).filter(active=True).order_by('created','updated')[:6],
+                'new_products': Product.objects.filter(aprobated=True).filter(for_auction=False).filter(active=True).order_by('-updated','-created')[:6],
                 'top_selling': Product.objects.filter(aprobated=True).filter(for_auction=False).filter(active=True, selling=True).order_by('created', 'selling_date', 'updated')[:6],
                 'new_auction': Auction.objects.filter(aprobated=True, active=True).order_by('purchused','-date_finish')[:6],
                 'nav_active':'active',
