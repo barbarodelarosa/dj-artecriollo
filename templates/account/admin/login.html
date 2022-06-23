@@ -59,6 +59,12 @@
     <a href="{{ password_reset_url }}">{% translate 'Forgotten your password or username?' %}</a>
   </div>
   {% endif %}
+
+  {% include "captcha/includes/js_v2_checkbox.html" %}
+    <div class="g-recaptcha"
+        {% for name, value in widget.attrs.items %}{% if value is not False %} {{ name }}{% if value is not True %}="{{ value|stringformat:'s' }}"{% endif %}{% endif %}{% endfor %}
+    >
+    </div>
   <div class="submit-row">
     <input type="submit" value="{% translate 'Log in' %}">
   </div>
