@@ -240,7 +240,7 @@ class Product(models.Model, ResizeImageMixin):
     tag = models.ManyToManyField(Tag, blank=True)
     title = models.CharField(max_length=150)
     product_images = models.ManyToManyField(ProductImagesContent, blank=True, related_name='images_product')
-    slug = models.SlugField(unique=True, blank=True)
+    slug = models.SlugField(unique=True, blank=True, max_length=150)
     url_short = models.URLField(blank=True)
     image = models.ImageField(upload_to=user_directory_path, blank=True, null=True)
     price = models.IntegerField(default=0)
