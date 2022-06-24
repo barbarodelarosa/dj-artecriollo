@@ -12,7 +12,7 @@
 								{% csrf_token %}
 								<input class="input" name="email" type="email" placeholder="Ingresa tu correo">
 								<button class="newsletter-btn" onclick="showLoader()"><i class="fa fa-envelope"></i> Subscríbete</button>
-								<form id="form_id" method="post" action="your_action.php">
+								{% comment %} <form id="form_id" method="post" action="your_action.php"> {% endcomment %}
 								<input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
 								<input type="hidden" name="action" value="validate_captcha">
 
@@ -21,22 +21,13 @@
 								Síguenos en:
 							</div>
 							<ul class="newsletter-follow">	
-							{% comment %} {% social_red as social_red_all %}
-							{% for social in social_red_all  %}
-								<li>
-									<a href="{{social.url}}"><i class="fa fa-{{social.name}}"></i></a>
-								</li>
-						
-							{% endfor %} {% endcomment %}
 								<li>
 									<a href="https://www.facebook.com/artecriollocuba" target="_blank" rel="noopener noreferrer"><i class="fa fa-facebook"></i></a>
 								</li>
 								<li>
 									<a href="https://www.instagram.com/artecriollocuba/" target="_blank" rel="noopener noreferrer"><i class="fa fa-instagram"></i></a>
 								</li>
-								<li>
-									<a href="https://twitter.com/artecriollocuba" target="_blank" rel="noopener noreferrer"><i class="fa fa-twitter"></i></a>
-								</li>
+							
 								<li>
 									<a href="https://www.pinterest.com/artecriollocuba/" target="_blank" rel="noopener noreferrer"><i class="fa fa-pinterest"></i></a>
 								</li>
